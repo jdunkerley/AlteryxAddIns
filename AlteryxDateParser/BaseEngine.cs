@@ -1,35 +1,41 @@
-﻿using System;
-using System.Xml;
-using System.Xml.Serialization;
-using AlteryxRecordInfoNet;
-
-namespace JDunkerley.Alteryx
+﻿namespace JDunkerley.Alteryx
 {
+    using System;
+    using System.Xml;
+    using System.Xml.Serialization;
 
-    public class DateTimeParserEngine : INetPlugin
+    using AlteryxRecordInfoNet;
+
+    public abstract class BaseEngine<T> : INetPlugin
+        where T: new()
     {
-        public class Config
+        /// <summary>
+        /// Gets the Alteryx engine.
+        /// </summary>
+        protected EngineInterface Engine { get; private set; }
+
+        /// <summary>
+        /// Gets the output helper to return data to Alteryx.
+        /// </summary>
+
+        protected PluginOutputConnectionHelper OutputHelper { get; private set; }
+
+        /// <summary>
+        /// Gets the tool identifier. Set at PI_Init, unset at PI_Close.
+        /// </summary>
+        protected int NToolId { get; private set; }
+
+
+        protected XmlElement XmlConfig { get; private set; }
+
+        protected T GetConfigObject()
         {
-            /// <summary>
-            /// Return A DateTime Instead Of A Date
-            /// </summary>
-            public bool ReturnDateTime { get; set; }
+            var serializer = new XmlSerializer(typeof(T));
+            var config = this.XmlConfig.SelectSingleNode("Configuration");
 
-            /// <summary>
-            /// Field Name For Output
-            /// </summary>
-            public string OutputFieldName { get; set; } = "Date";
-        }
-
-        private PluginOutputConnectionHelper OutputHelper { get; set; }
-        private int NToolId { get; set; }
-        private EngineInterface Engine { get; set; }
-        private XmlElement XmlConfig { get; set; }
-        private Config ConfigObject { get; set; }
-
-        public DateTimeParserEngine()
-        {
-            System.Diagnostics.Debug.WriteLine("Engine Built");
+            var doc = new XmlDocument();
+            doc.LoadXml($"<Config>{config.InnerXml}</Config>");
+            return config == null ? new T() : (T)serializer.Deserialize(new XmlNodeReader(doc.DocumentElement));
         }
 
         /// <summary>
@@ -47,7 +53,9 @@ namespace JDunkerley.Alteryx
 
             this.OutputHelper = new PluginOutputConnectionHelper(this.NToolId, this.Engine);
 
+#if DEBUG
             this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Init Called");
+#endif
         }
 
         /// <summary>
@@ -56,8 +64,7 @@ namespace JDunkerley.Alteryx
         /// <param name="pIncomingConnectionType"></param>
         /// <param name="pIncomingConnectionName"></param>
         /// <returns></returns>
-        public IIncomingConnectionInterface PI_AddIncomingConnection(string pIncomingConnectionType,
-            string pIncomingConnectionName)
+        public virtual IIncomingConnectionInterface PI_AddIncomingConnection(string pIncomingConnectionType, string pIncomingConnectionName)
         {
             throw new NotImplementedException("No incoming connections on this pass");
         }
@@ -68,7 +75,7 @@ namespace JDunkerley.Alteryx
         /// <param name="pOutgoingConnectionName"></param>
         /// <param name="outgoingConnection"></param>
         /// <returns></returns>
-        public bool PI_AddOutgoingConnection(string pOutgoingConnectionName, OutgoingConnection outgoingConnection)
+        public virtual bool PI_AddOutgoingConnection(string pOutgoingConnectionName, OutgoingConnection outgoingConnection)
         {
             var helper = this.OutputHelper;
             if (helper == null)
@@ -85,31 +92,13 @@ namespace JDunkerley.Alteryx
         /// </summary>
         /// <param name="nRecordLimit"></param>
         /// <returns></returns>
-        public bool PI_PushAllRecords(long nRecordLimit)
-        {
-            var recordInfo = new RecordInfo();
-            recordInfo.AddField("Date", FieldType.E_FT_Date);
+        public abstract bool PI_PushAllRecords(long nRecordLimit);
 
-            this.OutputHelper?.Init(recordInfo, "Output", null, this.XmlConfig);
-            if (nRecordLimit == 0)
-            {
-                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
-                this.OutputHelper?.Close();
-                return true;
-            }
-
-            var recordOut = recordInfo.CreateRecord();
-            recordInfo.GetFieldByName("Date", false)?.SetFromString(recordOut, DateTime.Today.ToString("yyyy-MM-dd"));
-            this.OutputHelper?.PushRecord(recordOut.GetRecord());
-            this.OutputHelper?.UpdateProgress(1.0);
-            this.OutputHelper?.OutputRecordCount(true);
-
-            this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
-            this.OutputHelper?.Close();
-            return true;
-        }
-
-        public void PI_Close(bool bHasErrors)
+        /// <summary>
+        /// Called by Alteryx to close the tool
+        /// </summary>
+        /// <param name="bHasErrors">if set to <c>true</c> [b has errors].</param>
+        public virtual void PI_Close(bool bHasErrors)
         {
             this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Close Called");
 
