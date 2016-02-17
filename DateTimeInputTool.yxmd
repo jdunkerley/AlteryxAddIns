@@ -3,16 +3,17 @@
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="JDunkerley.Alteryx.DateTimeInputTool">
-        <Position x="114" y="90" />
+        <Position x="54" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
           <ReturnDateTime>false</ReturnDateTime>
           <OutputFieldName>DateInput</OutputFieldName>
+          <DateToReturn>StartOfWeek</DateToReturn>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>DateInput</DefaultAnnotationText>
+          <DefaultAnnotationText>DateInput=StartOfWeek</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -20,11 +21,11 @@
     </Node>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="210" y="90" />
+        <Position x="210" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_16420_599729bfb4684940a851a64c336c0f6b_\Engine_16420_3fccf6deed29465f977fff9b1ced79f2_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_12476_fbc43eb91c9848b2bd796bd84a58e9b3_\Engine_12476_f5eb85aa40ba408a976cb3a5c87f4e1e_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -40,6 +41,25 @@
         </Annotation>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+    <Node ToolID="3">
+      <GuiSettings>
+        <Position x="390" y="222" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Value name="OutputFormat">day, dd Month, yyyy</Value>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <Dependencies>
+          <Implicit />
+        </Dependencies>
+      </Properties>
+      <EngineSettings Macro="DateTimeNow.yxmc" />
     </Node>
   </Nodes>
   <Connections>

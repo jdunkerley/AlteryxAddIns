@@ -12,6 +12,17 @@
     public class DateTimeInputTool : 
         BaseTool<DateTimeInputTool.Config, DateTimeInputTool.Engine>, IPlugin
     {
+        public enum DateToReturn
+        {
+            Today,
+            Yesterday,
+            StartOfWeek,
+            StartOfMonth,
+            StartOfYear,
+            PreviousMonthEnd,
+            PreviousYearEnd
+        }
+
         public class Config
         {
             /// <summary>
@@ -25,10 +36,15 @@
             public string OutputFieldName { get; set; } = "Date";
 
             /// <summary>
+            /// Date To Return
+            /// </summary>
+            public DateToReturn DateToReturn { get; set; } = DateToReturn.Today;
+
+            /// <summary>
             /// ToString used for annotation
             /// </summary>
             /// <returns></returns>
-            public override string ToString() => $"{this.OutputFieldName}";
+            public override string ToString() => $"{this.OutputFieldName}={this.DateToReturn}";
         }
 
         public class Engine : BaseEngine<Config>
@@ -54,8 +70,31 @@
                     return true;
                 }
 
+                var dateOutput = DateTime.Today;
+                switch (config?.DateToReturn ?? DateToReturn.Today)
+                {
+                    case DateToReturn.Yesterday:
+                        dateOutput = dateOutput.AddDays(-1);
+                        break;
+                    case DateToReturn.StartOfWeek:
+                        dateOutput = dateOutput.AddDays(-(int)dateOutput.DayOfWeek);
+                        break;
+                    case DateToReturn.StartOfMonth:
+                        dateOutput = dateOutput.AddDays(1 - dateOutput.Day);
+                        break;
+                    case DateToReturn.StartOfYear:
+                        dateOutput = new DateTime(dateOutput.Year, 1, 1);
+                        break;
+                    case DateToReturn.PreviousMonthEnd:
+                        dateOutput = dateOutput.AddDays(-dateOutput.Day);
+                        break;
+                    case DateToReturn.PreviousYearEnd:
+                        dateOutput = new DateTime(dateOutput.Year - 1, 12, 31);
+                        break;
+                }
+
                 var recordOut = recordInfo.CreateRecord();
-                recordInfo.GetFieldByName(outputFieldName, false)?.SetFromString(recordOut, DateTime.Today.ToString("yyyy-MM-dd HH:mm:ss"));
+                recordInfo.GetFieldByName(outputFieldName, false)?.SetFromString(recordOut, dateOutput.ToString("yyyy-MM-dd HH:mm:ss"));
                 this.OutputHelper?.PushRecord(recordOut.GetRecord());
                 this.OutputHelper?.UpdateProgress(1.0);
                 this.OutputHelper?.OutputRecordCount(true);
