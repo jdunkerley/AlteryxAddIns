@@ -10,7 +10,7 @@
     /// <summary>
     /// Base Tool Class
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TConfig">The type of the config object</typeparam>
     /// <typeparam name="TEngine">The type of the engine.</typeparam>
     /// <seealso cref="AlteryxGuiToolkit.Plugins.IPlugin" />
     public abstract class BaseTool<TConfig, TEngine> 
@@ -30,10 +30,15 @@
         {
             var ass = this.GetType().Assembly;
 
-            var stream = ass.GetManifestResourceNames()
-                .Where(n => n.Contains(this.GetType().Name) && n.EndsWith(".png"))
-                .Select(n => ass.GetManifestResourceStream(n))
-                .First();
+            var stream =
+                ass.GetManifestResourceNames()
+                    .Where(n => n.Contains(this.GetType().Name) && n.EndsWith(".png"))
+                    .Select(n => ass.GetManifestResourceStream(n))
+                    .FirstOrDefault()
+                ?? ass.GetManifestResourceNames()
+                       .Where(n => n.Contains("BaseTool") && n.EndsWith(".png"))
+                       .Select(n => ass.GetManifestResourceStream(n))
+                       .First();
 
             var bitmap = new Bitmap(stream);
             bitmap.MakeTransparent();
