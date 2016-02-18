@@ -17,7 +17,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseEngine{T}"/> class.
         /// </summary>
-        public BaseEngine()
+        protected BaseEngine()
         {
             this._inputs = this.GetType().GetConnections<IIncomingConnectionInterface>();
             this._outputs = this.GetType().GetConnections<PluginOutputConnectionHelper>();

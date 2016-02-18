@@ -1,8 +1,5 @@
 ﻿namespace JDunkerley.Alteryx
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
     using System;
     using System.Xml;
     using AlteryxRecordInfoNet;

@@ -11,7 +11,7 @@
     /// <typeparam name="T">Configuration Object</typeparam>
     /// <seealso cref="System.Windows.Forms.UserControl" />
     /// <seealso cref="AlteryxGuiToolkit.Plugins.IPluginConfiguration" />
-    public class PropertyGridGUI<T> : UserControl, IPluginConfiguration
+    public class PropertyGridGui<T> : UserControl, IPluginConfiguration
         where T: new()
     {
         /// <summary>
@@ -22,17 +22,17 @@
         /// <summary>
         /// The old parent.
         /// </summary>
-        private Control currentParent;
+        private Control _currentParent;
 
         /// <summary>
         /// The configuration
         /// </summary>
-        private T config;
+        private T _config;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyGridGUI{T}"/> class.
+        /// Initializes a new instance of the <see cref="PropertyGridGui{T}"/> class.
         /// </summary>
-        public PropertyGridGUI()
+        public PropertyGridGui()
         {
             this.Margin = new Padding(4);
             this.Size = new System.Drawing.Size(520, 530);
@@ -45,12 +45,12 @@
 
         private void OnParentChanged(object sender, EventArgs args)
         {
-            if (this.currentParent != null)
+            if (this._currentParent != null)
             {
-                this.currentParent.SizeChanged -= this.OnParentOnSizeChanged;
+                this._currentParent.SizeChanged -= this.OnParentOnSizeChanged;
             }
 
-            this.currentParent = this.Parent;
+            this._currentParent = this.Parent;
             this.SetSize();
             this.Parent.SizeChanged += this.OnParentOnSizeChanged;
         }
@@ -87,9 +87,11 @@
             var doc = new XmlDocument();
             doc.LoadXml($"<Config>{eConfig.InnerXml}</Config>");
 
-            this.config = eConfig.InnerText == "" ? new T() : (T)serialiser.Deserialize(new XmlNodeReader(doc.DocumentElement));
+            this._config = eConfig.InnerText == "" || doc.DocumentElement == null
+                ? new T() 
+                : (T)serialiser.Deserialize(new XmlNodeReader(doc.DocumentElement));
 
-            this._propertyGrid.SelectedObject = this.config;
+            this._propertyGrid.SelectedObject = this._config;
             return this;
         }
 
@@ -104,11 +106,11 @@
             var serialiser = new System.Xml.Serialization.XmlSerializer(typeof(T));
             using (XmlWriter writer = doc.CreateNavigator().AppendChild())
             {
-                serialiser.Serialize(writer, this.config);
+                serialiser.Serialize(writer, this._config);
             }
 
-            eConfig.InnerXml = doc.DocumentElement.InnerXml;
-            strDefaultAnnotation = this.config.ToString();
+            eConfig.InnerXml = doc.DocumentElement?.InnerXml ?? "";
+            strDefaultAnnotation = this._config.ToString();
         }
     }
 }

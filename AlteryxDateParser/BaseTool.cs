@@ -4,13 +4,10 @@
     using System.Drawing;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
 
     using AlteryxGuiToolkit.Plugins;
 
     using AlteryxRecordInfoNet;
-
-    using JDunkerley.Alteryx.Attributes;
 
     /// <summary>
     /// Base Tool Class
@@ -74,7 +71,7 @@
         /// GUI Designer
         /// </summary>
         /// <returns></returns>
-        public IPluginConfiguration GetConfigurationGui() => new PropertyGridGUI<TConfig>();
+        public IPluginConfiguration GetConfigurationGui() => new PropertyGridGui<TConfig>();
 
         /// <summary>
         /// Engine Entry Point
