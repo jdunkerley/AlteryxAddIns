@@ -11,16 +11,16 @@
     public abstract class BaseEngine<T> : INetPlugin
         where T: new()
     {
-        private readonly Dictionary<string, PropertyInfo> inputs;
-        private readonly Dictionary<string, PropertyInfo> outputs;
+        private readonly Dictionary<string, PropertyInfo> _inputs;
+        private readonly Dictionary<string, PropertyInfo> _outputs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseEngine{T}"/> class.
         /// </summary>
         public BaseEngine()
         {
-            this.inputs = this.GetType().GetConnections<IIncomingConnectionInterface>();
-            this.outputs = this.GetType().GetConnections<PluginOutputConnectionHelper>();
+            this._inputs = this.GetType().GetConnections<IIncomingConnectionInterface>();
+            this._outputs = this.GetType().GetConnections<PluginOutputConnectionHelper>();
         }
 
         /// <summary>
@@ -67,7 +67,7 @@
 
             this.XmlConfig = pXmlProperties;
 
-            foreach (var kvp in this.outputs)
+            foreach (var kvp in this._outputs)
             {
                 kvp.Value.SetValue(this, new PluginOutputConnectionHelper(this.NToolId, this.Engine), null);
             }
@@ -85,7 +85,20 @@
         /// <returns></returns>
         public virtual IIncomingConnectionInterface PI_AddIncomingConnection(string pIncomingConnectionType, string pIncomingConnectionName)
         {
-            throw new NotImplementedException("No incoming inputs on this pass");
+            if (pIncomingConnectionType != "Input")
+            {
+                throw new NotSupportedException("Can only support valid Input connections.");
+            }
+
+            PropertyInfo prop;
+            if (!this._inputs.TryGetValue(pIncomingConnectionName, out prop))
+            {
+                throw new KeyNotFoundException($"Unable to find input {pIncomingConnectionName}");
+            }
+
+            var connection = new IncomingConnection(this);
+            prop.SetValue(this, connection, null);
+            return connection;
         }
 
         /// <summary>
@@ -97,7 +110,7 @@
         public virtual bool PI_AddOutgoingConnection(string pOutgoingConnectionName, OutgoingConnection outgoingConnection)
         {
             PropertyInfo prop;
-            if (!this.outputs.TryGetValue(pOutgoingConnectionName, out prop))
+            if (!this._outputs.TryGetValue(pOutgoingConnectionName, out prop))
             {
                 return false;
             }
@@ -127,7 +140,7 @@
         {
             this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Close Called");
 
-            foreach (var kvp in this.outputs)
+            foreach (var kvp in this._outputs)
             {
                 kvp.Value.SetValue(this, null, null);
             }
