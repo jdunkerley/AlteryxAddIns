@@ -1,9 +1,12 @@
-﻿using System;
-using System.Xml;
-using AlteryxRecordInfoNet;
-
-namespace JDunkerley.Alteryx
+﻿namespace JDunkerley.Alteryx
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System;
+    using System.Xml;
+    using AlteryxRecordInfoNet;
+
     /// <summary>
     /// Wrap An Incoming Connection
     /// </summary>
@@ -20,14 +23,15 @@ namespace JDunkerley.Alteryx
             this.ParentPlugin = parentPlugin;
         }
 
+        /// <summary>
+        /// is the i_ get presort XML.
+        /// </summary>
+        /// <param name="pXmlProperties">The p XML properties.</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public XmlElement II_GetPresortXml(XmlElement pXmlProperties)
         {
-            throw new NotImplementedException();
-        }
-
-        public void II_Close()
-        {
-            throw new NotImplementedException();
+            return null;
         }
 
         public bool II_Init(RecordInfo recordInfo)
@@ -41,6 +45,11 @@ namespace JDunkerley.Alteryx
         }
 
         public void II_UpdateProgress(double dPercent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void II_Close()
         {
             throw new NotImplementedException();
         }

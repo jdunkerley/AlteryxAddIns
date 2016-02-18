@@ -5,6 +5,7 @@
     using AlteryxGuiToolkit.Plugins;
     using AlteryxRecordInfoNet;
 
+    using JDunkerley.Alteryx.Attributes;
 
     /// <summary>
     /// Simple Date Time Parsing Control
@@ -50,6 +51,12 @@
         public class Engine : BaseEngine<Config>
         {
             /// <summary>
+            /// Gets or sets the output.
+            /// </summary>
+            [CharLabel('O')]
+            public PluginOutputConnectionHelper Output { get; set; }
+
+            /// <summary>
             /// Called only if you have no Input Connections
             /// </summary>
             /// <param name="nRecordLimit"></param>
@@ -62,11 +69,11 @@
                 var recordInfo = new RecordInfo();
                 recordInfo.AddField(outputFieldName, config?.ReturnDateTime ?? false ? FieldType.E_FT_DateTime : FieldType.E_FT_Date);
 
-                this.OutputHelper?.Init(recordInfo, "Output", null, this.XmlConfig);
+                this.Output?.Init(recordInfo, "Output", null, this.XmlConfig);
                 if (nRecordLimit == 0)
                 {
                     this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
-                    this.OutputHelper?.Close();
+                    this.Output?.Close();
                     return true;
                 }
 
@@ -95,12 +102,12 @@
 
                 var recordOut = recordInfo.CreateRecord();
                 recordInfo.GetFieldByName(outputFieldName, false)?.SetFromString(recordOut, dateOutput.ToString("yyyy-MM-dd HH:mm:ss"));
-                this.OutputHelper?.PushRecord(recordOut.GetRecord());
-                this.OutputHelper?.UpdateProgress(1.0);
-                this.OutputHelper?.OutputRecordCount(true);
+                this.Output?.PushRecord(recordOut.GetRecord());
+                this.Output?.UpdateProgress(1.0);
+                this.Output?.OutputRecordCount(true);
 
                 this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
-                this.OutputHelper?.Close();
+                this.Output?.Close();
                 return true;
             }
         }

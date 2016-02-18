@@ -1,6 +1,8 @@
 ﻿namespace JDunkerley.Alteryx
 {
     using System;
+    using System.Collections.Generic;
+    using System.Reflection;
     using System.Xml;
     using System.Xml.Serialization;
 
@@ -9,22 +11,27 @@
     public abstract class BaseEngine<T> : INetPlugin
         where T: new()
     {
+        private readonly Dictionary<string, PropertyInfo> inputs;
+        private readonly Dictionary<string, PropertyInfo> outputs;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseEngine{T}"/> class.
+        /// </summary>
+        public BaseEngine()
+        {
+            this.inputs = this.GetType().GetConnections<IIncomingConnectionInterface>();
+            this.outputs = this.GetType().GetConnections<PluginOutputConnectionHelper>();
+        }
+
         /// <summary>
         /// Gets the Alteryx engine.
         /// </summary>
         protected EngineInterface Engine { get; private set; }
 
         /// <summary>
-        /// Gets the output helper to return data to Alteryx.
-        /// </summary>
-
-        protected PluginOutputConnectionHelper OutputHelper { get; private set; }
-
-        /// <summary>
         /// Gets the tool identifier. Set at PI_Init, unset at PI_Close.
         /// </summary>
         protected int NToolId { get; private set; }
-
 
         protected XmlElement XmlConfig { get; private set; }
 
@@ -32,10 +39,19 @@
         {
             var serializer = new XmlSerializer(typeof(T));
             var config = this.XmlConfig.SelectSingleNode("Configuration");
+            if (config == null)
+            {
+                return new T();
+            }
 
             var doc = new XmlDocument();
             doc.LoadXml($"<Config>{config.InnerXml}</Config>");
-            return config == null ? new T() : (T)serializer.Deserialize(new XmlNodeReader(doc.DocumentElement));
+            if (doc.DocumentElement == null)
+            {
+                return new T();
+            }
+
+            return (T)serializer.Deserialize(new XmlNodeReader(doc.DocumentElement));
         }
 
         /// <summary>
@@ -51,7 +67,10 @@
 
             this.XmlConfig = pXmlProperties;
 
-            this.OutputHelper = new PluginOutputConnectionHelper(this.NToolId, this.Engine);
+            foreach (var kvp in this.outputs)
+            {
+                kvp.Value.SetValue(this, new PluginOutputConnectionHelper(this.NToolId, this.Engine), null);
+            }
 
 #if DEBUG
             this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Init Called");
@@ -66,7 +85,7 @@
         /// <returns></returns>
         public virtual IIncomingConnectionInterface PI_AddIncomingConnection(string pIncomingConnectionType, string pIncomingConnectionName)
         {
-            throw new NotImplementedException("No incoming connections on this pass");
+            throw new NotImplementedException("No incoming inputs on this pass");
         }
 
         /// <summary>
@@ -77,7 +96,13 @@
         /// <returns></returns>
         public virtual bool PI_AddOutgoingConnection(string pOutgoingConnectionName, OutgoingConnection outgoingConnection)
         {
-            var helper = this.OutputHelper;
+            PropertyInfo prop;
+            if (!this.outputs.TryGetValue(pOutgoingConnectionName, out prop))
+            {
+                return false;
+            }
+
+            var helper = prop.GetValue(this, null) as PluginOutputConnectionHelper;
             if (helper == null)
             {
                 return false;
@@ -102,7 +127,11 @@
         {
             this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Close Called");
 
-            this.OutputHelper = null;
+            foreach (var kvp in this.outputs)
+            {
+                kvp.Value.SetValue(this, null, null);
+            }
+
             this.XmlConfig = null;
             this.Engine = null;
             this.NToolId = 0;

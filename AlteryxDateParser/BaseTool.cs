@@ -4,8 +4,13 @@
     using System.Drawing;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
 
     using AlteryxGuiToolkit.Plugins;
+
+    using AlteryxRecordInfoNet;
+
+    using JDunkerley.Alteryx.Attributes;
 
     /// <summary>
     /// Base Tool Class
@@ -18,12 +23,26 @@
     {
         private readonly Lazy<Image> _icon;
 
+        private readonly Connection[] _inputConnections;
+
+        private readonly Connection[] _outputConnections;
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseTool{T, TEngine}"/> class.
         /// </summary>
         protected BaseTool()
         {
             this._icon = new Lazy<Image>(this.GetEmbeddedImage);
+
+            // Read Incoming Connection Nodes
+            this._inputConnections =
+                typeof(TEngine).GetConnections<IIncomingConnectionInterface>().ToConnections().ToArray();
+
+
+            // Read Outgoing Connection Nodes
+            this._outputConnections =
+                typeof(TEngine).GetConnections<PluginOutputConnectionHelper>().ToConnections().ToArray();
         }
 
         private Image GetEmbeddedImage()
@@ -49,7 +68,7 @@
         /// Get The Icon
         /// </summary>
         /// <returns></returns>
-        public Image GetIcon() => _icon.Value;
+        public Image GetIcon() => this._icon.Value;
 
         /// <summary>
         /// GUI Designer
@@ -74,12 +93,12 @@
         /// Input Connections
         /// </summary>
         /// <returns></returns>
-        public Connection[] GetInputConnections() => new Connection[0];
+        public Connection[] GetInputConnections() => this._inputConnections;
 
         /// <summary>
         /// Output Connections
         /// </summary>
         /// <returns></returns>
-        public Connection[] GetOutputConnections() => new[] { new Connection("output") };
+        public Connection[] GetOutputConnections() => this._outputConnections;
     }
 }

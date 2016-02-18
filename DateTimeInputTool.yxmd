@@ -42,29 +42,10 @@
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
-    <Node ToolID="3">
-      <GuiSettings>
-        <Position x="390" y="222" />
-      </GuiSettings>
-      <Properties>
-        <Configuration>
-          <Value name="OutputFormat">day, dd Month, yyyy</Value>
-        </Configuration>
-        <Annotation DisplayMode="0">
-          <Name />
-          <DefaultAnnotationText />
-          <Left value="False" />
-        </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
-      </Properties>
-      <EngineSettings Macro="DateTimeNow.yxmc" />
-    </Node>
   </Nodes>
   <Connections>
     <Connection>
-      <Origin ToolID="1" Connection="output" />
+      <Origin ToolID="1" Connection="Output" />
       <Destination ToolID="2" Connection="Input" />
     </Connection>
   </Connections>
