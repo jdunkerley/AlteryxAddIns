@@ -59,6 +59,7 @@
     <Compile Include="CircuitBreakerTool.cs" />
     <Compile Include="DateTimeInputTool.cs" />
     <Compile Include="Attributes\OptionalAttribute.cs" />
+    <Compile Include="IBaseEngine.cs" />
     <Compile Include="PropertyGridGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -69,6 +70,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="QuandlDownloadTool.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>

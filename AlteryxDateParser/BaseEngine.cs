@@ -8,7 +8,7 @@
 
     using AlteryxRecordInfoNet;
 
-    public abstract class BaseEngine<T> : INetPlugin
+    public abstract class BaseEngine<T> : INetPlugin, IBaseEngine
         where T: new()
     {
         private readonly Dictionary<string, PropertyInfo> _inputs;
@@ -19,7 +19,7 @@
         /// </summary>
         protected BaseEngine()
         {
-            this._inputs = this.GetType().GetConnections<IIncomingConnectionInterface>();
+            this._inputs = this.GetType().GetConnections<IncomingConnection>();
             this._outputs = this.GetType().GetConnections<PluginOutputConnectionHelper>();
         }
 
@@ -33,8 +33,15 @@
         /// </summary>
         protected int NToolId { get; private set; }
 
+        /// <summary>
+        /// Gets the XML configuration from the workflow.
+        /// </summary>
         protected XmlElement XmlConfig { get; private set; }
 
+        /// <summary>
+        /// Gets the configuration object de-serialized from the XML config
+        /// </summary>
+        /// <returns>Configuration Object</returns>
         protected T GetConfigObject()
         {
             var serializer = new XmlSerializer(typeof(T));
@@ -55,7 +62,7 @@
         }
 
         /// <summary>
-        /// Called by Alteryx to Initialize The Tool
+        /// Called by Alteryx to initialize the plug in with configuration info.
         /// </summary>
         /// <param name="nToolId">Tool ID</param>
         /// <param name="engineInterface">Connection to Alteryx Engine (for logging etc)</param>
@@ -85,18 +92,13 @@
         /// <returns></returns>
         public virtual IIncomingConnectionInterface PI_AddIncomingConnection(string pIncomingConnectionType, string pIncomingConnectionName)
         {
-            if (pIncomingConnectionType != "Input")
-            {
-                throw new NotSupportedException("Can only support valid Input connections.");
-            }
-
             PropertyInfo prop;
-            if (!this._inputs.TryGetValue(pIncomingConnectionName, out prop))
+            if (!this._inputs.TryGetValue(pIncomingConnectionType, out prop))
             {
-                throw new KeyNotFoundException($"Unable to find input {pIncomingConnectionName}");
+                throw new KeyNotFoundException($"Unable to find input {pIncomingConnectionType}");
             }
 
-            var connection = new IncomingConnection(this);
+            var connection = new IncomingConnection(prop.Name, this);
             prop.SetValue(this, connection, null);
             return connection;
         }
@@ -130,7 +132,7 @@
         /// </summary>
         /// <param name="nRecordLimit"></param>
         /// <returns></returns>
-        public abstract bool PI_PushAllRecords(long nRecordLimit);
+        public virtual bool PI_PushAllRecords(long nRecordLimit) => true;
 
         /// <summary>
         /// Called by Alteryx to close the tool
@@ -148,6 +150,55 @@
             this.XmlConfig = null;
             this.Engine = null;
             this.NToolId = 0;
+        }
+
+        /// <summary>
+        /// Field Names to Sort By. Prefix with ~ for Descending.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="pXmlProperties">The XML COnfiguration Properties</param>
+        /// <returns>Sort Fields</returns>
+        public virtual IEnumerable<string> IncomingConnectionSort(string name, XmlElement pXmlProperties) => null;
+
+        /// <summary>
+        /// Field Names to Select
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="pXmlProperties">The XML COnfiguration Properties</param>
+        /// <returns>Selected Fields or NULL for all</returns>
+        public virtual IEnumerable<string> IncomingConnectionFields(string name, XmlElement pXmlProperties) => null;
+
+        /// <summary>
+        /// Alteryx Initialized An Incoming Connection.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        public virtual bool IncomingConnectionInit(string name) => true;
+
+        /// <summary>
+        /// Called by Alteryx to send each data record to the tool.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="record">The new record</param>
+        /// <returns></returns>
+        public virtual bool IncomingConnectionPush(string name, RecordData record) => true;
+
+        /// <summary>
+        /// Called by Alteryx to update progress
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="progress">Progress (0 to 1)</param>
+        public virtual void IncomingConnectionProgress(string name, double progress)
+        {
+        }
+
+        /// <summary>
+        /// Alteryx Finished Sending Data For An Incoming Connection.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        public virtual void IncomingConnectionClosed(string name)
+        {
         }
 
         /// <summary>

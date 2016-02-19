@@ -8,7 +8,7 @@
     using JDunkerley.Alteryx.Attributes;
 
     /// <summary>
-    /// Simple Date Time Parsing Control
+    /// Simple Date Time Input Control
     /// </summary>
     public class DateTimeInputTool : 
         BaseTool<DateTimeInputTool.Config, DateTimeInputTool.Engine>, IPlugin

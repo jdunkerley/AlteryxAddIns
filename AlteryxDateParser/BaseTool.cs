@@ -34,7 +34,7 @@
 
             // Read Incoming Connection Nodes
             this._inputConnections =
-                typeof(TEngine).GetConnections<IIncomingConnectionInterface>().ToConnections().ToArray();
+                typeof(TEngine).GetConnections<IncomingConnection>().ToConnections().ToArray();
 
 
             // Read Outgoing Connection Nodes
