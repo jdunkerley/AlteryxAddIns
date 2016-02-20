@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.Alteryx
+namespace JDunkerley.Alteryx.Framework
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +15,7 @@
         private readonly Dictionary<string, PropertyInfo> _outputs;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseEngine{T}"/> class.
+        /// Initializes a new instance of the <see cref="InputProperty{T}"/> class.
         /// </summary>
         protected BaseEngine()
         {
@@ -33,8 +33,15 @@
         /// </summary>
         protected int NToolId { get; private set; }
 
+        /// <summary>
+        /// Gets the XML configuration from the workflow.
+        /// </summary>
         protected XmlElement XmlConfig { get; private set; }
 
+        /// <summary>
+        /// Gets the configuration object de-serialized from the XML config
+        /// </summary>
+        /// <returns>Configuration Object</returns>
         protected T GetConfigObject()
         {
             var serializer = new XmlSerializer(typeof(T));
@@ -55,7 +62,7 @@
         }
 
         /// <summary>
-        /// Called by Alteryx to Initialize The Tool
+        /// Called by Alteryx to initialize the plug in with configuration info.
         /// </summary>
         /// <param name="nToolId">Tool ID</param>
         /// <param name="engineInterface">Connection to Alteryx Engine (for logging etc)</param>
@@ -85,20 +92,25 @@
         /// <returns></returns>
         public virtual IIncomingConnectionInterface PI_AddIncomingConnection(string pIncomingConnectionType, string pIncomingConnectionName)
         {
-            if (pIncomingConnectionType != "Input")
-            {
-                throw new NotSupportedException("Can only support valid Input connections.");
-            }
-
             PropertyInfo prop;
-            if (!this._inputs.TryGetValue(pIncomingConnectionName, out prop))
+            if (!this._inputs.TryGetValue(pIncomingConnectionType, out prop))
             {
-                throw new KeyNotFoundException($"Unable to find input {pIncomingConnectionName}");
+                throw new KeyNotFoundException($"Unable to find input {pIncomingConnectionType}");
             }
 
-            var connection = new IncomingConnection(this);
-            prop.SetValue(this, connection, null);
-            return connection;
+            var input = prop.GetValue(this, null) as IIncomingConnectionInterface;
+            if (input == null)
+            {
+                throw new NullReferenceException($"{prop.Name} is null.");
+            }
+
+            var inputProp = (input as IInputProperty);
+            if (inputProp != null)
+            {
+                inputProp.Engine = this;
+            }
+
+            return input;
         }
 
         /// <summary>
@@ -130,7 +142,7 @@
         /// </summary>
         /// <param name="nRecordLimit"></param>
         /// <returns></returns>
-        public abstract bool PI_PushAllRecords(long nRecordLimit);
+        public virtual bool PI_PushAllRecords(long nRecordLimit) => true;
 
         /// <summary>
         /// Called by Alteryx to close the tool

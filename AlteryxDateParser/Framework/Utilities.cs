@@ -21,8 +21,7 @@
             var properties =
                 type
                     .GetProperties()
-                    .Where(p => p.CanWrite)
-                    .Where(p => p.PropertyType == typeof(T));
+                    .Where(p => typeof(T).IsAssignableFrom(p.PropertyType));
 
             var connections = new Dictionary<string, PropertyInfo>();
             foreach (var property in properties)
