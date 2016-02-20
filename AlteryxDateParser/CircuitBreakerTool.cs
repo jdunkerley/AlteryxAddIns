@@ -1,13 +1,17 @@
 ﻿namespace JDunkerley.Alteryx
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
+    using System.Windows.Forms.VisualStyles;
 
+    using AlteryxGuiToolkit.Gallery;
     using AlteryxGuiToolkit.Plugins;
 
     using AlteryxRecordInfoNet;
 
     using JDunkerley.Alteryx.Attributes;
+    using JDunkerley.Alteryx.Framework;
 
     public class CircuitBreakerTool
         : BaseTool<CircuitBreakerTool.Config, CircuitBreakerTool.Engine>, IPlugin
@@ -26,10 +30,10 @@
         /// <summary>
         /// Engine for Circuit Breaker
         /// </summary>
-        /// <seealso cref="JDunkerley.Alteryx.BaseEngine{JDunkerley.Alteryx.CircuitBreakerTool.Config}" />
+        /// <seealso cref="JDunkerley.Alteryx.Framework.BaseEngine{JDunkerley.Alteryx.CircuitBreakerTool.Config}" />
         public class Engine : BaseEngine<Config>
         {
-            private Queue<RecordData> _inputRecords;
+            private Queue<Record> _inputRecords;
 
             private bool _failed;
 
@@ -61,7 +65,9 @@
                             {
                                 while ((this._inputRecords?.Count ?? 0) > 0)
                                 {
-                                    this.Output?.PushRecord(this._inputRecords.Dequeue());
+                                    var record = this._inputRecords?.Dequeue();
+                                    var recordData = record?.GetRecord();
+                                    this.Output?.PushRecord(recordData);
                                 }
                             }
 
@@ -74,7 +80,7 @@
                 this.Input = new InputProperty(
                     initFunc: p =>
                         {
-                            this._inputRecords = new Queue<RecordData>();
+                            this._inputRecords = new Queue<Record>();
                             this.Output?.Init(this.Input.RecordInfo, nameof(this.Output), null, this.XmlConfig);
                             return true;
                         },
@@ -84,14 +90,16 @@
                             {
                                 return false;
                             }
-
+                            
                             if (this.Breaker.State == ConnectionState.Closed)
                             {
                                 this.Output?.PushRecord(r);
                             }
                             else
                             {
-                                this._inputRecords.Enqueue(r);
+                                var record = this.Input.RecordInfo.CreateRecord();
+                                this.Input.Copier.Copy(record, r);
+                                this._inputRecords.Enqueue(record);
                             }
 
                             return true;

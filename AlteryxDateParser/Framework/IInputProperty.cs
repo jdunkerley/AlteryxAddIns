@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.Alteryx
+﻿namespace JDunkerley.Alteryx.Framework
 {
     using System.Collections.Generic;
     using System.Xml;

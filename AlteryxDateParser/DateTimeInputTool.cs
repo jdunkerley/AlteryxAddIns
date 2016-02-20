@@ -6,6 +6,7 @@
     using AlteryxRecordInfoNet;
 
     using JDunkerley.Alteryx.Attributes;
+    using JDunkerley.Alteryx.Framework;
 
     /// <summary>
     /// Simple Date Time Input Control

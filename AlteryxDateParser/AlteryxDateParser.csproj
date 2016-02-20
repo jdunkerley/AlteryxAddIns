@@ -53,16 +53,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\OrderingAttribute.cs" />
-    <Compile Include="BaseEngine.cs" />
-    <Compile Include="InputProperty.cs" />
-    <Compile Include="BaseTool.cs" />
+    <Compile Include="Framework\BaseEngine.cs" />
+    <Compile Include="Framework\InputProperty.cs" />
+    <Compile Include="Framework\BaseTool.cs" />
     <Compile Include="Attributes\CharLabelAttribute.cs" />
     <Compile Include="CircuitBreakerTool.cs" />
-    <Compile Include="ConnectionState.cs" />
+    <Compile Include="Framework\ConnectionState.cs" />
     <Compile Include="DateTimeInputTool.cs" />
     <Compile Include="Attributes\OptionalAttribute.cs" />
-    <Compile Include="IInputProperty.cs" />
-    <Compile Include="PropertyGridGUI.cs">
+    <Compile Include="Framework\IInputProperty.cs" />
+    <Compile Include="Framework\PropertyGridGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,7 +72,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="QuandlDownloadTool.cs" />
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Framework\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -85,9 +85,11 @@
     <EmbeddedResource Include="DateTimeInputTool.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BaseTool.png" />
+    <EmbeddedResource Include="Framework\BaseTool.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="CircuitBreakerTool.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

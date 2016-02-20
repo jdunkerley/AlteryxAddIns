@@ -1,5 +1,7 @@
 namespace JDunkerley.Alteryx
 {
+    using JDunkerley.Alteryx.Framework;
+
     public class QuandlDownloadTool :
         BaseTool<QuandlDownloadTool.Config, QuandlDownloadTool.Engine>
     {

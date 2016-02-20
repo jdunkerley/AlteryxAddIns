@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.Alteryx
+﻿namespace JDunkerley.Alteryx.Framework
 {
     using System;
     using System.Collections.Generic;
@@ -66,6 +66,13 @@
         /// </summary>
         public RecordInfo RecordInfo { get; private set; }
 
+        private Lazy<RecordCopier> CopierLazy { get; set; }
+
+        /// <summary>
+        /// Gets the copier, set up to copy all fields.
+        /// </summary>
+        public RecordCopier Copier => this.CopierLazy.Value;
+
         /// <summary>
         /// Called by Alteryx to determine if the incoming data should be sorted.
         /// </summary>
@@ -105,6 +112,18 @@
         {
             this.State = ConnectionState.InitCalled;
             this.RecordInfo = recordInfo;
+
+            this.CopierLazy = new Lazy<RecordCopier>(
+                () =>
+                    {
+                        var output = new RecordCopier(this.RecordInfo, this.RecordInfo, true);
+                        for (int i = 0; i < this.RecordInfo.NumFields(); i++)
+                        {
+                            output.Add(i, i);
+                        }
+                        output.DoneAdding();
+                        return output;
+                    });
             return this._initFunc(recordInfo);
         }
 
