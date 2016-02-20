@@ -1,25 +1,26 @@
-﻿namespace JDunkerley.Alteryx
+namespace JDunkerley.Alteryx
 {
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using System.Threading;
     using System.Xml;
     using System.Xml.Serialization;
 
     using AlteryxRecordInfoNet;
 
-    public abstract class BaseEngine<T> : INetPlugin, IBaseEngine
+    public abstract class BaseEngine<T> : INetPlugin
         where T: new()
     {
         private readonly Dictionary<string, PropertyInfo> _inputs;
         private readonly Dictionary<string, PropertyInfo> _outputs;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseEngine{T}"/> class.
+        /// Initializes a new instance of the <see cref="InputProperty{T}"/> class.
         /// </summary>
         protected BaseEngine()
         {
-            this._inputs = this.GetType().GetConnections<IncomingConnection>();
+            this._inputs = this.GetType().GetConnections<IIncomingConnectionInterface>();
             this._outputs = this.GetType().GetConnections<PluginOutputConnectionHelper>();
         }
 
@@ -98,9 +99,19 @@
                 throw new KeyNotFoundException($"Unable to find input {pIncomingConnectionType}");
             }
 
-            var connection = new IncomingConnection(prop.Name, this);
-            prop.SetValue(this, connection, null);
-            return connection;
+            var input = prop.GetValue(this, null) as IIncomingConnectionInterface;
+            if (input == null)
+            {
+                throw new NullReferenceException($"{prop.Name} is null.");
+            }
+
+            var inputProp = (input as IInputProperty);
+            if (inputProp != null)
+            {
+                inputProp.Engine = this;
+            }
+
+            return input;
         }
 
         /// <summary>
@@ -150,55 +161,6 @@
             this.XmlConfig = null;
             this.Engine = null;
             this.NToolId = 0;
-        }
-
-        /// <summary>
-        /// Field Names to Sort By. Prefix with ~ for Descending.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="pXmlProperties">The XML COnfiguration Properties</param>
-        /// <returns>Sort Fields</returns>
-        public virtual IEnumerable<string> IncomingConnectionSort(string name, XmlElement pXmlProperties) => null;
-
-        /// <summary>
-        /// Field Names to Select
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="pXmlProperties">The XML COnfiguration Properties</param>
-        /// <returns>Selected Fields or NULL for all</returns>
-        public virtual IEnumerable<string> IncomingConnectionFields(string name, XmlElement pXmlProperties) => null;
-
-        /// <summary>
-        /// Alteryx Initialized An Incoming Connection.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <returns></returns>
-        public virtual bool IncomingConnectionInit(string name) => true;
-
-        /// <summary>
-        /// Called by Alteryx to send each data record to the tool.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="record">The new record</param>
-        /// <returns></returns>
-        public virtual bool IncomingConnectionPush(string name, RecordData record) => true;
-
-        /// <summary>
-        /// Called by Alteryx to update progress
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="progress">Progress (0 to 1)</param>
-        public virtual void IncomingConnectionProgress(string name, double progress)
-        {
-        }
-
-        /// <summary>
-        /// Alteryx Finished Sending Data For An Incoming Connection.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <returns></returns>
-        public virtual void IncomingConnectionClosed(string name)
-        {
         }
 
         /// <summary>

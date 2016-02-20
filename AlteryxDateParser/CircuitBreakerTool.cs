@@ -24,131 +24,98 @@
         }
 
         /// <summary>
-        /// Engine
+        /// Engine for Circuit Breaker
         /// </summary>
         /// <seealso cref="JDunkerley.Alteryx.BaseEngine{JDunkerley.Alteryx.CircuitBreakerTool.Config}" />
         public class Engine : BaseEngine<Config>
         {
-            private List<RecordData> _inputRecords;
+            private Queue<RecordData> _inputRecords;
 
-            private bool? _failed;
+            private bool _failed;
 
-            private bool _finished;
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Engine"/> class.
+            /// </summary>
+            public Engine()
+            {
+                this.Breaker = new InputProperty(
+                    initFunc: p =>
+                        {
+                            this._failed = false;
+                            return true;
+                        },
+                    pushFunc: r =>
+                        {
+                            if (this._failed)
+                            {
+                                return false;
+                            }
+
+                            this._failed = true;
+                            this.Output?.UpdateProgress(1);
+                            return true;
+                        },
+                    closedAction: () =>
+                        {
+                            if (!this._failed)
+                            {
+                                while ((this._inputRecords?.Count ?? 0) > 0)
+                                {
+                                    this.Output?.PushRecord(this._inputRecords.Dequeue());
+                                }
+                            }
+
+                            if (this.Input.State == ConnectionState.Closed)
+                            {
+                                this.Output?.Close();
+                            }
+                        });
+
+                this.Input = new InputProperty(
+                    initFunc: p =>
+                        {
+                            this._inputRecords = new Queue<RecordData>();
+                            this.Output?.Init(this.Input.RecordInfo, nameof(this.Output), null, this.XmlConfig);
+                            return true;
+                        },
+                    pushFunc: r =>
+                        {
+                            if (this._failed)
+                            {
+                                return false;
+                            }
+
+                            if (this.Breaker.State == ConnectionState.Closed)
+                            {
+                                this.Output?.PushRecord(r);
+                            }
+                            else
+                            {
+                                this._inputRecords.Enqueue(r);
+                            }
+
+                            return true;
+                        },
+                    progressAction: p => this.Output?.UpdateProgress(this._failed ? 1.0 : p),
+                    closedAction: () =>
+                        {
+                            if (this.Breaker.State == ConnectionState.Closed)
+                            {
+                                this.Output?.Close();
+                            }
+                        });
+            }
 
             [CharLabel('B')]
             [Ordering(1)]
-            public IncomingConnection Breaker { get; set; }
+            public InputProperty Breaker { get; } 
 
             [CharLabel('I')]
             [Ordering(2)]
-            public IncomingConnection Input { get; set; }
+            public InputProperty Input { get; }
 
             [CharLabel('O')]
             public PluginOutputConnectionHelper Output { get; set; }
-
-            /// <summary>
-            /// Alteryx Initialized An Incoming Connection.
-            /// </summary>
-            /// <param name="name">The name.</param>
-            /// <returns></returns>
-            public override bool IncomingConnectionInit(string name)
-            {
-                switch (name)
-                {
-                    case nameof(this.Input):
-                        this._inputRecords = new List<RecordData>();
-                        this._finished = false;
-                        if (!this._failed ?? false)
-                        {
-                            this.Output?.Init(this.Input.RecordInfo, nameof(this.Output), null, this.XmlConfig);
-                        }
-                        break;
-                    case nameof(this.Breaker):
-                        this._failed = null;
-                        break;
-                }
-
-                return true;
-            }
-
-            /// <summary>
-            /// Called by Alteryx to send each data record to the tool.
-            /// </summary>
-            /// <param name="name">The name.</param>
-            /// <param name="record">The new record</param>
-            /// <returns></returns>
-            public override bool IncomingConnectionPush(string name, RecordData record)
-            {
-                switch (name)
-                {
-                    case nameof(this.Input):
-                        if (!this._failed.HasValue)
-                        {
-                            this._inputRecords.Add(record);
-                        } else if (!this._failed.Value)
-                        {
-                            this.Output?.PushRecord(record);
-                        }
-                        break;
-                    case nameof(this.Breaker):
-                        this._failed = true;
-                        this._inputRecords = null;
-                        this.Output?.UpdateProgress(1.0);
-                        this.Output?.Close();
-                        return false;
-                }
-
-                return true;
-            }
-
-            /// <summary>
-            /// Called by Alteryx to update progress
-            /// </summary>
-            /// <param name="name">The name.</param>
-            /// <param name="progress">Progress (0 to 1)</param>
-            public override void IncomingConnectionProgress(string name, double progress)
-            {
-                if (!(this._failed ?? false) && name == nameof(this.Input))
-                {
-                    this.Output?.UpdateProgress(progress);
-                }
-            }
-
-            /// <summary>
-            /// Alteryx Finished Sending Data For An Incoming Connection.
-            /// </summary>
-            /// <param name="name">The name.</param>
-            /// <returns></returns>
-            public override void IncomingConnectionClosed(string name)
-            {
-                if (this._failed ?? false)
-                {
-                    return;
-                }
-
-                switch (name)
-                {
-                    case nameof(this.Breaker):
-                        foreach (var inputRecord in this._inputRecords ?? Enumerable.Empty<RecordData>())
-                        {
-                            this.Output?.PushRecord(inputRecord);
-                        }
-                        this._inputRecords?.Clear();
-                        this._failed = false;
-                        if (this._finished)
-                        {
-                            this.Output?.Close();
-                        }
-                        break;
-                    case nameof(this.Input):
-                        this._finished = true;
-                        if (this._failed.HasValue)
-                        {
-                            this.Output?.Close();
-                        }
-                        break;
-                }
-            }
         }
     }
 }
