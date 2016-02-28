@@ -1,11 +1,6 @@
 ﻿namespace JDunkerley.Alteryx
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Windows.Forms.VisualStyles;
-
-    using AlteryxGuiToolkit.Gallery;
     using AlteryxGuiToolkit.Plugins;
 
     using AlteryxRecordInfoNet;
@@ -30,7 +25,7 @@
         /// <summary>
         /// Engine for Circuit Breaker
         /// </summary>
-        /// <seealso cref="JDunkerley.Alteryx.Framework.BaseEngine{JDunkerley.Alteryx.CircuitBreakerTool.Config}" />
+        /// <seealso cref="JDunkerley.Alteryx.Framework.BaseEngine{Config}" />
         public class Engine : BaseEngine<Config>
         {
             private Queue<Record> _inputRecords;
@@ -90,7 +85,7 @@
                             {
                                 return false;
                             }
-                            
+
                             if (this.Breaker.State == ConnectionState.Closed)
                             {
                                 this.Output?.PushRecord(r);
@@ -116,7 +111,7 @@
 
             [CharLabel('B')]
             [Ordering(1)]
-            public InputProperty Breaker { get; } 
+            public InputProperty Breaker { get; }
 
             [CharLabel('I')]
             [Ordering(2)]

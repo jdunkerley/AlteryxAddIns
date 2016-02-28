@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.Alteryx
+﻿namespace JDunkerley.Alteryx.Framework
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +6,8 @@
     using System.Reflection;
 
     using AlteryxGuiToolkit.Plugins;
+
+    using AlteryxRecordInfoNet;
 
     using JDunkerley.Alteryx.Attributes;
 
@@ -52,6 +54,31 @@
         public static T GetAttrib<T>(this PropertyInfo propertyInfo)
         {
             return propertyInfo.GetCustomAttributes(typeof(T), true).Cast<T>().FirstOrDefault();
+        }
+
+        public static RecordCopier CreateCopier(RecordInfo info, RecordInfo newRecordInfo, params string[] fieldsToSkip)
+        {
+            var copier = new RecordCopier(newRecordInfo, info, true);
+
+            for (int fieldNum = 0; fieldNum < info.NumFields(); fieldNum++)
+            {
+                string fieldName = info[fieldNum].GetFieldName();
+                if (fieldsToSkip.Contains(fieldName))
+                {
+                    continue;
+                }
+
+                var newFieldNum = newRecordInfo.GetFieldNum(fieldName, false);
+                if (newFieldNum == -1)
+                {
+                    continue;
+                }
+
+                copier.Add(newFieldNum, fieldNum);
+            }
+
+            copier.DoneAdding();
+            return copier;
         }
 
     }

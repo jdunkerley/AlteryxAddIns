@@ -11,7 +11,7 @@
     /// <summary>
     /// Simple Date Time Input Control
     /// </summary>
-    public class DateTimeInputTool : 
+    public class DateTimeInputTool :
         BaseTool<DateTimeInputTool.Config, DateTimeInputTool.Engine>, IPlugin
     {
         public enum DateToReturn
@@ -70,7 +70,7 @@
                 var recordInfo = new RecordInfo();
                 recordInfo.AddField(outputFieldName, config?.ReturnDateTime ?? false ? FieldType.E_FT_DateTime : FieldType.E_FT_Date);
 
-                this.Output?.Init(recordInfo, "Output", null, this.XmlConfig);
+                this.Output?.Init(recordInfo, nameof(this.Output), null, this.XmlConfig);
                 if (nRecordLimit == 0)
                 {
                     this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
