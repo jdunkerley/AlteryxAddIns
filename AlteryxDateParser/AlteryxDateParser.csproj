@@ -56,6 +56,7 @@
     <Compile Include="Attributes\OrderingAttribute.cs" />
     <Compile Include="DateTimeParserTool.cs" />
     <Compile Include="Framework\BaseEngine.cs" />
+    <Compile Include="Framework\FieldDescription.cs" />
     <Compile Include="Framework\InputFieldTypeConverter.cs" />
     <Compile Include="Framework\InputProperty.cs" />
     <Compile Include="Framework\BaseTool.cs" />
@@ -92,6 +93,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CircuitBreakerTool.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

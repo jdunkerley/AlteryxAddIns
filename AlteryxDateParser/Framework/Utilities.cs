@@ -81,5 +81,43 @@
             return copier;
         }
 
+        public static RecordInfo CreateRecordInfo(
+            params FieldDescription[] fields)
+        {
+            return CreateRecordInfo(null, fields);
+   ;     }
+            public static RecordInfo CreateRecordInfo(
+            RecordInfo inputRecordInfo,
+            params FieldDescription[] fields)
+        {
+            var fieldDict = fields.ToDictionary(f => f.Name, f => false);
+            var output = new RecordInfo();
+
+            if (inputRecordInfo != null)
+            {
+                for (int i = 0; i < inputRecordInfo.NumFields(); i++)
+                {
+                    var fieldInfo = inputRecordInfo[i];
+                    var fieldName = fieldInfo.GetFieldName();
+
+                    if (fieldDict.ContainsKey(fieldName))
+                    {
+                        fieldDict[fieldName] = true;
+                        var descr = fields.First(f => f.Name == fieldName);
+                        output.AddField(descr.Name, descr.FieldType, descr.Size, descr.Scale, descr.Source, descr.Description);
+                        continue;
+                    }
+
+                    output.AddField(fieldInfo);
+                }
+            }
+
+            foreach (var descr in fields.Where(d => !fieldDict[d.Name]))
+            {
+                output.AddField(descr.Name, descr.FieldType, descr.Size, descr.Scale, descr.Source, descr.Description);
+            }
+
+            return output;
+        }
     }
 }

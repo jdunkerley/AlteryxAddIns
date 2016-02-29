@@ -65,10 +65,11 @@
             public override bool PI_PushAllRecords(long nRecordLimit)
             {
                 var config = this.GetConfigObject();
-                string outputFieldName = config?.OutputFieldName ?? "Date";
+                string fieldName = config?.OutputFieldName ?? "Date";
 
-                var recordInfo = new RecordInfo();
-                recordInfo.AddField(outputFieldName, config?.ReturnDateTime ?? false ? FieldType.E_FT_DateTime : FieldType.E_FT_Date);
+                var recordInfo =
+                    Utilities.CreateRecordInfo(
+                        new FieldDescription(fieldName, config?.ReturnDateTime ?? false ? FieldType.E_FT_DateTime : FieldType.E_FT_Date));
 
                 this.Output?.Init(recordInfo, nameof(this.Output), null, this.XmlConfig);
                 if (nRecordLimit == 0)
@@ -102,7 +103,7 @@
                 }
 
                 var recordOut = recordInfo.CreateRecord();
-                recordInfo.GetFieldByName(outputFieldName, false)?.SetFromString(recordOut, dateOutput.ToString("yyyy-MM-dd HH:mm:ss"));
+                recordInfo.GetFieldByName(fieldName, false)?.SetFromString(recordOut, dateOutput.ToString("yyyy-MM-dd HH:mm:ss"));
                 this.Output?.PushRecord(recordOut.GetRecord());
                 this.Output?.UpdateProgress(1.0);
                 this.Output?.OutputRecordCount(true);

@@ -13,7 +13,6 @@
 
     public class DateTimeParserTool :
         BaseTool<DateTimeParserTool.Config, DateTimeParserTool.Engine>, IPlugin
-
     {
         public enum OutputType
         {
@@ -51,6 +50,31 @@
             /// </summary>
             /// <returns></returns>
             public override string ToString() => $"{this.InputFieldName}=>{this.OutputFieldName}";
+
+            /// <summary>
+            /// Create a FieldDescription Object
+            /// </summary>
+            /// <returns></returns>
+            public FieldDescription OutputDescription()
+            {
+                switch (this.OutputType)
+                {
+                    case OutputType.Date:
+                        return new FieldDescription(this.OutputFieldName, FieldType.E_FT_Date);
+                    case OutputType.DateTime:
+                        return new FieldDescription(this.OutputFieldName, FieldType.E_FT_DateTime);
+                    case OutputType.String:
+                        return new FieldDescription(this.OutputFieldName, FieldType.E_FT_String)
+                                   {
+                                       Size = 19,
+                                       Source = nameof(DateTimeParserTool),
+                                       Description = $"{this.InputFieldName} parsed as a DateTime"
+                                   };
+                }
+
+                return null;
+            }
+
         }
 
         public class Engine : BaseEngine<Config>
@@ -74,28 +98,19 @@
             private bool InitFunc(RecordInfo info)
             {
                 var config = this.GetConfigObject();
-
-                this._inputFieldBase = info.GetFieldByName(config.InputFieldName, true);
-
-                var newRecordInfo = new RecordInfo();
-
-                bool added = false;
-                for (int i = 0; i < info.NumFields(); i++)
+                var fieldDescription = config.OutputDescription();
+                if (fieldDescription == null)
                 {
-                    var fieldInfo = info[i];
-                    if (fieldInfo.GetFieldName() == config.OutputFieldName)
-                    {
-                        this.AddOutputField(config, newRecordInfo);
-                        added = true;
-                        continue;
-                    }
-                    newRecordInfo.AddField(fieldInfo);
+                    return false;
                 }
 
-                if (!added)
+                this._inputFieldBase = info.GetFieldByName(config.InputFieldName, false);
+                if (this._inputFieldBase == null)
                 {
-                    this.AddOutputField(config, newRecordInfo);
+                    return false;
                 }
+
+                var newRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
 
                 this._outputRecordInfo = newRecordInfo;
                 this._outputFieldBase = newRecordInfo.GetFieldByName(config.OutputFieldName, false);
@@ -107,81 +122,41 @@
                 return true;
             }
 
-            private void AddOutputField(Config config, RecordInfo newRecordInfo)
-            {
-                switch (config.OutputType)
-                {
-                    case OutputType.Date:
-                        newRecordInfo.AddField(config.OutputFieldName, FieldType.E_FT_Date);
-                        break;
-                    case OutputType.DateTime:
-                        newRecordInfo.AddField(config.OutputFieldName, FieldType.E_FT_DateTime);
-                        break;
-                    case OutputType.String:
-                        newRecordInfo.AddField(
-                            config.OutputFieldName,
-                            FieldType.E_FT_String,
-                            19,
-                            1,
-                            "DateTimeParserTool",
-                            "Parsed Date Time Field");
-                        break;
-                }
-            }
-
             private bool PushFunc(RecordData r)
             {
+                var fmt = this.GetConfigObject().InputFormat;
+
                 var record = this._outputRecordInfo.CreateRecord();
                 this._copier.Copy(record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);
 
-
                 DateTime dt;
-                var inputFormat = this.GetConfigObject().InputFormat;
-                if (string.IsNullOrWhiteSpace(inputFormat))
+                bool result = string.IsNullOrWhiteSpace(fmt)
+                    ? DateTime.TryParse(input, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out dt)
+                    : DateTime.TryParseExact(input, fmt, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out dt);
+
+                if (result)
                 {
-                    if (DateTime.TryParse(
-                        input,
-                        CultureInfo.CurrentCulture,
-                        DateTimeStyles.AllowWhiteSpaces,
-                        out dt))
-                    {
-                        this._outputFieldBase.SetFromString(record, dt.ToString("yyyy-MM-dd HH:mm:ss"));
-                    }
-                    else
-                    {
-                        this._outputFieldBase.SetNull(record);
-                    }
+                    this._outputFieldBase.SetFromString(record, dt.ToString("yyyy-MM-dd HH:mm:ss"));
                 }
                 else
                 {
-                    if (DateTime.TryParseExact(
-                        input,
-                        inputFormat,
-                        CultureInfo.CurrentCulture,
-                        DateTimeStyles.AllowWhiteSpaces,
-                        out dt))
-                    {
-                        this._outputFieldBase.SetFromString(record, dt.ToString("yyyy-MM-dd HH:mm:ss"));
-                    }
-                    else
-                    {
-                        this._outputFieldBase.SetNull(record);
-                    }
+                    this._outputFieldBase.SetNull(record);
                 }
-
-
 
                 this.Output?.PushRecord(record.GetRecord());
                 return true;
             }
 
+            /// <summary>
+            /// Gets the input stream.
+            /// </summary>
             [CharLabel('I')]
             public InputProperty Input { get; }
 
             /// <summary>
-            /// Gets or sets the output.
+            /// Gets or sets the output stream.
             /// </summary>
             [CharLabel('O')]
             public PluginOutputConnectionHelper Output { get; set; }
