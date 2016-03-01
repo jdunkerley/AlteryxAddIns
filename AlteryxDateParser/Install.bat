@@ -31,10 +31,13 @@ if '%errorlevel%' NEQ '0' (
 	echo x86Path=%cd% >> "JDTools.ini"
 	echo ToolGroup=JDTools >> "JDTools.ini"
 
-	xcopy JDTools.ini "%alteryxPath%\..\Settings\AdditionalPlugins\" /Y /Q
-    del JDTools.ini /Q
-
+        if '%alteryxPath%' NEQ '' (
+            xcopy JDTools.ini "%alteryxPath%\..\Settings\AdditionalPlugins\" /Y /Q
+            del JDTools.ini /Q
+	    echo Config installed to "%alteryxPath%\..\Settings\AdditionalPlugins\JDTools.ini"
+        ) else (
+            echo Please copy "%cd$\JDTools.ini" to <AlteryxInstallDir>\Settings\AdditionalPlugins
+        )
+        
 	popd
-
-	echo Config installed to "%alteryxPath%\..\Settings\AdditionalPlugins\JDTools.ini"
 	pause
