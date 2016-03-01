@@ -15,7 +15,7 @@
     /// <typeparam name="TConfig">The type of the config object</typeparam>
     /// <typeparam name="TEngine">The type of the engine.</typeparam>
     /// <seealso cref="AlteryxGuiToolkit.Plugins.IPlugin" />
-    public abstract class BaseTool<TConfig, TEngine> 
+    public abstract class BaseTool<TConfig, TEngine>
         where TConfig: new()
     {
         private readonly Lazy<Image> _icon;
@@ -52,7 +52,7 @@
                     .Select(n => ass.GetManifestResourceStream(n))
                     .FirstOrDefault()
                 ?? ass.GetManifestResourceNames()
-                       .Where(n => n.Contains("BaseTool") && n.EndsWith(".png"))
+                       .Where(n => n.Contains(this._inputConnections.Length == 0 ? "BaseInput" : "BaseTool") && n.EndsWith(".png"))
                        .Select(n => ass.GetManifestResourceStream(n))
                        .First();
 

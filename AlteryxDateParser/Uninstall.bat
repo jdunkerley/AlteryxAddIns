@@ -20,17 +20,9 @@ if '%errorlevel%' NEQ '0' (
 		`reg query "HKCU\SOFTWARE\SRC\Alteryx" /v LastInstallDir`
 	) DO SET alteryxPath=%%M
 
-	pushd "%~dp0"
-
-	echo [Settings] > "JDTools.ini"
-	echo x64Path=%cd% >> "JDTools.ini"
-	echo x86Path=%cd% >> "JDTools.ini"
-	echo ToolGroup=JDTools >> "JDTools.ini"
-
-	xcopy JDTools.ini "%alteryxPath%\..\Settings\AdditionalPlugins\" /Y /Q
+	pushd "%alteryxPath%\..\Settings\AdditionalPlugins\"
     del JDTools.ini /Q
-
 	popd
 
-	echo Config installed to "%alteryxPath%\..\Settings\AdditionalPlugins\JDTools.ini"
+	echo Deleted installed config from "%alteryxPath%\..\Settings\AdditionalPlugins\JDTools.ini"
 	pause
