@@ -1,0 +1,40 @@
+@echo off
+
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+
+if '%errorlevel%' NEQ '0' (
+    if '%1' NEQ 'ELEV' (
+        echo Requesting administrative privileges...
+        goto UACPrompt
+    ) else (
+        exit /B -1
+    )
+) else (
+	goto gotAdmin
+)
+
+:UACPrompt
+	echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+	echo UAC.ShellExecute "%~s0", "ELEV", "", "runas", 1 >> "%temp%\getadmin.vbs"
+	"%temp%\getadmin.vbs"
+	exit /B
+
+:gotAdmin
+	FOR /F "usebackq tokens=2,* skip=2" %%L IN (
+		`reg query "HKCU\SOFTWARE\SRC\Alteryx" /v LastInstallDir`
+	) DO SET alteryxPath=%%M
+
+	pushd "%~dp0"
+
+	echo [Settings] > "JDTools.ini"
+	echo x64Path=%cd% >> "JDTools.ini"
+	echo x86Path=%cd% >> "JDTools.ini"
+	echo ToolGroup=JDTools >> "JDTools.ini"
+
+	xcopy JDTools.ini "%alteryxPath%\..\Settings\AdditionalPlugins\" /Y /Q
+    del JDTools.ini /Q
+
+	popd
+
+	echo Config installed to "%alteryxPath%\..\Settings\AdditionalPlugins\JDTools.ini"
+	pause

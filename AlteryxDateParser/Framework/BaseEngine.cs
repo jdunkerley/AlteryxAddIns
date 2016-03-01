@@ -15,7 +15,7 @@ namespace JDunkerley.Alteryx.Framework
         private readonly Dictionary<string, PropertyInfo> _outputs;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InputProperty{T}"/> class.
+        /// Initializes a new instance of the <see cref="BaseEngine{T}"/> class.
         /// </summary>
         protected BaseEngine()
         {

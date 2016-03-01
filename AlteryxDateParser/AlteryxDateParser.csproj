@@ -52,8 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\InputPropertyNameAttribute.cs" />
     <Compile Include="Attributes\OrderingAttribute.cs" />
+    <Compile Include="DateTimeParserTool.cs" />
     <Compile Include="Framework\BaseEngine.cs" />
+    <Compile Include="Framework\FieldDescription.cs" />
+    <Compile Include="Framework\InputFieldTypeConverter.cs" />
     <Compile Include="Framework\InputProperty.cs" />
     <Compile Include="Framework\BaseTool.cs" />
     <Compile Include="Attributes\CharLabelAttribute.cs" />
@@ -90,7 +94,24 @@
   <ItemGroup>
     <EmbeddedResource Include="CircuitBreakerTool.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Uninstall.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Framework\BaseInput.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DateTimeParserTool.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>echo "$(TargetDir)Install.bat"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

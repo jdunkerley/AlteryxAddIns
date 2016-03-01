@@ -11,7 +11,7 @@
     /// Responds to the interface
     /// Has a state property
     /// </summary>
-    /// <seealso cref="JDunkerley.Alteryx.IInputProperty" />
+    /// <seealso cref="IInputProperty" />
     public class InputProperty : IInputProperty
     {
         private readonly Func<XmlElement, IEnumerable<string>> _sortFieldsFunc;
@@ -83,6 +83,8 @@
             this.State = ConnectionState.Added;
             var sortFields = this.IncomingConnectionSort(pXmlProperties);
             var selectFields = this.IncomingConnectionFields(pXmlProperties);
+
+            // ToDo: Render Xml Output
             return null;
 
         }
@@ -113,17 +115,7 @@
             this.State = ConnectionState.InitCalled;
             this.RecordInfo = recordInfo;
 
-            this.CopierLazy = new Lazy<RecordCopier>(
-                () =>
-                    {
-                        var output = new RecordCopier(this.RecordInfo, this.RecordInfo, true);
-                        for (int i = 0; i < this.RecordInfo.NumFields(); i++)
-                        {
-                            output.Add(i, i);
-                        }
-                        output.DoneAdding();
-                        return output;
-                    });
+            this.CopierLazy = new Lazy<RecordCopier>(() => Utilities.CreateCopier(this.RecordInfo, this.RecordInfo));
             return this._initFunc(recordInfo);
         }
 
@@ -147,7 +139,7 @@
         public virtual void II_Close()
         {
             this.State = ConnectionState.Closed;
-            this?._closedAction?.Invoke();
+            this._closedAction?.Invoke();
         }
 
         public bool ShowDebugMessages() => this.Engine?.ShowDebugMessages() ?? false;

@@ -5,6 +5,8 @@
     using System.Xml;
     using AlteryxGuiToolkit.Plugins;
 
+    using JDunkerley.Alteryx.Attributes;
+
     /// <summary>
     /// Simple Property Grid Based Configuration Panel
     /// </summary>
@@ -88,10 +90,11 @@
             doc.LoadXml($"<Config>{eConfig.InnerXml}</Config>");
 
             this._config = eConfig.InnerText == "" || doc.DocumentElement == null
-                ? new T() 
+                ? new T()
                 : (T)serialiser.Deserialize(new XmlNodeReader(doc.DocumentElement));
 
             this._propertyGrid.SelectedObject = this._config;
+            InputPropertyNameAttribute.CurrentMetaData = eIncomingMetaInfo;
             return this;
         }
 
