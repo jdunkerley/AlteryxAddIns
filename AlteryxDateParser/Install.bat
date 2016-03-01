@@ -3,15 +3,19 @@
 >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
 
 if '%errorlevel%' NEQ '0' (
-	echo Requesting administrative privileges...
-	goto UACPrompt
+    if '%1' NEQ 'ELEV' (
+        echo Requesting administrative privileges...
+        goto UACPrompt
+    ) else (
+        exit /B -1
+    )
 ) else (
 	goto gotAdmin
 )
 
 :UACPrompt
 	echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-	echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
+	echo UAC.ShellExecute "%~s0", "ELEV", "", "runas", 1 >> "%temp%\getadmin.vbs"
 	"%temp%\getadmin.vbs"
 	exit /B
 
