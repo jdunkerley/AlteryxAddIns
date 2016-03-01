@@ -28,7 +28,7 @@ A slightly expanded version of the Date Time Now tool. It will create a date fie
 * PreviousMonthEnd
 * PreviousYearEnd
 
-### CircuitBreakerTOol
+### CircuitBreakerTool
 This is an expanded version of the the Test tool. The idea here is that the input data (I) is only passed onto the rest of the workflow if there is no data received in the breaker input (B). 
 
 ### DateTimeParseTool
