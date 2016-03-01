@@ -10,13 +10,16 @@
           <NumRows value="2" />
           <Fields>
             <Field name="TextDate" />
+            <Field name="Another" />
           </Fields>
           <Data>
             <r>
               <c>2010-12-31</c>
+              <c>Field</c>
             </r>
             <r>
               <c>20-Oct-79</c>
+              <c>Was</c>
             </r>
           </Data>
         </Configuration>
@@ -52,7 +55,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_12652_8d2a396718664db7af122a399d110afe_\Engine_12652_4f30c7526ba244ec968eb15550a5a8e8_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_16692_bd59eab6d63648edb6ad0e867a7b983d_\Engine_20020_ed29a09a941544db956c7fa49a0b2657_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>

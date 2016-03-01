@@ -105,6 +105,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Framework\BaseInput.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DateTimeParserTool.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo "$(TargetDir)Install.bat"</PostBuildEvent>
