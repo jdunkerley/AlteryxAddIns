@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.Alteryx.Framework
+﻿namespace JDunkerley.AlteryxAddIns.Framework
 {
     using AlteryxRecordInfoNet;
 

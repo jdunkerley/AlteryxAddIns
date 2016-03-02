@@ -1,4 +1,4 @@
-namespace JDunkerley.Alteryx.Attributes
+namespace JDunkerley.AlteryxAddIns.Framework.Attributes
 {
     using System;
 

@@ -1,11 +1,12 @@
-﻿namespace JDunkerley.Alteryx.Framework
+﻿namespace JDunkerley.AlteryxAddIns.Framework
 {
     using System;
     using System.Windows.Forms;
     using System.Xml;
+
     using AlteryxGuiToolkit.Plugins;
 
-    using JDunkerley.Alteryx.Attributes;
+    using JDunkerley.AlteryxAddIns.Framework.Attributes;
 
     /// <summary>
     /// Simple Property Grid Based Configuration Panel

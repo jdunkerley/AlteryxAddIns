@@ -1,18 +1,16 @@
-﻿namespace JDunkerley.Alteryx
+﻿namespace JDunkerley.AlteryxAddins
 {
     using System;
     using System.ComponentModel;
     using System.Security.Cryptography;
     using System.Text;
 
-    using AlteryxGuiToolkit.Plugins;
-
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.Alteryx.Attributes;
-    using JDunkerley.Alteryx.Framework;
+    using JDunkerley.AlteryxAddIns.Framework;
+    using JDunkerley.AlteryxAddIns.Framework.Attributes;
 
-    public class HashingTool : BaseTool<HashingTool.Config, HashingTool.Engine>, IPlugin
+    public class HashingTool : BaseTool<HashingTool.Config, HashingTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
         public enum HashMethod
         {

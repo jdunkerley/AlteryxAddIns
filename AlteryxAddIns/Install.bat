@@ -21,7 +21,7 @@ if '%errorlevel%' NEQ '0' (
 
 :gotAdmin
     FOR /F "usebackq tokens=2,* skip=2" %%L IN (
-        `reg query "HKLM\SOFTWARE\Wow6432Node\SRC\Alteryx" /v InstallDir64`
+        `reg query "HKLM\SOFTWARE\WOW6432Node\SRC\Alteryx" /v InstallDir64`
     ) DO SET alteryxPath=%%M
 
     pushd "%~dp0"
@@ -31,10 +31,10 @@ if '%errorlevel%' NEQ '0' (
     echo x86Path=%cd% >> "JDTools.ini"
     echo ToolGroup=JDTools >> "JDTools.ini"
 
-    if '%alteryxPath%' NEQ '' (
+    if "%alteryxPath%" NEQ "" (
         xcopy JDTools.ini "%alteryxPath%\..\Settings\AdditionalPlugins\" /Y /Q
         del JDTools.ini /Q
-    echo Config installed to "%alteryxPath%\..\Settings\AdditionalPlugins\JDTools.ini"
+	echo Config installed to %alteryxPath%\..\Settings\AdditionalPlugins\JDTools.ini
     ) else (
         echo Please copy "%cd$\JDTools.ini" to <AlteryxInstallDir>\Settings\AdditionalPlugins
     )

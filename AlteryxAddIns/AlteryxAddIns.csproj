@@ -7,8 +7,8 @@
     <ProjectGuid>{8ADB9CD3-7081-4C6E-91A5-A74C5B9100C0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JDunkerley.Alteryx</RootNamespace>
-    <AssemblyName>JDunkerley.Alteryx.PlugIn</AssemblyName>
+    <RootNamespace>JDunkerley.AlteryxAddins</RootNamespace>
+    <AssemblyName>JDunkerley.AlteryxAddins</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
@@ -53,23 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\InputPropertyNameAttribute.cs" />
-    <Compile Include="Attributes\OrderingAttribute.cs" />
     <Compile Include="DateTimeParserTool.cs" />
-    <Compile Include="Framework\BaseEngine.cs" />
-    <Compile Include="Framework\FieldDescription.cs" />
-    <Compile Include="Framework\InputFieldTypeConverter.cs" />
-    <Compile Include="Framework\InputProperty.cs" />
-    <Compile Include="Framework\BaseTool.cs" />
-    <Compile Include="Attributes\CharLabelAttribute.cs" />
     <Compile Include="CircuitBreakerTool.cs" />
-    <Compile Include="Framework\ConnectionState.cs" />
     <Compile Include="DateTimeInputTool.cs" />
-    <Compile Include="Attributes\OptionalAttribute.cs" />
-    <Compile Include="Framework\IInputProperty.cs" />
-    <Compile Include="Framework\PropertyGridGUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="HashingTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -77,7 +63,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Framework\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -88,9 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DateTimeInputTool.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Framework\BaseTool.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CircuitBreakerTool.png" />
@@ -104,13 +86,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Framework\BaseInput.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="DateTimeParserTool.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="HashingTool.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AlteryxAddIns.Framework\AlteryxAddIns.Framework.csproj">
+      <Project>{c2813972-ba56-42fe-b3f3-25da51733946}</Project>
+      <Name>AlteryxAddIns.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

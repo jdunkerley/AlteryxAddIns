@@ -1,18 +1,18 @@
-﻿namespace JDunkerley.Alteryx
+﻿namespace JDunkerley.AlteryxAddins
 {
     using System;
 
-    using AlteryxGuiToolkit.Plugins;
+
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.Alteryx.Attributes;
-    using JDunkerley.Alteryx.Framework;
+    using JDunkerley.AlteryxAddIns.Framework;
+    using JDunkerley.AlteryxAddIns.Framework.Attributes;
 
     /// <summary>
     /// Simple Date Time Input Control
     /// </summary>
     public class DateTimeInputTool :
-        BaseTool<DateTimeInputTool.Config, DateTimeInputTool.Engine>, IPlugin
+        BaseTool<DateTimeInputTool.Config, DateTimeInputTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
         public enum DateToReturn
         {

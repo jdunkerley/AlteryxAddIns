@@ -1,15 +1,14 @@
-﻿namespace JDunkerley.Alteryx
+﻿namespace JDunkerley.AlteryxAddins
 {
     using System.Collections.Generic;
-    using AlteryxGuiToolkit.Plugins;
 
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.Alteryx.Attributes;
-    using JDunkerley.Alteryx.Framework;
+    using JDunkerley.AlteryxAddIns.Framework;
+    using JDunkerley.AlteryxAddIns.Framework.Attributes;
 
     public class CircuitBreakerTool
-        : BaseTool<CircuitBreakerTool.Config, CircuitBreakerTool.Engine>, IPlugin
+        : BaseTool<CircuitBreakerTool.Config, CircuitBreakerTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
         /// <summary>
         /// Configuration Class
@@ -25,7 +24,7 @@
         /// <summary>
         /// Engine for Circuit Breaker
         /// </summary>
-        /// <seealso cref="JDunkerley.Alteryx.Framework.BaseEngine{Config}" />
+        /// <seealso cref="JDunkerley.AlteryxAddIns.Framework.BaseEngine{Config}" />
         public class Engine : BaseEngine<Config>
         {
             private Queue<Record> _inputRecords;

@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.Alteryx.Framework
+﻿namespace JDunkerley.AlteryxAddIns.Framework
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@
 
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.Alteryx.Attributes;
+    using JDunkerley.AlteryxAddIns.Framework.Attributes;
 
     public static class Utilities
     {

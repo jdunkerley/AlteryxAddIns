@@ -1,18 +1,16 @@
-﻿namespace JDunkerley.Alteryx
+﻿namespace JDunkerley.AlteryxAddins
 {
     using System;
     using System.ComponentModel;
     using System.Globalization;
 
-    using AlteryxGuiToolkit.Plugins;
-
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.Alteryx.Attributes;
-    using JDunkerley.Alteryx.Framework;
+    using JDunkerley.AlteryxAddIns.Framework;
+    using JDunkerley.AlteryxAddIns.Framework.Attributes;
 
     public class DateTimeParserTool :
-        BaseTool<DateTimeParserTool.Config, DateTimeParserTool.Engine>, IPlugin
+        BaseTool<DateTimeParserTool.Config, DateTimeParserTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
         public enum OutputType
         {
