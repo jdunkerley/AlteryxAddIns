@@ -75,7 +75,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="QuandlDownloadTool.cs" />
     <Compile Include="Framework\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
