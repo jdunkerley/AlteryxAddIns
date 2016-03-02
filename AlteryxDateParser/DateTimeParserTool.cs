@@ -37,7 +37,7 @@
             /// Gets or sets the name of the input field.
             /// </summary>
             [TypeConverter(typeof(InputFieldTypeConverter))]
-            [InputPropertyName(nameof(Engine.Input), typeof(Engine))]
+            [InputPropertyName(nameof(Engine.Input), typeof(Engine), FieldType.E_FT_String, FieldType.E_FT_V_String, FieldType.E_FT_V_WString, FieldType.E_FT_WString)]
             public string InputFieldName { get; set; } = "DateInput";
 
             /// <summary>
@@ -95,6 +95,18 @@
                     pushFunc: this.PushFunc);
             }
 
+            /// <summary>
+            /// Gets the input stream.
+            /// </summary>
+            [CharLabel('I')]
+            public InputProperty Input { get; }
+
+            /// <summary>
+            /// Gets or sets the output stream.
+            /// </summary>
+            [CharLabel('O')]
+            public PluginOutputConnectionHelper Output { get; set; }
+
             private bool InitFunc(RecordInfo info)
             {
                 var config = this.GetConfigObject();
@@ -148,18 +160,6 @@
                 this.Output?.PushRecord(record.GetRecord());
                 return true;
             }
-
-            /// <summary>
-            /// Gets the input stream.
-            /// </summary>
-            [CharLabel('I')]
-            public InputProperty Input { get; }
-
-            /// <summary>
-            /// Gets or sets the output stream.
-            /// </summary>
-            [CharLabel('O')]
-            public PluginOutputConnectionHelper Output { get; set; }
         }
     }
 }

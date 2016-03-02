@@ -34,3 +34,5 @@ This is an expanded version of the the Test tool. The idea here is that the inpu
 ### DateTimeParseTool
 This exposes the .Net DateTime parse functions to Alteryx. For this I needed to find a way to allow the user to pick an input field (see the InputFieldTypeConverter), to copy most of the values, parse a date and add to the result. As this tool supports all formats that the DateTimeParseExact function does, it should deal with parsing all the random formats that keep come up.
 
+### HashingTool
+This exposes the .Net System.Security.Cryptography HashAlgorithm's to Alteryx. It takes and input string and computes the hash value. It support MD5, RIPEMD160, SHA1, SHA256, SHA384 and SHA512.
