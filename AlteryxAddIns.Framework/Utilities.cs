@@ -15,6 +15,41 @@
     public static class Utilities
     {
         /// <summary>
+        /// Parse Text to DateTime
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
+        public static DateTime? ToDateTime(this string text)
+        {
+            DateTime output;
+            if (!DateTime.TryParse(text, out output))
+            {
+                return null;
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Parse Text to DateTime
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
+        public static TimeSpan? ToTimeSpan(this string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return null;
+            }
+
+            DateTime output;
+            if (!DateTime.TryParse($"1900-01-01 {text}", out output))
+            {
+                return null;
+            }
+            return output.TimeOfDay;
+        }
+
+        /// <summary>
         /// Gets the incoming connections.
         /// </summary>
         /// <param name="type">The type.</param>

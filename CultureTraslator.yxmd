@@ -26,13 +26,25 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <NumRows value="1" />
+          <NumRows value="5" />
           <Fields>
             <Field name="FrenchDate" />
           </Fields>
           <Data>
             <r>
               <c>22 juin 2016</c>
+            </r>
+            <r>
+              <c>15 juillet 2016</c>
+            </r>
+            <r>
+              <c>13 août 2016</c>
+            </r>
+            <r>
+              <c>27 septembre 2016</c>
+            </r>
+            <r>
+              <c>31 octobre 2016</c>
             </r>
           </Data>
         </Configuration>
@@ -46,11 +58,11 @@
     </Node>
     <Node ToolID="3">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="270" y="54" />
+        <Position x="510" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_18416_bf34aa363abc4a89bd8a2cc61b73a39e_\Engine_18416_a3f99955cd2f4f5397faf22e5913af45_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_17740_89cb2aa114c24fc6bc3fefae319f83ac_\Engine_17740_e0c8131d915640c5b6f4c88c1a5daeb4_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -67,15 +79,63 @@
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
+    <Node ToolID="4">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddins.FormatterTool">
+        <Position x="282" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OutputFieldName>EnglishDate</OutputFieldName>
+          <OutputFieldLength>64</OutputFieldLength>
+          <Culture>Current</Culture>
+          <InputFieldName>Date</InputFieldName>
+          <OutputFormat>d MMMM yyyy</OutputFormat>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Date=&gt;EnglishDate</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.FormatterTool+Engine" />
+    </Node>
+    <Node ToolID="5">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddins.FormatterTool">
+        <Position x="390" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OutputFieldName>GermanDate</OutputFieldName>
+          <OutputFieldLength>64</OutputFieldLength>
+          <Culture>German (Germany)</Culture>
+          <InputFieldName>Date</InputFieldName>
+          <OutputFormat>d MMMM yyyy</OutputFormat>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Date=&gt;GermanDate</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.FormatterTool+Engine" />
+    </Node>
   </Nodes>
   <Connections>
     <Connection>
       <Origin ToolID="1" Connection="Output" />
-      <Destination ToolID="3" Connection="Input" />
+      <Destination ToolID="4" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="2" Connection="Output" />
       <Destination ToolID="1" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="4" Connection="Output" />
+      <Destination ToolID="5" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="5" Connection="Output" />
+      <Destination ToolID="3" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>
@@ -96,7 +156,7 @@
     <LayoutType>Horizontal</LayoutType>
     <MetaInfo>
       <NameIsFileName value="True" />
-      <Name>DateTimeParserFrench</Name>
+      <Name>CultureTraslator</Name>
       <Description />
       <RootToolName />
       <ToolVersion />
