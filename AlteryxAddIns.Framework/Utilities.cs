@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
 
@@ -34,6 +35,11 @@
             return connections;
         }
 
+        /// <summary>
+        /// Converts ordered set of properties into ALteryx Connections
+        /// </summary>
+        /// <param name="connections">The connections.</param>
+        /// <returns></returns>
         public static IEnumerable<Connection> ToConnections(
             this IEnumerable<KeyValuePair<string, PropertyInfo>> connections)
         {
@@ -51,11 +57,46 @@
                     .ToArray();
         }
 
+        /// <summary>
+        /// Gets matching attribute on a property.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="propertyInfo">The property information.</param>
+        /// <returns></returns>
         public static T GetAttrib<T>(this PropertyInfo propertyInfo)
         {
             return propertyInfo.GetCustomAttributes(typeof(T), true).Cast<T>().FirstOrDefault();
         }
 
+        /// <summary>
+        /// Gets matching attribute on a property.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="attribsCollection"></param>
+        /// <returns></returns>
+        public static T GetAttrib<T>(this AttributeCollection attribsCollection)
+            where T: class
+        {
+            T attrib = null;
+            foreach (var attribute in attribsCollection)
+            {
+                attrib = attribute as T;
+                if (attrib != null)
+                {
+                    break;
+                }
+            }
+
+            return attrib;
+        }
+
+        /// <summary>
+        /// Creates a record copier copier.
+        /// </summary>
+        /// <param name="info">The information.</param>
+        /// <param name="newRecordInfo">The new record information.</param>
+        /// <param name="fieldsToSkip">The fields to skip.</param>
+        /// <returns></returns>
         public static RecordCopier CreateCopier(RecordInfo info, RecordInfo newRecordInfo, params string[] fieldsToSkip)
         {
             var copier = new RecordCopier(newRecordInfo, info, true);

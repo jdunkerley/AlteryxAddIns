@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.AlteryxAddIns.Framework
+﻿namespace JDunkerley.AlteryxAddIns.Framework.ConfigWindows
 {
     using System;
     using System.Windows.Forms;
@@ -95,7 +95,7 @@
                 : (T)serialiser.Deserialize(new XmlNodeReader(doc.DocumentElement));
 
             this._propertyGrid.SelectedObject = this._config;
-            InputPropertyNameAttribute.CurrentMetaData = eIncomingMetaInfo;
+            Statics.CurrentMetaData = eIncomingMetaInfo;
             return this;
         }
 

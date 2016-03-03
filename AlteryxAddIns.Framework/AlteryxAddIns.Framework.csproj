@@ -60,13 +60,15 @@
     <Compile Include="BaseTool.cs" />
     <Compile Include="ConnectionState.cs" />
     <Compile Include="FieldDescription.cs" />
+    <Compile Include="FieldJoin.cs" />
     <Compile Include="IInputProperty.cs" />
-    <Compile Include="InputFieldTypeConverter.cs" />
+    <Compile Include="ConfigWindows\InputFieldTypeConverter.cs" />
     <Compile Include="InputProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyGridGUI.cs">
+    <Compile Include="ConfigWindows\PropertyGridGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Statics.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>

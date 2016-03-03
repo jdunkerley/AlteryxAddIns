@@ -9,6 +9,8 @@
 
     using AlteryxRecordInfoNet;
 
+    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
+
     /// <summary>
     /// Base Tool Class
     /// </summary>
@@ -44,16 +46,17 @@
 
         private Image GetEmbeddedImage()
         {
-            var ass = this.GetType().Assembly;
+            var assembly = this.GetType().Assembly;
+            var frameworkAssembly = typeof(Utilities).Assembly;
 
             var stream =
-                ass.GetManifestResourceNames()
+                assembly.GetManifestResourceNames()
                     .Where(n => n.Contains(this.GetType().Name) && n.EndsWith(".png"))
-                    .Select(n => ass.GetManifestResourceStream(n))
+                    .Select(n => assembly.GetManifestResourceStream(n))
                     .FirstOrDefault()
-                ?? ass.GetManifestResourceNames()
+                ?? frameworkAssembly.GetManifestResourceNames()
                        .Where(n => n.Contains(this._inputConnections.Length == 0 ? "BaseInput" : "BaseTool") && n.EndsWith(".png"))
-                       .Select(n => ass.GetManifestResourceStream(n))
+                       .Select(n => frameworkAssembly.GetManifestResourceStream(n))
                        .First();
 
             var bitmap = new Bitmap(stream);

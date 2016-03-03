@@ -8,6 +8,7 @@
 
     using JDunkerley.AlteryxAddIns.Framework;
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
+    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
 
     public class DateTimeParserTool :
         BaseTool<DateTimeParserTool.Config, DateTimeParserTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin

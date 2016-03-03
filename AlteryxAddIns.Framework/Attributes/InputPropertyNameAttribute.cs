@@ -40,10 +40,5 @@
         /// Gets the field types list.
         /// </summary>
         public AlteryxRecordInfoNet.FieldType[] FieldTypes { get; }
-
-        /// <summary>
-        /// Gets or sets the current meta data.
-        /// </summary>
-        public static XmlElement[] CurrentMetaData { get; set; }
     }
 }

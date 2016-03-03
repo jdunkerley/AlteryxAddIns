@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns", "AlteryxDateParser\AlteryxAddIns.csproj", "{8ADB9CD3-7081-4C6E-91A5-A74C5B9100C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns", "AlteryxAddIns\AlteryxAddIns.csproj", "{8ADB9CD3-7081-4C6E-91A5-A74C5B9100C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns.Framework", "AlteryxAddIns.Framework\AlteryxAddIns.Framework.csproj", "{C2813972-BA56-42FE-B3F3-25DA51733946}"
 EndProject

@@ -9,6 +9,7 @@
 
     using JDunkerley.AlteryxAddIns.Framework;
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
+    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
 
     public class HashingTool : BaseTool<HashingTool.Config, HashingTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
