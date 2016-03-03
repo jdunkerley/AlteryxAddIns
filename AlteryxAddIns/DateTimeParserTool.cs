@@ -35,6 +35,7 @@
             /// <summary>
             /// Gets or sets the culture.
             /// </summary>
+            [TypeConverter(typeof(CultureTypeConverter))]
             public string Culture { get; set; } = CultureTypeConverter.Current;
 
             /// <summary>
