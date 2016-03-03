@@ -36,5 +36,8 @@ This exposes the .Net DateTime parse functions to Alteryx. For this I needed to 
 
 This tool supports different cultures allowing parsing of any supported date formats. 
 
+### FormatterTool
+This tool can be used to convert from a numerical or date or time field to a string field. It supports different cultures and number formatting.
+
 ### HashingTool
 This exposes the .Net System.Security.Cryptography HashAlgorithm's to Alteryx. It takes and input string and computes the hash value. It support MD5, RIPEMD160, SHA1, SHA256, SHA384 and SHA512.
