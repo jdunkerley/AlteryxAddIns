@@ -4,6 +4,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Xml;
 
 
@@ -12,6 +13,16 @@
     /// </summary>
     public static class Statics
     {
+        static Statics()
+        {
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                if (args.Name == Assembly.GetAssembly(typeof(Statics)).FullName) // adapt to your needs
+                    return Assembly.GetAssembly(typeof(Statics));
+
+                return null;
+            };
+        }
 
         /// <summary>
         /// Gets or sets the current meta data.
