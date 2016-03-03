@@ -7,10 +7,7 @@
 
     public class InputFieldTypeConverter : TypeConverter
     {
-        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-        {
-            return true;
-        }
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
@@ -31,12 +28,7 @@
 
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
-            if (sourceType == typeof(string))
-            {
-                return true;
-            }
-
-            return base.CanConvertFrom(context, sourceType);
+            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
         }
 
         public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)

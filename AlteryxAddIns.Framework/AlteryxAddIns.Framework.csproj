@@ -58,6 +58,7 @@
     <Compile Include="Attributes\OrderingAttribute.cs" />
     <Compile Include="BaseEngine.cs" />
     <Compile Include="BaseTool.cs" />
+    <Compile Include="ConfigWindows\CultureTypeConverter.cs" />
     <Compile Include="ConnectionState.cs" />
     <Compile Include="FieldDescription.cs" />
     <Compile Include="FieldJoin.cs" />

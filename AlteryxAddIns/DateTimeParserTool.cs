@@ -33,6 +33,11 @@
             public string OutputFieldName { get; set; } = "Date";
 
             /// <summary>
+            /// Gets or sets the culture.
+            /// </summary>
+            public string Culture { get; set; } = CultureTypeConverter.Current;
+
+            /// <summary>
             /// Gets or sets the name of the input field.
             /// </summary>
             [TypeConverter(typeof(InputFieldTypeConverter))]
@@ -86,6 +91,12 @@
 
             private FieldBase _outputFieldBase;
 
+            private string _format;
+
+            private bool _exact;
+
+            private CultureInfo _culture;
+
             public Engine()
             {
                 this.Input = new InputProperty(
@@ -109,7 +120,8 @@
             private bool InitFunc(RecordInfo info)
             {
                 var config = this.GetConfigObject();
-                var fieldDescription = config.OutputDescription();
+
+                var fieldDescription = config?.OutputDescription();
                 if (fieldDescription == null)
                 {
                     return false;
@@ -130,22 +142,24 @@
                 // Create the Copier
                 this._copier = Utilities.CreateCopier(info, newRecordInfo, config.OutputFieldName);
 
+                this._format = config.InputFormat;
+                this._exact = string.IsNullOrWhiteSpace(this._format);
+                this._culture = CultureTypeConverter.GetCulture(config.Culture);
+
                 return true;
             }
 
             private bool PushFunc(RecordData r)
             {
-                var fmt = this.GetConfigObject().InputFormat;
-
                 var record = this._outputRecordInfo.CreateRecord();
                 this._copier.Copy(record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);
 
                 DateTime dt;
-                bool result = string.IsNullOrWhiteSpace(fmt)
-                    ? DateTime.TryParse(input, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out dt)
-                    : DateTime.TryParseExact(input, fmt, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out dt);
+                bool result = this._exact
+                    ? DateTime.TryParse(input, this._culture, DateTimeStyles.AllowWhiteSpaces, out dt)
+                    : DateTime.TryParseExact(input, this._format, this._culture, DateTimeStyles.AllowWhiteSpaces, out dt);
 
                 if (result)
                 {
