@@ -7,6 +7,7 @@
 
     using JDunkerley.AlteryxAddIns.Framework;
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
+    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
 
     /// <summary>
     /// Simple Date Time Input Control
@@ -16,6 +17,7 @@
     {
         public enum DateToReturn
         {
+            Now,
             Today,
             Yesterday,
             StartOfWeek,
@@ -28,21 +30,25 @@
         public class Config
         {
             /// <summary>
-            /// Return A DateTime Instead Of A Date
+            /// Gets or sets the type of the output.
             /// </summary>
             [Category("Output")]
-            public bool ReturnDateTime { get; set; }
+            [Description("Alteryx Type for the Output Field")]
+            [TypeConverter(typeof(FixedListTypeConverter<OutputType>))]
+            [FieldList(OutputType.Date, OutputType.DateTime, OutputType.Time, OutputType.String)]
+            public OutputType OutputType { get; set; } = OutputType.DateTime;
 
             /// <summary>
-            /// Field Name For Output
+            /// Gets or sets the name of the output field.
             /// </summary>
             [Category("Output")]
-
+            [Description("Field Name To Use For Output Field")]
             public string OutputFieldName { get; set; } = "Date";
 
             /// <summary>
             /// Date To Return
             /// </summary>
+            [Description("Value to Return")]
             public DateToReturn DateToReturn { get; set; } = DateToReturn.Today;
 
             /// <summary>
@@ -68,11 +74,16 @@
             public override bool PI_PushAllRecords(long nRecordLimit)
             {
                 var config = this.GetConfigObject();
-                string fieldName = config?.OutputFieldName ?? "Date";
 
-                var recordInfo =
-                    Utilities.CreateRecordInfo(
-                        new FieldDescription(fieldName, config?.ReturnDateTime ?? false ? FieldType.E_FT_DateTime : FieldType.E_FT_Date));
+                var fieldDescription = config?.OutputType.OutputDescription(config.OutputFieldName, 19);
+                if (fieldDescription == null)
+                {
+                    return false;
+                }
+                fieldDescription.Source = nameof(DateTimeInputTool);
+                fieldDescription.Description = $"{config?.DateToReturn}";
+
+                var recordInfo = Utilities.CreateRecordInfo(fieldDescription);
 
                 this.Output?.Init(recordInfo, nameof(this.Output), null, this.XmlConfig);
                 if (nRecordLimit == 0)
@@ -85,6 +96,9 @@
                 var dateOutput = DateTime.Today;
                 switch (config?.DateToReturn ?? DateToReturn.Today)
                 {
+                    case DateToReturn.Now:
+                        dateOutput = DateTime.Now;
+                        break;
                     case DateToReturn.Yesterday:
                         dateOutput = dateOutput.AddDays(-1);
                         break;
@@ -106,7 +120,7 @@
                 }
 
                 var recordOut = recordInfo.CreateRecord();
-                recordInfo.GetFieldByName(fieldName, false)?.SetFromString(recordOut, dateOutput.ToString("yyyy-MM-dd HH:mm:ss"));
+                recordInfo.GetFieldByName(config.OutputFieldName, false)?.SetFromString(recordOut, dateOutput.ToString(config.OutputType == OutputType.Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
                 this.Output?.PushRecord(recordOut.GetRecord());
                 this.Output?.UpdateProgress(1.0);
                 this.Output?.OutputRecordCount(true);

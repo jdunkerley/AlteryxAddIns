@@ -21,7 +21,7 @@
             [Category("Output")]
             [Description("Alteryx Type for the Output Field")]
             [TypeConverter(typeof(FixedListTypeConverter<OutputType>))]
-            [FieldList(OutputType.Date, OutputType.DateTime, OutputType.String)]
+            [FieldList(OutputType.Date, OutputType.DateTime, OutputType.Time, OutputType.String)]
             public OutputType OutputType { get; set; } = OutputType.DateTime;
 
             /// <summary>
@@ -147,7 +147,7 @@
 
                 if (result)
                 {
-                    this._outputFieldBase.SetFromString(record, dt.ToString("yyyy-MM-dd HH:mm:ss"));
+                    this._outputFieldBase.SetFromString(record, dt.ToString(this._outputFieldBase.FieldType == FieldType.E_FT_Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
                 }
                 else
                 {

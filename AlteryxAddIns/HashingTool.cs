@@ -31,6 +31,8 @@
             /// Specify the name of the  hashed value field in the Output
             /// </summary>
             [Category("Output")]
+
+            [Description("Field Name To Use For Output Field")]
             public string OutputFieldName { get; set; } = "HashValue";
 
             /// <summary>
@@ -38,12 +40,14 @@
             /// </summary>
             [Category("Input")]
             [TypeConverter(typeof(InputFieldTypeConverter))]
+            [Description("The Field On Input Stream To Hash")]
             [InputPropertyName(nameof(Engine.Input), typeof(Engine), FieldType.E_FT_String, FieldType.E_FT_V_String, FieldType.E_FT_V_WString, FieldType.E_FT_WString)]
             public string InputFieldName { get; set; }
 
             /// <summary>
             /// Specify the method used the hash the value
             /// </summary>
+            [Description("The Hashing Algorithm To Use")]
             public HashMethod HashAlgorithm { get; set; }
 
             /// <summary>
@@ -86,12 +90,15 @@
 
             private FieldBase _outputFieldBase;
 
+            private HashAlgorithm _hashAlgorithm;
+
             public Engine()
             {
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
                     progressAction: d => this.Output.UpdateProgress(d),
-                    pushFunc: this.PushFunc);
+                    pushFunc: this.PushFunc,
+                    closedAction: () => this._hashAlgorithm = null);
             }
 
             /// <summary>
@@ -122,6 +129,8 @@
                 this._outputFieldBase = this._outputRecordInfo.GetFieldByName(config.OutputFieldName, false);
                 this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
 
+                this._hashAlgorithm = config.GetAlgorithm();
+
                 return true;
             }
 
@@ -131,16 +140,13 @@
                 this.Input.Copier.Copy(record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);
-                using (var hash = this.GetConfigObject().GetAlgorithm())
+                var bytes = this._hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
+                var sb = new StringBuilder();
+                foreach (var b in bytes)
                 {
-                    var bytes = hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-                    var sb = new StringBuilder();
-                    foreach (var b in bytes)
-                    {
-                        sb.Append(b.ToString("X2"));
-                    }
-                    this._outputFieldBase.SetFromString(record, sb.ToString());
+                    sb.Append(b.ToString("X2"));
                 }
+                this._outputFieldBase.SetFromString(record, sb.ToString());
 
                 this.Output?.PushRecord(record.GetRecord());
                 return true;

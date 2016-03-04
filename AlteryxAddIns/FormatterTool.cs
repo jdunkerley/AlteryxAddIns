@@ -24,7 +24,8 @@ namespace JDunkerley.AlteryxAddins
             /// Specify the name of the  formatted field in the Output
             /// </summary>
             [Category("Output")]
-            public string OutputFieldName { get; set; } = "Formatted";
+            [Description("Field Name To Use For Output Field")]
+            public string OutputFieldName { get; set; } = "FormattedValue";
 
             /// <summary>
             /// Specify the length of the Output field
@@ -37,6 +38,7 @@ namespace JDunkerley.AlteryxAddins
             /// </summary>
             [Category("Format")]
             [TypeConverter(typeof(CultureTypeConverter))]
+            [Description("The Culture Used To Format The Value")]
             public string Culture { get; set; } = CultureTypeConverter.Current;
 
             /// <summary>
@@ -44,13 +46,15 @@ namespace JDunkerley.AlteryxAddins
             /// </summary>
             [Category("Input")]
             [TypeConverter(typeof(InputFieldTypeConverter))]
+            [Description("The Field On Input Stream To Format")]
             [InputPropertyName(nameof(Engine.Input), typeof(Engine), FieldType.E_FT_Bool, FieldType.E_FT_Byte, FieldType.E_FT_Int16, FieldType.E_FT_Int32, FieldType.E_FT_Int64, FieldType.E_FT_Float, FieldType.E_FT_Double, FieldType.E_FT_FixedDecimal, FieldType.E_FT_Date, FieldType.E_FT_DateTime, FieldType.E_FT_Time)]
-            public string InputFieldName { get; set; } = "DateInput";
+            public string InputFieldName { get; set; } = "Value";
 
             /// <summary>
             /// Specify the format to be applied
             /// </summary>
             [Category("Format")]
+            [Description("The Format String To Use (blank to use default)")]
             public string FormatString { get; set; }
 
             /// <summary>
