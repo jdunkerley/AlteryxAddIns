@@ -9,46 +9,60 @@ namespace JDunkerley.AlteryxAddins
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
     using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
 
+    /// <summary>
+    /// Take a value and format as a string
+    /// </summary>
     public class FormatterTool :
         BaseTool<FormatterTool.Config, FormatterTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
+        /// <summary>
+        /// Configuration object for the Formatter Tool
+        /// </summary>
         public class Config
         {
             /// <summary>
-            /// Gets or sets the name of the output field.
+            /// Specify the name of the  formatted field in the Output
             /// </summary>
-            public string OutputFieldName { get; set; } = "Date";
+            [Category("Output")]
+            public string OutputFieldName { get; set; } = "Formatted";
 
             /// <summary>
-            /// Gets or sets the length of the output field.
+            /// Specify the length of the Output field
             /// </summary>
+            [Category("Output")]
             public int OutputFieldLength { get; set; } = 64;
 
             /// <summary>
-            /// Gets or sets the culture.
+            /// Specify the culture to use for formatting the value
             /// </summary>
+            [Category("Format")]
             [TypeConverter(typeof(CultureTypeConverter))]
             public string Culture { get; set; } = CultureTypeConverter.Current;
 
             /// <summary>
-            /// Gets or sets the name of the input field.
+            /// Specify the name of the field to format
             /// </summary>
+            [Category("Input")]
             [TypeConverter(typeof(InputFieldTypeConverter))]
             [InputPropertyName(nameof(Engine.Input), typeof(Engine), FieldType.E_FT_Bool, FieldType.E_FT_Byte, FieldType.E_FT_Int16, FieldType.E_FT_Int32, FieldType.E_FT_Int64, FieldType.E_FT_Float, FieldType.E_FT_Double, FieldType.E_FT_FixedDecimal, FieldType.E_FT_Date, FieldType.E_FT_DateTime, FieldType.E_FT_Time)]
             public string InputFieldName { get; set; } = "DateInput";
 
             /// <summary>
-            /// Gets or sets the input format.
+            /// Specify the format to be applied
             /// </summary>
-            public string OutputFormat { get; set; }
+            [Category("Format")]
+            public string FormatString { get; set; }
 
             /// <summary>
             /// ToString used for annotation
             /// </summary>
             /// <returns></returns>
-            public override string ToString() => $"{this.InputFieldName}=>{this.OutputFieldName}";
+            public override string ToString() => $"{this.InputFieldName}=>{this.OutputFieldName} [{this.FormatString}]";
         }
 
+        /// <summary>
+        /// Formatter Tool Engine
+        /// </summary>
         public class Engine : BaseEngine<Config>
         {
             private RecordCopier _copier;
@@ -83,59 +97,26 @@ namespace JDunkerley.AlteryxAddins
             {
                 var config = this.GetConfigObject();
 
-                var fieldDescription = new FieldDescription(config.OutputFieldName, FieldType.E_FT_V_WString) { Size = config.OutputFieldLength };
-
+                // Get Input Field
                 var inputFieldBase = info.GetFieldByName(config.InputFieldName, false);
                 if (inputFieldBase == null)
                 {
                     return false;
                 }
 
-                var newRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
-
-                this._outputRecordInfo = newRecordInfo;
-                this._outputFieldBase = newRecordInfo.GetFieldByName(config.OutputFieldName, false);
-                this.Output?.Init(newRecordInfo, nameof(this.Output), null, this.XmlConfig);
+                // Create Output Format
+                var fieldDescription = new FieldDescription(config.OutputFieldName, FieldType.E_FT_V_WString) { Size = config.OutputFieldLength };
+                this._outputRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
+                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(config.OutputFieldName, false);
+                this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
 
                 // Create the Copier
-                this._copier = Utilities.CreateCopier(info, newRecordInfo, config.OutputFieldName);
+                this._copier = Utilities.CreateCopier(info, this._outputRecordInfo, config.OutputFieldName);
 
-                var format = config.OutputFormat;
-                var culture = CultureTypeConverter.GetCulture(config.Culture);
+                // Create the Formatter funcxtion
+                this._formatter = this.CreateFormatter(config, inputFieldBase);
 
-                if (string.IsNullOrWhiteSpace(format))
-                {
-                    this._formatter = r => inputFieldBase.GetAsString(r);
-                }
-                else
-                {
-                    switch (inputFieldBase.FieldType)
-                    {
-                        case FieldType.E_FT_Bool:
-                            this._formatter = r => inputFieldBase.GetAsBool(r)?.ToString(culture);
-                            break;
-                        case FieldType.E_FT_Byte:
-                        case FieldType.E_FT_Int16:
-                        case FieldType.E_FT_Int32:
-                        case FieldType.E_FT_Int64:
-                            this._formatter = r => inputFieldBase.GetAsInt64(r)?.ToString(format, culture);
-                            break;
-                        case FieldType.E_FT_Float:
-                        case FieldType.E_FT_Double:
-                        case FieldType.E_FT_FixedDecimal:
-                            this._formatter = r => inputFieldBase.GetAsDouble(r)?.ToString(format, culture);
-                            break;
-                        case FieldType.E_FT_Date:
-                        case FieldType.E_FT_DateTime:
-                            this._formatter = r => inputFieldBase.GetAsString(r).ToDateTime()?.ToString(format, culture);
-                            break;
-                        case FieldType.E_FT_Time:
-                            this._formatter = r => inputFieldBase.GetAsString(r).ToTimeSpan()?.ToString(format, culture);
-                            break;
-                    }
-                }
-
-                return true;
+                return this._formatter != null;
             }
 
             private bool PushFunc(RecordData r)
@@ -156,6 +137,41 @@ namespace JDunkerley.AlteryxAddins
 
                 this.Output?.PushRecord(record.GetRecord());
                 return true;
+            }
+
+            private Func<RecordData, string> CreateFormatter(Config config, FieldBase inputFieldBase)
+            {
+                var format = config.FormatString;
+                var culture = CultureTypeConverter.GetCulture(config.Culture);
+
+                if (string.IsNullOrWhiteSpace(format))
+                {
+                    return inputFieldBase.GetAsString;
+                }
+                else
+                {
+                    switch (inputFieldBase.FieldType)
+                    {
+                        case FieldType.E_FT_Bool:
+                            return r => inputFieldBase.GetAsBool(r)?.ToString(culture);
+                        case FieldType.E_FT_Byte:
+                        case FieldType.E_FT_Int16:
+                        case FieldType.E_FT_Int32:
+                        case FieldType.E_FT_Int64:
+                            return r => inputFieldBase.GetAsInt64(r)?.ToString(format, culture);
+                        case FieldType.E_FT_Float:
+                        case FieldType.E_FT_Double:
+                        case FieldType.E_FT_FixedDecimal:
+                            return r => inputFieldBase.GetAsDouble(r)?.ToString(format, culture);
+                        case FieldType.E_FT_Date:
+                        case FieldType.E_FT_DateTime:
+                            return r => inputFieldBase.GetAsString(r).ToDateTime()?.ToString(format, culture);
+                        case FieldType.E_FT_Time:
+                            return r => inputFieldBase.GetAsString(r).ToTimeSpan()?.ToString(format, culture);
+                    }
+                }
+
+                return null;
             }
         }
     }

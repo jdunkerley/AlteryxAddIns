@@ -1,7 +1,6 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework.Attributes
 {
     using System;
-    using System.Xml;
 
     /// <summary>
     /// Specifies associated input field for configs

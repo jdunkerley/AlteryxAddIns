@@ -7,6 +7,9 @@
     using JDunkerley.AlteryxAddIns.Framework;
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
 
+    /// <summary>
+    /// Pass through the Input flow if no data received on Breaker
+    /// </summary>
     public class CircuitBreakerTool
         : BaseTool<CircuitBreakerTool.Config, CircuitBreakerTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {

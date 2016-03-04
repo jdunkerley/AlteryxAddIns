@@ -6,7 +6,7 @@
     using System.Globalization;
     using System.Linq;
 
-    public class CultureTypeConverter : TypeConverter
+    public class CultureTypeConverter : StringConverter
     {
         public const string Current = "Current";
 
@@ -32,16 +32,6 @@
                 return CultureInfo.InvariantCulture;
             }
             return CultureInfo.GetCultures(CultureTypes.AllCultures).First(c => c.DisplayName == name);
-        }
-
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
-        }
-
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-        {
-            return value as string ?? base.ConvertFrom(context, culture, value);
         }
     }
 }

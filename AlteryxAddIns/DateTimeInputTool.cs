@@ -1,7 +1,7 @@
 ﻿namespace JDunkerley.AlteryxAddins
 {
     using System;
-
+    using System.ComponentModel;
 
     using AlteryxRecordInfoNet;
 
@@ -30,11 +30,14 @@
             /// <summary>
             /// Return A DateTime Instead Of A Date
             /// </summary>
+            [Category("Output")]
             public bool ReturnDateTime { get; set; }
 
             /// <summary>
             /// Field Name For Output
             /// </summary>
+            [Category("Output")]
+
             public string OutputFieldName { get; set; } = "Date";
 
             /// <summary>

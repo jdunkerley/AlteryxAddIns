@@ -6,8 +6,6 @@
 
     using AlteryxGuiToolkit.Plugins;
 
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
-
     /// <summary>
     /// Simple Property Grid Based Configuration Panel
     /// </summary>
@@ -40,7 +38,7 @@
             this.Margin = new Padding(4);
             this.Size = new System.Drawing.Size(520, 530);
 
-            this._propertyGrid = new PropertyGrid { Dock = DockStyle.Fill };
+            this._propertyGrid = new PropertyGrid { Dock = DockStyle.Fill, PropertySort = PropertySort.CategorizedAlphabetical };
             this.Controls.Add(this._propertyGrid);
 
             this.ParentChanged += this.OnParentChanged;

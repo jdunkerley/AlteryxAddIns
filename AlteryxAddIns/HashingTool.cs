@@ -13,6 +13,7 @@
 
     public class HashingTool : BaseTool<HashingTool.Config, HashingTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
+        // ReSharper disable InconsistentNaming
         public enum HashMethod
         {
             MD5,
@@ -22,23 +23,26 @@
             SHA384,
             SHA512
         }
+        // ReSharper restore InconsistentNaming
 
         public class Config
         {
             /// <summary>
-            /// Gets or sets the name of the output field.
+            /// Specify the name of the  hashed value field in the Output
             /// </summary>
+            [Category("Output")]
             public string OutputFieldName { get; set; } = "HashValue";
 
             /// <summary>
-            /// Gets or sets the name of the input field.
+            /// Specify the name of the field to hash
             /// </summary>
+            [Category("Input")]
             [TypeConverter(typeof(InputFieldTypeConverter))]
             [InputPropertyName(nameof(Engine.Input), typeof(Engine), FieldType.E_FT_String, FieldType.E_FT_V_String, FieldType.E_FT_V_WString, FieldType.E_FT_WString)]
             public string InputFieldName { get; set; }
 
             /// <summary>
-            /// Gets or sets the hash algorithm.
+            /// Specify the method used the hash the value
             /// </summary>
             public HashMethod HashAlgorithm { get; set; }
 
@@ -46,13 +50,13 @@
             /// ToString used for annotation
             /// </summary>
             /// <returns></returns>
-            public override string ToString() => $"{this.InputFieldName}=>{this.OutputFieldName}";
+            public override string ToString() => $"{this.InputFieldName}=>{this.HashAlgorithm}({this.OutputFieldName})";
 
             /// <summary>
             /// Get Algorithm
             /// </summary>
             /// <returns></returns>
-            public System.Security.Cryptography.HashAlgorithm GetAlgorithm()
+            public HashAlgorithm GetAlgorithm()
             {
                 switch (this.HashAlgorithm)
                 {

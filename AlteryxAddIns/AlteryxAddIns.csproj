@@ -92,7 +92,9 @@
   <ItemGroup>
     <EmbeddedResource Include="HashingTool.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="FormatterTool.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlteryxAddIns.Framework\AlteryxAddIns.Framework.csproj">
       <Project>{c2813972-ba56-42fe-b3f3-25da51733946}</Project>
