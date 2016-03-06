@@ -18,7 +18,7 @@ There is also an `Uninstall.bat` which will remove this file.
 
 ## Current Toolset
 
-![logo](https://github.com/jdunkerley/AlteryxAddIns/blob/master/AlteryxAddIns/DateTimeInput.png)
+<img src-="ttps://github.com/jdunkerley/AlteryxAddIns/blob/master/AlteryxAddIns/DateTimeInput.png" width="75" align="right" >
 ###  Date Time Input
 A slightly expanded version of the Date Time Now tool. It will create a date field equal to one of the following values:
 * Today
