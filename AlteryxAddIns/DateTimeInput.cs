@@ -81,7 +81,7 @@
                     return false;
                 }
                 fieldDescription.Source = nameof(DateTimeInput);
-                fieldDescription.Description = $"{config?.DateToReturn}";
+                fieldDescription.Description = $"{config.DateToReturn}";
 
                 var recordInfo = Utilities.CreateRecordInfo(fieldDescription);
 
@@ -94,7 +94,7 @@
                 }
 
                 var dateOutput = DateTime.Today;
-                switch (config?.DateToReturn ?? DateToReturn.Today)
+                switch (config.DateToReturn)
                 {
                     case DateToReturn.Now:
                         dateOutput = DateTime.Now;

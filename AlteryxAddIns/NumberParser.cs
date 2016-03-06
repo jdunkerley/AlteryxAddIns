@@ -96,7 +96,7 @@
                     return false;
                 }
                 fieldDescription.Source = nameof(DateTimeParser);
-                fieldDescription.Description = $"{config?.InputFieldName} parsed as a number";
+                fieldDescription.Description = $"{config.InputFieldName} parsed as a number";
 
 
                 this._inputFieldBase = info.GetFieldByName(config.InputFieldName, false);
