@@ -47,7 +47,7 @@
             /// Gets or sets the distribution.
             /// </summary>
             [Description("Distribution For Random Number")]
-            public Distribution Distribution { get; set; } = RandomNumber.Distribution.Uniform;
+            public Distribution Distribution { get; set; } = Distribution.Uniform;
 
             /// <summary>
             /// Gets or sets the minimum boundary.
@@ -80,7 +80,7 @@
             public override string ToString() => $"{this.OutputFieldName}=Rand[{this.Minimum}, {this.Maximum}]";
         }
 
-        public class Engine : BaseEngine<RandomNumber.Config>
+        public class Engine : BaseEngine<Config>
         {
             private Func<double> _nextValue;
 
@@ -138,7 +138,7 @@
                         break;
                 }
 
-                var fieldDescription = config?.OutputType.OutputDescription(config.OutputFieldName, 19);
+                var fieldDescription = config.OutputType.OutputDescription(config.OutputFieldName, 19);
                 if (fieldDescription == null)
                 {
                     return false;

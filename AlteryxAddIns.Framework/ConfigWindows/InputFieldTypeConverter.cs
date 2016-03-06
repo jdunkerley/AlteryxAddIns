@@ -1,6 +1,5 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework.ConfigWindows
 {
-    using System;
     using System.ComponentModel;
 
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
