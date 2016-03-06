@@ -74,7 +74,7 @@
         /// GUI Designer
         /// </summary>
         /// <returns></returns>
-        public IPluginConfiguration GetConfigurationGui() => new PropertyGridGui<TConfig>();
+        public virtual IPluginConfiguration GetConfigurationGui() => new PropertyGridGui<TConfig>();
 
         /// <summary>
         /// Engine Entry Point
