@@ -21,6 +21,7 @@ There is also an `Uninstall.bat` which will remove this file.
 ### Date Time Input
 A slightly expanded version of the Date Time Now tool. It will create a date field equal to one of the following values:
 * Today
+* Now
 * Yesterday
 * StartOfWeek
 * StartOfMonth
@@ -44,3 +45,6 @@ This tool can be used to convert from a numerical or date or time field to a str
 
 ### Hash Code Generator
 This exposes the .Net System.Security.Cryptography HashAlgorithms to Alteryx. It takes and input string and computes the hash value. It support MD5, RIPEMD160, SHA1, SHA256, SHA384 and SHA512.
+
+### Random Number
+This generates a random number based of a sepcified distribution (currently Linear, Normal and LogNormal). Based of the Math.Net Numerics package. Can be seeded to allow the same sequence each time.
