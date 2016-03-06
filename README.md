@@ -18,7 +18,8 @@ There is also an `Uninstall.bat` which will remove this file.
 
 ## Current Toolset
 
-### Date Time Input
+![logo](https://github.com/jdunkerley/AlteryxAddIns/blob/master/AlteryxAddIns/DateTimeInput.png)
+###  Date Time Input
 A slightly expanded version of the Date Time Now tool. It will create a date field equal to one of the following values:
 * Today
 * Now
@@ -29,6 +30,7 @@ A slightly expanded version of the Date Time Now tool. It will create a date fie
 * PreviousMonthEnd
 * PreviousYearEnd
 
+![logo](https://github.com/jdunkerley/AlteryxAddIns/blob/master/AlteryxAddIns/CircuitBreaker.png)
 ### Circuit Breaker
 This is an expanded version of the the Test tool. The idea here is that the input data (I) is only passed onto the rest of the workflow if there is no data received in the breaker input (B). 
 
