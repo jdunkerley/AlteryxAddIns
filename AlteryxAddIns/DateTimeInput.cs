@@ -12,8 +12,8 @@
     /// <summary>
     /// Simple Date Time Input Control
     /// </summary>
-    public class DateTimeInputTool :
-        BaseTool<DateTimeInputTool.Config, DateTimeInputTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
+    public class DateTimeInput :
+        BaseTool<DateTimeInput.Config, DateTimeInput.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
         public enum DateToReturn
         {
@@ -80,7 +80,7 @@
                 {
                     return false;
                 }
-                fieldDescription.Source = nameof(DateTimeInputTool);
+                fieldDescription.Source = nameof(DateTimeInput);
                 fieldDescription.Description = $"{config?.DateToReturn}";
 
                 var recordInfo = Utilities.CreateRecordInfo(fieldDescription);

@@ -12,8 +12,8 @@ namespace JDunkerley.AlteryxAddins
     /// <summary>
     /// Take a value and format as a string
     /// </summary>
-    public class FormatterTool :
-        BaseTool<FormatterTool.Config, FormatterTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
+    public class StringFormatter :
+        BaseTool<StringFormatter.Config, StringFormatter.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
         /// <summary>
         /// Configuration object for the Formatter Tool

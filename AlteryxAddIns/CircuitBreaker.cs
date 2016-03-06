@@ -10,8 +10,8 @@
     /// <summary>
     /// Pass through the Input flow if no data received on Breaker
     /// </summary>
-    public class CircuitBreakerTool
-        : BaseTool<CircuitBreakerTool.Config, CircuitBreakerTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
+    public class CircuitBreaker
+        : BaseTool<CircuitBreaker.Config, CircuitBreaker.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
         /// <summary>
         /// Configuration Class

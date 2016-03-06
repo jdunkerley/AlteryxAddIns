@@ -1,6 +1,5 @@
 ﻿namespace JDunkerley.AlteryxAddins
 {
-    using System;
     using System.ComponentModel;
     using System.Globalization;
 
@@ -10,8 +9,8 @@
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
     using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
 
-    public class DateTimeParserTool :
-        BaseTool<DateTimeParserTool.Config, DateTimeParserTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
+    public class NumberParser :
+        BaseTool<NumberParser.Config, NumberParser.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
         public class Config
         {
@@ -21,15 +20,15 @@
             [Category("Output")]
             [Description("Alteryx Type for the Output Field")]
             [TypeConverter(typeof(FixedListTypeConverter<OutputType>))]
-            [FieldList(OutputType.Date, OutputType.DateTime, OutputType.Time, OutputType.String)]
-            public OutputType OutputType { get; set; } = OutputType.DateTime;
+            [FieldList(OutputType.Byte, OutputType.Int16, OutputType.Int32, OutputType.Int64, OutputType.Float, OutputType.Double)]
+            public OutputType OutputType { get; set; } = OutputType.Double;
 
             /// <summary>
             /// Gets or sets the name of the output field.
             /// </summary>
             [Category("Output")]
             [Description("Field Name To Use For Output Field")]
-            public string OutputFieldName { get; set; } = "Date";
+            public string OutputFieldName { get; set; } = "Value";
 
             /// <summary>
             /// Gets or sets the culture.
@@ -45,24 +44,17 @@
             [Category("Input")]
             [Description("The Field On Input Stream To Parse")]
             [TypeConverter(typeof(InputFieldTypeConverter))]
-            [InputPropertyName(nameof(Engine.Input), typeof(Engine), FieldType.E_FT_String, FieldType.E_FT_V_String, FieldType.E_FT_V_WString, FieldType.E_FT_WString)]
-            public string InputFieldName { get; set; } = "DateInput";
-
-            /// <summary>
-            /// Gets or sets the input format.
-            /// </summary>
-            [Category("Format")]
-            [Description("The Format Expected To Parse (blank to use general formats)")]
-            public string FormatString { get; set; }
+            [InputPropertyName(nameof(DateTimeParser.Engine.Input), typeof(DateTimeParser.Engine), FieldType.E_FT_String, FieldType.E_FT_V_String, FieldType.E_FT_V_WString, FieldType.E_FT_WString)]
+            public string InputFieldName { get; set; } = "ValueInput";
 
             /// <summary>
             /// ToString used for annotation
             /// </summary>
             /// <returns></returns>
-            public override string ToString() => $"{this.InputFieldName} ({this.FormatString}) ⇒ {this.OutputFieldName}";
+            public override string ToString() => $"{this.InputFieldName} ⇒ {this.OutputFieldName}";
         }
 
-        public class Engine : BaseEngine<Config>
+        public class Engine : BaseEngine<DateTimeParser.Config>
         {
             private FieldBase _inputFieldBase;
 
@@ -71,10 +63,6 @@
             private RecordInfo _outputRecordInfo;
 
             private FieldBase _outputFieldBase;
-
-            private string _format;
-
-            private bool _exact;
 
             private CultureInfo _culture;
 
@@ -107,8 +95,8 @@
                 {
                     return false;
                 }
-                fieldDescription.Source = nameof(DateTimeParserTool);
-                fieldDescription.Description = $"{config?.InputFieldName} parsed as a DateTime";
+                fieldDescription.Source = nameof(DateTimeParser);
+                fieldDescription.Description = $"{config?.InputFieldName} parsed as a number";
 
 
                 this._inputFieldBase = info.GetFieldByName(config.InputFieldName, false);
@@ -126,8 +114,6 @@
                 // Create the Copier
                 this._copier = Utilities.CreateCopier(info, newRecordInfo, config.OutputFieldName);
 
-                this._format = config.FormatString;
-                this._exact = string.IsNullOrWhiteSpace(this._format);
                 this._culture = CultureTypeConverter.GetCulture(config.Culture);
 
                 return true;
@@ -140,14 +126,12 @@
 
                 string input = this._inputFieldBase.GetAsString(r);
 
-                DateTime dt;
-                bool result = this._exact
-                    ? DateTime.TryParse(input, this._culture, DateTimeStyles.AllowWhiteSpaces, out dt)
-                    : DateTime.TryParseExact(input, this._format, this._culture, DateTimeStyles.AllowWhiteSpaces, out dt);
+                double value;
+                bool result = double.TryParse(input, NumberStyles.Any, this._culture, out value);
 
                 if (result)
                 {
-                    this._outputFieldBase.SetFromString(record, dt.ToString(this._outputFieldBase.FieldType == FieldType.E_FT_Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
+                    this._outputFieldBase.SetFromDouble(record, value);
                 }
                 else
                 {

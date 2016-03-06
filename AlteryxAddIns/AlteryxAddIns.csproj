@@ -53,12 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DateTimeParserTool.cs" />
-    <Compile Include="CircuitBreakerTool.cs" />
-    <Compile Include="DateTimeInputTool.cs" />
-    <Compile Include="FormatterTool.cs" />
-    <Compile Include="HashingTool.cs" />
-    <Compile Include="NumericParserTool.cs" />
+    <Compile Include="DateTimeParser.cs" />
+    <Compile Include="CircuitBreaker.cs" />
+    <Compile Include="DateTimeInput.cs" />
+    <Compile Include="StringFormatter.cs" />
+    <Compile Include="HashCodeGenerator.cs" />
+    <Compile Include="NumberParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -74,10 +74,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DateTimeInputTool.png" />
+    <EmbeddedResource Include="DateTimeInput.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CircuitBreakerTool.png" />
+    <EmbeddedResource Include="CircuitBreaker.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Install.bat">
@@ -88,13 +88,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DateTimeParserTool.png" />
+    <EmbeddedResource Include="DateTimeParser.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="HashingTool.png" />
+    <EmbeddedResource Include="HashCodeGenerator.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FormatterTool.png" />
+    <EmbeddedResource Include="StringFormatter.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlteryxAddIns.Framework\AlteryxAddIns.Framework.csproj">
@@ -103,7 +103,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="NumericParserTool.png" />
+    <EmbeddedResource Include="NumberParser.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

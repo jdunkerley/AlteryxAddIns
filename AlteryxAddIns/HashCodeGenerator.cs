@@ -11,7 +11,7 @@
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
     using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
 
-    public class HashingTool : BaseTool<HashingTool.Config, HashingTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
+    public class HashCodeGenerator : BaseTool<HashCodeGenerator.Config, HashCodeGenerator.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
         // ReSharper disable InconsistentNaming
         public enum HashMethod
