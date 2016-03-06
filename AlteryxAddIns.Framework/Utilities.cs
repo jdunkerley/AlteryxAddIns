@@ -15,6 +15,41 @@
     public static class Utilities
     {
         /// <summary>
+        /// Parse Text to DateTime
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
+        public static DateTime? ToDateTime(this string text)
+        {
+            DateTime output;
+            if (!DateTime.TryParse(text, out output))
+            {
+                return null;
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Parse Text to DateTime
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
+        public static TimeSpan? ToTimeSpan(this string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return null;
+            }
+
+            DateTime output;
+            if (!DateTime.TryParse($"1900-01-01 {text}", out output))
+            {
+                return null;
+            }
+            return output.TimeOfDay;
+        }
+
+        /// <summary>
         /// Gets the incoming connections.
         /// </summary>
         /// <param name="type">The type.</param>
@@ -126,7 +161,7 @@
             params FieldDescription[] fields)
         {
             return CreateRecordInfo(null, fields);
-   ;     }
+        }
             public static RecordInfo CreateRecordInfo(
             RecordInfo inputRecordInfo,
             params FieldDescription[] fields)
@@ -159,6 +194,47 @@
             }
 
             return output;
+        }
+
+        /// <summary>
+        /// Create a FieldDescription Object
+        /// </summary>
+        /// <returns></returns>
+        public static FieldDescription OutputDescription(this OutputType outputType, string fieldName, int size)
+        {
+            switch (outputType)
+            {
+                case OutputType.Bool:
+                    return new FieldDescription(fieldName, FieldType.E_FT_Bool);
+                case OutputType.Byte:
+                    return new FieldDescription(fieldName, FieldType.E_FT_Byte);
+                case OutputType.Int16:
+                    return new FieldDescription(fieldName, FieldType.E_FT_Int16);
+                case OutputType.Int32:
+                    return new FieldDescription(fieldName, FieldType.E_FT_Int32);
+                case OutputType.Int64:
+                    return new FieldDescription(fieldName, FieldType.E_FT_Int64);
+                case OutputType.Float:
+                    return new FieldDescription(fieldName, FieldType.E_FT_Float);
+                case OutputType.Double:
+                    return new FieldDescription(fieldName, FieldType.E_FT_Double);
+                case OutputType.Date:
+                    return new FieldDescription(fieldName, FieldType.E_FT_Date);
+                case OutputType.DateTime:
+                    return new FieldDescription(fieldName, FieldType.E_FT_DateTime);
+                case OutputType.Time:
+                    return new FieldDescription(fieldName, FieldType.E_FT_Time);
+                case OutputType.String:
+                    return new FieldDescription(fieldName, FieldType.E_FT_String) { Size = size };
+                case OutputType.VString:
+                    return new FieldDescription(fieldName, FieldType.E_FT_V_String) { Size = size };
+                case OutputType.WString:
+                    return new FieldDescription(fieldName, FieldType.E_FT_WString) { Size = size };
+                case OutputType.VWString:
+                    return new FieldDescription(fieldName, FieldType.E_FT_V_WString) { Size = size };
+            }
+
+            return null;
         }
     }
 }

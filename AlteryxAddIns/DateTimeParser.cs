@@ -10,31 +10,40 @@
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
     using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
 
-    public class DateTimeParserTool :
-        BaseTool<DateTimeParserTool.Config, DateTimeParserTool.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
+    public class DateTimeParser :
+        BaseTool<DateTimeParser.Config, DateTimeParser.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
-        public enum OutputType
-        {
-            Date,
-            DateTime,
-            String
-        }
-
         public class Config
         {
             /// <summary>
             /// Gets or sets the type of the output.
             /// </summary>
-            public OutputType OutputType { get; set; }
+            [Category("Output")]
+            [Description("Alteryx Type for the Output Field")]
+            [TypeConverter(typeof(FixedListTypeConverter<OutputType>))]
+            [FieldList(OutputType.Date, OutputType.DateTime, OutputType.Time, OutputType.String)]
+            public OutputType OutputType { get; set; } = OutputType.DateTime;
 
             /// <summary>
             /// Gets or sets the name of the output field.
             /// </summary>
+            [Category("Output")]
+            [Description("Field Name To Use For Output Field")]
             public string OutputFieldName { get; set; } = "Date";
+
+            /// <summary>
+            /// Gets or sets the culture.
+            /// </summary>
+            [TypeConverter(typeof(CultureTypeConverter))]
+            [Category("Format")]
+            [Description("The Culture Used To Parse The Text Value")]
+            public string Culture { get; set; } = CultureTypeConverter.Current;
 
             /// <summary>
             /// Gets or sets the name of the input field.
             /// </summary>
+            [Category("Input")]
+            [Description("The Field On Input Stream To Parse")]
             [TypeConverter(typeof(InputFieldTypeConverter))]
             [InputPropertyName(nameof(Engine.Input), typeof(Engine), FieldType.E_FT_String, FieldType.E_FT_V_String, FieldType.E_FT_V_WString, FieldType.E_FT_WString)]
             public string InputFieldName { get; set; } = "DateInput";
@@ -42,38 +51,15 @@
             /// <summary>
             /// Gets or sets the input format.
             /// </summary>
-            public string InputFormat { get; set; }
+            [Category("Format")]
+            [Description("The Format Expected To Parse (blank to use general formats)")]
+            public string FormatString { get; set; }
 
             /// <summary>
             /// ToString used for annotation
             /// </summary>
             /// <returns></returns>
-            public override string ToString() => $"{this.InputFieldName}=>{this.OutputFieldName}";
-
-            /// <summary>
-            /// Create a FieldDescription Object
-            /// </summary>
-            /// <returns></returns>
-            public FieldDescription OutputDescription()
-            {
-                switch (this.OutputType)
-                {
-                    case OutputType.Date:
-                        return new FieldDescription(this.OutputFieldName, FieldType.E_FT_Date);
-                    case OutputType.DateTime:
-                        return new FieldDescription(this.OutputFieldName, FieldType.E_FT_DateTime);
-                    case OutputType.String:
-                        return new FieldDescription(this.OutputFieldName, FieldType.E_FT_String)
-                                   {
-                                       Size = 19,
-                                       Source = nameof(DateTimeParserTool),
-                                       Description = $"{this.InputFieldName} parsed as a DateTime"
-                                   };
-                }
-
-                return null;
-            }
-
+            public override string ToString() => $"{this.InputFieldName} ({this.FormatString}) ⇒ {this.OutputFieldName}";
         }
 
         public class Engine : BaseEngine<Config>
@@ -85,6 +71,12 @@
             private RecordInfo _outputRecordInfo;
 
             private FieldBase _outputFieldBase;
+
+            private string _format;
+
+            private bool _exact;
+
+            private CultureInfo _culture;
 
             public Engine()
             {
@@ -109,11 +101,15 @@
             private bool InitFunc(RecordInfo info)
             {
                 var config = this.GetConfigObject();
-                var fieldDescription = config.OutputDescription();
+
+                var fieldDescription = config?.OutputType.OutputDescription(config.OutputFieldName, 19);
                 if (fieldDescription == null)
                 {
                     return false;
                 }
+                fieldDescription.Source = nameof(DateTimeParser);
+                fieldDescription.Description = $"{config?.InputFieldName} parsed as a DateTime";
+
 
                 this._inputFieldBase = info.GetFieldByName(config.InputFieldName, false);
                 if (this._inputFieldBase == null)
@@ -130,26 +126,28 @@
                 // Create the Copier
                 this._copier = Utilities.CreateCopier(info, newRecordInfo, config.OutputFieldName);
 
+                this._format = config.FormatString;
+                this._exact = string.IsNullOrWhiteSpace(this._format);
+                this._culture = CultureTypeConverter.GetCulture(config.Culture);
+
                 return true;
             }
 
             private bool PushFunc(RecordData r)
             {
-                var fmt = this.GetConfigObject().InputFormat;
-
                 var record = this._outputRecordInfo.CreateRecord();
                 this._copier.Copy(record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);
 
                 DateTime dt;
-                bool result = string.IsNullOrWhiteSpace(fmt)
-                    ? DateTime.TryParse(input, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out dt)
-                    : DateTime.TryParseExact(input, fmt, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out dt);
+                bool result = this._exact
+                    ? DateTime.TryParse(input, this._culture, DateTimeStyles.AllowWhiteSpaces, out dt)
+                    : DateTime.TryParseExact(input, this._format, this._culture, DateTimeStyles.AllowWhiteSpaces, out dt);
 
                 if (result)
                 {
-                    this._outputFieldBase.SetFromString(record, dt.ToString("yyyy-MM-dd HH:mm:ss"));
+                    this._outputFieldBase.SetFromString(record, dt.ToString(this._outputFieldBase.FieldType == FieldType.E_FT_Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
                 }
                 else
                 {

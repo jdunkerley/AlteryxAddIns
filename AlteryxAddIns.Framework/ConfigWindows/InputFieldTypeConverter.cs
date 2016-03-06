@@ -5,12 +5,9 @@
 
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
 
-    public class InputFieldTypeConverter : TypeConverter
+    public class InputFieldTypeConverter : StringConverter
     {
-        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-        {
-            return true;
-        }
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
@@ -27,21 +24,6 @@
 
             var names = Statics.GetFieldList(attrib.EngineType, attrib.FieldName, attrib.FieldTypes);
             return new StandardValuesCollection(names);
-        }
-
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            if (sourceType == typeof(string))
-            {
-                return true;
-            }
-
-            return base.CanConvertFrom(context, sourceType);
-        }
-
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-        {
-            return value as string ?? base.ConvertFrom(context, culture, value);
         }
     }
 }
