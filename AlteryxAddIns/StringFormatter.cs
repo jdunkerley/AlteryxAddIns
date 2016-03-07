@@ -82,7 +82,8 @@ namespace JDunkerley.AlteryxAddins
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
                     progressAction: d => this.Output.UpdateProgress(d),
-                    pushFunc: this.PushFunc);
+                    pushFunc: this.PushFunc,
+                    closedAction: () => this.Output?.Close());
             }
 
             /// <summary>

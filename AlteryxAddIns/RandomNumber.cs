@@ -94,7 +94,11 @@
                     initFunc: this.InitFunc,
                     progressAction: d => this.Output.UpdateProgress(d),
                     pushFunc: this.PushFunc,
-                    closedAction: () => this._nextValue = null);
+                    closedAction: () =>
+                        {
+                            this.Output?.Close();
+                            this._nextValue = null;
+                        });
             }
 
             /// <summary>
@@ -118,21 +122,23 @@
                 switch (config.Distribution)
                 {
                     case Distribution.Normal:
-                        this._nextValue =
-                            () =>
-                            MathNet.Numerics.Distributions.Normal.InvCDF(
+                        {
+                            var normal = new MathNet.Numerics.Distributions.Normal(
                                 config.Average,
                                 config.StandardDeviation,
-                                random.NextDouble());
-                        break;
+                                random);
+                            this._nextValue = () => normal.Sample();
+                            break;
+                        }
                     case Distribution.LogNormal:
-                        this._nextValue =
-                            () =>
-                            MathNet.Numerics.Distributions.LogNormal.InvCDF(
+                        {
+                            var logNormal = new MathNet.Numerics.Distributions.LogNormal(
                                 config.Average,
                                 config.StandardDeviation,
-                                random.NextDouble());
-                        break;
+                                random);
+                            this._nextValue = () => logNormal.Sample();
+                            break;
+                        }
                     default:
                         this._nextValue = () => random.NextDouble() * (config.Maximum - config.Minimum) + config.Minimum;
                         break;
@@ -158,7 +164,8 @@
                 var record = this._outputRecordInfo.CreateRecord();
                 this.Input.Copier.Copy(record, r);
 
-                this._outputFieldBase.SetFromDouble(record, this._nextValue());
+                double val = this._nextValue();
+                this._outputFieldBase.SetFromDouble(record, val);
 
                 this.Output?.PushRecord(record.GetRecord());
                 return true;

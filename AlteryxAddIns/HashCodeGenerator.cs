@@ -98,7 +98,11 @@
                     initFunc: this.InitFunc,
                     progressAction: d => this.Output.UpdateProgress(d),
                     pushFunc: this.PushFunc,
-                    closedAction: () => this._hashAlgorithm = null);
+                    closedAction: () =>
+                        {
+                            this._hashAlgorithm = null;
+                            this.Output?.Close();
+                        });
             }
 
             /// <summary>

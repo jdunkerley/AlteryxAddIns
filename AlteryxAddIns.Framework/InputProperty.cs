@@ -83,7 +83,7 @@
             this.State = ConnectionState.Added;
             var sortFields = this.IncomingConnectionSort(pXmlProperties);
             var selectFields = this.IncomingConnectionFields(pXmlProperties);
-                
+
             // ToDo: Render Xml Output
             return null;
 
