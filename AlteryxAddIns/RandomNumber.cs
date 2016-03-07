@@ -179,7 +179,7 @@
                     return false;
                 }
                 fieldDescription.Source = nameof(RandomNumber);
-                fieldDescription.Description = $"Random Number between {config.Minimum} and {config.Maximum}";
+                fieldDescription.Description = $"Random Number {config.ToString().Replace($"{config.OutputFieldName}=", "")}";
 
                 this._outputRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
                 this._outputFieldBase = this._outputRecordInfo.GetFieldByName(config.OutputFieldName, false);

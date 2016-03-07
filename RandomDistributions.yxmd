@@ -3,7 +3,7 @@
   <Nodes>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
-        <Position x="30" y="78" />
+        <Position x="54" y="102" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -27,7 +27,7 @@
     </Node>
     <Node ToolID="3">
       <GuiSettings Plugin="AlteryxBasePluginsGui.GenerateRows.GenerateRows">
-        <Position x="126" y="78" />
+        <Position x="150" y="102" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -50,7 +50,7 @@
     </Node>
     <Node ToolID="25">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="269" y="34" width="733" height="160" />
+        <Position x="293" y="58" width="805" height="160" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -68,11 +68,11 @@
       <ChildNodes>
         <Node ToolID="13">
           <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-            <Position x="918" y="78" />
+            <Position x="1014" y="102" />
           </GuiSettings>
           <Properties>
             <Configuration>
-              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5496_5dfee4e6b8ef401a94560011887b622b_\Engine_5496_dabf43f809e04e34a81b945cb757b87f_.yxdb</TempFile>
+              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_17920_a10c55f6d4eb471ca0c5cbd60b5e82ec_\Engine_17920_d87a121bab18453ab91190ca2a66fa42_.yxdb</TempFile>
               <Layout>
                 <ViewMode>Single</ViewMode>
                 <ViewSize value="100" />
@@ -95,7 +95,7 @@
         </Node>
         <Node ToolID="15">
           <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
-            <Position x="534" y="78" />
+            <Position x="630" y="102" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -114,7 +114,7 @@
         </Node>
         <Node ToolID="20">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
-            <Position x="294" y="78" />
+            <Position x="318" y="102" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -137,7 +137,7 @@
         </Node>
         <Node ToolID="21">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
-            <Position x="414" y="78" />
+            <Position x="438" y="102" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -157,7 +157,7 @@
         </Node>
         <Node ToolID="22">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
-            <Position x="618" y="78" />
+            <Position x="726" y="102" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -176,7 +176,7 @@
         </Node>
         <Node ToolID="23">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
-            <Position x="726" y="78" />
+            <Position x="822" y="102" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -194,7 +194,7 @@
         </Node>
         <Node ToolID="24">
           <GuiSettings Plugin="AlteryxReportChartGui.AlteryxReportChartGui">
-            <Position x="834" y="78" />
+            <Position x="918" y="102" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -228,11 +228,30 @@
           </Properties>
           <EngineSettings EngineDll="AlteryxReportChart.dll" EngineDllEntryPoint="AlteryxReportChartPlugin" />
         </Node>
+        <Node ToolID="50">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="534" y="102" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <SelectFields>
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
       </ChildNodes>
     </Node>
     <Node ToolID="33">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="269" y="201.9999" width="733" height="160.0001" />
+        <Position x="293" y="226" width="805" height="160" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -250,11 +269,11 @@
       <ChildNodes>
         <Node ToolID="26">
           <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-            <Position x="918" y="246" />
+            <Position x="1014" y="270" />
           </GuiSettings>
           <Properties>
             <Configuration>
-              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5496_5dfee4e6b8ef401a94560011887b622b_\Engine_5496_3e7310650aa74f98ad6fd63cf4b29888_.yxdb</TempFile>
+              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_17920_a10c55f6d4eb471ca0c5cbd60b5e82ec_\Engine_17920_a6bc5a6a683a4fa28d4988f174168b89_.yxdb</TempFile>
               <Layout>
                 <ViewMode>Single</ViewMode>
                 <ViewSize value="100" />
@@ -277,7 +296,7 @@
         </Node>
         <Node ToolID="27">
           <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
-            <Position x="534" y="246" />
+            <Position x="630" y="270" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -296,7 +315,7 @@
         </Node>
         <Node ToolID="28">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
-            <Position x="294" y="245.9999" />
+            <Position x="318" y="270" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -319,7 +338,7 @@
         </Node>
         <Node ToolID="29">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
-            <Position x="414" y="246" />
+            <Position x="438" y="270" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -339,7 +358,7 @@
         </Node>
         <Node ToolID="30">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
-            <Position x="618" y="246" />
+            <Position x="726" y="270" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -358,7 +377,7 @@
         </Node>
         <Node ToolID="31">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
-            <Position x="726" y="246" />
+            <Position x="822" y="270" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -376,7 +395,7 @@
         </Node>
         <Node ToolID="32">
           <GuiSettings Plugin="AlteryxReportChartGui.AlteryxReportChartGui">
-            <Position x="834" y="246" />
+            <Position x="918" y="270" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -410,11 +429,30 @@
           </Properties>
           <EngineSettings EngineDll="AlteryxReportChart.dll" EngineDllEntryPoint="AlteryxReportChartPlugin" />
         </Node>
+        <Node ToolID="51">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="534" y="270" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <SelectFields>
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
       </ChildNodes>
     </Node>
     <Node ToolID="41">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="269" y="370" width="733" height="160" />
+        <Position x="293" y="394" width="805" height="160" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -432,11 +470,11 @@
       <ChildNodes>
         <Node ToolID="34">
           <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-            <Position x="918" y="414" />
+            <Position x="1014" y="438" />
           </GuiSettings>
           <Properties>
             <Configuration>
-              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5496_5dfee4e6b8ef401a94560011887b622b_\Engine_5496_43146a67971e4435a116a2097fafab55_.yxdb</TempFile>
+              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_17920_a10c55f6d4eb471ca0c5cbd60b5e82ec_\Engine_17920_7aa33d4b83654a8fa33f5601a7231381_.yxdb</TempFile>
               <Layout>
                 <ViewMode>Single</ViewMode>
                 <ViewSize value="100" />
@@ -459,7 +497,7 @@
         </Node>
         <Node ToolID="35">
           <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
-            <Position x="534" y="414" />
+            <Position x="630" y="438" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -478,7 +516,7 @@
         </Node>
         <Node ToolID="36">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
-            <Position x="294" y="414" />
+            <Position x="318" y="438" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -501,7 +539,7 @@
         </Node>
         <Node ToolID="37">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
-            <Position x="414" y="414" />
+            <Position x="438" y="438" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -521,7 +559,7 @@
         </Node>
         <Node ToolID="38">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
-            <Position x="618" y="414" />
+            <Position x="726" y="438" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -540,7 +578,7 @@
         </Node>
         <Node ToolID="39">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
-            <Position x="726" y="414" />
+            <Position x="822" y="438" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -558,7 +596,7 @@
         </Node>
         <Node ToolID="40">
           <GuiSettings Plugin="AlteryxReportChartGui.AlteryxReportChartGui">
-            <Position x="834" y="414" />
+            <Position x="918" y="438" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -592,11 +630,30 @@
           </Properties>
           <EngineSettings EngineDll="AlteryxReportChart.dll" EngineDllEntryPoint="AlteryxReportChartPlugin" />
         </Node>
+        <Node ToolID="52">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="534" y="438" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <SelectFields>
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
       </ChildNodes>
     </Node>
     <Node ToolID="49">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="269" y="538" width="733" height="160" />
+        <Position x="293" y="562" width="805" height="160" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -614,11 +671,11 @@
       <ChildNodes>
         <Node ToolID="42">
           <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-            <Position x="918" y="582" />
+            <Position x="1014" y="606" />
           </GuiSettings>
           <Properties>
             <Configuration>
-              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5496_5dfee4e6b8ef401a94560011887b622b_\Engine_5496_d364e2080a4c42d5a14729f3b3fb18dd_.yxdb</TempFile>
+              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_17920_a10c55f6d4eb471ca0c5cbd60b5e82ec_\Engine_17920_79aff593cb60444db2ffdb70a8e585a7_.yxdb</TempFile>
               <Layout>
                 <ViewMode>Single</ViewMode>
                 <ViewSize value="100" />
@@ -641,7 +698,7 @@
         </Node>
         <Node ToolID="43">
           <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
-            <Position x="534" y="582" />
+            <Position x="630" y="606" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -660,7 +717,7 @@
         </Node>
         <Node ToolID="44">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
-            <Position x="294" y="582" />
+            <Position x="318" y="606" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -683,7 +740,7 @@
         </Node>
         <Node ToolID="45">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
-            <Position x="414" y="582" />
+            <Position x="438" y="606" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -703,7 +760,7 @@
         </Node>
         <Node ToolID="46">
           <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
-            <Position x="618" y="582" />
+            <Position x="726" y="606" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -722,7 +779,7 @@
         </Node>
         <Node ToolID="47">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
-            <Position x="726" y="582" />
+            <Position x="822" y="606" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -740,7 +797,7 @@
         </Node>
         <Node ToolID="48">
           <GuiSettings Plugin="AlteryxReportChartGui.AlteryxReportChartGui">
-            <Position x="834" y="582" />
+            <Position x="918" y="606" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -773,6 +830,25 @@
             </Annotation>
           </Properties>
           <EngineSettings EngineDll="AlteryxReportChart.dll" EngineDllEntryPoint="AlteryxReportChartPlugin" />
+        </Node>
+        <Node ToolID="53">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="534" y="606" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <SelectFields>
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
         </Node>
       </ChildNodes>
     </Node>
@@ -808,7 +884,7 @@
     </Connection>
     <Connection>
       <Origin ToolID="21" Connection="Output" />
-      <Destination ToolID="15" Connection="Input" />
+      <Destination ToolID="50" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="22" Connection="Output" />
@@ -823,6 +899,10 @@
       <Destination ToolID="13" Connection="Input" />
     </Connection>
     <Connection>
+      <Origin ToolID="50" Connection="Output" />
+      <Destination ToolID="15" Connection="Input" />
+    </Connection>
+    <Connection>
       <Origin ToolID="27" Connection="Output" />
       <Destination ToolID="30" Connection="Input" />
     </Connection>
@@ -832,7 +912,7 @@
     </Connection>
     <Connection>
       <Origin ToolID="29" Connection="Output" />
-      <Destination ToolID="27" Connection="Input" />
+      <Destination ToolID="51" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="30" Connection="Output" />
@@ -847,6 +927,10 @@
       <Destination ToolID="26" Connection="Input" />
     </Connection>
     <Connection>
+      <Origin ToolID="51" Connection="Output" />
+      <Destination ToolID="27" Connection="Input" />
+    </Connection>
+    <Connection>
       <Origin ToolID="35" Connection="Output" />
       <Destination ToolID="38" Connection="Input" />
     </Connection>
@@ -856,7 +940,7 @@
     </Connection>
     <Connection>
       <Origin ToolID="37" Connection="Output" />
-      <Destination ToolID="35" Connection="Input" />
+      <Destination ToolID="52" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="38" Connection="Output" />
@@ -871,6 +955,10 @@
       <Destination ToolID="34" Connection="Input" />
     </Connection>
     <Connection>
+      <Origin ToolID="52" Connection="Output" />
+      <Destination ToolID="35" Connection="Input" />
+    </Connection>
+    <Connection>
       <Origin ToolID="43" Connection="Output" />
       <Destination ToolID="46" Connection="Input" />
     </Connection>
@@ -880,7 +968,7 @@
     </Connection>
     <Connection>
       <Origin ToolID="45" Connection="Output" />
-      <Destination ToolID="43" Connection="Input" />
+      <Destination ToolID="53" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="46" Connection="Output" />
@@ -893,6 +981,10 @@
     <Connection>
       <Origin ToolID="48" Connection="Output" />
       <Destination ToolID="42" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="53" Connection="Output" />
+      <Destination ToolID="43" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>
