@@ -15,6 +15,7 @@
         public enum Distribution
         {
             Uniform,
+            Triangular,
             Normal,
             LogNormal
         }
@@ -77,7 +78,20 @@
             /// ToString used for annotation
             /// </summary>
             /// <returns></returns>
-            public override string ToString() => $"{this.OutputFieldName}=Rand[{this.Minimum}, {this.Maximum}]";
+            public override string ToString()
+            {
+                switch (this.Distribution)
+                {
+                    case Distribution.Uniform:
+                        return $"{this.OutputFieldName}=Rand[{this.Minimum}, {this.Maximum}]";
+                    case Distribution.Triangular:
+                        return $"{this.OutputFieldName}=Tri[{this.Minimum}, {this.Average}, {this.Maximum}]";
+                    case Distribution.Normal:
+                    case Distribution.LogNormal:
+                        return $"{this.OutputFieldName}={this.Distribution}[{this.Average}, {this.StandardDeviation}]";
+                }
+                return "";
+            }
         }
 
         public class Engine : BaseEngine<Config>
@@ -121,6 +135,21 @@
 
                 switch (config.Distribution)
                 {
+                    case Distribution.Triangular:
+                        this._nextValue = () =>
+                            {
+                                double p = random.NextDouble();
+                                return p < (config.Average - config.Minimum) / (config.Maximum - config.Minimum)
+                                           ? config.Minimum
+                                             + Math.Sqrt(
+                                                 p * (config.Maximum - config.Minimum)
+                                                 * (config.Average - config.Minimum))
+                                           : config.Maximum
+                                             - Math.Sqrt(
+                                                 (1 - p) * (config.Maximum - config.Minimum)
+                                                 * (config.Maximum - config.Average));
+                            };
+                        break;
                     case Distribution.Normal:
                         {
                             var normal = new MathNet.Numerics.Distributions.Normal(

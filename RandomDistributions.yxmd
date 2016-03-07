@@ -3,7 +3,7 @@
   <Nodes>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
-        <Position x="54" y="54" />
+        <Position x="30" y="78" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -27,7 +27,7 @@
     </Node>
     <Node ToolID="3">
       <GuiSettings Plugin="AlteryxBasePluginsGui.GenerateRows.GenerateRows">
-        <Position x="210" y="54" />
+        <Position x="126" y="78" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -48,20 +48,16 @@
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxGenerateRows" />
     </Node>
-    <Node ToolID="13">
-      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="942" y="54" />
+    <Node ToolID="25">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="269" y="34" width="733" height="160" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_16236_0417518211854c3e998faac5ead4b5c5_\Engine_16236_3f3f1eacfa9d40588b084e1f66d20183_.yxdb</TempFile>
-          <Layout>
-            <View1>
-              <Hints>
-                <Table />
-              </Hints>
-            </View1>
-          </Layout>
+          <Caption>Uniform</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="25" />
+          <Disabled value="False" />
+          <Folded value="False" />
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
@@ -69,18 +65,181 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+      <ChildNodes>
+        <Node ToolID="13">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="918" y="78" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5496_5dfee4e6b8ef401a94560011887b622b_\Engine_5496_dabf43f809e04e34a81b945cb757b87f_.yxdb</TempFile>
+              <Layout>
+                <ViewMode>Single</ViewMode>
+                <ViewSize value="100" />
+                <View1>
+                  <DefaultTab>Report</DefaultTab>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+                <View2 />
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="15">
+          <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
+            <Position x="534" y="78" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <SummarizeFields>
+                <SummarizeField field="FormattedValue" action="GroupBy" rename="FormattedValue" />
+                <SummarizeField field="Rows" action="Count" rename="Count" />
+              </SummarizeFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
+        </Node>
+        <Node ToolID="20">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
+            <Position x="294" y="78" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputType>Double</OutputType>
+              <OutputFieldName>Random</OutputFieldName>
+              <Seed>0</Seed>
+              <Distribution>Uniform</Distribution>
+              <Minimum>0</Minimum>
+              <Maximum>10</Maximum>
+              <Average>4</Average>
+              <StandardDeviation>1</StandardDeviation>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Random=Rand[0, 10]</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.RandomNumber+Engine" />
+        </Node>
+        <Node ToolID="21">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
+            <Position x="414" y="78" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputFieldName>FormattedValue</OutputFieldName>
+              <OutputFieldLength>64</OutputFieldLength>
+              <Culture>Current</Culture>
+              <InputFieldName>Random</InputFieldName>
+              <FormatString>0.0</FormatString>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Random=&gt;FormattedValue [0.0]</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.StringFormatter+Engine" />
+        </Node>
+        <Node ToolID="22">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
+            <Position x="618" y="78" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputType>Double</OutputType>
+              <OutputFieldName>Value</OutputFieldName>
+              <Culture>Current</Culture>
+              <InputFieldName>FormattedValue</InputFieldName>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>FormattedValue ⇒ Value</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.NumberParser+Engine" />
+        </Node>
+        <Node ToolID="23">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
+            <Position x="726" y="78" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <SortInfo locale="0">
+                <Field field="Value" order="Ascending" />
+              </SortInfo>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Value - Ascending</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSort" />
+        </Node>
+        <Node ToolID="24">
+          <GuiSettings Plugin="AlteryxReportChartGui.AlteryxReportChartGui">
+            <Position x="834" y="78" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <ChartType>Scatter</ChartType>
+              <GroupingFields orderChanged="False" />
+              <LabelField />
+              <GeneralStyles ThreeDInterior="false" GradientColoring="false" ChartSizeW="432" ChartSizeH="288" Resolution="2x (192 dpi)" ChartTitle="" ChartTitleSize="14" ChartSubTitle="" ChartSubTitleSize="12" ChartPrimaryFont="Microsoft Sans Serif" />
+              <TitleStyles ChangeTitleFont="false" ChartTitleFont="Microsoft Sans Serif" ChartTitleSize="14" ChartTitleColor="#000000" ChartTitleAlignment="Center" ChangeSubTitleFont="false" ChartSubTitleFont="Microsoft Sans Serif" ChartSubTitleSize="12" ChartSubTitleColor="#000000" SubTitleAlignment="Center" ChangeLegendTextFont="false" LegendTextFont="Microsoft Sans Serif" LegendTextSize="12" LegendTextColor="#000000" />
+              <Styles UseChartBorder="false" ChartBorderWidth="2" ChartBorderColor="#000000" UseAreaBorder="false" AreaBorderWidth="2" AreaBorderColor="#000000" ChartBGColor="#ffffff" ChartAreaBGColor="#ffffff" ChartInteriorBGColor="#ffffff" />
+              <ChartTypeStyles ShowChartLegend="true" LegendSeparateImage="false" LegendPosition="Top" LegendAlignment="Center" UseLegendBorder="false" LegendBorderWidth="2" LegendBorderColor="#000000" />
+              <YAxis YAxisLabelFont="Microsoft Sans Serif" YAxisLabelSize="8" YAxisLabelColor="#000000" YAxisTitle="" YAxisTitleFont="Microsoft Sans Serif" YAxisTitleSize="10" YAxisTitleColor="#000000" YAxisShowGrid="true" YPrefix="" YPostfix="" YAxisOverrideIncrement="false" YAxisIncrement="100" YAxisOverrideBaseline="false" YAxisBaseline="0" YAxisOverrideTopline="false" YAxisTopline="1000" UseYAxisHiliteline="false" YAxisHiliteValue="0" YAxisHiliteColor="#000000" YAxisOverrideDecimalPlaces="false" YAxisNumDecimalPlaces="0" />
+              <XAxis XAxisLabelFont="Microsoft Sans Serif" XAxisLabelSize="8" XAxisLabelColor="#000000" XAxisTitle="" XAxisTitleFont="Microsoft Sans Serif" XAxisTitleSize="10" XAxisTitleColor="#000000" XAxisShowGrid="true" XPrefix="" XPostfix="" XAxisOverrideIncrement="false" XAxisIncrement="100" XAxisOverrideBaseline="false" XAxisBaseline="0" XAxisOverrideTopline="false" XAxisTopline="1000" UseXAxisHiliteline="false" XAxisHiliteValue="0" XAxisHiliteColor="#000000" XAxisOverrideDecimalPlaces="false" XAxisNumDecimalPlaces="0" />
+              <StylesSeries SeriesStyleMode="Standard" ShowDataPointText="false" DataPointFontFaceName="Microsoft Sans Serif" DataPointFontSize="8" DataPointTextColor="#000000" DataPointTextOffset="2" DataPointOverrideDecimalPlaces="false" DataPointNumDecimalPlaces="0" SeriesPalette="#b30023,#00488c,#1e6c0b,#d84000,#f0b400,#332600,#5400a8,#434c43" SeriesColor="#b30023" SeriesDotSize="6">
+                <SeriesFormulas NumFormulas="0" />
+              </StylesSeries>
+              <WatermarkStyles UseWatermark="None" WatermarkText="Property of Alteryx, Inc." WatermarkTextFont="Microsoft Sans Serif" WatermarkTextSize="14" WatermarkTextColor="#000000" WatermarkOpacity="60" WatermarkImage="" />
+              <AllowMultiple value="false" />
+              <CombinationChart value="false" />
+              <SeriesList numSeries="1">
+                <Series1>
+                  <Y_ValueField yValueName="ScatterValueX" yValueDesc="Scatter X">Value</Y_ValueField>
+                  <Y_ValueField yValueName="ScatterValueY" yValueDesc="Scatter Y">Count</Y_ValueField>
+                </Series1>
+              </SeriesList>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxReportChart.dll" EngineDllEntryPoint="AlteryxReportChartPlugin" />
+        </Node>
+      </ChildNodes>
     </Node>
-    <Node ToolID="15">
-      <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
-        <Position x="630" y="54" />
+    <Node ToolID="33">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="269" y="201.9999" width="733" height="160.0001" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <SummarizeFields>
-            <SummarizeField field="FormattedValue" action="GroupBy" rename="FormattedValue" />
-            <SummarizeField field="Rows" action="Count" rename="Count" />
-          </SummarizeFields>
+          <Caption>Triangle</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="25" />
+          <Disabled value="False" />
+          <Folded value="False" />
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
@@ -88,87 +247,534 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
+      <ChildNodes>
+        <Node ToolID="26">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="918" y="246" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5496_5dfee4e6b8ef401a94560011887b622b_\Engine_5496_3e7310650aa74f98ad6fd63cf4b29888_.yxdb</TempFile>
+              <Layout>
+                <ViewMode>Single</ViewMode>
+                <ViewSize value="100" />
+                <View1>
+                  <DefaultTab>Report</DefaultTab>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+                <View2 />
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="27">
+          <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
+            <Position x="534" y="246" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <SummarizeFields>
+                <SummarizeField field="FormattedValue" action="GroupBy" rename="FormattedValue" />
+                <SummarizeField field="Rows" action="Count" rename="Count" />
+              </SummarizeFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
+        </Node>
+        <Node ToolID="28">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
+            <Position x="294" y="245.9999" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputType>Double</OutputType>
+              <OutputFieldName>Random</OutputFieldName>
+              <Seed>0</Seed>
+              <Distribution>Triangular</Distribution>
+              <Minimum>0</Minimum>
+              <Maximum>10</Maximum>
+              <Average>4</Average>
+              <StandardDeviation>1</StandardDeviation>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Random=Tri[0, 4, 10]</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.RandomNumber+Engine" />
+        </Node>
+        <Node ToolID="29">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
+            <Position x="414" y="246" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputFieldName>FormattedValue</OutputFieldName>
+              <OutputFieldLength>64</OutputFieldLength>
+              <Culture>Current</Culture>
+              <InputFieldName>Random</InputFieldName>
+              <FormatString>0.0</FormatString>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Random=&gt;FormattedValue [0.0]</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.StringFormatter+Engine" />
+        </Node>
+        <Node ToolID="30">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
+            <Position x="618" y="246" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputType>Double</OutputType>
+              <OutputFieldName>Value</OutputFieldName>
+              <Culture>Current</Culture>
+              <InputFieldName>FormattedValue</InputFieldName>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>FormattedValue ⇒ Value</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.NumberParser+Engine" />
+        </Node>
+        <Node ToolID="31">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
+            <Position x="726" y="246" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <SortInfo locale="0">
+                <Field field="Value" order="Ascending" />
+              </SortInfo>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Value - Ascending</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSort" />
+        </Node>
+        <Node ToolID="32">
+          <GuiSettings Plugin="AlteryxReportChartGui.AlteryxReportChartGui">
+            <Position x="834" y="246" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <ChartType>Scatter</ChartType>
+              <GroupingFields orderChanged="False" />
+              <LabelField />
+              <GeneralStyles ThreeDInterior="false" GradientColoring="false" ChartSizeW="432" ChartSizeH="288" Resolution="2x (192 dpi)" ChartTitle="" ChartTitleSize="14" ChartSubTitle="" ChartSubTitleSize="12" ChartPrimaryFont="Microsoft Sans Serif" />
+              <TitleStyles ChangeTitleFont="false" ChartTitleFont="Microsoft Sans Serif" ChartTitleSize="14" ChartTitleColor="#000000" ChartTitleAlignment="Center" ChangeSubTitleFont="false" ChartSubTitleFont="Microsoft Sans Serif" ChartSubTitleSize="12" ChartSubTitleColor="#000000" SubTitleAlignment="Center" ChangeLegendTextFont="false" LegendTextFont="Microsoft Sans Serif" LegendTextSize="12" LegendTextColor="#000000" />
+              <Styles UseChartBorder="false" ChartBorderWidth="2" ChartBorderColor="#000000" UseAreaBorder="false" AreaBorderWidth="2" AreaBorderColor="#000000" ChartBGColor="#ffffff" ChartAreaBGColor="#ffffff" ChartInteriorBGColor="#ffffff" />
+              <ChartTypeStyles ShowChartLegend="true" LegendSeparateImage="false" LegendPosition="Top" LegendAlignment="Center" UseLegendBorder="false" LegendBorderWidth="2" LegendBorderColor="#000000" />
+              <YAxis YAxisLabelFont="Microsoft Sans Serif" YAxisLabelSize="8" YAxisLabelColor="#000000" YAxisTitle="" YAxisTitleFont="Microsoft Sans Serif" YAxisTitleSize="10" YAxisTitleColor="#000000" YAxisShowGrid="true" YPrefix="" YPostfix="" YAxisOverrideIncrement="false" YAxisIncrement="100" YAxisOverrideBaseline="false" YAxisBaseline="0" YAxisOverrideTopline="false" YAxisTopline="1000" UseYAxisHiliteline="false" YAxisHiliteValue="0" YAxisHiliteColor="#000000" YAxisOverrideDecimalPlaces="false" YAxisNumDecimalPlaces="0" />
+              <XAxis XAxisLabelFont="Microsoft Sans Serif" XAxisLabelSize="8" XAxisLabelColor="#000000" XAxisTitle="" XAxisTitleFont="Microsoft Sans Serif" XAxisTitleSize="10" XAxisTitleColor="#000000" XAxisShowGrid="true" XPrefix="" XPostfix="" XAxisOverrideIncrement="false" XAxisIncrement="100" XAxisOverrideBaseline="false" XAxisBaseline="0" XAxisOverrideTopline="false" XAxisTopline="1000" UseXAxisHiliteline="false" XAxisHiliteValue="0" XAxisHiliteColor="#000000" XAxisOverrideDecimalPlaces="false" XAxisNumDecimalPlaces="0" />
+              <StylesSeries SeriesStyleMode="Standard" ShowDataPointText="false" DataPointFontFaceName="Microsoft Sans Serif" DataPointFontSize="8" DataPointTextColor="#000000" DataPointTextOffset="2" DataPointOverrideDecimalPlaces="false" DataPointNumDecimalPlaces="0" SeriesPalette="#b30023,#00488c,#1e6c0b,#d84000,#f0b400,#332600,#5400a8,#434c43" SeriesColor="#b30023" SeriesDotSize="6">
+                <SeriesFormulas NumFormulas="0" />
+              </StylesSeries>
+              <WatermarkStyles UseWatermark="None" WatermarkText="Property of Alteryx, Inc." WatermarkTextFont="Microsoft Sans Serif" WatermarkTextSize="14" WatermarkTextColor="#000000" WatermarkOpacity="60" WatermarkImage="" />
+              <AllowMultiple value="false" />
+              <CombinationChart value="false" />
+              <SeriesList numSeries="1">
+                <Series1>
+                  <Y_ValueField yValueName="ScatterValueX" yValueDesc="Scatter X">Value</Y_ValueField>
+                  <Y_ValueField yValueName="ScatterValueY" yValueDesc="Scatter Y">Count</Y_ValueField>
+                </Series1>
+              </SeriesList>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxReportChart.dll" EngineDllEntryPoint="AlteryxReportChartPlugin" />
+        </Node>
+      </ChildNodes>
     </Node>
-    <Node ToolID="20">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
-        <Position x="366" y="54" />
+    <Node ToolID="41">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="269" y="370" width="733" height="160" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <OutputType>Double</OutputType>
-          <OutputFieldName>Random</OutputFieldName>
-          <Seed>0</Seed>
-          <Distribution>Normal</Distribution>
-          <Minimum>0</Minimum>
-          <Maximum>1</Maximum>
-          <Average>0</Average>
-          <StandardDeviation>1</StandardDeviation>
+          <Caption>Normal</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="25" />
+          <Disabled value="False" />
+          <Folded value="False" />
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>Random=Rand[0, 1]</DefaultAnnotationText>
+          <DefaultAnnotationText />
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.RandomNumber+Engine" />
+      <ChildNodes>
+        <Node ToolID="34">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="918" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5496_5dfee4e6b8ef401a94560011887b622b_\Engine_5496_43146a67971e4435a116a2097fafab55_.yxdb</TempFile>
+              <Layout>
+                <ViewMode>Single</ViewMode>
+                <ViewSize value="100" />
+                <View1>
+                  <DefaultTab>Report</DefaultTab>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+                <View2 />
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="35">
+          <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
+            <Position x="534" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <SummarizeFields>
+                <SummarizeField field="FormattedValue" action="GroupBy" rename="FormattedValue" />
+                <SummarizeField field="Rows" action="Count" rename="Count" />
+              </SummarizeFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
+        </Node>
+        <Node ToolID="36">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
+            <Position x="294" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputType>Double</OutputType>
+              <OutputFieldName>Random</OutputFieldName>
+              <Seed>0</Seed>
+              <Distribution>Normal</Distribution>
+              <Minimum>0</Minimum>
+              <Maximum>10</Maximum>
+              <Average>4</Average>
+              <StandardDeviation>1</StandardDeviation>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Random=Normal[4, 1]</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.RandomNumber+Engine" />
+        </Node>
+        <Node ToolID="37">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
+            <Position x="414" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputFieldName>FormattedValue</OutputFieldName>
+              <OutputFieldLength>64</OutputFieldLength>
+              <Culture>Current</Culture>
+              <InputFieldName>Random</InputFieldName>
+              <FormatString>0.0</FormatString>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Random=&gt;FormattedValue [0.0]</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.StringFormatter+Engine" />
+        </Node>
+        <Node ToolID="38">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
+            <Position x="618" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputType>Double</OutputType>
+              <OutputFieldName>Value</OutputFieldName>
+              <Culture>Current</Culture>
+              <InputFieldName>FormattedValue</InputFieldName>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>FormattedValue ⇒ Value</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.NumberParser+Engine" />
+        </Node>
+        <Node ToolID="39">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
+            <Position x="726" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <SortInfo locale="0">
+                <Field field="Value" order="Ascending" />
+              </SortInfo>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Value - Ascending</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSort" />
+        </Node>
+        <Node ToolID="40">
+          <GuiSettings Plugin="AlteryxReportChartGui.AlteryxReportChartGui">
+            <Position x="834" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <ChartType>Scatter</ChartType>
+              <GroupingFields orderChanged="False" />
+              <LabelField />
+              <GeneralStyles ThreeDInterior="false" GradientColoring="false" ChartSizeW="432" ChartSizeH="288" Resolution="2x (192 dpi)" ChartTitle="" ChartTitleSize="14" ChartSubTitle="" ChartSubTitleSize="12" ChartPrimaryFont="Microsoft Sans Serif" />
+              <TitleStyles ChangeTitleFont="false" ChartTitleFont="Microsoft Sans Serif" ChartTitleSize="14" ChartTitleColor="#000000" ChartTitleAlignment="Center" ChangeSubTitleFont="false" ChartSubTitleFont="Microsoft Sans Serif" ChartSubTitleSize="12" ChartSubTitleColor="#000000" SubTitleAlignment="Center" ChangeLegendTextFont="false" LegendTextFont="Microsoft Sans Serif" LegendTextSize="12" LegendTextColor="#000000" />
+              <Styles UseChartBorder="false" ChartBorderWidth="2" ChartBorderColor="#000000" UseAreaBorder="false" AreaBorderWidth="2" AreaBorderColor="#000000" ChartBGColor="#ffffff" ChartAreaBGColor="#ffffff" ChartInteriorBGColor="#ffffff" />
+              <ChartTypeStyles ShowChartLegend="true" LegendSeparateImage="false" LegendPosition="Top" LegendAlignment="Center" UseLegendBorder="false" LegendBorderWidth="2" LegendBorderColor="#000000" />
+              <YAxis YAxisLabelFont="Microsoft Sans Serif" YAxisLabelSize="8" YAxisLabelColor="#000000" YAxisTitle="" YAxisTitleFont="Microsoft Sans Serif" YAxisTitleSize="10" YAxisTitleColor="#000000" YAxisShowGrid="true" YPrefix="" YPostfix="" YAxisOverrideIncrement="false" YAxisIncrement="100" YAxisOverrideBaseline="false" YAxisBaseline="0" YAxisOverrideTopline="false" YAxisTopline="1000" UseYAxisHiliteline="false" YAxisHiliteValue="0" YAxisHiliteColor="#000000" YAxisOverrideDecimalPlaces="false" YAxisNumDecimalPlaces="0" />
+              <XAxis XAxisLabelFont="Microsoft Sans Serif" XAxisLabelSize="8" XAxisLabelColor="#000000" XAxisTitle="" XAxisTitleFont="Microsoft Sans Serif" XAxisTitleSize="10" XAxisTitleColor="#000000" XAxisShowGrid="true" XPrefix="" XPostfix="" XAxisOverrideIncrement="false" XAxisIncrement="100" XAxisOverrideBaseline="false" XAxisBaseline="0" XAxisOverrideTopline="false" XAxisTopline="1000" UseXAxisHiliteline="false" XAxisHiliteValue="0" XAxisHiliteColor="#000000" XAxisOverrideDecimalPlaces="false" XAxisNumDecimalPlaces="0" />
+              <StylesSeries SeriesStyleMode="Standard" ShowDataPointText="false" DataPointFontFaceName="Microsoft Sans Serif" DataPointFontSize="8" DataPointTextColor="#000000" DataPointTextOffset="2" DataPointOverrideDecimalPlaces="false" DataPointNumDecimalPlaces="0" SeriesPalette="#b30023,#00488c,#1e6c0b,#d84000,#f0b400,#332600,#5400a8,#434c43" SeriesColor="#b30023" SeriesDotSize="6">
+                <SeriesFormulas NumFormulas="0" />
+              </StylesSeries>
+              <WatermarkStyles UseWatermark="None" WatermarkText="Property of Alteryx, Inc." WatermarkTextFont="Microsoft Sans Serif" WatermarkTextSize="14" WatermarkTextColor="#000000" WatermarkOpacity="60" WatermarkImage="" />
+              <AllowMultiple value="false" />
+              <CombinationChart value="false" />
+              <SeriesList numSeries="1">
+                <Series1>
+                  <Y_ValueField yValueName="ScatterValueX" yValueDesc="Scatter X">Value</Y_ValueField>
+                  <Y_ValueField yValueName="ScatterValueY" yValueDesc="Scatter Y">Count</Y_ValueField>
+                </Series1>
+              </SeriesList>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxReportChart.dll" EngineDllEntryPoint="AlteryxReportChartPlugin" />
+        </Node>
+      </ChildNodes>
     </Node>
-    <Node ToolID="21">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
-        <Position x="486" y="54" />
+    <Node ToolID="49">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="269" y="538" width="733" height="160" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <OutputFieldName>FormattedValue</OutputFieldName>
-          <OutputFieldLength>64</OutputFieldLength>
-          <Culture>Current</Culture>
-          <InputFieldName>Random</InputFieldName>
-          <FormatString>0.0</FormatString>
+          <Caption>LogNormal</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="25" />
+          <Disabled value="False" />
+          <Folded value="False" />
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>Random=&gt;FormattedValue [0.0]</DefaultAnnotationText>
+          <DefaultAnnotationText />
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.StringFormatter+Engine" />
-    </Node>
-    <Node ToolID="22">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
-        <Position x="750" y="54" />
-      </GuiSettings>
-      <Properties>
-        <Configuration>
-          <OutputType>Double</OutputType>
-          <OutputFieldName>Value</OutputFieldName>
-          <Culture>Current</Culture>
-          <InputFieldName>FormattedValue</InputFieldName>
-        </Configuration>
-        <Annotation DisplayMode="0">
-          <Name />
-          <DefaultAnnotationText>FormattedValue ⇒ Value</DefaultAnnotationText>
-          <Left value="False" />
-        </Annotation>
-      </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.NumberParser+Engine" />
-    </Node>
-    <Node ToolID="23">
-      <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
-        <Position x="846" y="54" />
-      </GuiSettings>
-      <Properties>
-        <Configuration>
-          <SortInfo locale="0">
-            <Field field="Value" order="Ascending" />
-          </SortInfo>
-        </Configuration>
-        <Annotation DisplayMode="0">
-          <Name />
-          <DefaultAnnotationText>Value - Ascending</DefaultAnnotationText>
-          <Left value="False" />
-        </Annotation>
-      </Properties>
-      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSort" />
+      <ChildNodes>
+        <Node ToolID="42">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="918" y="582" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5496_5dfee4e6b8ef401a94560011887b622b_\Engine_5496_d364e2080a4c42d5a14729f3b3fb18dd_.yxdb</TempFile>
+              <Layout>
+                <ViewMode>Single</ViewMode>
+                <ViewSize value="100" />
+                <View1>
+                  <DefaultTab>Report</DefaultTab>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+                <View2 />
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="43">
+          <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
+            <Position x="534" y="582" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <SummarizeFields>
+                <SummarizeField field="FormattedValue" action="GroupBy" rename="FormattedValue" />
+                <SummarizeField field="Rows" action="Count" rename="Count" />
+              </SummarizeFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
+        </Node>
+        <Node ToolID="44">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
+            <Position x="294" y="582" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputType>Double</OutputType>
+              <OutputFieldName>Random</OutputFieldName>
+              <Seed>0</Seed>
+              <Distribution>LogNormal</Distribution>
+              <Minimum>0</Minimum>
+              <Maximum>10</Maximum>
+              <Average>4</Average>
+              <StandardDeviation>1</StandardDeviation>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Random=LogNormal[4, 1]</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.RandomNumber+Engine" />
+        </Node>
+        <Node ToolID="45">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
+            <Position x="414" y="582" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputFieldName>FormattedValue</OutputFieldName>
+              <OutputFieldLength>64</OutputFieldLength>
+              <Culture>Current</Culture>
+              <InputFieldName>Random</InputFieldName>
+              <FormatString>0.0</FormatString>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Random=&gt;FormattedValue [0.0]</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.StringFormatter+Engine" />
+        </Node>
+        <Node ToolID="46">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
+            <Position x="618" y="582" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OutputType>Double</OutputType>
+              <OutputFieldName>Value</OutputFieldName>
+              <Culture>Current</Culture>
+              <InputFieldName>FormattedValue</InputFieldName>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>FormattedValue ⇒ Value</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.NumberParser+Engine" />
+        </Node>
+        <Node ToolID="47">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
+            <Position x="726" y="582" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <SortInfo locale="0">
+                <Field field="Value" order="Ascending" />
+              </SortInfo>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Value - Ascending</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSort" />
+        </Node>
+        <Node ToolID="48">
+          <GuiSettings Plugin="AlteryxReportChartGui.AlteryxReportChartGui">
+            <Position x="834" y="582" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <ChartType>Scatter</ChartType>
+              <GroupingFields orderChanged="False" />
+              <LabelField />
+              <GeneralStyles ThreeDInterior="false" GradientColoring="false" ChartSizeW="432" ChartSizeH="288" Resolution="2x (192 dpi)" ChartTitle="" ChartTitleSize="14" ChartSubTitle="" ChartSubTitleSize="12" ChartPrimaryFont="Microsoft Sans Serif" />
+              <TitleStyles ChangeTitleFont="false" ChartTitleFont="Microsoft Sans Serif" ChartTitleSize="14" ChartTitleColor="#000000" ChartTitleAlignment="Center" ChangeSubTitleFont="false" ChartSubTitleFont="Microsoft Sans Serif" ChartSubTitleSize="12" ChartSubTitleColor="#000000" SubTitleAlignment="Center" ChangeLegendTextFont="false" LegendTextFont="Microsoft Sans Serif" LegendTextSize="12" LegendTextColor="#000000" />
+              <Styles UseChartBorder="false" ChartBorderWidth="2" ChartBorderColor="#000000" UseAreaBorder="false" AreaBorderWidth="2" AreaBorderColor="#000000" ChartBGColor="#ffffff" ChartAreaBGColor="#ffffff" ChartInteriorBGColor="#ffffff" />
+              <ChartTypeStyles ShowChartLegend="true" LegendSeparateImage="false" LegendPosition="Top" LegendAlignment="Center" UseLegendBorder="false" LegendBorderWidth="2" LegendBorderColor="#000000" />
+              <YAxis YAxisLabelFont="Microsoft Sans Serif" YAxisLabelSize="8" YAxisLabelColor="#000000" YAxisTitle="" YAxisTitleFont="Microsoft Sans Serif" YAxisTitleSize="10" YAxisTitleColor="#000000" YAxisShowGrid="true" YPrefix="" YPostfix="" YAxisOverrideIncrement="false" YAxisIncrement="100" YAxisOverrideBaseline="false" YAxisBaseline="0" YAxisOverrideTopline="false" YAxisTopline="1000" UseYAxisHiliteline="false" YAxisHiliteValue="0" YAxisHiliteColor="#000000" YAxisOverrideDecimalPlaces="false" YAxisNumDecimalPlaces="0" />
+              <XAxis XAxisLabelFont="Microsoft Sans Serif" XAxisLabelSize="8" XAxisLabelColor="#000000" XAxisTitle="" XAxisTitleFont="Microsoft Sans Serif" XAxisTitleSize="10" XAxisTitleColor="#000000" XAxisShowGrid="true" XPrefix="" XPostfix="" XAxisOverrideIncrement="false" XAxisIncrement="100" XAxisOverrideBaseline="false" XAxisBaseline="0" XAxisOverrideTopline="false" XAxisTopline="1000" UseXAxisHiliteline="false" XAxisHiliteValue="0" XAxisHiliteColor="#000000" XAxisOverrideDecimalPlaces="false" XAxisNumDecimalPlaces="0" />
+              <StylesSeries SeriesStyleMode="Standard" ShowDataPointText="false" DataPointFontFaceName="Microsoft Sans Serif" DataPointFontSize="8" DataPointTextColor="#000000" DataPointTextOffset="2" DataPointOverrideDecimalPlaces="false" DataPointNumDecimalPlaces="0" SeriesPalette="#b30023,#00488c,#1e6c0b,#d84000,#f0b400,#332600,#5400a8,#434c43" SeriesColor="#b30023" SeriesDotSize="6">
+                <SeriesFormulas NumFormulas="0" />
+              </StylesSeries>
+              <WatermarkStyles UseWatermark="None" WatermarkText="Property of Alteryx, Inc." WatermarkTextFont="Microsoft Sans Serif" WatermarkTextSize="14" WatermarkTextColor="#000000" WatermarkOpacity="60" WatermarkImage="" />
+              <AllowMultiple value="false" />
+              <CombinationChart value="false" />
+              <SeriesList numSeries="1">
+                <Series1>
+                  <Y_ValueField yValueName="ScatterValueX" yValueDesc="Scatter X">Value</Y_ValueField>
+                  <Y_ValueField yValueName="ScatterValueY" yValueDesc="Scatter Y">Count</Y_ValueField>
+                </Series1>
+              </SeriesList>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxReportChart.dll" EngineDllEntryPoint="AlteryxReportChartPlugin" />
+        </Node>
+      </ChildNodes>
     </Node>
   </Nodes>
   <Connections>
@@ -179,6 +785,18 @@
     <Connection>
       <Origin ToolID="3" Connection="Output" />
       <Destination ToolID="20" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="3" Connection="Output" />
+      <Destination ToolID="28" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="3" Connection="Output" />
+      <Destination ToolID="36" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="3" Connection="Output" />
+      <Destination ToolID="44" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="15" Connection="Output" />
@@ -198,7 +816,83 @@
     </Connection>
     <Connection>
       <Origin ToolID="23" Connection="Output" />
+      <Destination ToolID="24" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="24" Connection="Output" />
       <Destination ToolID="13" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="27" Connection="Output" />
+      <Destination ToolID="30" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="28" Connection="Output" />
+      <Destination ToolID="29" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="29" Connection="Output" />
+      <Destination ToolID="27" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="30" Connection="Output" />
+      <Destination ToolID="31" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="31" Connection="Output" />
+      <Destination ToolID="32" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="32" Connection="Output" />
+      <Destination ToolID="26" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="35" Connection="Output" />
+      <Destination ToolID="38" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="36" Connection="Output" />
+      <Destination ToolID="37" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="37" Connection="Output" />
+      <Destination ToolID="35" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="38" Connection="Output" />
+      <Destination ToolID="39" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="39" Connection="Output" />
+      <Destination ToolID="40" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="40" Connection="Output" />
+      <Destination ToolID="34" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="43" Connection="Output" />
+      <Destination ToolID="46" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="44" Connection="Output" />
+      <Destination ToolID="45" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="45" Connection="Output" />
+      <Destination ToolID="43" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="46" Connection="Output" />
+      <Destination ToolID="47" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="47" Connection="Output" />
+      <Destination ToolID="48" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="48" Connection="Output" />
+      <Destination ToolID="42" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>
