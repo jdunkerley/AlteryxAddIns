@@ -14,6 +14,10 @@ namespace JDunkerley.AlteryxAddIns.Framework
         private readonly Dictionary<string, PropertyInfo> _inputs;
         private readonly Dictionary<string, PropertyInfo> _outputs;
 
+        private Lazy<T> _configObject;
+
+        private XmlElement _xmlConfig;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseEngine{T}"/> class.
         /// </summary>
@@ -36,13 +40,26 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <summary>
         /// Gets the XML configuration from the workflow.
         /// </summary>
-        protected XmlElement XmlConfig { get; private set; }
+        protected XmlElement XmlConfig
+        {
+            get
+            {
+                return this._xmlConfig;
+            }
+            private set
+            {
+                this._xmlConfig = value;
+                this._configObject = new Lazy<T>(this.CreateConfigObject);
+            }
+        }
 
         /// <summary>
         /// Gets the configuration object de-serialized from the XML config
         /// </summary>
         /// <returns>Configuration Object</returns>
-        protected T GetConfigObject()
+        protected T ConfigObject => this._configObject.Value;
+
+        private T CreateConfigObject()
         {
             var serializer = new XmlSerializer(typeof(T));
             var config = this.XmlConfig.SelectSingleNode("Configuration");

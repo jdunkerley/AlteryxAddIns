@@ -92,6 +92,47 @@
                 }
                 return "";
             }
+
+            public Func<double> CreateRandomFunc()
+            {
+                var random = this.Seed == 0 ? new Random() : new Random(this.Seed);
+
+                switch (this.Distribution)
+                {
+                    case Distribution.Triangular:
+                        return () =>
+                            {
+                                double p = random.NextDouble();
+                                return p < (this.Average - this.Minimum) / (this.Maximum - this.Minimum)
+                                           ? this.Minimum
+                                             + Math.Sqrt(
+                                                 p * (this.Maximum - this.Minimum) * (this.Average - this.Minimum))
+                                           : this.Maximum
+                                             - Math.Sqrt(
+                                                 (1 - p) * (this.Maximum - this.Minimum) * (this.Maximum - this.Average));
+                            };
+                    case Distribution.Normal:
+                        {
+                            var normal = new MathNet.Numerics.Distributions.Normal(
+                                this.Average,
+                                this.StandardDeviation,
+                                random);
+                            return () => normal.Sample();
+                        }
+                    case Distribution.LogNormal:
+                        {
+                            var logNormal = new MathNet.Numerics.Distributions.LogNormal(
+                                this.Average,
+                                this.StandardDeviation,
+                                random);
+                            return () => logNormal.Sample();
+                        }
+                    case Distribution.Uniform:
+                        return () => random.NextDouble() * (this.Maximum - this.Minimum) + this.Minimum;
+                }
+
+                return () => double.NaN;
+            }
         }
 
         public class Engine : BaseEngine<Config>
@@ -129,60 +170,18 @@
 
             private bool InitFunc(RecordInfo info)
             {
-                var config = this.GetConfigObject();
+                this._nextValue = this.ConfigObject.CreateRandomFunc();
 
-                var random = config.Seed == 0 ? new Random() : new Random(config.Seed);
-
-                switch (config.Distribution)
-                {
-                    case Distribution.Triangular:
-                        this._nextValue = () =>
-                            {
-                                double p = random.NextDouble();
-                                return p < (config.Average - config.Minimum) / (config.Maximum - config.Minimum)
-                                           ? config.Minimum
-                                             + Math.Sqrt(
-                                                 p * (config.Maximum - config.Minimum)
-                                                 * (config.Average - config.Minimum))
-                                           : config.Maximum
-                                             - Math.Sqrt(
-                                                 (1 - p) * (config.Maximum - config.Minimum)
-                                                 * (config.Maximum - config.Average));
-                            };
-                        break;
-                    case Distribution.Normal:
-                        {
-                            var normal = new MathNet.Numerics.Distributions.Normal(
-                                config.Average,
-                                config.StandardDeviation,
-                                random);
-                            this._nextValue = () => normal.Sample();
-                            break;
-                        }
-                    case Distribution.LogNormal:
-                        {
-                            var logNormal = new MathNet.Numerics.Distributions.LogNormal(
-                                config.Average,
-                                config.StandardDeviation,
-                                random);
-                            this._nextValue = () => logNormal.Sample();
-                            break;
-                        }
-                    default:
-                        this._nextValue = () => random.NextDouble() * (config.Maximum - config.Minimum) + config.Minimum;
-                        break;
-                }
-
-                var fieldDescription = config.OutputType.OutputDescription(config.OutputFieldName, 19);
+                var fieldDescription = this.ConfigObject.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
                 if (fieldDescription == null)
                 {
                     return false;
                 }
                 fieldDescription.Source = nameof(RandomNumber);
-                fieldDescription.Description = $"Random Number {config.ToString().Replace($"{config.OutputFieldName}=", "")}";
+                fieldDescription.Description = $"Random Number {this.ConfigObject.ToString().Replace($"{this.ConfigObject.OutputFieldName}=", "")}";
 
                 this._outputRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
-                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(config.OutputFieldName, false);
+                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
                 this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
 
                 return true;

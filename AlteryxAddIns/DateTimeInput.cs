@@ -73,15 +73,13 @@
             /// <returns></returns>
             public override bool PI_PushAllRecords(long nRecordLimit)
             {
-                var config = this.GetConfigObject();
-
-                var fieldDescription = config?.OutputType.OutputDescription(config.OutputFieldName, 19);
+                var fieldDescription = this.ConfigObject.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
                 if (fieldDescription == null)
                 {
                     return false;
                 }
                 fieldDescription.Source = nameof(DateTimeInput);
-                fieldDescription.Description = $"{config.DateToReturn}";
+                fieldDescription.Description = $"{this.ConfigObject.DateToReturn}";
 
                 var recordInfo = Utilities.CreateRecordInfo(fieldDescription);
 
@@ -94,7 +92,7 @@
                 }
 
                 var dateOutput = DateTime.Today;
-                switch (config.DateToReturn)
+                switch (this.ConfigObject.DateToReturn)
                 {
                     case DateToReturn.Now:
                         dateOutput = DateTime.Now;
@@ -120,7 +118,7 @@
                 }
 
                 var recordOut = recordInfo.CreateRecord();
-                recordInfo.GetFieldByName(config.OutputFieldName, false)?.SetFromString(recordOut, dateOutput.ToString(config.OutputType == OutputType.Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
+                recordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false)?.SetFromString(recordOut, dateOutput.ToString(this.ConfigObject.OutputType == OutputType.Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
                 this.Output?.PushRecord(recordOut.GetRecord());
                 this.Output?.UpdateProgress(1.0);
                 this.Output?.OutputRecordCount(true);

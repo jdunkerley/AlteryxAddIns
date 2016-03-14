@@ -119,9 +119,7 @@
 
             private bool InitFunc(RecordInfo info)
             {
-                var config = this.GetConfigObject();
-
-                this._inputFieldBase = info.GetFieldByName(config.InputFieldName, false);
+                this._inputFieldBase = info.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (this._inputFieldBase == null)
                 {
                     return false;
@@ -129,11 +127,11 @@
 
                 this._outputRecordInfo = Utilities.CreateRecordInfo(
                     info,
-                    new FieldDescription(config.OutputFieldName, FieldType.E_FT_V_String) { Size = 256 });
-                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(config.OutputFieldName, false);
+                    new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_String) { Size = 256 });
+                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
                 this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
 
-                this._hashAlgorithm = config.GetAlgorithm();
+                this._hashAlgorithm = this.ConfigObject.GetAlgorithm();
 
                 return true;
             }

@@ -2,7 +2,7 @@
 <AlteryxDocument yxmdVer="10.0">
   <Nodes>
     <Node ToolID="1">
-      <GuiSettings Plugin="JDunkerley.Alteryx.CircuitBreakerTool">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddins.CircuitBreaker">
         <Position x="186" y="162" />
       </GuiSettings>
       <Properties>
@@ -13,7 +13,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.Alteryx.PlugIn.dll" EngineDllEntryPoint=".Net:JDunkerley.Alteryx.CircuitBreakerTool+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.CircuitBreaker+Engine" />
     </Node>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
@@ -43,7 +43,7 @@
       <Properties>
         <Configuration>
           <Passwords />
-          <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="0">C:\Downloads\TestPrices.csv</File>
+          <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="0">C:\Repos\AlteryxAddIns\TestPrices.csv</File>
           <FormatSpecificOptions>
             <CodePage>28591</CodePage>
             <Delimeter>,</Delimeter>
@@ -61,22 +61,22 @@
         </Annotation>
         <MetaInfo connection="Output">
           <RecordInfo>
-            <Field name="UniqueID" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="Price" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="Date" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="PostCode" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="PropertyType" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="IsNewBuild" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="Freehold" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="PAON" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="SAON" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="Street" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="Locality" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="City" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="District" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="County" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="PPType" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
-            <Field name="RecordStatus" size="254" source="File: C:\Downloads\TestPrices.csv" type="V_String" />
+            <Field name="UniqueID" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="Price" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="Date" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="PostCode" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="PropertyType" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="IsNewBuild" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="Freehold" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="PAON" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="SAON" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="Street" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="Locality" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="City" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="District" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="County" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="PPType" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
+            <Field name="RecordStatus" size="254" source="File: C:\Repos\AlteryxAddIns\TestPrices.csv" type="V_String" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -84,11 +84,11 @@
     </Node>
     <Node ToolID="4">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="390" y="162" />
+        <Position x="306" y="210" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_14328_a7d6c3daf5ee4dd29b45bf432ed15650_\Engine_14328_44cc287de0a140c2844bf27376adf443_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5932_b86750f2deaf489d9455c4cadeb71d90_\Engine_33484_3e76de4f1b01467f9433aeb8e80f2b56_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -106,8 +106,8 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
     <Node ToolID="5">
-      <GuiSettings Plugin="JDunkerley.Alteryx.CircuitBreakerTool">
-        <Position x="186" y="246" />
+      <GuiSettings Plugin="JDunkerley.AlteryxAddins.CircuitBreaker">
+        <Position x="186" y="270" />
       </GuiSettings>
       <Properties>
         <Configuration />
@@ -117,11 +117,11 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.Alteryx.PlugIn.dll" EngineDllEntryPoint=".Net:JDunkerley.Alteryx.CircuitBreakerTool+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.CircuitBreaker+Engine" />
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
-        <Position x="54" y="246" />
+        <Position x="54" y="270" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -146,11 +146,11 @@
     </Node>
     <Node ToolID="8">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="390" y="246" />
+        <Position x="306" y="306" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_14328_a7d6c3daf5ee4dd29b45bf432ed15650_\Engine_14328_2d5598ad4d014ba9a5b60970d75c95cb_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5932_b86750f2deaf489d9455c4cadeb71d90_\Engine_33484_1bb9d0a0166f41fbaef104ce7f53a8bd_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -168,8 +168,8 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
     <Node ToolID="9">
-      <GuiSettings Plugin="JDunkerley.Alteryx.CircuitBreakerTool">
-        <Position x="294" y="330" />
+      <GuiSettings Plugin="JDunkerley.AlteryxAddins.CircuitBreaker">
+        <Position x="294" y="390" />
       </GuiSettings>
       <Properties>
         <Configuration />
@@ -179,11 +179,11 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.Alteryx.PlugIn.dll" EngineDllEntryPoint=".Net:JDunkerley.Alteryx.CircuitBreakerTool+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.CircuitBreaker+Engine" />
     </Node>
     <Node ToolID="10">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="186" y="330" />
+        <Position x="186" y="390" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -206,7 +206,102 @@
     </Node>
     <Node ToolID="11">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="390" y="330" />
+        <Position x="402" y="438" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5932_b86750f2deaf489d9455c4cadeb71d90_\Engine_33484_bacb11ab1ec9418f94bf424fa921b473_.yxdb</TempFile>
+          <Layout>
+            <View1>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+    <Node ToolID="12">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
+        <Position x="534" y="270" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Tests>
+            <Test>
+              <Name>Should be no rows</Name>
+              <Connection>#1</Connection>
+              <Type>RecCountValue</Type>
+              <Value>0</Value>
+            </Test>
+          </Tests>
+          <DontReportSubsequent value="True" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Should be no rows</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTest" />
+    </Node>
+    <Node ToolID="16">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
+        <Position x="534" y="174" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Tests>
+            <Test>
+              <Name>Should be all rows</Name>
+              <Connection>#1</Connection>
+              <Type>RecCountMatch</Type>
+              <Value>#2</Value>
+            </Test>
+          </Tests>
+          <DontReportSubsequent value="True" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Should be all rows</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTest" />
+    </Node>
+    <Node ToolID="17">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
+        <Position x="534" y="390" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Tests>
+            <Test>
+              <Name>Should be all rows</Name>
+              <Connection>#1</Connection>
+              <Type>RecCountMatch</Type>
+              <Value>#2</Value>
+            </Test>
+          </Tests>
+          <DontReportSubsequent value="True" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Should be all rows</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTest" />
+    </Node>
+    <Node ToolID="18">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddins.CircuitBreaker">
+        <Position x="294" y="510" />
       </GuiSettings>
       <Properties>
         <Configuration />
@@ -216,13 +311,91 @@
           <Left value="False" />
         </Annotation>
       </Properties>
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.CircuitBreaker+Engine" />
+    </Node>
+    <Node ToolID="19">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+        <Position x="186" y="510" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Mode>Simple</Mode>
+          <Simple>
+            <Field>PropertyType</Field>
+            <Operator>=</Operator>
+            <Operands>
+              <Operand>S</Operand>
+            </Operands>
+          </Simple>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>[PropertyType] = "S"</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+    </Node>
+    <Node ToolID="20">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+        <Position x="402" y="558" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_5932_b86750f2deaf489d9455c4cadeb71d90_\Engine_33484_6d551a3105a843d5a832a2ce48f36a1e_.yxdb</TempFile>
+          <Layout>
+            <View1>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+    <Node ToolID="21">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
+        <Position x="534" y="510" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Tests>
+            <Test>
+              <Name>Should be no rows</Name>
+              <Connection>#1</Connection>
+              <Type>RecCountValue</Type>
+              <Value>0</Value>
+            </Test>
+          </Tests>
+          <DontReportSubsequent value="True" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Should be no rows</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTest" />
     </Node>
   </Nodes>
   <Connections>
     <Connection>
       <Origin ToolID="1" Connection="Output" />
       <Destination ToolID="4" Connection="Input" />
+    </Connection>
+    <Connection name="#1">
+      <Origin ToolID="1" Connection="Output" />
+      <Destination ToolID="16" Connection="Input" />
+    </Connection>
+    <Connection name="#2">
+      <Origin ToolID="3" Connection="Output" />
+      <Destination ToolID="16" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="2" Connection="Output" />
@@ -252,13 +425,41 @@
       <Origin ToolID="3" Connection="Output" />
       <Destination ToolID="10" Connection="Input" />
     </Connection>
+    <Connection name="#2">
+      <Origin ToolID="3" Connection="Output" />
+      <Destination ToolID="17" Connection="Input" />
+    </Connection>
+    <Connection name="#1">
+      <Origin ToolID="9" Connection="Output" />
+      <Destination ToolID="17" Connection="Input" />
+    </Connection>
+    <Connection Wireless="True">
+      <Origin ToolID="3" Connection="Output" />
+      <Destination ToolID="19" Connection="Input" />
+    </Connection>
     <Connection>
       <Origin ToolID="5" Connection="Output" />
       <Destination ToolID="8" Connection="Input" />
     </Connection>
+    <Connection name="#1">
+      <Origin ToolID="5" Connection="Output" />
+      <Destination ToolID="12" Connection="Input" />
+    </Connection>
     <Connection>
       <Origin ToolID="9" Connection="Output" />
       <Destination ToolID="11" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="18" Connection="Output" />
+      <Destination ToolID="20" Connection="Input" />
+    </Connection>
+    <Connection name="#1">
+      <Origin ToolID="18" Connection="Output" />
+      <Destination ToolID="21" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="19" Connection="True" />
+      <Destination ToolID="18" Connection="Breaker" />
     </Connection>
   </Connections>
   <Properties>
