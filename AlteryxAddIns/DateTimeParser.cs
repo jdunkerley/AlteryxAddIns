@@ -60,6 +60,28 @@
             /// </summary>
             /// <returns></returns>
             public override string ToString() => $"{this.InputFieldName} ({this.FormatString}) ⇒ {this.OutputFieldName}";
+
+            /// <summary>
+            /// Create Parser Func
+            /// </summary>
+            /// <returns></returns>
+            public Func<string, DateTime?> CreateParser()
+            {
+                var format = this.FormatString;
+                var culture = CultureTypeConverter.GetCulture(this.Culture);
+
+                DateTime dt;
+                if (string.IsNullOrWhiteSpace(format))
+                {
+                    return i => DateTime.TryParse(i, culture, DateTimeStyles.AllowWhiteSpaces, out dt)
+                    ? (DateTime?)dt
+                    : null;
+                }
+
+                return input => DateTime.TryParseExact(input, format, culture, DateTimeStyles.AllowWhiteSpaces, out dt)
+                    ? (DateTime?)dt
+                    : null;
+            }
         }
 
         public class Engine : BaseEngine<Config>
@@ -68,15 +90,11 @@
 
             private RecordCopier _copier;
 
+            private Func<string, DateTime?> _parser;
+
             private RecordInfo _outputRecordInfo;
 
             private FieldBase _outputFieldBase;
-
-            private string _format;
-
-            private bool _exact;
-
-            private CultureInfo _culture;
 
             public Engine()
             {
@@ -101,35 +119,29 @@
 
             private bool InitFunc(RecordInfo info)
             {
-                var config = this.GetConfigObject();
-
-                var fieldDescription = config?.OutputType.OutputDescription(config.OutputFieldName, 19);
+                var fieldDescription = this.ConfigObject.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
                 if (fieldDescription == null)
                 {
                     return false;
                 }
                 fieldDescription.Source = nameof(DateTimeParser);
-                fieldDescription.Description = $"{config.InputFieldName} parsed as a DateTime";
+                fieldDescription.Description = $"{this.ConfigObject.InputFieldName} parsed as a DateTime";
 
 
-                this._inputFieldBase = info.GetFieldByName(config.InputFieldName, false);
+                this._inputFieldBase = info.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (this._inputFieldBase == null)
                 {
                     return false;
                 }
 
-                var newRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
-
-                this._outputRecordInfo = newRecordInfo;
-                this._outputFieldBase = newRecordInfo.GetFieldByName(config.OutputFieldName, false);
-                this.Output?.Init(newRecordInfo, nameof(this.Output), null, this.XmlConfig);
+                this._outputRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
+                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
+                this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
 
                 // Create the Copier
-                this._copier = Utilities.CreateCopier(info, newRecordInfo, config.OutputFieldName);
+                this._copier = Utilities.CreateCopier(info, this._outputRecordInfo, this.ConfigObject.OutputFieldName);
 
-                this._format = config.FormatString;
-                this._exact = string.IsNullOrWhiteSpace(this._format);
-                this._culture = CultureTypeConverter.GetCulture(config.Culture);
+                this._parser = this.ConfigObject.CreateParser();
 
                 return true;
             }
@@ -140,15 +152,11 @@
                 this._copier.Copy(record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);
+                var result = this._parser(input);
 
-                DateTime dt;
-                bool result = this._exact
-                    ? DateTime.TryParse(input, this._culture, DateTimeStyles.AllowWhiteSpaces, out dt)
-                    : DateTime.TryParseExact(input, this._format, this._culture, DateTimeStyles.AllowWhiteSpaces, out dt);
-
-                if (result)
+                if (result.HasValue)
                 {
-                    this._outputFieldBase.SetFromString(record, dt.ToString(this._outputFieldBase.FieldType == FieldType.E_FT_Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
+                    this._outputFieldBase.SetFromString(record, result.Value.ToString(this._outputFieldBase.FieldType == FieldType.E_FT_Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
                 }
                 else
                 {

@@ -1,5 +1,6 @@
 ﻿namespace JDunkerley.AlteryxAddins
 {
+    using System;
     using System.ComponentModel;
     using System.Globalization;
 
@@ -14,6 +15,11 @@
     {
         public class Config
         {
+            public Config()
+            {
+                this.CultureObject = new Lazy<CultureInfo>(() => CultureTypeConverter.GetCulture(this.Culture));
+            }
+
             /// <summary>
             /// Gets or sets the type of the output.
             /// </summary>
@@ -47,6 +53,10 @@
             [InputPropertyName(nameof(DateTimeParser.Engine.Input), typeof(DateTimeParser.Engine), FieldType.E_FT_String, FieldType.E_FT_V_String, FieldType.E_FT_V_WString, FieldType.E_FT_WString)]
             public string InputFieldName { get; set; } = "ValueInput";
 
+            [Browsable(false)]
+            [System.Xml.Serialization.XmlIgnore]
+            public Lazy<CultureInfo> CultureObject { get; }
+
             /// <summary>
             /// ToString used for annotation
             /// </summary>
@@ -54,7 +64,7 @@
             public override string ToString() => $"{this.InputFieldName} ⇒ {this.OutputFieldName}";
         }
 
-        public class Engine : BaseEngine<DateTimeParser.Config>
+        public class Engine : BaseEngine<NumberParser.Config>
         {
             private FieldBase _inputFieldBase;
 
@@ -63,8 +73,6 @@
             private RecordInfo _outputRecordInfo;
 
             private FieldBase _outputFieldBase;
-
-            private CultureInfo _culture;
 
             public Engine()
             {
@@ -89,33 +97,27 @@
 
             private bool InitFunc(RecordInfo info)
             {
-                var config = this.GetConfigObject();
-
-                var fieldDescription = config?.OutputType.OutputDescription(config.OutputFieldName, 19);
+                var fieldDescription = this.ConfigObject?.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
                 if (fieldDescription == null)
                 {
                     return false;
                 }
                 fieldDescription.Source = nameof(DateTimeParser);
-                fieldDescription.Description = $"{config.InputFieldName} parsed as a number";
+                fieldDescription.Description = $"{this.ConfigObject.InputFieldName} parsed as a number";
 
 
-                this._inputFieldBase = info.GetFieldByName(config.InputFieldName, false);
+                this._inputFieldBase = info.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (this._inputFieldBase == null)
                 {
                     return false;
                 }
 
-                var newRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
-
-                this._outputRecordInfo = newRecordInfo;
-                this._outputFieldBase = newRecordInfo.GetFieldByName(config.OutputFieldName, false);
-                this.Output?.Init(newRecordInfo, nameof(this.Output), null, this.XmlConfig);
+                this._outputRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
+                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
+                this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
 
                 // Create the Copier
-                this._copier = Utilities.CreateCopier(info, newRecordInfo, config.OutputFieldName);
-
-                this._culture = CultureTypeConverter.GetCulture(config.Culture);
+                this._copier = Utilities.CreateCopier(info, this._outputRecordInfo, this.ConfigObject.OutputFieldName);
 
                 return true;
             }
@@ -128,7 +130,7 @@
                 string input = this._inputFieldBase.GetAsString(r);
 
                 double value;
-                bool result = double.TryParse(input, NumberStyles.Any, this._culture, out value);
+                bool result = double.TryParse(input, NumberStyles.Any, this.ConfigObject.CultureObject.Value, out value);
 
                 if (result)
                 {

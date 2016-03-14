@@ -1,28 +1,9 @@
 <?xml version="1.0"?>
 <AlteryxDocument yxmdVer="10.0">
   <Nodes>
-    <Node ToolID="1">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeParserTool">
-        <Position x="162" y="54" />
-      </GuiSettings>
-      <Properties>
-        <Configuration>
-          <OutputType>Date</OutputType>
-          <OutputFieldName>Date</OutputFieldName>
-          <Culture>French (France)</Culture>
-          <InputFieldName>FrenchDate</InputFieldName>
-        </Configuration>
-        <Annotation DisplayMode="0">
-          <Name />
-          <DefaultAnnotationText>FrenchDate=&gt;Date</DefaultAnnotationText>
-          <Left value="False" />
-        </Annotation>
-      </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.DateTimeParserTool+Engine" />
-    </Node>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
-        <Position x="54" y="54" />
+        <Position x="6" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -50,7 +31,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_18416_bf34aa363abc4a89bd8a2cc61b73a39e_\Engine_18416_a3f99955cd2f4f5397faf22e5913af45_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_28112_6c7a653063a4443ba278065b2e5000c6_\Engine_9328_f581aee3f1904079807a5b5e156652b1_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -67,15 +48,34 @@
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
+    <Node ToolID="4">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeParser">
+        <Position x="126" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OutputType>DateTime</OutputType>
+          <OutputFieldName>Date</OutputFieldName>
+          <Culture>French</Culture>
+          <InputFieldName>FrenchDate</InputFieldName>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>FrenchDate () ⇒ Date</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.DateTimeParser+Engine" />
+    </Node>
   </Nodes>
   <Connections>
     <Connection>
-      <Origin ToolID="1" Connection="Output" />
-      <Destination ToolID="3" Connection="Input" />
+      <Origin ToolID="2" Connection="Output" />
+      <Destination ToolID="4" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="2" Connection="Output" />
-      <Destination ToolID="1" Connection="Input" />
+      <Origin ToolID="4" Connection="Output" />
+      <Destination ToolID="3" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>

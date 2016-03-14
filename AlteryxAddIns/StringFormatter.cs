@@ -62,6 +62,44 @@ namespace JDunkerley.AlteryxAddins
             /// </summary>
             /// <returns></returns>
             public override string ToString() => $"{this.InputFieldName}=>{this.OutputFieldName} [{this.FormatString}]";
+
+            /// <summary>
+            /// Create Formatter Func
+            /// </summary>
+            /// <param name="inputFieldBase"></param>
+            /// <returns></returns>
+            public Func<RecordData, string> CreateFormatter(FieldBase inputFieldBase)
+            {
+                var format = this.FormatString;
+                var culture = CultureTypeConverter.GetCulture(this.Culture);
+
+                if (string.IsNullOrWhiteSpace(format))
+                {
+                    return inputFieldBase.GetAsString;
+                }
+
+                switch (inputFieldBase.FieldType)
+                {
+                    case FieldType.E_FT_Bool:
+                        return r => inputFieldBase.GetAsBool(r)?.ToString(culture);
+                    case FieldType.E_FT_Byte:
+                    case FieldType.E_FT_Int16:
+                    case FieldType.E_FT_Int32:
+                    case FieldType.E_FT_Int64:
+                        return r => inputFieldBase.GetAsInt64(r)?.ToString(format, culture);
+                    case FieldType.E_FT_Float:
+                    case FieldType.E_FT_Double:
+                    case FieldType.E_FT_FixedDecimal:
+                        return r => inputFieldBase.GetAsDouble(r)?.ToString(format, culture);
+                    case FieldType.E_FT_Date:
+                    case FieldType.E_FT_DateTime:
+                        return r => inputFieldBase.GetAsString(r).ToDateTime()?.ToString(format, culture);
+                    case FieldType.E_FT_Time:
+                        return r => inputFieldBase.GetAsString(r).ToTimeSpan()?.ToString(format, culture);
+                }
+
+                return null;
+            }
         }
 
         /// <summary>
@@ -100,26 +138,24 @@ namespace JDunkerley.AlteryxAddins
 
             private bool InitFunc(RecordInfo info)
             {
-                var config = this.GetConfigObject();
-
                 // Get Input Field
-                var inputFieldBase = info.GetFieldByName(config.InputFieldName, false);
+                var inputFieldBase = info.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (inputFieldBase == null)
                 {
                     return false;
                 }
 
                 // Create Output Format
-                var fieldDescription = new FieldDescription(config.OutputFieldName, FieldType.E_FT_V_WString) { Size = config.OutputFieldLength };
+                var fieldDescription = new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_WString) { Size = this.ConfigObject.OutputFieldLength };
                 this._outputRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
-                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(config.OutputFieldName, false);
+                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
                 this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
 
                 // Create the Copier
-                this._copier = Utilities.CreateCopier(info, this._outputRecordInfo, config.OutputFieldName);
+                this._copier = Utilities.CreateCopier(info, this._outputRecordInfo, this.ConfigObject.OutputFieldName);
 
                 // Create the Formatter funcxtion
-                this._formatter = this.CreateFormatter(config, inputFieldBase);
+                this._formatter = this.ConfigObject.CreateFormatter(inputFieldBase);
 
                 return this._formatter != null;
             }
@@ -142,41 +178,6 @@ namespace JDunkerley.AlteryxAddins
 
                 this.Output?.PushRecord(record.GetRecord());
                 return true;
-            }
-
-            private Func<RecordData, string> CreateFormatter(Config config, FieldBase inputFieldBase)
-            {
-                var format = config.FormatString;
-                var culture = CultureTypeConverter.GetCulture(config.Culture);
-
-                if (string.IsNullOrWhiteSpace(format))
-                {
-                    return inputFieldBase.GetAsString;
-                }
-                else
-                {
-                    switch (inputFieldBase.FieldType)
-                    {
-                        case FieldType.E_FT_Bool:
-                            return r => inputFieldBase.GetAsBool(r)?.ToString(culture);
-                        case FieldType.E_FT_Byte:
-                        case FieldType.E_FT_Int16:
-                        case FieldType.E_FT_Int32:
-                        case FieldType.E_FT_Int64:
-                            return r => inputFieldBase.GetAsInt64(r)?.ToString(format, culture);
-                        case FieldType.E_FT_Float:
-                        case FieldType.E_FT_Double:
-                        case FieldType.E_FT_FixedDecimal:
-                            return r => inputFieldBase.GetAsDouble(r)?.ToString(format, culture);
-                        case FieldType.E_FT_Date:
-                        case FieldType.E_FT_DateTime:
-                            return r => inputFieldBase.GetAsString(r).ToDateTime()?.ToString(format, culture);
-                        case FieldType.E_FT_Time:
-                            return r => inputFieldBase.GetAsString(r).ToTimeSpan()?.ToString(format, culture);
-                    }
-                }
-
-                return null;
             }
         }
     }

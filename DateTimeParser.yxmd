@@ -33,7 +33,7 @@
     </Node>
     <Node ToolID="5">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="258" y="210" />
+        <Position x="306" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -54,32 +54,33 @@
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
-    <Node ToolID="6">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeParserTool">
-        <Position x="162" y="282" />
+    <Node ToolID="7">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeParser">
+        <Position x="174" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <OutputType>Date</OutputType>
+          <OutputType>DateTime</OutputType>
           <OutputFieldName>Date</OutputFieldName>
+          <Culture>Current</Culture>
           <InputFieldName>DateInput</InputFieldName>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>DateInput=&gt;Date</DefaultAnnotationText>
+          <DefaultAnnotationText>DateInput () ⇒ Date</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.DateTimeParserTool+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.DateTimeParser+Engine" />
     </Node>
   </Nodes>
   <Connections>
     <Connection>
       <Origin ToolID="2" Connection="Output" />
-      <Destination ToolID="6" Connection="Input" />
+      <Destination ToolID="7" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="6" Connection="Output" />
+      <Origin ToolID="7" Connection="Output" />
       <Destination ToolID="5" Connection="Input" />
     </Connection>
   </Connections>
