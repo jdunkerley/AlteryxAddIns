@@ -61,6 +61,7 @@
     <Compile Include="DateTimeParser.cs" />
     <Compile Include="CircuitBreaker.cs" />
     <Compile Include="DateTimeInput.cs" />
+    <Compile Include="HexBin.cs" />
     <Compile Include="RandomNumber.cs" />
     <Compile Include="StringFormatter.cs" />
     <Compile Include="HashCodeGenerator.cs" />

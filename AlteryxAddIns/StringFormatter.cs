@@ -146,7 +146,7 @@ namespace JDunkerley.AlteryxAddins
                 }
 
                 // Create Output Format
-                var fieldDescription = new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_WString) { Size = this.ConfigObject.OutputFieldLength };
+                var fieldDescription = new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_WString) { Size = this.ConfigObject.OutputFieldLength, Source = nameof(StringFormatter) };
                 this._outputRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
                 this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
                 this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);

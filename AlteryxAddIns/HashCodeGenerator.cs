@@ -127,7 +127,7 @@
 
                 this._outputRecordInfo = Utilities.CreateRecordInfo(
                     info,
-                    new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_String) { Size = 256 });
+                    new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_String) { Size = 256, Source = nameof(HashCodeGenerator)});
                 this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
                 this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
 
