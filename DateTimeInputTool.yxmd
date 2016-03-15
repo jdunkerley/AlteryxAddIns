@@ -1,24 +1,6 @@
 <?xml version="1.0"?>
 <AlteryxDocument yxmdVer="10.0">
   <Nodes>
-    <Node ToolID="1">
-      <GuiSettings Plugin="JDunkerley.Alteryx.DateTimeInputTool">
-        <Position x="54" y="54" />
-      </GuiSettings>
-      <Properties>
-        <Configuration>
-          <ReturnDateTime>false</ReturnDateTime>
-          <OutputFieldName>DateInput</OutputFieldName>
-          <DateToReturn>StartOfWeek</DateToReturn>
-        </Configuration>
-        <Annotation DisplayMode="0">
-          <Name />
-          <DefaultAnnotationText>DateInput=StartOfWeek</DefaultAnnotationText>
-          <Left value="False" />
-        </Annotation>
-      </Properties>
-      <EngineSettings EngineDll="JDunkerley.Alteryx.PlugIn.dll" EngineDllEntryPoint=".Net:JDunkerley.Alteryx.DateTimeInputTool+Engine" />
-    </Node>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
         <Position x="210" y="54" />
@@ -42,10 +24,28 @@
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
+    <Node ToolID="3">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeInput">
+        <Position x="54" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OutputType>DateTime</OutputType>
+          <OutputFieldName>Date</OutputFieldName>
+          <DateToReturn>StartOfWeek</DateToReturn>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Date=StartOfWeek</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.DateTimeInput+Engine" />
+    </Node>
   </Nodes>
   <Connections>
     <Connection>
-      <Origin ToolID="1" Connection="Output" />
+      <Origin ToolID="3" Connection="Output" />
       <Destination ToolID="2" Connection="Input" />
     </Connection>
   </Connections>
