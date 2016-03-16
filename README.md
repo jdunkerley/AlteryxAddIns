@@ -49,6 +49,9 @@ This exposes the .Net System.Security.Cryptography HashAlgorithms to Alteryx. It
 ### Random Number
 This generates a random number based of a sepcified distribution (currently Linear, Normal and LogNormal). Based of the Math.Net Numerics package. Can be seeded to allow the same sequence each time.
 
+### HexBin
+This reproduces the hexagonal binning functionality built into Tableau. It is based of the d3 HexBin plugin. It defaults to a radius 1 hexagon but you can specify different sizes.
+
 ## Testing the ToolSet
 
 There is a workflow in the root directory of the repository called `UnitTestRunner`. This will run all other workflows in the repository and see if they run successfully.
