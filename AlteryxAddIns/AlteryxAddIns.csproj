@@ -116,6 +116,9 @@
   <ItemGroup>
     <EmbeddedResource Include="RandomNumber.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HexBin.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo "$(TargetDir)Install.bat"</PostBuildEvent>

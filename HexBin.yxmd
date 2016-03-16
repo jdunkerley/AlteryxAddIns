@@ -3,123 +3,83 @@
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="JDunkerley.AlteryxAddins.HexBin">
-        <Position x="450" y="54" />
+        <Position x="198" y="90" />
       </GuiSettings>
       <Properties>
         <Configuration>
           <OutputBinXFieldName>HexBinX</OutputBinXFieldName>
           <OutputBinYFieldName>HexBinY</OutputBinYFieldName>
-          <InputPointXFieldName>PointX</InputPointXFieldName>
-          <InputPointYFieldName>PointY</InputPointYFieldName>
+          <InputPointXFieldName>Point X</InputPointXFieldName>
+          <InputPointYFieldName>Point Y</InputPointYFieldName>
+          <Radius>1</Radius>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>HexBin(PointX, PointY)</DefaultAnnotationText>
+          <DefaultAnnotationText>HexBin(Point X, Point Y)</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
       <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.HexBin+Engine" />
     </Node>
     <Node ToolID="2">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
-        <Position x="354" y="54" />
+      <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+        <Position x="54" y="90" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <OutputType>Double</OutputType>
-          <OutputFieldName>PointY</OutputFieldName>
-          <Seed>0</Seed>
-          <Distribution>Normal</Distribution>
-          <Minimum>0</Minimum>
-          <Maximum>1</Maximum>
-          <Average>0</Average>
-          <StandardDeviation>80</StandardDeviation>
+          <Passwords />
+          <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`</File>
+          <FormatSpecificOptions>
+            <FirstRowData>False</FirstRowData>
+          </FormatSpecificOptions>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>PointY=Normal[0, 80]</DefaultAnnotationText>
+          <DefaultAnnotationText>HexBinData.xlsx
+Table=`Sheet1$`</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="Row Count" source="File: C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`" type="Double" />
+            <Field name="Point X" source="File: C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`" type="Double" />
+            <Field name="Point Y" source="File: C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`" type="Double" />
+            <Field name="HexX" source="File: C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`" type="Double" />
+            <Field name="HexY" source="File: C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`" type="Double" />
+          </RecordInfo>
+        </MetaInfo>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.RandomNumber+Engine" />
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
     </Node>
     <Node ToolID="3">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
-        <Position x="246" y="54" />
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+        <Position x="330" y="90" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <OutputType>Double</OutputType>
-          <OutputFieldName>PointX</OutputFieldName>
-          <Seed>0</Seed>
-          <Distribution>Normal</Distribution>
-          <Minimum>0</Minimum>
-          <Maximum>1</Maximum>
-          <Average>0</Average>
-          <StandardDeviation>80</StandardDeviation>
+          <Expression><![CDATA[Abs([HexX]-[HexBinX])>1e-3 
+or
+Abs([HexY]-[HexBinY])>1e-3 ]]></Expression>
+          <Mode>Custom</Mode>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>PointX=Normal[0, 80]</DefaultAnnotationText>
+          <AnnotationText>Verify versus Tableau test set</AnnotationText>
+          <DefaultAnnotationText><![CDATA[Abs([HexX]-[HexBinX])>1e-3 
+or
+Abs([HexY]-[HexBinY])>1e-3 ]]></DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.RandomNumber+Engine" />
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
     </Node>
-    <Node ToolID="5">
-      <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
-        <Position x="42" y="54" />
-      </GuiSettings>
-      <Properties>
-        <Configuration>
-          <NumRows value="1" />
-          <Fields>
-            <Field name="Rows" />
-          </Fields>
-          <Data>
-            <r>
-              <c>2000</c>
-            </r>
-          </Data>
-        </Configuration>
-        <Annotation DisplayMode="0">
-          <Name />
-          <DefaultAnnotationText />
-          <Left value="False" />
-        </Annotation>
-      </Properties>
-      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
-    </Node>
-    <Node ToolID="6">
-      <GuiSettings Plugin="AlteryxBasePluginsGui.GenerateRows.GenerateRows">
-        <Position x="138" y="54" />
-      </GuiSettings>
-      <Properties>
-        <Configuration>
-          <UpdateField value="False" />
-          <UpdateField_Name />
-          <CreateField_Name>RowCount</CreateField_Name>
-          <CreateField_Type>Int32</CreateField_Type>
-          <CreateField_Size>4</CreateField_Size>
-          <Expression_Init>1</Expression_Init>
-          <Expression_Cond>RowCount &lt;= Rows</Expression_Cond>
-          <Expression_Loop>RowCount + 1</Expression_Loop>
-        </Configuration>
-        <Annotation DisplayMode="0">
-          <Name />
-          <DefaultAnnotationText />
-          <Left value="False" />
-        </Annotation>
-      </Properties>
-      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxGenerateRows" />
-    </Node>
-    <Node ToolID="7">
+    <Node ToolID="4">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="546" y="54" />
+        <Position x="486" y="78" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_19992_5a1a6c333294465bb3315af2fd698bd6_\Engine_19992_5f8eecff51f341fe8ef64b0562871e33_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_22356_1cf22203f54f407cb11af7447931c733_\Engine_22356_9f7badef98df45b58f082d6e44808703_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -136,27 +96,74 @@
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
+    <Node ToolID="5">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+        <Position x="486" y="150" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_22356_1cf22203f54f407cb11af7447931c733_\Engine_22356_a513afa451c949bbb5948f020a23edde_.yxdb</TempFile>
+          <Layout>
+            <View1>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+    <Node ToolID="6">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
+        <Position x="486" y="18" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Tests>
+            <Test>
+              <Name>No Rows</Name>
+              <Connection>#1</Connection>
+              <Type>RecCountValue</Type>
+              <Value>0</Value>
+            </Test>
+          </Tests>
+          <DontReportSubsequent value="True" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>No Rows</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTest" />
+    </Node>
   </Nodes>
   <Connections>
     <Connection>
       <Origin ToolID="1" Connection="Output" />
-      <Destination ToolID="7" Connection="Input" />
+      <Destination ToolID="3" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="2" Connection="Output" />
       <Destination ToolID="1" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="3" Connection="Output" />
-      <Destination ToolID="2" Connection="Input" />
+      <Origin ToolID="3" Connection="True" />
+      <Destination ToolID="4" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="5" Connection="Output" />
+      <Origin ToolID="3" Connection="False" />
+      <Destination ToolID="5" Connection="Input" />
+    </Connection>
+    <Connection name="#1">
+      <Origin ToolID="3" Connection="True" />
       <Destination ToolID="6" Connection="Input" />
-    </Connection>
-    <Connection>
-      <Origin ToolID="6" Connection="Output" />
-      <Destination ToolID="3" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>

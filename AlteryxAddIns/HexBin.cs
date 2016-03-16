@@ -48,6 +48,11 @@
             public string InputPointYFieldName { get; set; }
 
             /// <summary>
+            /// Gets or sets the radius of a heaxgon.
+            /// </summary>
+            public double Radius { get; set; } = 1;
+
+            /// <summary>
             /// ToString used for annotation
             /// </summary>
             /// <returns></returns>
@@ -87,7 +92,11 @@
             {
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
-                    progressAction: d => this.Output.UpdateProgress(d),
+                    progressAction: d =>
+                        {
+                            this.Output.UpdateProgress(d);
+                            this.Engine.OutputToolProgress(this.NToolId, d);
+                        },
                     pushFunc: this.PushFunc,
                     closedAction: () =>
                     {
@@ -145,13 +154,13 @@
                     return true;
                 }
 
-                double dx = 2 * 0.01827602762854775285083869606999; // 2 * Sin(π/3)
-                double dy = 1.5;
+                double dx = 2 * 0.86602540378443864676372317075294 * this.ConfigObject.Radius; // 2 * Sin(π/3)
+                double dy = 1.5 * this.ConfigObject.Radius;
 
-                double py = point.Item2.Value / dy;
+                double py = point.Item1.Value / dy;
                 int pj = (int)Math.Round(py);
                 bool mod2 = (pj & 1) == 1;
-                double px = point.Item1.Value / dx - (mod2 ? 0.5 : 0);
+                double px = point.Item2.Value / dx - (mod2 ? 0.5 : 0);
                 double pi = Math.Round(px);
                 double py1 = py - pj;
 
@@ -163,7 +172,7 @@
                     double px2 = px - pi2;
                     double py2 = py - pj2;
 
-                    if (px1 * px1 + py1 * py1 > px2 * px2 + py2 * py2)
+                    if (px1 * px1 * dx * dx + py1 * py1 * dy *dy > px2 * px2 * dx * dx + py2 * py2 * dy * dy)
                     {
                         pi = pi2 + (mod2 ? 1 : -1) / 2.0;
                         pj = pj2;
@@ -171,8 +180,8 @@
                     }
                 }
 
-                this._outputBinXFieldBase.SetFromDouble(record, (pi + (mod2 ? 0.5 : 0)) * dx);
-                this._outputBinYFieldBase.SetFromDouble(record, pj * dy);
+                this._outputBinYFieldBase.SetFromDouble(record, (pi + (mod2 ? 0.5 : 0)) * dx);
+                this._outputBinXFieldBase.SetFromDouble(record, pj * dy);
 
                 this.Output?.PushRecord(record.GetRecord());
                 return true;

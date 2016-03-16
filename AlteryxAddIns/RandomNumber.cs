@@ -22,6 +22,13 @@
 
         public class Config
         {
+            static Config()
+            {
+                DefaultRandom = new Lazy<Random>(() => new Random());
+            }
+
+            private static Lazy<Random> DefaultRandom { get; }
+
             /// <summary>
             /// Gets or sets the type of the output.
             /// </summary>
@@ -95,7 +102,7 @@
 
             public Func<double> CreateRandomFunc()
             {
-                var random = this.Seed == 0 ? new Random() : new Random(this.Seed);
+                var random = this.Seed == 0 ? DefaultRandom.Value : new Random(this.Seed);
 
                 switch (this.Distribution)
                 {
@@ -147,7 +154,11 @@
             {
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
-                    progressAction: d => this.Output.UpdateProgress(d),
+                    progressAction: d =>
+                    {
+                        this.Output.UpdateProgress(d);
+                        this.Engine.OutputToolProgress(this.NToolId, d);
+                    },
                     pushFunc: this.PushFunc,
                     closedAction: () =>
                         {
