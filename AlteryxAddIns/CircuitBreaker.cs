@@ -101,7 +101,11 @@
 
                             return true;
                         },
-                    progressAction: p => this.Output?.UpdateProgress(this._failed ? 1.0 : p),
+                    progressAction: p =>
+                        {
+                            this.Output?.UpdateProgress(this._failed ? 1.0 : p);
+                            this.Engine.OutputToolProgress(this.NToolId, this._failed ? 1.0 : p);
+                        },
                     closedAction: () =>
                         {
                             if (this.Breaker.State == ConnectionState.Closed)

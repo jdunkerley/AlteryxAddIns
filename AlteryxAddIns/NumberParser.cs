@@ -50,7 +50,7 @@
             [Category("Input")]
             [Description("The Field On Input Stream To Parse")]
             [TypeConverter(typeof(InputFieldTypeConverter))]
-            [InputPropertyName(nameof(DateTimeParser.Engine.Input), typeof(DateTimeParser.Engine), FieldType.E_FT_String, FieldType.E_FT_V_String, FieldType.E_FT_V_WString, FieldType.E_FT_WString)]
+            [InputPropertyName(nameof(Engine.Input), typeof(Engine), FieldType.E_FT_String, FieldType.E_FT_V_String, FieldType.E_FT_V_WString, FieldType.E_FT_WString)]
             public string InputFieldName { get; set; } = "ValueInput";
 
             [Browsable(false)]
@@ -64,7 +64,7 @@
             public override string ToString() => $"{this.InputFieldName} ⇒ {this.OutputFieldName}";
         }
 
-        public class Engine : BaseEngine<NumberParser.Config>
+        public class Engine : BaseEngine<Config>
         {
             private FieldBase _inputFieldBase;
 
@@ -78,7 +78,11 @@
             {
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
-                    progressAction: d => this.Output.UpdateProgress(d),
+                    progressAction: d =>
+                    {
+                        this.Output.UpdateProgress(d);
+                        this.Engine.OutputToolProgress(this.NToolId, d);
+                    },
                     pushFunc: this.PushFunc,
                     closedAction: () => this.Output?.Close());
             }
@@ -102,7 +106,7 @@
                 {
                     return false;
                 }
-                fieldDescription.Source = nameof(DateTimeParser);
+                fieldDescription.Source = nameof(NumberParser);
                 fieldDescription.Description = $"{this.ConfigObject.InputFieldName} parsed as a number";
 
 

@@ -96,7 +96,11 @@
             {
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
-                    progressAction: d => this.Output.UpdateProgress(d),
+                    progressAction: d =>
+                        {
+                            this.Output.UpdateProgress(d);
+                            this.Engine.OutputToolProgress(this.NToolId, d);
+                        },
                     pushFunc: this.PushFunc,
                     closedAction: () =>
                         {
@@ -127,7 +131,7 @@
 
                 this._outputRecordInfo = Utilities.CreateRecordInfo(
                     info,
-                    new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_String) { Size = 256 });
+                    new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_String) { Size = 256, Source = nameof(HashCodeGenerator)});
                 this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
                 this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
 
