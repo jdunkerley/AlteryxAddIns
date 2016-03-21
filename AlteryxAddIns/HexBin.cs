@@ -157,31 +157,31 @@
                 double dx = 2 * 0.86602540378443864676372317075294 * this.ConfigObject.Radius; // 2 * Sin(π/3)
                 double dy = 1.5 * this.ConfigObject.Radius;
 
-                double py = point.Item1.Value / dy;
-                int pj = (int)Math.Round(py);
-                bool mod2 = (pj & 1) == 1;
-                double px = point.Item2.Value / dx - (mod2 ? 0.5 : 0);
-                double pi = Math.Round(px);
-                double py1 = py - pj;
+                double px = point.Item1.Value / dy;
+                int pi = (int)Math.Round(px);
+                bool mod2 = (pi & 1) == 1;
+                double py = point.Item2.Value / dx - (mod2 ? 0.5 : 0);
+                double pj = Math.Round(py);
+                double py1 = (px - pi) * dy;
 
                 if (Math.Abs(py1) * 3 > 1)
                 {
-                    double px1 = px - pi;
-                    double pi2 = pi + (px < pi ? -1 : 1) / 2.0;
-                    int pj2 = pj + (py < pj ? -1 : 1);
+                    double px1 = (py - pj) * dx;
+                    double pj2 = pj + (py < pj ? -1 : 1) / 2.0;
+                    int pi2 = pi + (px < pi ? -1 : 1);
                     double px2 = px - pi2;
                     double py2 = py - pj2;
 
-                    if (px1 * px1 * dx * dx + py1 * py1 * dy *dy > px2 * px2 * dx * dx + py2 * py2 * dy * dy)
+                    if (px1 * px1 + py1 * py1 > px2 * px2 + py2 * py2)
                     {
-                        pi = pi2 + (mod2 ? 1 : -1) / 2.0;
-                        pj = pj2;
-                        mod2 = (pj & 1) == 1;
+                        pj = pj2 + (mod2 ? 1 : -1) / 2.0;
+                        pi = pi2;
+                        mod2 = (pi & 1) == 1;
                     }
                 }
 
-                this._outputBinYFieldBase.SetFromDouble(record, (pi + (mod2 ? 0.5 : 0)) * dx);
-                this._outputBinXFieldBase.SetFromDouble(record, pj * dy);
+                this._outputBinYFieldBase.SetFromDouble(record, (pj + (mod2 ? 0.5 : 0)) * dx);
+                this._outputBinXFieldBase.SetFromDouble(record, pi * dy);
 
                 this.Output?.PushRecord(record.GetRecord());
                 return true;
