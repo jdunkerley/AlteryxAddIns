@@ -53,7 +53,7 @@
                             }
 
                             this._failed = true;
-                            this.Output?.UpdateProgress(1);
+                            this.ExecutionComplete();
                             return true;
                         },
                     closedAction: () =>
@@ -71,6 +71,7 @@
                             if (this.Input.State == ConnectionState.Closed)
                             {
                                 this.Output?.Close();
+                                this.ExecutionComplete();
                             }
                         });
 
@@ -111,6 +112,7 @@
                             if (this.Breaker.State == ConnectionState.Closed)
                             {
                                 this.Output?.Close();
+                                this.ExecutionComplete();
                             }
                         });
             }

@@ -86,7 +86,7 @@
                 this.Output?.Init(recordInfo, nameof(this.Output), null, this.XmlConfig);
                 if (nRecordLimit == 0)
                 {
-                    this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
+                    this.ExecutionComplete();
                     this.Output?.Close();
                     return true;
                 }
@@ -123,7 +123,7 @@
                 this.Output?.UpdateProgress(1.0);
                 this.Output?.OutputRecordCount(true);
 
-                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
+                this.ExecutionComplete();
                 this.Output?.Close();
                 return true;
             }
