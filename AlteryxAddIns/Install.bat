@@ -26,15 +26,17 @@ if '%errorlevel%' NEQ '0' (
 
     pushd "%~dp0"
 
-    echo [Settings] > "JDTools.ini"
-    echo x64Path=%cd% >> "JDTools.ini"
-    echo x86Path=%cd% >> "JDTools.ini"
-    echo ToolGroup=JDTools >> "JDTools.ini"
+    powershell -Command "gci . | Unblock-File"
+
+    echo [Settings]> "JDTools.ini"
+    echo x64Path=%cd%>> "JDTools.ini"
+    echo x86Path=%cd%>> "JDTools.ini"
+    echo ToolGroup=JDTools>> "JDTools.ini"
 
     if "%alteryxPath%" NEQ "" (
         xcopy JDTools.ini "%alteryxPath%\..\Settings\AdditionalPlugins\" /Y /Q
         del JDTools.ini /Q
-	echo Config installed to %alteryxPath%\..\Settings\AdditionalPlugins\JDTools.ini
+    echo Config installed to %alteryxPath%\..\Settings\AdditionalPlugins\JDTools.ini
     ) else (
         echo Please copy "%cd$\JDTools.ini" to <AlteryxInstallDir>\Settings\AdditionalPlugins
     )

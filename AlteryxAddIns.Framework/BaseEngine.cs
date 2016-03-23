@@ -96,9 +96,10 @@ namespace JDunkerley.AlteryxAddIns.Framework
                 kvp.Value.SetValue(this, new PluginOutputConnectionHelper(this.NToolId, this.Engine), null);
             }
 
-#if DEBUG
-            this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Init Called");
-#endif
+            if (this.ShowDebugMessages())
+            {
+                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Init Called");
+            }
         }
 
         /// <summary>
@@ -167,7 +168,10 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="bHasErrors">if set to <c>true</c> [b has errors].</param>
         public virtual void PI_Close(bool bHasErrors)
         {
-            this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Close Called");
+            if (this.ShowDebugMessages())
+            {
+                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Close Called");
+            }
 
             foreach (var kvp in this._outputs)
             {
@@ -186,7 +190,24 @@ namespace JDunkerley.AlteryxAddIns.Framework
 #if DEBUG
         public bool ShowDebugMessages() => true;
 #else
-        public bool ShowDebugMessages() => false;
+        public virtual bool ShowDebugMessages() => false;
 #endif
+
+        /// <summary>
+        /// Tell Alteryx Is Complete
+        /// </summary>
+        protected void ExecutionComplete(bool setProgressTo100 = true)
+        {
+            if (this.ShowDebugMessages())
+            {
+                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "Output Complete");
+            }
+
+            if (setProgressTo100)
+            {
+                this.Engine?.OutputToolProgress(this.NToolId, 1);
+            }
+            this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
+        }
     }
 }
