@@ -154,23 +154,23 @@
                     return true;
                 }
 
-                double dx = 2 * 0.86602540378443864676372317075294 * this.ConfigObject.Radius; // 2 * Sin(π/3)
-                double dy = 1.5 * this.ConfigObject.Radius;
+                double dy = 2 * 0.86602540378443864676372317075294 * this.ConfigObject.Radius; // 2 * Sin(π/3)
+                double dx = 1.5 * this.ConfigObject.Radius;
 
-                double px = point.Item1.Value / dy;
+                double px = point.Item1.Value / dx;
                 int pi = (int)Math.Round(px);
                 bool mod2 = (pi & 1) == 1;
-                double py = point.Item2.Value / dx - (mod2 ? 0.5 : 0);
+                double py = point.Item2.Value / dy - (mod2 ? 0.5 : 0);
                 double pj = Math.Round(py);
-                double py1 = (px - pi) * dy;
+                double px1 = (px - pi) * dx;
 
-                if (Math.Abs(py1) * 3 > 1)
+                if (Math.Abs(px1) * 3 > 1)
                 {
-                    double px1 = (py - pj) * dx;
+                    double py1 = (py - pj) * dy;
                     double pj2 = pj + (py < pj ? -1 : 1) / 2.0;
                     int pi2 = pi + (px < pi ? -1 : 1);
-                    double px2 = px - pi2;
-                    double py2 = py - pj2;
+                    double px2 = (px - pi2) * dx;
+                    double py2 = (py - pj2) * dy;
 
                     if (px1 * px1 + py1 * py1 > px2 * px2 + py2 * py2)
                     {
@@ -180,8 +180,8 @@
                     }
                 }
 
-                this._outputBinYFieldBase.SetFromDouble(record, (pj + (mod2 ? 0.5 : 0)) * dx);
-                this._outputBinXFieldBase.SetFromDouble(record, pi * dy);
+                this._outputBinYFieldBase.SetFromDouble(record, (pj + (mod2 ? 0.5 : 0)) * dy);
+                this._outputBinXFieldBase.SetFromDouble(record, pi * dx);
 
                 this.Output?.PushRecord(record.GetRecord());
                 return true;
