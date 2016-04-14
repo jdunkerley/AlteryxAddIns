@@ -63,9 +63,11 @@
     <Compile Include="ConnectionState.cs" />
     <Compile Include="FieldDescription.cs" />
     <Compile Include="FieldJoin.cs" />
+    <Compile Include="IBaseEngine.cs" />
     <Compile Include="IInputProperty.cs" />
     <Compile Include="ConfigWindows\InputFieldTypeConverter.cs" />
     <Compile Include="InputProperty.cs" />
+    <Compile Include="OutputHelper.cs" />
     <Compile Include="OutputType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConfigWindows\PropertyGridGUI.cs">

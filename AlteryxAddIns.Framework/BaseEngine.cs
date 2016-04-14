@@ -8,7 +8,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
 
     using AlteryxRecordInfoNet;
 
-    public abstract class BaseEngine<T> : INetPlugin
+    public abstract class BaseEngine<T> : INetPlugin, IBaseEngine
         where T: new()
     {
         private readonly Dictionary<string, PropertyInfo> _inputs;
@@ -24,23 +24,23 @@ namespace JDunkerley.AlteryxAddIns.Framework
         protected BaseEngine()
         {
             this._inputs = this.GetType().GetConnections<IIncomingConnectionInterface>();
-            this._outputs = this.GetType().GetConnections<PluginOutputConnectionHelper>();
+            this._outputs = this.GetType().GetConnections<OutputHelper>();
         }
 
         /// <summary>
         /// Gets the Alteryx engine.
         /// </summary>
-        protected EngineInterface Engine { get; private set; }
+        public EngineInterface Engine { get; private set; }
 
         /// <summary>
         /// Gets the tool identifier. Set at PI_Init, unset at PI_Close.
         /// </summary>
-        protected int NToolId { get; private set; }
+        public int NToolId { get; private set; }
 
         /// <summary>
         /// Gets the XML configuration from the workflow.
         /// </summary>
-        protected XmlElement XmlConfig
+        public XmlElement XmlConfig
         {
             get
             {
@@ -93,7 +93,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
 
             foreach (var kvp in this._outputs)
             {
-                kvp.Value.SetValue(this, new PluginOutputConnectionHelper(this.NToolId, this.Engine), null);
+                kvp.Value.SetValue(this, new OutputHelper(this, kvp.Key), null);
             }
 
             if (this.ShowDebugMessages())
@@ -145,13 +145,13 @@ namespace JDunkerley.AlteryxAddIns.Framework
                 return false;
             }
 
-            var helper = prop.GetValue(this, null) as PluginOutputConnectionHelper;
+            var helper = prop.GetValue(this, null) as OutputHelper;
             if (helper == null)
             {
                 return false;
             }
 
-            helper.AddOutgoingConnection(outgoingConnection);
+            helper.AddConnection(outgoingConnection);
             return true;
         }
 
@@ -196,17 +196,13 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <summary>
         /// Tell Alteryx Is Complete
         /// </summary>
-        protected void ExecutionComplete(bool setProgressTo100 = true)
+        public void ExecutionComplete()
         {
             if (this.ShowDebugMessages())
             {
                 this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "Output Complete");
             }
 
-            if (setProgressTo100)
-            {
-                this.Engine?.OutputToolProgress(this.NToolId, 1);
-            }
             this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
         }
     }

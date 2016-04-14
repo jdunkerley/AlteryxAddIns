@@ -3,8 +3,6 @@
     using System;
     using System.ComponentModel;
 
-    using AlteryxRecordInfoNet;
-
     using JDunkerley.AlteryxAddIns.Framework;
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
     using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
@@ -64,7 +62,7 @@
             /// Gets or sets the output.
             /// </summary>
             [CharLabel('O')]
-            public PluginOutputConnectionHelper Output { get; set; }
+            public OutputHelper Output { get; set; }
 
             /// <summary>
             /// Called only if you have no Input Connections
@@ -83,11 +81,10 @@
 
                 var recordInfo = Utilities.CreateRecordInfo(fieldDescription);
 
-                this.Output?.Init(recordInfo, nameof(this.Output), null, this.XmlConfig);
+                this.Output?.Init(recordInfo);
                 if (nRecordLimit == 0)
                 {
-                    this.ExecutionComplete();
-                    this.Output?.Close();
+                    this.Output?.Close(true);
                     return true;
                 }
 
@@ -117,14 +114,11 @@
                         break;
                 }
 
-                var recordOut = recordInfo.CreateRecord();
-                recordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false)?.SetFromString(recordOut, dateOutput.ToString(this.ConfigObject.OutputType == OutputType.Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
-                this.Output?.PushRecord(recordOut.GetRecord());
+                var recordOut = this.Output?.CreateRecord();
+                this.Output?[this.ConfigObject.OutputFieldName]?.SetFromString(recordOut, dateOutput.ToString(this.ConfigObject.OutputType == OutputType.Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
+                this.Output?.Push(recordOut);
                 this.Output?.UpdateProgress(1.0);
-                this.Output?.OutputRecordCount(true);
-
-                this.ExecutionComplete();
-                this.Output?.Close();
+                this.Output?.Close(true);
                 return true;
             }
         }

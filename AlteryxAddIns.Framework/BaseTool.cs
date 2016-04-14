@@ -41,7 +41,7 @@
 
             // Read Outgoing Connection Nodes
             this._outputConnections =
-                typeof(TEngine).GetConnections<PluginOutputConnectionHelper>().ToConnections().ToArray();
+                typeof(TEngine).GetConnections<OutputHelper>().ToConnections().ToArray();
         }
 
         private Image GetEmbeddedImage()

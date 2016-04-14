@@ -146,23 +146,17 @@
         {
             private Func<double> _nextValue;
 
-            private RecordInfo _outputRecordInfo;
-
             private FieldBase _outputFieldBase;
 
             public Engine()
             {
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
-                    progressAction: d =>
-                    {
-                        this.Output.UpdateProgress(d);
-                        this.Engine.OutputToolProgress(this.NToolId, d);
-                    },
+                    progressAction: d => this.Output?.UpdateProgress(d, true),
                     pushFunc: this.PushFunc,
                     closedAction: () =>
                         {
-                            this.Output?.Close();
+                            this.Output?.Close(true);
                             this._nextValue = null;
                         });
             }
@@ -177,7 +171,7 @@
             /// Gets or sets the output stream.
             /// </summary>
             [CharLabel('O')]
-            public PluginOutputConnectionHelper Output { get; set; }
+            public OutputHelper Output { get; set; }
 
             private bool InitFunc(RecordInfo info)
             {
@@ -191,22 +185,21 @@
                 fieldDescription.Source = nameof(RandomNumber);
                 fieldDescription.Description = $"Random Number {this.ConfigObject.ToString().Replace($"{this.ConfigObject.OutputFieldName}=", "")}";
 
-                this._outputRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
-                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
-                this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
+                this.Output?.Init(Utilities.CreateRecordInfo(info, fieldDescription));
+                this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 return true;
             }
 
             private bool PushFunc(RecordData r)
             {
-                var record = this._outputRecordInfo.CreateRecord();
+                var record = this.Output?.CreateRecord();
                 this.Input.Copier.Copy(record, r);
 
                 double val = this._nextValue();
                 this._outputFieldBase.SetFromDouble(record, val);
 
-                this.Output?.PushRecord(record.GetRecord());
+                this.Output?.Push(record);
                 return true;
             }
         }

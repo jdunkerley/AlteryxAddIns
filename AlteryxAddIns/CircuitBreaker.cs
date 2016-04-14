@@ -63,15 +63,13 @@
                                 while ((this._inputRecords?.Count ?? 0) > 0)
                                 {
                                     var record = this._inputRecords?.Dequeue();
-                                    var recordData = record?.GetRecord();
-                                    this.Output?.PushRecord(recordData);
+                                    this.Output?.Push(record);
                                 }
                             }
 
                             if (this.Input.State == ConnectionState.Closed)
                             {
-                                this.Output?.Close();
-                                this.ExecutionComplete();
+                                this.Output?.Close(true);
                             }
                         });
 
@@ -79,7 +77,7 @@
                     initFunc: p =>
                         {
                             this._inputRecords = new Queue<Record>();
-                            this.Output?.Init(this.Input.RecordInfo, nameof(this.Output), null, this.XmlConfig);
+                            this.Output?.Init(this.Input.RecordInfo);
                             return true;
                         },
                     pushFunc: r =>
@@ -89,30 +87,26 @@
                                 return false;
                             }
 
+                            var record = this.Input.RecordInfo.CreateRecord();
+                            this.Input.Copier.Copy(record, r);
+
                             if (this.Breaker.State == ConnectionState.Closed)
                             {
-                                this.Output?.PushRecord(r);
+                                this.Output?.Push(record);
                             }
                             else
                             {
-                                var record = this.Input.RecordInfo.CreateRecord();
-                                this.Input.Copier.Copy(record, r);
                                 this._inputRecords.Enqueue(record);
                             }
 
                             return true;
                         },
-                    progressAction: p =>
-                        {
-                            this.Output?.UpdateProgress(this._failed ? 1.0 : p);
-                            this.Engine.OutputToolProgress(this.NToolId, this._failed ? 1.0 : p);
-                        },
+                    progressAction: p => this.Output?.UpdateProgress(this._failed ? 1.0 : p, true),
                     closedAction: () =>
                         {
                             if (this.Breaker.State == ConnectionState.Closed)
                             {
-                                this.Output?.Close();
-                                this.ExecutionComplete();
+                                this.Output?.Close(true);
                             }
                         });
             }
@@ -126,7 +120,7 @@
             public InputProperty Input { get; }
 
             [CharLabel('O')]
-            public PluginOutputConnectionHelper Output { get; set; }
+            public OutputHelper Output { get; set; }
         }
     }
 }

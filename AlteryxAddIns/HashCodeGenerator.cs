@@ -86,8 +86,6 @@
         {
             private FieldBase _inputFieldBase;
 
-            private RecordInfo _outputRecordInfo;
-
             private FieldBase _outputFieldBase;
 
             private HashAlgorithm _hashAlgorithm;
@@ -96,16 +94,12 @@
             {
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
-                    progressAction: d =>
-                        {
-                            this.Output.UpdateProgress(d);
-                            this.Engine.OutputToolProgress(this.NToolId, d);
-                        },
+                    progressAction: d => this.Output.UpdateProgress(d, true),
                     pushFunc: this.PushFunc,
                     closedAction: () =>
                         {
                             this._hashAlgorithm = null;
-                            this.Output?.Close();
+                            this.Output?.Close(true);
                         });
             }
 
@@ -119,7 +113,7 @@
             /// Gets or sets the output stream.
             /// </summary>
             [CharLabel('O')]
-            public PluginOutputConnectionHelper Output { get; set; }
+            public OutputHelper Output { get; set; }
 
             private bool InitFunc(RecordInfo info)
             {
@@ -129,11 +123,11 @@
                     return false;
                 }
 
-                this._outputRecordInfo = Utilities.CreateRecordInfo(
+                this.Output.Init(
+                    Utilities.CreateRecordInfo(
                     info,
-                    new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_String) { Size = 256, Source = nameof(HashCodeGenerator)});
-                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
-                this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
+                    new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_String) { Size = 256, Source = nameof(HashCodeGenerator)}));
+                this._outputFieldBase = this.Output[this.ConfigObject.OutputFieldName];
 
                 this._hashAlgorithm = this.ConfigObject.GetAlgorithm();
 
@@ -142,7 +136,7 @@
 
             private bool PushFunc(RecordData r)
             {
-                var record = this._outputRecordInfo.CreateRecord();
+                var record = this.Output?.CreateRecord();
                 this.Input.Copier.Copy(record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);
@@ -154,7 +148,7 @@
                 }
                 this._outputFieldBase.SetFromString(record, sb.ToString());
 
-                this.Output?.PushRecord(record.GetRecord());
+                this.Output?.Push(record);
                 return true;
             }
         }

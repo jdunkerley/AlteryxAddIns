@@ -12,7 +12,6 @@
     public class HexBin :
         BaseTool<HexBin.Config, HexBin.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
-
         public class Config
         {
             /// <summary>
@@ -79,9 +78,6 @@
 
         public class Engine : BaseEngine<Config>
         {
-
-            private RecordInfo _outputRecordInfo;
-
             private FieldBase _outputBinXFieldBase;
 
             private FieldBase _outputBinYFieldBase;
@@ -92,18 +88,14 @@
             {
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
-                    progressAction: d =>
-                        {
-                            this.Output.UpdateProgress(d);
-                            this.Engine.OutputToolProgress(this.NToolId, d);
-                        },
+                    progressAction: d => this.Output.UpdateProgress(d, true),
                     pushFunc: this.PushFunc,
                     closedAction: () =>
                     {
                         this._inputReader = null;
                         this._outputBinXFieldBase = null;
                         this._outputBinYFieldBase = null;
-                        this.Output?.Close();
+                        this.Output?.Close(true);
                     });
             }
 
@@ -117,7 +109,7 @@
             /// Gets or sets the output stream.
             /// </summary>
             [CharLabel('O')]
-            public PluginOutputConnectionHelper Output { get; set; }
+            public OutputHelper Output { get; set; }
 
             private bool InitFunc(RecordInfo info)
             {
@@ -127,20 +119,19 @@
                     return false;
                 }
 
-                this._outputRecordInfo = Utilities.CreateRecordInfo(
+                this.Output?.Init(Utilities.CreateRecordInfo(
                     info,
                     new FieldDescription(this.ConfigObject.OutputBinXFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "X Co-ordinate of HexBin Center" },
-                    new FieldDescription(this.ConfigObject.OutputBinYFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "Y Co-ordinate of HexBin Center" });
-                this._outputBinXFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputBinXFieldName, false);
-                this._outputBinYFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputBinYFieldName, false);
-                this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
+                    new FieldDescription(this.ConfigObject.OutputBinYFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "Y Co-ordinate of HexBin Center" }));
+                this._outputBinXFieldBase = this.Output?[this.ConfigObject.OutputBinXFieldName];
+                this._outputBinYFieldBase = this.Output?[this.ConfigObject.OutputBinYFieldName];
 
                 return true;
             }
 
             private bool PushFunc(RecordData r)
             {
-                var record = this._outputRecordInfo.CreateRecord();
+                var record = this.Output?.CreateRecord();
                 this.Input.Copier.Copy(record, r);
 
                 var point = this._inputReader(r);
@@ -150,7 +141,7 @@
                 {
                     this._outputBinXFieldBase.SetNull(record);
                     this._outputBinYFieldBase.SetNull(record);
-                    this.Output?.PushRecord(record.GetRecord());
+                    this.Output?.Push(record);
                     return true;
                 }
 
@@ -183,7 +174,7 @@
                 this._outputBinYFieldBase.SetFromDouble(record, (pj + (mod2 ? 0.5 : 0)) * dy);
                 this._outputBinXFieldBase.SetFromDouble(record, pi * dx);
 
-                this.Output?.PushRecord(record.GetRecord());
+                this.Output?.Push(record);
                 return true;
             }
         }

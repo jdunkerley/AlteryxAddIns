@@ -70,21 +70,15 @@
 
             private RecordCopier _copier;
 
-            private RecordInfo _outputRecordInfo;
-
             private FieldBase _outputFieldBase;
 
             public Engine()
             {
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
-                    progressAction: d =>
-                    {
-                        this.Output.UpdateProgress(d);
-                        this.Engine.OutputToolProgress(this.NToolId, d);
-                    },
+                    progressAction: d => this.Output?.UpdateProgress(d, true),
                     pushFunc: this.PushFunc,
-                    closedAction: () => this.Output?.Close());
+                    closedAction: () => this.Output?.Close(true));
             }
 
             /// <summary>
@@ -97,7 +91,7 @@
             /// Gets or sets the output stream.
             /// </summary>
             [CharLabel('O')]
-            public PluginOutputConnectionHelper Output { get; set; }
+            public OutputHelper Output { get; set; }
 
             private bool InitFunc(RecordInfo info)
             {
@@ -116,19 +110,18 @@
                     return false;
                 }
 
-                this._outputRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
-                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
-                this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
+                this.Output?.Init(Utilities.CreateRecordInfo(info, fieldDescription));
+                this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier
-                this._copier = Utilities.CreateCopier(info, this._outputRecordInfo, this.ConfigObject.OutputFieldName);
+                this._copier = Utilities.CreateCopier(info, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
 
                 return true;
             }
 
             private bool PushFunc(RecordData r)
             {
-                var record = this._outputRecordInfo.CreateRecord();
+                var record = this.Output?.CreateRecord();
                 this._copier.Copy(record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);
@@ -145,7 +138,7 @@
                     this._outputFieldBase.SetNull(record);
                 }
 
-                this.Output?.PushRecord(record.GetRecord());
+                this.Output?.Push(record);
                 return true;
             }
         }
