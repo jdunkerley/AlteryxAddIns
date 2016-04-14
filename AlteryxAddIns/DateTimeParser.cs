@@ -115,7 +115,7 @@
                             this.Engine.OutputMessage(
                                 this.NToolId,
                                 MessageStatus.STATUS_RecordCountAndSize,
-                                $"{this._recordCount}\n{this._recordLength}");
+                                $"{nameof(this.Output)}|{this._recordCount}|{this._recordLength}");
                             this.ExecutionComplete();
                         });
             }
