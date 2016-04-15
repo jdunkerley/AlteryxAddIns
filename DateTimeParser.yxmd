@@ -3,7 +3,7 @@
   <Nodes>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
-        <Position x="54" y="54" />
+        <Position x="78" y="246" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -36,7 +36,7 @@
     </Node>
     <Node ToolID="7">
       <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeParser">
-        <Position x="174" y="54" />
+        <Position x="198" y="246" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -55,7 +55,7 @@
     </Node>
     <Node ToolID="8">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="282" y="54" />
+        <Position x="306" y="246" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -72,7 +72,7 @@
     </Node>
     <Node ToolID="9">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
-        <Position x="402" y="54" />
+        <Position x="426" y="246" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -96,7 +96,7 @@
     </Node>
     <Node ToolID="10">
       <GuiSettings Plugin="AlteryxBasePluginsGui.FieldInfo.FieldInfo">
-        <Position x="282" y="150" />
+        <Position x="306" y="342" />
       </GuiSettings>
       <Properties>
         <Configuration />
@@ -110,7 +110,7 @@
     </Node>
     <Node ToolID="11">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="390" y="150" />
+        <Position x="414" y="342" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -133,7 +133,7 @@
     </Node>
     <Node ToolID="12">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="522" y="150" />
+        <Position x="546" y="342" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -156,7 +156,7 @@
     </Node>
     <Node ToolID="13">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
-        <Position x="654" y="150" />
+        <Position x="678" y="342" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -180,7 +180,7 @@
     </Node>
     <Node ToolID="14">
       <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeParser">
-        <Position x="174" y="246" />
+        <Position x="198" y="438" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -199,7 +199,7 @@
     </Node>
     <Node ToolID="15">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="390" y="246" />
+        <Position x="414" y="438" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -216,7 +216,7 @@
     </Node>
     <Node ToolID="16">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
-        <Position x="510" y="246" />
+        <Position x="534" y="438" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -240,7 +240,7 @@
     </Node>
     <Node ToolID="17">
       <GuiSettings Plugin="AlteryxBasePluginsGui.FieldInfo.FieldInfo">
-        <Position x="282" y="342" />
+        <Position x="306" y="534" />
       </GuiSettings>
       <Properties>
         <Configuration />
@@ -254,7 +254,7 @@
     </Node>
     <Node ToolID="18">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="390" y="342" />
+        <Position x="414" y="534" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -277,7 +277,7 @@
     </Node>
     <Node ToolID="19">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="522" y="342" />
+        <Position x="546" y="534" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -300,7 +300,7 @@
     </Node>
     <Node ToolID="20">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
-        <Position x="654" y="342" />
+        <Position x="678" y="534" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -324,7 +324,7 @@
     </Node>
     <Node ToolID="21">
       <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-        <Position x="282" y="246" />
+        <Position x="306" y="438" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -341,6 +341,90 @@
         </Annotation>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+    </Node>
+    <Node ToolID="22">
+      <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
+        <Position x="306" y="174" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <SummarizeFields>
+            <SummarizeField field="Date" action="Count" rename="Count" />
+          </SummarizeFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
+    </Node>
+    <Node ToolID="24">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
+        <Position x="426" y="174" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Tests>
+            <Test>
+              <Name>Row Count Is 2</Name>
+              <Connection>#1</Connection>
+              <Type>ExpAll</Type>
+              <Value>[Count]=2</Value>
+            </Test>
+          </Tests>
+          <DontReportSubsequent value="True" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Row Count Is 2</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTest" />
+    </Node>
+    <Node ToolID="25">
+      <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
+        <Position x="306" y="642" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <SummarizeFields>
+            <SummarizeField field="Date" action="Count" rename="Count" />
+          </SummarizeFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
+    </Node>
+    <Node ToolID="26">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
+        <Position x="414" y="642" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Tests>
+            <Test>
+              <Name>Row Count Is 2</Name>
+              <Connection>#1</Connection>
+              <Type>ExpAll</Type>
+              <Value>[Count]=2</Value>
+            </Test>
+          </Tests>
+          <DontReportSubsequent value="True" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Row Count Is 2</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTest" />
     </Node>
   </Nodes>
   <Connections>
@@ -359,6 +443,10 @@
     <Connection>
       <Origin ToolID="7" Connection="Output" />
       <Destination ToolID="10" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="7" Connection="Output" />
+      <Destination ToolID="22" Connection="Input" />
     </Connection>
     <Connection name="#1">
       <Origin ToolID="8" Connection="True" />
@@ -384,6 +472,10 @@
       <Origin ToolID="14" Connection="Output" />
       <Destination ToolID="21" Connection="Input" />
     </Connection>
+    <Connection>
+      <Origin ToolID="14" Connection="Output" />
+      <Destination ToolID="25" Connection="Input" />
+    </Connection>
     <Connection name="#1">
       <Origin ToolID="15" Connection="True" />
       <Destination ToolID="16" Connection="Input" />
@@ -403,6 +495,14 @@
     <Connection>
       <Origin ToolID="21" Connection="Output" />
       <Destination ToolID="15" Connection="Input" />
+    </Connection>
+    <Connection name="#1">
+      <Origin ToolID="22" Connection="Output" />
+      <Destination ToolID="24" Connection="Input" />
+    </Connection>
+    <Connection name="#1">
+      <Origin ToolID="25" Connection="Output" />
+      <Destination ToolID="26" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>
