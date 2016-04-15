@@ -181,14 +181,14 @@
                     this._outputFieldBase.SetNull(record);
                 }
 
-                var recordData = record.GetRecord();
                 this._recordCount++;
-                this._recordLength += (ulong)((IntPtr)this._outputRecordInfo.GetRecordLen(recordData)).ToInt64();
+                this._recordLength += (ulong)((IntPtr)this._outputRecordInfo.GetRecordLen(record.GetRecord())).ToInt64();
+
                 this.Output?.PushRecord(record.GetRecord());
                 this.Engine.OutputMessage(
                     this.NToolId,
                     MessageStatus.STATUS_RecordCountAndSize,
-                    $"{this._recordCount}\n{this._recordLength}");
+                    $"{nameof(this.Output)}|{this._recordCount}|{this._recordLength}");
                 return true;
             }
         }
