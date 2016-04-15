@@ -3,6 +3,8 @@ namespace JDunkerley.AlteryxAddIns.Framework
     using System;
     using System.Xml;
 
+    using AlteryxRecordInfoNet;
+
     /// <summary>
     /// Output Helper Class
     /// </summary>
@@ -51,6 +53,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._recordLength = 0;
 
             this._helper?.Init(recordInfo, this._connectionName, sortConfig, oldConfig ?? this._hostEngine.XmlConfig);
+            this._hostEngine.Engine.OutputMessage(this._hostEngine.NToolId, MessageStatus.STATUS_Info, $"Init called back on {this._connectionName}");
         }
 
         public AlteryxRecordInfoNet.FieldBase this[String fieldName] => this.RecordInfo.GetFieldByName(fieldName, false);
@@ -68,11 +71,10 @@ namespace JDunkerley.AlteryxAddIns.Framework
 
         public void Push(AlteryxRecordInfoNet.Record record, bool close = false)
         {
-            var recordData = record.GetRecord();
-            this._recordCount++;
-            this._recordLength += (ulong)((IntPtr)this.RecordInfo.GetRecordLen(recordData)).ToInt64();
+            this._helper?.PushRecord(record.GetRecord());
 
-            this._helper?.PushRecord(recordData);
+            this._recordCount++;
+            this._recordLength += (ulong)((IntPtr)this.RecordInfo.GetRecordLen(record.GetRecord())).ToInt64();
 
             if (close)
             {
@@ -80,7 +82,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
             }
             else
             {
-                //this.PushCountAndSize();
+                this.PushCountAndSize();
             }
         }
 
@@ -120,7 +122,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
                 this._hostEngine.NToolId,
                 AlteryxRecordInfoNet.MessageStatus.STATUS_RecordCountAndSize,
                 $"{nameof(this._connectionName)}|{this._recordCount}|{this._recordLength}");
-            //this._helper.OutputRecordCount(final);
+            this._helper.OutputRecordCount(final);
         }
     }
 }

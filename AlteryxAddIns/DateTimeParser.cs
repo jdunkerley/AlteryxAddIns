@@ -98,9 +98,9 @@
             {
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
-                    progressAction: d => this.Output?.UpdateProgress(d, false),
+                    progressAction: d => this.Output?.UpdateProgress(d, true),
                     pushFunc: this.PushFunc,
-                    closedAction: () => this.Output?.Close(false));
+                    closedAction: () => this.Output?.Close(true));
             }
 
             /// <summary>

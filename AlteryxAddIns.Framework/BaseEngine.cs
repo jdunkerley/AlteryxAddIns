@@ -152,6 +152,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
             }
 
             helper.AddConnection(outgoingConnection);
+            this.DebugMessage($"Added Outgoing Connection {pOutgoingConnectionName}");
             return true;
         }
 
@@ -168,10 +169,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="bHasErrors">if set to <c>true</c> [b has errors].</param>
         public virtual void PI_Close(bool bHasErrors)
         {
-            if (this.ShowDebugMessages())
-            {
-                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Close Called");
-            }
+            this.DebugMessage("PI_Close Called.");
 
             foreach (var kvp in this._outputs)
             {
@@ -198,12 +196,16 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// </summary>
         public void ExecutionComplete()
         {
+            this.DebugMessage("Output Complete.");
+            this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
+        }
+
+        public void DebugMessage(string message)
+        {
             if (this.ShowDebugMessages())
             {
-                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "Output Complete");
+                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, message);
             }
-
-            this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
         }
     }
 }
