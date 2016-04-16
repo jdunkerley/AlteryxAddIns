@@ -72,7 +72,7 @@
     </Node>
     <Node ToolID="9">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
-        <Position x="402" y="54" />
+        <Position x="378" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>

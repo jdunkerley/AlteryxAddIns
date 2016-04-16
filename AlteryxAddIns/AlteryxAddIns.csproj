@@ -63,6 +63,7 @@
     <Compile Include="DateTimeInput.cs" />
     <Compile Include="HexBin.cs" />
     <Compile Include="RandomNumber.cs" />
+    <Compile Include="SortWithCulture.cs" />
     <Compile Include="StringFormatter.cs" />
     <Compile Include="HashCodeGenerator.cs" />
     <Compile Include="NumberParser.cs" />
@@ -118,6 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="HexBin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SortWithCulture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
