@@ -131,7 +131,9 @@
 
             private bool PushFunc(RecordData r)
             {
-                var record = this.Output?.CreateRecord();
+                var record = this.Output.Record;
+                record.Reset();
+
                 this.Input.Copier.Copy(record, r);
 
                 var point = this._inputReader(r);
@@ -141,7 +143,7 @@
                 {
                     this._outputBinXFieldBase.SetNull(record);
                     this._outputBinYFieldBase.SetNull(record);
-                    this.Output?.Push(record);
+                    this.Output.Push(record);
                     return true;
                 }
 
@@ -174,7 +176,7 @@
                 this._outputBinYFieldBase.SetFromDouble(record, (pj + (mod2 ? 0.5 : 0)) * dy);
                 this._outputBinXFieldBase.SetFromDouble(record, pi * dx);
 
-                this.Output?.Push(record);
+                this.Output.Push(record);
                 return true;
             }
         }

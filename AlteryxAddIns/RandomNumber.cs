@@ -193,13 +193,15 @@
 
             private bool PushFunc(RecordData r)
             {
-                var record = this.Output?.CreateRecord();
+                var record = this.Output.Record;
+                record.Reset();
+
                 this.Input.Copier.Copy(record, r);
 
                 double val = this._nextValue();
                 this._outputFieldBase.SetFromDouble(record, val);
 
-                this.Output?.Push(record);
+                this.Output.Push(record);
                 return true;
             }
         }

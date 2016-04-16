@@ -159,7 +159,9 @@ namespace JDunkerley.AlteryxAddins
 
             private bool PushFunc(RecordData r)
             {
-                var record = this.Output?.CreateRecord();
+                var record = this.Output.Record;
+                record.Reset();
+
                 this._copier.Copy(record, r);
 
                 string result = this._formatter(r);

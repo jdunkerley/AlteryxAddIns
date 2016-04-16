@@ -7,8 +7,6 @@
 
     using AlteryxGuiToolkit.Plugins;
 
-    using AlteryxRecordInfoNet;
-
     using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
 
     /// <summary>
@@ -36,7 +34,7 @@
 
             // Read Incoming Connection Nodes
             this._inputConnections =
-                typeof(TEngine).GetConnections<IIncomingConnectionInterface>().ToConnections().ToArray();
+                typeof(TEngine).GetConnections<AlteryxRecordInfoNet.IIncomingConnectionInterface>().ToConnections().ToArray();
 
 
             // Read Outgoing Connection Nodes

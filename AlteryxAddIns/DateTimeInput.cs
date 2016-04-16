@@ -71,6 +71,15 @@
             /// <returns></returns>
             public override bool PI_PushAllRecords(long nRecordLimit)
             {
+                if (this.Output == null)
+                {
+                    this.Engine.OutputMessage(
+                        this.NToolId,
+                        AlteryxRecordInfoNet.MessageStatus.STATUS_Error,
+                        "Output is not set.");
+                    return false;
+                }
+
                 var fieldDescription = this.ConfigObject.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
                 if (fieldDescription == null)
                 {
@@ -81,10 +90,10 @@
 
                 var recordInfo = Utilities.CreateRecordInfo(fieldDescription);
 
-                this.Output?.Init(recordInfo);
+                this.Output.Init(recordInfo);
                 if (nRecordLimit == 0)
                 {
-                    this.Output?.Close(true);
+                    this.Output.Close(true);
                     return true;
                 }
 
@@ -114,11 +123,12 @@
                         break;
                 }
 
-                var recordOut = this.Output?.CreateRecord();
-                this.Output?[this.ConfigObject.OutputFieldName]?.SetFromString(recordOut, dateOutput.ToString(this.ConfigObject.OutputType == OutputType.Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
-                this.Output?.Push(recordOut);
-                this.Output?.UpdateProgress(1.0);
-                this.Output?.Close(true);
+                var recordOut = this.Output.CreateRecord();
+                this.Output[this.ConfigObject.OutputFieldName]?
+                    .SetFromString(recordOut, dateOutput.ToString(this.ConfigObject.OutputType == OutputType.Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
+                this.Output.Push(recordOut);
+                this.Output.UpdateProgress(1.0);
+                this.Output.Close(true);
                 return true;
             }
         }

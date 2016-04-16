@@ -93,7 +93,7 @@
 
             private bool PushFunc(RecordData r)
             {
-                var record = this.Output?.CreateRecord();
+                var record = this.Output.CreateRecord();
                 this._copier.Copy(record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);

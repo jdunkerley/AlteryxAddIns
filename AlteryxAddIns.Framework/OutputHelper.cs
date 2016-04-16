@@ -49,6 +49,8 @@ namespace JDunkerley.AlteryxAddIns.Framework
         public void Init(AlteryxRecordInfoNet.RecordInfo recordInfo, XmlElement sortConfig = null, XmlElement oldConfig = null)
         {
             this.RecordInfo = recordInfo;
+            this._lazyRecord = new Lazy<Record>(() => this.CreateRecord());
+
             this._recordCount = 0;
             this._recordLength = 0;
 
@@ -56,7 +58,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._hostEngine.Engine.OutputMessage(this._hostEngine.NToolId, MessageStatus.STATUS_Info, $"Init called back on {this._connectionName}");
         }
 
-        public AlteryxRecordInfoNet.FieldBase this[String fieldName] => this.RecordInfo.GetFieldByName(fieldName, false);
+        public AlteryxRecordInfoNet.FieldBase this[String fieldName] => this.RecordInfo?.GetFieldByName(fieldName, false);
 
         /// <summary>
         ///
@@ -67,7 +69,14 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// Create A New Record
         /// </summary>
         /// <returns></returns>
-        public AlteryxRecordInfoNet.Record CreateRecord() => this.RecordInfo.CreateRecord();
+        public AlteryxRecordInfoNet.Record CreateRecord() => this.RecordInfo?.CreateRecord();
+
+        private Lazy<AlteryxRecordInfoNet.Record> _lazyRecord;
+
+        /// <summary>
+        /// Reusable Record
+        /// </summary>
+        public AlteryxRecordInfoNet.Record Record => this._lazyRecord?.Value;
 
         public void Push(AlteryxRecordInfoNet.Record record, bool close = false)
         {
@@ -114,6 +123,9 @@ namespace JDunkerley.AlteryxAddIns.Framework
             {
                 this._hostEngine.ExecutionComplete();
             }
+
+            this.RecordInfo = null;
+            this._lazyRecord = null;
         }
 
         private void PushCountAndSize(bool final = false)
@@ -121,7 +133,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._hostEngine.Engine.OutputMessage(
                 this._hostEngine.NToolId,
                 AlteryxRecordInfoNet.MessageStatus.STATUS_RecordCountAndSize,
-                $"{nameof(this._connectionName)}|{this._recordCount}|{this._recordLength}");
+                $"{this._connectionName}|{this._recordCount}|{this._recordLength}");
             this._helper.OutputRecordCount(final);
         }
     }

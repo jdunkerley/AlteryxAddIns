@@ -136,7 +136,9 @@
 
             private bool PushFunc(RecordData r)
             {
-                var record = this.Output?.CreateRecord();
+                var record = this.Output.Record;
+                record.Reset();
+
                 this.Input.Copier.Copy(record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);
@@ -148,7 +150,7 @@
                 }
                 this._outputFieldBase.SetFromString(record, sb.ToString());
 
-                this.Output?.Push(record);
+                this.Output.Push(record);
                 return true;
             }
         }
