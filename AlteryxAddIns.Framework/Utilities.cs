@@ -126,6 +126,27 @@
         }
 
         /// <summary>
+        /// Add Get or Add Like A Concurrent Dictionary To Dictionaries
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="K"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <param name="key"></param>
+        /// <param name="addFactoryFunc"></param>
+        /// <returns></returns>
+        public static T GetOrAdd<T, K>(this Dictionary<K, T> dictionary, K key, Func<K, T> addFactoryFunc)
+        {
+            T output;
+            if (dictionary.TryGetValue(key, out output))
+            {
+                return output;
+            }
+
+            dictionary[key] = addFactoryFunc(key);
+            return dictionary.GetOrAdd(key, addFactoryFunc);
+        }
+
+        /// <summary>
         /// Creates a record copier copier.
         /// </summary>
         /// <param name="info">The information.</param>

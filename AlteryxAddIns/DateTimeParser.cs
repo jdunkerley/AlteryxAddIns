@@ -4,6 +4,8 @@
     using System.ComponentModel;
     using System.Globalization;
 
+    using AlteryxGuiToolkit.Plugins;
+
     using AlteryxRecordInfoNet;
 
     using JDunkerley.AlteryxAddIns.Framework;
@@ -13,6 +15,8 @@
     public class DateTimeParser :
         BaseTool<DateTimeParser.Config, DateTimeParser.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
+        public override IPluginConfiguration GetConfigurationGui() => new PluginWidgetConfig<Config>();
+
         public class Config
         {
             /// <summary>
