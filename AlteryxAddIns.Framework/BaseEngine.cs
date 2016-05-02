@@ -6,9 +6,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
     using System.Xml;
     using System.Xml.Serialization;
 
-    using AlteryxRecordInfoNet;
-
-    public abstract class BaseEngine<T> : INetPlugin
+    public abstract class BaseEngine<T> : AlteryxRecordInfoNet.INetPlugin, IBaseEngine
         where T: new()
     {
         private readonly Dictionary<string, PropertyInfo> _inputs;
@@ -23,24 +21,24 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// </summary>
         protected BaseEngine()
         {
-            this._inputs = this.GetType().GetConnections<IIncomingConnectionInterface>();
-            this._outputs = this.GetType().GetConnections<PluginOutputConnectionHelper>();
+            this._inputs = this.GetType().GetConnections<AlteryxRecordInfoNet.IIncomingConnectionInterface>();
+            this._outputs = this.GetType().GetConnections<OutputHelper>();
         }
 
         /// <summary>
         /// Gets the Alteryx engine.
         /// </summary>
-        protected EngineInterface Engine { get; private set; }
+        public AlteryxRecordInfoNet.EngineInterface Engine { get; private set; }
 
         /// <summary>
         /// Gets the tool identifier. Set at PI_Init, unset at PI_Close.
         /// </summary>
-        protected int NToolId { get; private set; }
+        public int NToolId { get; private set; }
 
         /// <summary>
         /// Gets the XML configuration from the workflow.
         /// </summary>
-        protected XmlElement XmlConfig
+        public XmlElement XmlConfig
         {
             get
             {
@@ -84,7 +82,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="nToolId">Tool ID</param>
         /// <param name="engineInterface">Connection to Alteryx Engine (for logging etc)</param>
         /// <param name="pXmlProperties">Configuration details</param>
-        public void PI_Init(int nToolId, EngineInterface engineInterface, XmlElement pXmlProperties)
+        public void PI_Init(int nToolId, AlteryxRecordInfoNet.EngineInterface engineInterface, XmlElement pXmlProperties)
         {
             this.NToolId = nToolId;
             this.Engine = engineInterface;
@@ -93,13 +91,10 @@ namespace JDunkerley.AlteryxAddIns.Framework
 
             foreach (var kvp in this._outputs)
             {
-                kvp.Value.SetValue(this, new PluginOutputConnectionHelper(this.NToolId, this.Engine), null);
+                kvp.Value.SetValue(this, new OutputHelper(this, kvp.Key), null);
             }
 
-            if (this.ShowDebugMessages())
-            {
-                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Init Called");
-            }
+            this.DebugMessage("PI_Init Called");
         }
 
         /// <summary>
@@ -108,7 +103,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="pIncomingConnectionType"></param>
         /// <param name="pIncomingConnectionName"></param>
         /// <returns></returns>
-        public virtual IIncomingConnectionInterface PI_AddIncomingConnection(string pIncomingConnectionType, string pIncomingConnectionName)
+        public virtual AlteryxRecordInfoNet.IIncomingConnectionInterface PI_AddIncomingConnection(string pIncomingConnectionType, string pIncomingConnectionName)
         {
             PropertyInfo prop;
             if (!this._inputs.TryGetValue(pIncomingConnectionType, out prop))
@@ -116,7 +111,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
                 throw new KeyNotFoundException($"Unable to find input {pIncomingConnectionType}");
             }
 
-            var input = prop.GetValue(this, null) as IIncomingConnectionInterface;
+            var input = prop.GetValue(this, null) as AlteryxRecordInfoNet.IIncomingConnectionInterface;
             if (input == null)
             {
                 throw new NullReferenceException($"{prop.Name} is null.");
@@ -137,7 +132,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="pOutgoingConnectionName"></param>
         /// <param name="outgoingConnection"></param>
         /// <returns></returns>
-        public virtual bool PI_AddOutgoingConnection(string pOutgoingConnectionName, OutgoingConnection outgoingConnection)
+        public virtual bool PI_AddOutgoingConnection(string pOutgoingConnectionName, AlteryxRecordInfoNet.OutgoingConnection outgoingConnection)
         {
             PropertyInfo prop;
             if (!this._outputs.TryGetValue(pOutgoingConnectionName, out prop))
@@ -145,13 +140,14 @@ namespace JDunkerley.AlteryxAddIns.Framework
                 return false;
             }
 
-            var helper = prop.GetValue(this, null) as PluginOutputConnectionHelper;
+            var helper = prop.GetValue(this, null) as OutputHelper;
             if (helper == null)
             {
                 return false;
             }
 
-            helper.AddOutgoingConnection(outgoingConnection);
+            helper.AddConnection(outgoingConnection);
+            this.DebugMessage($"Added Outgoing Connection {pOutgoingConnectionName}");
             return true;
         }
 
@@ -168,10 +164,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="bHasErrors">if set to <c>true</c> [b has errors].</param>
         public virtual void PI_Close(bool bHasErrors)
         {
-            if (this.ShowDebugMessages())
-            {
-                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "PI_Close Called");
-            }
+            this.DebugMessage("PI_Close Called.");
 
             foreach (var kvp in this._outputs)
             {
@@ -196,18 +189,18 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <summary>
         /// Tell Alteryx Is Complete
         /// </summary>
-        protected void ExecutionComplete(bool setProgressTo100 = true)
+        public void ExecutionComplete()
+        {
+            this.DebugMessage("Output Complete.");
+            this.Engine?.OutputMessage(this.NToolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Complete, "");
+        }
+
+        public void DebugMessage(string message)
         {
             if (this.ShowDebugMessages())
             {
-                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, "Output Complete");
+                this.Engine?.OutputMessage(this.NToolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Info, message);
             }
-
-            if (setProgressTo100)
-            {
-                this.Engine?.OutputToolProgress(this.NToolId, 1);
-            }
-            this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, "");
         }
     }
 }

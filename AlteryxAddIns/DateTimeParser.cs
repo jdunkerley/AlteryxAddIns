@@ -96,32 +96,15 @@
 
             private Func<string, DateTime?> _parser;
 
-            private RecordInfo _outputRecordInfo;
-
             private FieldBase _outputFieldBase;
-
-            private ulong _recordCount;
-            private ulong _recordLength;
 
             public Engine()
             {
                 this.Input = new InputProperty(
                     initFunc: this.InitFunc,
-                    progressAction: d =>
-                    {
-                        this.Output.UpdateProgress(d);
-                        this.Engine.OutputToolProgress(this.NToolId, d);
-                    },
+                    progressAction: d => this.Output?.UpdateProgress(d, true),
                     pushFunc: this.PushFunc,
-                    closedAction: () =>
-                        {
-                            this.Output?.Close();
-                            this.Engine.OutputMessage(
-                                this.NToolId,
-                                MessageStatus.STATUS_RecordCountAndSize,
-                                $"{this._recordCount}\n{this._recordLength}");
-                            this.ExecutionComplete();
-                        });
+                    closedAction: () => this.Output?.Close(true));
             }
 
             /// <summary>
@@ -134,7 +117,7 @@
             /// Gets or sets the output stream.
             /// </summary>
             [CharLabel('O')]
-            public PluginOutputConnectionHelper Output { get; set; }
+            public OutputHelper Output { get; set; }
 
             private bool InitFunc(RecordInfo info)
             {
@@ -153,24 +136,22 @@
                     return false;
                 }
 
-                this._outputRecordInfo = Utilities.CreateRecordInfo(info, fieldDescription);
-                this._outputFieldBase = this._outputRecordInfo.GetFieldByName(this.ConfigObject.OutputFieldName, false);
-                this.Output?.Init(this._outputRecordInfo, nameof(this.Output), null, this.XmlConfig);
+                this.Output?.Init(Utilities.CreateRecordInfo(info, fieldDescription));
+                this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier
-                this._copier = Utilities.CreateCopier(info, this._outputRecordInfo, this.ConfigObject.OutputFieldName);
+                this._copier = Utilities.CreateCopier(info, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
 
                 this._parser = this.ConfigObject.CreateParser();
-
-                this._recordCount = 0;
-                this._recordLength = 0;
 
                 return true;
             }
 
             private bool PushFunc(RecordData r)
             {
-                var record = this._outputRecordInfo.CreateRecord();
+                var record = this.Output.Record;
+                record.Reset();
+
                 this._copier.Copy(record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);
@@ -185,14 +166,7 @@
                     this._outputFieldBase.SetNull(record);
                 }
 
-                var recordData = record.GetRecord();
-                this._recordCount++;
-                this._recordLength += (ulong)((IntPtr)this._outputRecordInfo.GetRecordLen(recordData)).ToInt64();
-                this.Output?.PushRecord(record.GetRecord());
-                this.Engine.OutputMessage(
-                    this.NToolId,
-                    MessageStatus.STATUS_RecordCountAndSize,
-                    $"{this._recordCount}\n{this._recordLength}");
+                this.Output.Push(record);
                 return true;
             }
         }

@@ -1,7 +1,5 @@
 namespace JDunkerley.AlteryxAddIns.Framework
 {
-    using AlteryxRecordInfoNet;
-
     /// <summary>
     /// Simple Descriptor Class
     /// </summary>
@@ -12,7 +10,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="fieldType">Type of the field.</param>
-        public FieldDescription(string name, FieldType fieldType)
+        public FieldDescription(string name, AlteryxRecordInfoNet.FieldType fieldType)
         {
             this.Name = name;
             this.FieldType = fieldType;
@@ -26,7 +24,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <summary>
         /// Gets the type of the field.
         /// </summary>
-        public FieldType FieldType { get; }
+        public AlteryxRecordInfoNet.FieldType FieldType { get; }
 
         /// <summary>
         /// Gets or sets the size of the field in bytes.
