@@ -39,6 +39,25 @@ namespace JDunkerley.AlteryxAddins
                 var label = new Label { Dock = DockStyle.Top, AutoSize = true, Text = propertyInfo.GetAttrib<DescriptionAttribute>()?.Description ?? propertyInfo.Name };
                 groupBox.Controls.Add(label);
                 groupBox.Controls.SetChildIndex(label, 0);
+
+                if (propertyInfo.PropertyType.IsEnum)
+                {
+                    // Add an Enum
+                    var panel = new Panel();
+                    foreach (var name in Enum.GetNames(propertyInfo.PropertyType))
+                    {
+                        var enumControl = new AlteryxGuiToolkit.PluginWidgets.UI.StringSelectorRadioButton();
+                        enumControl.Text = name;
+                        enumControl.XmlString = name;
+
+                        panel.Controls.Add(enumControl);
+                        panel.Controls.SetChildIndex(enumControl, 0);
+                    }
+
+                    groupBox.Controls.Add(panel);
+                    groupBox.Controls.SetChildIndex(panel, 0);
+                }
+
                 //AlteryxGuiToolkit.PluginWidgets.UI.StyleConfigUI
             }
 
