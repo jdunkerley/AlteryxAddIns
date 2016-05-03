@@ -1,6 +1,7 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework.ConfigWindows
 {
     using System;
+    using System.Drawing;
     using System.Windows.Forms;
     using System.Xml;
 
@@ -21,11 +22,6 @@
         private readonly PropertyGrid _propertyGrid;
 
         /// <summary>
-        /// The old parent.
-        /// </summary>
-        private Control _currentParent;
-
-        /// <summary>
         /// The configuration
         /// </summary>
         private T _config;
@@ -36,35 +32,20 @@
         public PropertyGridGui()
         {
             this.Margin = new Padding(4);
-            this.Size = new System.Drawing.Size(520, 530);
+            this.Size = new System.Drawing.Size(400, 400);
+            this.Name = nameof(PropertyGridGui<T>);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.AutoScaleDimensions = new SizeF(6f, 13f);
 
-            this._propertyGrid = new PropertyGrid { Dock = DockStyle.Fill, PropertySort = PropertySort.CategorizedAlphabetical };
+            this._propertyGrid = new PropertyGrid
+                                     {
+                                         Anchor =
+                                             AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left
+                                             | AnchorStyles.Right,
+                                         PropertySort = PropertySort.CategorizedAlphabetical,
+                                         Size = this.ClientSize
+                                     };
             this.Controls.Add(this._propertyGrid);
-
-            this.ParentChanged += this.OnParentChanged;
-        }
-
-        private void OnParentChanged(object sender, EventArgs args)
-        {
-            if (this._currentParent != null)
-            {
-                this._currentParent.SizeChanged -= this.OnParentOnSizeChanged;
-            }
-
-            this._currentParent = this.Parent;
-            this.SetSize();
-            this.Parent.SizeChanged += this.OnParentOnSizeChanged;
-        }
-
-        private void OnParentOnSizeChanged(object o, EventArgs eventArgs)
-        {
-            this.SetSize();
-        }
-
-        private void SetSize()
-        {
-            this.Size = this.Parent.ClientSize;
-            this.Controls[0].Size = this.ClientSize;
         }
 
         /// <summary>
