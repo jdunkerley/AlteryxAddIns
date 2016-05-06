@@ -62,9 +62,6 @@
     <Compile Include="CircuitBreaker.cs" />
     <Compile Include="DateTimeInput.cs" />
     <Compile Include="HexBin.cs" />
-    <Compile Include="PluginWidgetConfig.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="RandomNumber.cs" />
     <Compile Include="SortWithCulture.cs" />
     <Compile Include="StringFormatter.cs" />

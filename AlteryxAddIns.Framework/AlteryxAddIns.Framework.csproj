@@ -60,6 +60,10 @@
     <Compile Include="ConfigWindows\CultureTypeConverter.cs" />
     <Compile Include="Attributes\FieldListAttribute.cs" />
     <Compile Include="ConfigWindows\FixedListTypeConverter.cs" />
+    <Compile Include="ConfigWindows\PluginWidgetConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigWindows\PluginWidgetHelper.cs" />
     <Compile Include="ConnectionState.cs" />
     <Compile Include="FieldDescription.cs" />
     <Compile Include="FieldJoin.cs" />

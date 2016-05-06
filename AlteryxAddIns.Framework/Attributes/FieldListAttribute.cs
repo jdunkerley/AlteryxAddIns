@@ -16,5 +16,10 @@ namespace JDunkerley.AlteryxAddIns.Framework.Attributes
         public Dictionary<string, object> DictionaryLookUp { get; }
 
         public TypeConverter.StandardValuesCollection StandardValuesCollection { get; }
+
+        public IEnumerable<KeyValuePair<string, object>> OrderedDictionary
+            =>
+                this.StandardValuesCollection.Cast<string>()
+                    .Select(k => new KeyValuePair<string, object>(k, this.DictionaryLookUp[k]));
     }
 }
