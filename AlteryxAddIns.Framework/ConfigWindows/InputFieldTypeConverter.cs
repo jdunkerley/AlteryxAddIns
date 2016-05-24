@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
+    using Attributes;
 
     public class InputFieldTypeConverter : StringConverter
     {

@@ -1,6 +1,5 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework.ConfigWindows
 {
-    using System;
     using System.Drawing;
     using System.Windows.Forms;
     using System.Xml;
@@ -32,7 +31,7 @@
         public PropertyGridGui()
         {
             this.Margin = new Padding(4);
-            this.Size = new System.Drawing.Size(400, 400);
+            this.Size = new Size(400, 400);
             this.Name = nameof(PropertyGridGui<T>);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.AutoScaleDimensions = new SizeF(6f, 13f);
@@ -40,8 +39,7 @@
             this._propertyGrid = new PropertyGrid
                                      {
                                          Anchor =
-                                             AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left
-                                             | AnchorStyles.Right,
+                                             AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                                          PropertySort = PropertySort.CategorizedAlphabetical,
                                          Size = this.ClientSize
                                      };

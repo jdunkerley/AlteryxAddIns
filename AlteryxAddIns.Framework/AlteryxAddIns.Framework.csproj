@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,6 +56,7 @@
     <Compile Include="Attributes\InputPropertyNameAttribute.cs" />
     <Compile Include="Attributes\OptionalAttribute.cs" />
     <Compile Include="Attributes\OrderingAttribute.cs" />
+    <Compile Include="Attributes\PlugInGroupAttribute.cs" />
     <Compile Include="BaseEngine.cs" />
     <Compile Include="BaseTool.cs" />
     <Compile Include="ConfigWindows\CultureTypeConverter.cs" />

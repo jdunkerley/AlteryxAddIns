@@ -14,7 +14,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
 
         private readonly string _connectionName;
 
-        private readonly AlteryxRecordInfoNet.PluginOutputConnectionHelper _helper;
+        private readonly PluginOutputConnectionHelper _helper;
 
         private ulong _recordCount;
 
@@ -30,14 +30,14 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._hostEngine = hostEngine;
             this._connectionName = connectionName;
 
-            this._helper = new AlteryxRecordInfoNet.PluginOutputConnectionHelper(this._hostEngine.NToolId, this._hostEngine.Engine);
+            this._helper = new PluginOutputConnectionHelper(this._hostEngine.NToolId, this._hostEngine.Engine);
         }
 
         /// <summary>
         /// Adds the connection.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public void AddConnection(AlteryxRecordInfoNet.OutgoingConnection connection)
+        public void AddConnection(OutgoingConnection connection)
             => this._helper.AddOutgoingConnection(connection);
 
         /// <summary>
@@ -46,10 +46,10 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="recordInfo"></param>
         /// <param name="sortConfig"></param>
         /// <param name="oldConfig"></param>
-        public void Init(AlteryxRecordInfoNet.RecordInfo recordInfo, XmlElement sortConfig = null, XmlElement oldConfig = null)
+        public void Init(RecordInfo recordInfo, XmlElement sortConfig = null, XmlElement oldConfig = null)
         {
             this.RecordInfo = recordInfo;
-            this._lazyRecord = new Lazy<Record>(() => this.CreateRecord());
+            this._lazyRecord = new Lazy<Record>(this.CreateRecord);
 
             this._recordCount = 0;
             this._recordLength = 0;
@@ -58,27 +58,27 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._hostEngine.Engine.OutputMessage(this._hostEngine.NToolId, MessageStatus.STATUS_Info, $"Init called back on {this._connectionName}");
         }
 
-        public AlteryxRecordInfoNet.FieldBase this[String fieldName] => this.RecordInfo?.GetFieldByName(fieldName, false);
+        public FieldBase this[String fieldName] => this.RecordInfo?.GetFieldByName(fieldName, false);
 
         /// <summary>
         ///
         /// </summary>
-        public AlteryxRecordInfoNet.RecordInfo RecordInfo { get; private set; }
+        public RecordInfo RecordInfo { get; private set; }
 
         /// <summary>
         /// Create A New Record
         /// </summary>
         /// <returns></returns>
-        public AlteryxRecordInfoNet.Record CreateRecord() => this.RecordInfo?.CreateRecord();
+        public Record CreateRecord() => this.RecordInfo?.CreateRecord();
 
-        private Lazy<AlteryxRecordInfoNet.Record> _lazyRecord;
+        private Lazy<Record> _lazyRecord;
 
         /// <summary>
         /// Reusable Record
         /// </summary>
-        public AlteryxRecordInfoNet.Record Record => this._lazyRecord?.Value;
+        public Record Record => this._lazyRecord?.Value;
 
-        public void Push(AlteryxRecordInfoNet.Record record, bool close = false)
+        public void Push(Record record, bool close = false)
         {
             this._helper?.PushRecord(record.GetRecord());
 
@@ -132,7 +132,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         {
             this._hostEngine.Engine.OutputMessage(
                 this._hostEngine.NToolId,
-                AlteryxRecordInfoNet.MessageStatus.STATUS_RecordCountAndSize,
+                MessageStatus.STATUS_RecordCountAndSize,
                 $"{this._connectionName}|{this._recordCount}|{this._recordLength}");
             this._helper.OutputRecordCount(final);
         }

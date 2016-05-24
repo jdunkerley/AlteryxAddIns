@@ -81,8 +81,8 @@
         XmlElement IIncomingConnectionInterface.II_GetPresortXml(XmlElement pXmlProperties)
         {
             this.State = ConnectionState.Added;
-            var sortFields = this.IncomingConnectionSort(pXmlProperties);
-            var selectFields = this.IncomingConnectionFields(pXmlProperties);
+            //var sortFields = this.IncomingConnectionSort(pXmlProperties);
+            //var selectFields = this.IncomingConnectionFields(pXmlProperties);
 
             // ToDo: Render Xml Output
             return null;

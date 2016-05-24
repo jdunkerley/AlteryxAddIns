@@ -1,15 +1,13 @@
 namespace JDunkerley.AlteryxAddIns.Framework.ConfigWindows
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Reflection;
     using System.Windows.Forms;
 
     using AlteryxGuiToolkit.PluginWidgets.Data;
-    using AlteryxGuiToolkit.PluginWidgets.Meta;
 
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
+    using Attributes;
 
     public static class PluginWidgetHelper
     {

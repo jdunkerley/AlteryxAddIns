@@ -3,10 +3,11 @@ namespace JDunkerley.AlteryxAddIns.Framework.Attributes
     using System;
 
     /// <summary>
-    /// order a Connection
+    /// Label for an Incoming or Outgoing Connection
     /// </summary>
     /// <seealso cref="System.Attribute" />
-    public class CharLabelAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property)]
+    public sealed class CharLabelAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharLabelAttribute"/> class.
@@ -18,7 +19,7 @@ namespace JDunkerley.AlteryxAddIns.Framework.Attributes
         }
 
         /// <summary>
-        /// Gets the order.
+        /// Character Label for the connection
         /// </summary>
         public char Label { get; }
     }

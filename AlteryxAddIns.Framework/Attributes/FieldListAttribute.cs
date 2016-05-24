@@ -5,6 +5,7 @@ namespace JDunkerley.AlteryxAddIns.Framework.Attributes
     using System.ComponentModel;
     using System.Linq;
 
+
     public class FieldListAttribute : Attribute
     {
         public FieldListAttribute(params object[] values)

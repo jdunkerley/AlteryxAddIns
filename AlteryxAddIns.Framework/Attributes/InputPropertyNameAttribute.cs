@@ -3,9 +3,10 @@
     using System;
 
     /// <summary>
-    /// Specifies associated input field for configs
+    /// Specifies associated input field for configuration GUIs
     /// </summary>
-    public class InputPropertyNameAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property)]
+    public sealed class InputPropertyNameAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InputPropertyNameAttribute"/> class.

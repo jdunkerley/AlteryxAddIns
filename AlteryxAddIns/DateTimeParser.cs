@@ -12,8 +12,9 @@
     using JDunkerley.AlteryxAddIns.Framework.Attributes;
     using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
 
+    [PlugInGroup("JDTools", "DateTime Parser")]
     public class DateTimeParser :
-        BaseTool<DateTimeParser.Config, DateTimeParser.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
+        BaseTool<DateTimeParser.Config, DateTimeParser.Engine>, IPlugin
     {
         public override IPluginConfiguration GetConfigurationGui() => new PluginWidgetConfig<Config>();
 

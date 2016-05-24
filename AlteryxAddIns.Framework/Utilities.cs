@@ -10,7 +10,7 @@
 
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
+    using Attributes;
 
     public static class Utilities
     {
@@ -128,15 +128,15 @@
         /// <summary>
         /// Add Get or Add Like A Concurrent Dictionary To Dictionaries
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="K"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
         /// <param name="dictionary"></param>
         /// <param name="key"></param>
         /// <param name="addFactoryFunc"></param>
         /// <returns></returns>
-        public static T GetOrAdd<T, K>(this Dictionary<K, T> dictionary, K key, Func<K, T> addFactoryFunc)
+        public static TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> addFactoryFunc)
         {
-            T output;
+            TValue output;
             if (dictionary.TryGetValue(key, out output))
             {
                 return output;

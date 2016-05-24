@@ -11,12 +11,12 @@
     /// Based on Group Boxes
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class PluginWidgetConfig<T> : System.Windows.Forms.UserControl, AlteryxGuiToolkit.Plugins.IPluginConfiguration
+    public class PluginWidgetConfig<T> : UserControl, AlteryxGuiToolkit.Plugins.IPluginConfiguration
     {
         public PluginWidgetConfig()
         {
             this.Margin = new Padding(4);
-            this.Size = new System.Drawing.Size(400, 400);
+            this.Size = new Size(400, 400);
             this.Name = nameof(PluginWidgetConfig<T>);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.AutoScaleDimensions = new SizeF(6f, 13f);
@@ -52,7 +52,7 @@
         /// <param name="nToolId"></param>
         /// <param name="strToolName"></param>
         /// <returns></returns>
-        public System.Windows.Forms.Control GetConfigurationControl(
+        public Control GetConfigurationControl(
             AlteryxGuiToolkit.Document.Properties docProperties,
             System.Xml.XmlElement eConfig,
             System.Xml.XmlElement[] eIncomingMetaInfo,

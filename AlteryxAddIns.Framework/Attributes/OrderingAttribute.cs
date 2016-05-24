@@ -6,7 +6,8 @@ namespace JDunkerley.AlteryxAddIns.Framework.Attributes
     /// Order Field For a Connection
     /// </summary>
     /// <seealso cref="System.Attribute" />
-    public class OrderingAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property)]
+    public sealed class OrderingAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderingAttribute"/> class.
