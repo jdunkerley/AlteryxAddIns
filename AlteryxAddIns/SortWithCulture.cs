@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.AlteryxAddins
+﻿namespace JDunkerley.AlteryxAddIns
 {
     using System;
     using System.Collections.Generic;
@@ -7,9 +7,11 @@
 
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.AlteryxAddIns.Framework;
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
-    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
+    using Framework;
+    using Framework.Attributes;
+    using Framework.ConfigWindows;
+    using Framework.Factories;
+    using Framework.Interfaces;
 
     public class SortWithCulture :
         BaseTool<SortWithCulture.Config, SortWithCulture.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
@@ -49,13 +51,27 @@
         {
             private FieldBase _inputFieldBase;
 
-            private RecordCopier _copier;
+            private IRecordCopier _copier;
 
             private List<Tuple<string, Record>> _data;
 
+            /// <summary>
+            /// Constructor For Alteryx
+            /// </summary>
             public Engine()
+                : this(new RecordCopierFactory(), new InputPropertyFactory())
             {
-                this.Input = new InputProperty(
+            }
+
+            /// <summary>
+            /// Create An Engine
+            /// </summary>
+            /// <param name="recordCopierFactory">Factory to create copiers</param>
+            /// <param name="inputPropertyFactory">Factory to create input properties</param>
+            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
+                : base(recordCopierFactory, inputPropertyFactory)
+            {
+                this.Input = this.CreateInputProperty(
                     initFunc: this.InitFunc,
                     pushFunc: this.PushFunc,
                     closedAction: this.ClosedAction);
@@ -65,7 +81,7 @@
             /// Gets the input stream.
             /// </summary>
             [CharLabel('I')]
-            public InputProperty Input { get; }
+            public IInputProperty Input { get; }
 
             /// <summary>
             /// Gets or sets the output stream.
@@ -84,7 +100,7 @@
                 this.Output?.Init(Utilities.CreateRecordInfo(info));
 
                 // Create the Copier
-                this._copier = Utilities.CreateCopier(info, this.Output?.RecordInfo);
+                this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo);
 
                 this._data = new List<Tuple<string, Record>>();
 

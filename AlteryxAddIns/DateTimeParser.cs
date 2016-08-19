@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.AlteryxAddins
+﻿namespace JDunkerley.AlteryxAddIns
 {
     using System;
     using System.ComponentModel;
@@ -8,16 +8,17 @@
 
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.AlteryxAddIns.Framework;
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
-    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
+    using Framework;
+    using Framework.Attributes;
+    using Framework.ConfigWindows;
+    using Framework.Interfaces;
+
+    using Framework.Factories;
 
     [PlugInGroup("JDTools", "DateTime Parser")]
     public class DateTimeParser :
         BaseTool<DateTimeParser.Config, DateTimeParser.Engine>, IPlugin
     {
-        public override IPluginConfiguration GetConfigurationGui() => new PluginWidgetConfig<Config>();
-
         public class Config
         {
             /// <summary>
@@ -93,15 +94,29 @@
         {
             private FieldBase _inputFieldBase;
 
-            private RecordCopier _copier;
+            private IRecordCopier _copier;
 
             private Func<string, DateTime?> _parser;
 
             private FieldBase _outputFieldBase;
 
+            /// <summary>
+            /// Constructor For Alteryx
+            /// </summary>
             public Engine()
+                : this(new RecordCopierFactory(), new InputPropertyFactory())
             {
-                this.Input = new InputProperty(
+            }
+
+            /// <summary>
+            /// Create An Engine
+            /// </summary>
+            /// <param name="recordCopierFactory">Factory to create copiers</param>
+            /// <param name="inputPropertyFactory">Factory to create input properties</param>
+            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
+                : base(recordCopierFactory, inputPropertyFactory)
+            {
+                this.Input = this.CreateInputProperty(
                     initFunc: this.InitFunc,
                     progressAction: d => this.Output?.UpdateProgress(d, true),
                     pushFunc: this.PushFunc,
@@ -112,7 +127,7 @@
             /// Gets the input stream.
             /// </summary>
             [CharLabel('I')]
-            public InputProperty Input { get; }
+            public IInputProperty Input { get; }
 
             /// <summary>
             /// Gets or sets the output stream.
@@ -141,7 +156,7 @@
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier
-                this._copier = Utilities.CreateCopier(info, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
+                this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
 
                 this._parser = this.ConfigObject.CreateParser();
 

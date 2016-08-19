@@ -1,13 +1,15 @@
-namespace JDunkerley.AlteryxAddins
+namespace JDunkerley.AlteryxAddIns
 {
     using System;
     using System.ComponentModel;
 
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.AlteryxAddIns.Framework;
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
-    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
+    using Framework;
+    using Framework.Attributes;
+    using Framework.ConfigWindows;
+    using Framework.Factories;
+    using Framework.Interfaces;
 
     /// <summary>
     /// Take a value and format as a string
@@ -107,15 +109,30 @@ namespace JDunkerley.AlteryxAddins
         /// </summary>
         public class Engine : BaseEngine<Config>
         {
-            private RecordCopier _copier;
+            private IRecordCopier _copier;
 
             private FieldBase _outputFieldBase;
 
             private Func<RecordData, string> _formatter;
 
+            /// <summary>
+            /// Constructor For Alteryx
+            /// </summary>
             public Engine()
+                : this(new RecordCopierFactory(), new InputPropertyFactory())
             {
-                this.Input = new InputProperty(
+            }
+
+            /// <summary>
+            /// Create An Engine
+            /// </summary>
+            /// <param name="recordCopierFactory">Factory to create copiers</param>
+            /// <param name="inputPropertyFactory">Factory to create input properties</param>
+            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
+                : base(recordCopierFactory, inputPropertyFactory)
+
+            {
+                this.Input = this.CreateInputProperty(
                     initFunc: this.InitFunc,
                     progressAction: d => this.Output.UpdateProgress(d, true),
                     pushFunc: this.PushFunc,
@@ -126,7 +143,7 @@ namespace JDunkerley.AlteryxAddins
             /// Gets the input stream.
             /// </summary>
             [CharLabel('I')]
-            public InputProperty Input { get; }
+            public IInputProperty Input { get; }
 
             /// <summary>
             /// Gets or sets the output stream.
@@ -149,9 +166,9 @@ namespace JDunkerley.AlteryxAddins
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier
-                this._copier = Utilities.CreateCopier(info, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
+                this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
 
-                // Create the Formatter funcxtion
+                // Create the Formatter function
                 this._formatter = this.ConfigObject.CreateFormatter(inputFieldBase);
 
                 return this._formatter != null;

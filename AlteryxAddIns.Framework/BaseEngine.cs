@@ -6,9 +6,15 @@ namespace JDunkerley.AlteryxAddIns.Framework
     using System.Xml;
     using System.Xml.Serialization;
 
+    using Interfaces;
+
     public abstract class BaseEngine<T> : AlteryxRecordInfoNet.INetPlugin, IBaseEngine
         where T: new()
     {
+        private readonly IRecordCopierFactory _recordCopierFactory;
+
+        private readonly IInputPropertyFactory _inputPropertyFactory;
+
         private readonly Dictionary<string, PropertyInfo> _inputs;
         private readonly Dictionary<string, PropertyInfo> _outputs;
 
@@ -19,10 +25,37 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseEngine{T}"/> class.
         /// </summary>
-        protected BaseEngine()
+        /// <param name="recordCopierFactory">Factory to create copiers</param>
+        /// <param name="inputPropertyFactory">Factory to create input properties</param>
+        protected BaseEngine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
         {
+            this._recordCopierFactory = recordCopierFactory;
+            this._inputPropertyFactory = inputPropertyFactory;
+
             this._inputs = this.GetType().GetConnections<AlteryxRecordInfoNet.IIncomingConnectionInterface>();
             this._outputs = this.GetType().GetConnections<OutputHelper>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IInputProperty"/> class.
+        /// </summary>
+        /// <param name="initFunc">The initialize function.</param>
+        /// <param name="pushFunc">The push function.</param>
+        /// <param name="progressAction">The progress action.</param>
+        /// <param name="closedAction">The closed action.</param>
+        protected IInputProperty CreateInputProperty(
+            Func<AlteryxRecordInfoNet.RecordInfo, bool> initFunc = null,
+            Func<AlteryxRecordInfoNet.RecordData, bool> pushFunc = null,
+            Action<double> progressAction = null,
+            Action closedAction = null)
+        {
+            return this._inputPropertyFactory.Build(
+                    this.RecordCopierFactory,
+                    this.ShowDebugMessages,
+                    initFunc: initFunc,
+                    pushFunc: pushFunc,
+                    progressAction: progressAction,
+                    closedAction: closedAction);
         }
 
         /// <summary>
@@ -50,6 +83,11 @@ namespace JDunkerley.AlteryxAddIns.Framework
                 this._configObject = new Lazy<T>(this.CreateConfigObject);
             }
         }
+
+        /// <summary>
+        /// Gets the factory to create RecordCopiers
+        /// </summary>
+        protected IRecordCopierFactory RecordCopierFactory => this._recordCopierFactory;
 
         /// <summary>
         /// Gets the configuration object de-serialized from the XML config
@@ -115,12 +153,6 @@ namespace JDunkerley.AlteryxAddIns.Framework
             if (input == null)
             {
                 throw new NullReferenceException($"{prop.Name} is null.");
-            }
-
-            var inputProp = (input as IInputProperty);
-            if (inputProp != null)
-            {
-                inputProp.Engine = this;
             }
 
             return input;

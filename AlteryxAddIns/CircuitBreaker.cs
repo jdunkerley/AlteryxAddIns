@@ -1,11 +1,11 @@
-﻿namespace JDunkerley.AlteryxAddins
+﻿namespace JDunkerley.AlteryxAddIns
 {
     using System.Collections.Generic;
 
-    using AlteryxRecordInfoNet;
-
-    using JDunkerley.AlteryxAddIns.Framework;
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
+    using Framework;
+    using Framework.Attributes;
+    using Framework.Factories;
+    using Framework.Interfaces;
 
     /// <summary>
     /// Pass through the Input flow if no data received on Breaker
@@ -27,19 +27,30 @@
         /// <summary>
         /// Engine for Circuit Breaker
         /// </summary>
-        /// <seealso cref="JDunkerley.AlteryxAddIns.Framework.BaseEngine{Config}" />
+        /// <seealso cref="Framework.BaseEngine{Config}" />
         public class Engine : BaseEngine<Config>
         {
-            private Queue<Record> _inputRecords;
+            private Queue<AlteryxRecordInfoNet.Record> _inputRecords;
 
             private bool _failed;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="Engine"/> class.
+            /// Constructor For Alteryx
             /// </summary>
             public Engine()
+                : this(new RecordCopierFactory(), new InputPropertyFactory())
             {
-                this.Breaker = new InputProperty(
+            }
+
+            /// <summary>
+            /// Create An Engine
+            /// </summary>
+            /// <param name="recordCopierFactory">Factory to create copiers</param>
+            /// <param name="inputPropertyFactory">Factory to create input properties</param>
+            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
+                : base(recordCopierFactory, inputPropertyFactory)
+            {
+                this.Breaker = this.CreateInputProperty(
                     initFunc: p =>
                         {
                             this._failed = false;
@@ -73,10 +84,10 @@
                             }
                         });
 
-                this.Input = new InputProperty(
+                this.Input = this.CreateInputProperty(
                     initFunc: p =>
                         {
-                            this._inputRecords = new Queue<Record>();
+                            this._inputRecords = new Queue<AlteryxRecordInfoNet.Record>();
                             this.Output?.Init(this.Input.RecordInfo);
                             return true;
                         },
@@ -113,11 +124,11 @@
 
             [CharLabel('B')]
             [Ordering(1)]
-            public InputProperty Breaker { get; }
+            public IInputProperty Breaker { get; }
 
             [CharLabel('I')]
             [Ordering(2)]
-            public InputProperty Input { get; }
+            public IInputProperty Input { get; }
 
             [CharLabel('O')]
             public OutputHelper Output { get; set; }

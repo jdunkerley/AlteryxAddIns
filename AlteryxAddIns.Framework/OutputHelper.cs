@@ -8,13 +8,13 @@ namespace JDunkerley.AlteryxAddIns.Framework
     /// <summary>
     /// Output Helper Class
     /// </summary>
-    public class OutputHelper
+    public sealed class OutputHelper : IDisposable
     {
         private readonly IBaseEngine _hostEngine;
 
         private readonly string _connectionName;
 
-        private readonly PluginOutputConnectionHelper _helper;
+        private PluginOutputConnectionHelper _helper;
 
         private ulong _recordCount;
 
@@ -38,7 +38,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// </summary>
         /// <param name="connection">The connection.</param>
         public void AddConnection(OutgoingConnection connection)
-            => this._helper.AddOutgoingConnection(connection);
+            => this._helper?.AddOutgoingConnection(connection);
 
         /// <summary>
         ///
@@ -102,7 +102,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="setToolProgress">Set Tool Progress As Well</param>
         public void UpdateProgress(double percentage, bool setToolProgress = false)
         {
-            this._helper.UpdateProgress(percentage);
+            this._helper?.UpdateProgress(percentage);
 
             if (setToolProgress)
             {
@@ -128,13 +128,25 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._lazyRecord = null;
         }
 
+        /// <summary>
+        /// Dispose of the internal helper and release the reference
+        /// </summary>
+        public void Dispose()
+        {
+            if (this._helper != null)
+            {
+                this._helper.Dispose();
+                this._helper = null;
+            }
+        }
+
         private void PushCountAndSize(bool final = false)
         {
             this._hostEngine.Engine.OutputMessage(
                 this._hostEngine.NToolId,
                 MessageStatus.STATUS_RecordCountAndSize,
                 $"{this._connectionName}|{this._recordCount}|{this._recordLength}");
-            this._helper.OutputRecordCount(final);
+            this._helper?.OutputRecordCount(final);
         }
     }
 }

@@ -7,8 +7,8 @@
     <ProjectGuid>{8ADB9CD3-7081-4C6E-91A5-A74C5B9100C0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JDunkerley.AlteryxAddins</RootNamespace>
-    <AssemblyName>JDunkerley.AlteryxAddins</AssemblyName>
+    <RootNamespace>JDunkerley.AlteryxAddIns</RootNamespace>
+    <AssemblyName>JDunkerley.AlteryxAddIns</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
@@ -24,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlteryxGuiToolkit">
@@ -75,17 +77,32 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CircuitBreaker.png">
+      <DependentUpon>CircuitBreaker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DateTimeInput.png">
+      <DependentUpon>DateTimeInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DateTimeParser.png">
+      <DependentUpon>DateTimeParser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HashCodeGenerator.png">
+      <DependentUpon>HashCodeGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HexBin.png">
+      <DependentUpon>HexBin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NumberParser.png">
+      <DependentUpon>NumberParser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DateTimeInput.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="CircuitBreaker.png" />
+    <EmbeddedResource Include="StringFormatter.png">
+      <DependentUpon>StringFormatter.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Install.bat">
@@ -97,13 +114,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DateTimeParser.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="HashCodeGenerator.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="StringFormatter.png" />
+    <EmbeddedResource Include="RandomNumber.png">
+      <DependentUpon>RandomNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SortWithCulture.png">
+      <DependentUpon>SortWithCulture.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlteryxAddIns.Framework\AlteryxAddIns.Framework.csproj">
@@ -111,18 +127,6 @@
       <Name>AlteryxAddIns.Framework</Name>
       <Private>True</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="NumberParser.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="RandomNumber.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="HexBin.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SortWithCulture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

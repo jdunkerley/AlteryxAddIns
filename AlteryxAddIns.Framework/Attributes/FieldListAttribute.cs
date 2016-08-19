@@ -5,8 +5,11 @@ namespace JDunkerley.AlteryxAddIns.Framework.Attributes
     using System.ComponentModel;
     using System.Linq;
 
-
-    public class FieldListAttribute : Attribute
+    /// <summary>
+    /// For the designers where the property has a fixed list of values
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
+    public sealed class FieldListAttribute : Attribute
     {
         public FieldListAttribute(params object[] values)
         {

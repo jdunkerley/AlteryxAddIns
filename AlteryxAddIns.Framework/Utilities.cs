@@ -146,38 +146,6 @@
             return dictionary.GetOrAdd(key, addFactoryFunc);
         }
 
-        /// <summary>
-        /// Creates a record copier copier.
-        /// </summary>
-        /// <param name="info">The information.</param>
-        /// <param name="newRecordInfo">The new record information.</param>
-        /// <param name="fieldsToSkip">The fields to skip.</param>
-        /// <returns></returns>
-        public static RecordCopier CreateCopier(RecordInfo info, RecordInfo newRecordInfo, params string[] fieldsToSkip)
-        {
-            var copier = new RecordCopier(newRecordInfo, info, true);
-
-            for (int fieldNum = 0; fieldNum < info.NumFields(); fieldNum++)
-            {
-                string fieldName = info[fieldNum].GetFieldName();
-                if (fieldsToSkip.Contains(fieldName))
-                {
-                    continue;
-                }
-
-                var newFieldNum = newRecordInfo.GetFieldNum(fieldName, false);
-                if (newFieldNum == -1)
-                {
-                    continue;
-                }
-
-                copier.Add(newFieldNum, fieldNum);
-            }
-
-            copier.DoneAdding();
-            return copier;
-        }
-
         public static RecordInfo CreateRecordInfo(
             params FieldDescription[] fields)
         {

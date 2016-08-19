@@ -7,7 +7,6 @@
     using System.Reflection;
     using System.Xml;
 
-
     /// <summary>
     /// Shared Static Properties
     /// </summary>
@@ -17,7 +16,7 @@
         {
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
             {
-                if (args.Name == Assembly.GetAssembly(typeof(Statics)).FullName) // adapt to your needs
+                if (args.Name == Assembly.GetAssembly(typeof(Statics)).FullName)
                     return Assembly.GetAssembly(typeof(Statics));
 
                 return null;
