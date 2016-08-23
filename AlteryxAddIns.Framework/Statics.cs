@@ -17,7 +17,9 @@
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
             {
                 if (args.Name == Assembly.GetAssembly(typeof(Statics)).FullName)
+                {
                     return Assembly.GetAssembly(typeof(Statics));
+                }
 
                 return null;
             };
@@ -31,7 +33,7 @@
         /// <summary>
         /// Given Current MetaData Get Matching Fields
         /// </summary>
-        /// <param name="engineType"></param>
+        /// <param name="engineType">Type object for the engine</param>
         /// <param name="fieldName"></param>
         /// <param name="fieldTypes"></param>
         /// <returns></returns>

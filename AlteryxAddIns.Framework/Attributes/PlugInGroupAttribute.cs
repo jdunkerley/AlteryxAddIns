@@ -21,13 +21,13 @@
         }
 
         /// <summary>
-        /// Group Name To Use
+        /// Gets the group name to use for the <see cref="AlteryxRecordInfoNet.INetPlugin"/>
         /// </summary>
         public string GroupName { get; }
 
         /// <summary>
-        /// Description (Display Name) for the PlugIn
+        /// Gets the description (Display Name) for the <see cref="AlteryxRecordInfoNet.INetPlugin"/>
         /// </summary>
-        public string Description {  get; }
+        public string Description { get; }
     }
 }

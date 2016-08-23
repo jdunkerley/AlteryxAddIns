@@ -8,17 +8,17 @@ namespace JDunkerley.AlteryxAddIns.Framework
 
     using Interfaces;
 
-    public abstract class BaseEngine<T> : AlteryxRecordInfoNet.INetPlugin, IBaseEngine
-        where T: new()
+    /// <summary>
+    /// Base Implementation of an <see cref="AlteryxRecordInfoNet.INetPlugin"/>
+    /// </summary>
+    /// <typeparam name="TConfig">Configuration object for de-serialising XML to</typeparam>
+    public abstract class BaseEngine<TConfig> : AlteryxRecordInfoNet.INetPlugin, IBaseEngine
+        where TConfig : new()
     {
-        private readonly IRecordCopierFactory _recordCopierFactory;
-
-        private readonly IInputPropertyFactory _inputPropertyFactory;
-
         private readonly Dictionary<string, PropertyInfo> _inputs;
         private readonly Dictionary<string, PropertyInfo> _outputs;
 
-        private Lazy<T> _configObject;
+        private Lazy<TConfig> _configObject;
 
         private XmlElement _xmlConfig;
 
@@ -26,36 +26,13 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// Initializes a new instance of the <see cref="BaseEngine{T}"/> class.
         /// </summary>
         /// <param name="recordCopierFactory">Factory to create copiers</param>
-        /// <param name="inputPropertyFactory">Factory to create input properties</param>
-        protected BaseEngine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
+        protected BaseEngine(IRecordCopierFactory recordCopierFactory)
         {
-            this._recordCopierFactory = recordCopierFactory;
-            this._inputPropertyFactory = inputPropertyFactory;
+            this.RecordCopierFactory = recordCopierFactory;
 
-            this._inputs = this.GetType().GetConnections<AlteryxRecordInfoNet.IIncomingConnectionInterface>();
-            this._outputs = this.GetType().GetConnections<OutputHelper>();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IInputProperty"/> class.
-        /// </summary>
-        /// <param name="initFunc">The initialize function.</param>
-        /// <param name="pushFunc">The push function.</param>
-        /// <param name="progressAction">The progress action.</param>
-        /// <param name="closedAction">The closed action.</param>
-        protected IInputProperty CreateInputProperty(
-            Func<AlteryxRecordInfoNet.RecordInfo, bool> initFunc = null,
-            Func<AlteryxRecordInfoNet.RecordData, bool> pushFunc = null,
-            Action<double> progressAction = null,
-            Action closedAction = null)
-        {
-            return this._inputPropertyFactory.Build(
-                    this.RecordCopierFactory,
-                    this.ShowDebugMessages,
-                    initFunc: initFunc,
-                    pushFunc: pushFunc,
-                    progressAction: progressAction,
-                    closedAction: closedAction);
+            var type = this.GetType();
+            this._inputs = type.GetConnections<AlteryxRecordInfoNet.IIncomingConnectionInterface>();
+            this._outputs = type.GetConnections<OutputHelper>();
         }
 
         /// <summary>
@@ -77,42 +54,24 @@ namespace JDunkerley.AlteryxAddIns.Framework
             {
                 return this._xmlConfig;
             }
+
             private set
             {
                 this._xmlConfig = value;
-                this._configObject = new Lazy<T>(this.CreateConfigObject);
+                this._configObject = new Lazy<TConfig>(this.CreateConfigObject);
             }
         }
 
         /// <summary>
         /// Gets the factory to create RecordCopiers
         /// </summary>
-        protected IRecordCopierFactory RecordCopierFactory => this._recordCopierFactory;
+        protected IRecordCopierFactory RecordCopierFactory { get; }
 
         /// <summary>
         /// Gets the configuration object de-serialized from the XML config
         /// </summary>
         /// <returns>Configuration Object</returns>
-        protected T ConfigObject => this._configObject.Value;
-
-        private T CreateConfigObject()
-        {
-            var serializer = new XmlSerializer(typeof(T));
-            var config = this.XmlConfig.SelectSingleNode("Configuration");
-            if (config == null)
-            {
-                return new T();
-            }
-
-            var doc = new XmlDocument();
-            doc.LoadXml($"<Config>{config.InnerXml}</Config>");
-            if (doc.DocumentElement == null)
-            {
-                return new T();
-            }
-
-            return (T)serializer.Deserialize(new XmlNodeReader(doc.DocumentElement));
-        }
+        protected TConfig ConfigObject => this._configObject.Value;
 
         /// <summary>
         /// Called by Alteryx to initialize the plug in with configuration info.
@@ -224,7 +183,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         public void ExecutionComplete()
         {
             this.DebugMessage("Output Complete.");
-            this.Engine?.OutputMessage(this.NToolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Complete, "");
+            this.Engine?.OutputMessage(this.NToolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Complete, string.Empty);
         }
 
         public void DebugMessage(string message)
@@ -233,6 +192,25 @@ namespace JDunkerley.AlteryxAddIns.Framework
             {
                 this.Engine?.OutputMessage(this.NToolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Info, message);
             }
+        }
+
+        private TConfig CreateConfigObject()
+        {
+            var serializer = new XmlSerializer(typeof(TConfig));
+            var config = this.XmlConfig.SelectSingleNode("Configuration");
+            if (config == null)
+            {
+                return new TConfig();
+            }
+
+            var doc = new XmlDocument();
+            doc.LoadXml($"<Config>{config.InnerXml}</Config>");
+            if (doc.DocumentElement == null)
+            {
+                return new TConfig();
+            }
+
+            return (TConfig)serializer.Deserialize(new XmlNodeReader(doc.DocumentElement));
         }
     }
 }

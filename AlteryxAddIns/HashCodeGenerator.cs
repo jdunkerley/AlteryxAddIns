@@ -106,17 +106,17 @@
             /// <param name="recordCopierFactory">Factory to create copiers</param>
             /// <param name="inputPropertyFactory">Factory to create input properties</param>
             internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
-                : base(recordCopierFactory, inputPropertyFactory)
+                : base(recordCopierFactory)
             {
-                this.Input = this.CreateInputProperty(
-                    initFunc: this.InitFunc,
-                    progressAction: d => this.Output.UpdateProgress(d, true),
-                    pushFunc: this.PushFunc,
-                    closedAction: () =>
-                        {
-                            this._hashAlgorithm = null;
-                            this.Output?.Close(true);
-                        });
+                this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
+                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
+                this.Input.Closed += (sender, args) =>
+                    {
+                        this._hashAlgorithm = null;
+                        this.Output?.Close(true);
+                    };
             }
 
             /// <summary>

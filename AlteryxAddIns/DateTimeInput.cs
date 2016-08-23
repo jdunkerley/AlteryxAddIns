@@ -62,7 +62,7 @@
             /// Constructor for Alteryx Engine
             /// </summary>
             public Engine()
-                : base(null, null)
+                : base(null)
             {
             }
 

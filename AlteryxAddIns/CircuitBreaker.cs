@@ -48,78 +48,72 @@
             /// <param name="recordCopierFactory">Factory to create copiers</param>
             /// <param name="inputPropertyFactory">Factory to create input properties</param>
             internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
-                : base(recordCopierFactory, inputPropertyFactory)
+                : base(recordCopierFactory)
             {
-                this.Breaker = this.CreateInputProperty(
-                    initFunc: p =>
+                this.Breaker = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+                this.Breaker.InitCalled += (property, args) => this._failed = false;
+                this.Breaker.RecordPushed += (sender, args) =>
+                    {
+                        if (this._failed)
                         {
-                            this._failed = false;
-                            return true;
-                        },
-                    pushFunc: r =>
+                            args.Success = false;
+                            return;
+                        }
+
+                        this._failed = true;
+                        this.ExecutionComplete();
+                    };
+                this.Breaker.Closed += (sender, args) =>
+                    {
+                        if (!this._failed)
                         {
-                            if (this._failed)
+                            while ((this._inputRecords?.Count ?? 0) > 0)
                             {
-                                return false;
-                            }
-
-                            this._failed = true;
-                            this.ExecutionComplete();
-                            return true;
-                        },
-                    closedAction: () =>
-                        {
-                            if (!this._failed)
-                            {
-                                while ((this._inputRecords?.Count ?? 0) > 0)
-                                {
-                                    var record = this._inputRecords?.Dequeue();
-                                    this.Output?.Push(record);
-                                }
-                            }
-
-                            if (this.Input.State == ConnectionState.Closed)
-                            {
-                                this.Output?.Close(true);
-                            }
-                        });
-
-                this.Input = this.CreateInputProperty(
-                    initFunc: p =>
-                        {
-                            this._inputRecords = new Queue<AlteryxRecordInfoNet.Record>();
-                            this.Output?.Init(this.Input.RecordInfo);
-                            return true;
-                        },
-                    pushFunc: r =>
-                        {
-                            if (this._failed)
-                            {
-                                return false;
-                            }
-
-                            var record = this.Input.RecordInfo.CreateRecord();
-                            this.Input.Copier.Copy(record, r);
-
-                            if (this.Breaker.State == ConnectionState.Closed)
-                            {
+                                var record = this._inputRecords?.Dequeue();
                                 this.Output?.Push(record);
                             }
-                            else
-                            {
-                                this._inputRecords.Enqueue(record);
-                            }
+                        }
 
-                            return true;
-                        },
-                    progressAction: p => this.Output?.UpdateProgress(this._failed ? 1.0 : p, true),
-                    closedAction: () =>
+                        if (this.Input.State == ConnectionState.Closed)
                         {
-                            if (this.Breaker.State == ConnectionState.Closed)
-                            {
-                                this.Output?.Close(true);
-                            }
-                        });
+                            this.Output?.Close(true);
+                        }
+                    };
+
+                this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+                this.Input.InitCalled += (property, args) =>
+                    {
+                        this._inputRecords = new Queue<AlteryxRecordInfoNet.Record>();
+                        this.Output?.Init(this.Input.RecordInfo);
+                    };
+                this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(this._failed ? 1.0 : args.Progress, true);
+                this.Input.RecordPushed += (sender, args) =>
+                    {
+                        if (this._failed)
+                        {
+                            args.Success = false;
+                            return;
+                        }
+
+                        var record = this.Input.RecordInfo.CreateRecord();
+                        this.Input.Copier.Copy(record, args.RecordData);
+
+                        if (this.Breaker.State == ConnectionState.Closed)
+                        {
+                            this.Output?.Push(record);
+                        }
+                        else
+                        {
+                            this._inputRecords.Enqueue(record);
+                        }
+                    };
+                this.Input.Closed += (sender, args) =>
+                    {
+                        if (this.Breaker.State == ConnectionState.Closed)
+                        {
+                            this.Output?.Close(true);
+                        }
+                    };
             }
 
             [CharLabel('B')]

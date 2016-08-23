@@ -12,7 +12,7 @@ namespace JDunkerley.AlteryxAddIns.Framework.ConfigWindows
     public static class PluginWidgetHelper
     {
         public static T AddAtTop<T>(this Control.ControlCollection collection, T control)
-            where T: Control
+            where T : Control
         {
             collection.Add(control);
             collection.SetChildIndex(control, 0);

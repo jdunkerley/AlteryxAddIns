@@ -114,13 +114,13 @@
             /// <param name="recordCopierFactory">Factory to create copiers</param>
             /// <param name="inputPropertyFactory">Factory to create input properties</param>
             internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
-                : base(recordCopierFactory, inputPropertyFactory)
+                : base(recordCopierFactory)
             {
-                this.Input = this.CreateInputProperty(
-                    initFunc: this.InitFunc,
-                    progressAction: d => this.Output?.UpdateProgress(d, true),
-                    pushFunc: this.PushFunc,
-                    closedAction: () => this.Output?.Close(true));
+                this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(args.Progress, true);
+                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
+                this.Input.Closed += (sender, args) => this.Output?.Close(true);
             }
 
             /// <summary>
@@ -146,7 +146,7 @@
                 fieldDescription.Description = $"{this.ConfigObject.InputFieldName} parsed as a DateTime";
 
 
-                this._inputFieldBase = info.GetFieldByName(this.ConfigObject.InputFieldName, false);
+                this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (this._inputFieldBase == null)
                 {
                     return false;
@@ -156,10 +156,9 @@
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier
-                this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
+                this._copier = this.RecordCopierFactory.CreateCopier(this.Input.RecordInfo, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
 
                 this._parser = this.ConfigObject.CreateParser();
-
                 return true;
             }
 

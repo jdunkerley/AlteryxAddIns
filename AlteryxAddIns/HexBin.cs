@@ -20,14 +20,14 @@
             /// Specify the name of the field for the X co-ordinate
             /// </summary>
             [Category("Output")]
-            [Description("Field Name To Use For X Coordingate Of HexBin Center")]
+            [Description("Field Name To Use For X Co-ordinate Of HexBin Centre")]
             public string OutputBinXFieldName { get; set; } = "HexBinX";
 
             /// <summary>
             /// Specify the name of the field for the Y co-ordinate
             /// </summary>
             [Category("Output")]
-            [Description("Field Name To Use For Y Coordingate Of HexBin Center")]
+            [Description("Field Name To Use For Y Co-ordinate Of HexBin Centre")]
             public string OutputBinYFieldName { get; set; } = "HexBinY";
 
             /// <summary>
@@ -49,7 +49,7 @@
             public string InputPointYFieldName { get; set; }
 
             /// <summary>
-            /// Gets or sets the radius of a heaxgon.
+            /// Gets or sets the radius of a hexagon.
             /// </summary>
             public double Radius { get; set; } = 1;
 
@@ -100,19 +100,19 @@
             /// <param name="recordCopierFactory">Factory to create copiers</param>
             /// <param name="inputPropertyFactory">Factory to create input properties</param>
             internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
-                : base(recordCopierFactory, inputPropertyFactory)
+                : base(recordCopierFactory)
             {
-                this.Input = this.CreateInputProperty(
-                    initFunc: this.InitFunc,
-                    progressAction: d => this.Output.UpdateProgress(d, true),
-                    pushFunc: this.PushFunc,
-                    closedAction: () =>
+                this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
+                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
+                this.Input.Closed += (sender, args) =>
                     {
                         this._inputReader = null;
                         this._outputBinXFieldBase = null;
                         this._outputBinYFieldBase = null;
                         this.Output?.Close(true);
-                    });
+                    };
             }
 
             /// <summary>
@@ -137,8 +137,8 @@
 
                 this.Output?.Init(Utilities.CreateRecordInfo(
                     info,
-                    new FieldDescription(this.ConfigObject.OutputBinXFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "X Co-ordinate of HexBin Center" },
-                    new FieldDescription(this.ConfigObject.OutputBinYFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "Y Co-ordinate of HexBin Center" }));
+                    new FieldDescription(this.ConfigObject.OutputBinXFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "X Co-ordinate of HexBin Centre" },
+                    new FieldDescription(this.ConfigObject.OutputBinYFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "Y Co-ordinate of HexBin Centre" }));
                 this._outputBinXFieldBase = this.Output?[this.ConfigObject.OutputBinXFieldName];
                 this._outputBinYFieldBase = this.Output?[this.ConfigObject.OutputBinYFieldName];
 

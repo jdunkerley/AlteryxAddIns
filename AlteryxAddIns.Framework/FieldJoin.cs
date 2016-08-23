@@ -15,9 +15,4 @@
         /// </summary>
         public string RightFieldName { get; set; }
     }
-
-    public class FieldJoinTypeConverter
-    {
-        
-    }
 }

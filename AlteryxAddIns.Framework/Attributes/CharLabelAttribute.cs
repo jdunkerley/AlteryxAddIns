@@ -19,7 +19,7 @@ namespace JDunkerley.AlteryxAddIns.Framework.Attributes
         }
 
         /// <summary>
-        /// Character Label for the connection
+        /// Gets the character label for the connection
         /// </summary>
         public char Label { get; }
     }

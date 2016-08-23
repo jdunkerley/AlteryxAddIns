@@ -69,12 +69,12 @@
             /// <param name="recordCopierFactory">Factory to create copiers</param>
             /// <param name="inputPropertyFactory">Factory to create input properties</param>
             internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
-                : base(recordCopierFactory, inputPropertyFactory)
+                : base(recordCopierFactory)
             {
-                this.Input = this.CreateInputProperty(
-                    initFunc: this.InitFunc,
-                    pushFunc: this.PushFunc,
-                    closedAction: this.ClosedAction);
+                this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
+                this.Input.Closed += (sender, args) => this.ClosedAction();
             }
 
             /// <summary>
@@ -122,10 +122,10 @@
                 var culture = CultureTypeConverter.GetCulture(this.ConfigObject.Culture);
                 var comparer = StringComparer.Create(culture, this.ConfigObject.IgnoreCase);
 
-                int count = 0;
+                var count = 0;
                 foreach (var record in this._data.OrderBy(t=>t.Item1, comparer).Select(t => t.Item2))
                 {
-                    double d = count++ / (double)this._data.Count;
+                    var d = count++ / (double)this._data.Count;
                     this.Output?.UpdateProgress(d, true);
                     this.Output?.Push(record);
                 }

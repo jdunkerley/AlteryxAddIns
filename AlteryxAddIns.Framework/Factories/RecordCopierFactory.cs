@@ -6,8 +6,6 @@
 
     using Interfaces;
 
-
-
     public class RecordCopierFactory : IRecordCopierFactory
     {
         /// <summary>
@@ -55,7 +53,7 @@
             /// Copy a RecordData onto a Record
             /// </summary>
             /// <param name="destination">Target Record Object</param>
-            /// <param name="source">Soruce RecordData</param>
+            /// <param name="source">Source RecordData</param>
             public void Copy(Record destination, RecordData source) => this._parent.Copy(destination, source);
         }
     }

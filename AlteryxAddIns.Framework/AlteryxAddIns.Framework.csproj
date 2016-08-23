@@ -24,6 +24,8 @@
     <PlatformTarget>x64</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AlteryxAddIns.Framework.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\JDunkerley.AlteryxAddIns.Framework.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +37,8 @@
     <PlatformTarget>x64</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AlteryxAddIns.Framework.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\JDunkerley.AlteryxAddIns.Framework.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlteryxGuiToolkit">
@@ -69,9 +73,11 @@
     </Compile>
     <Compile Include="ConfigWindows\PluginWidgetHelper.cs" />
     <Compile Include="ConnectionState.cs" />
+    <Compile Include="Factories\InputPropertyFactory.cs" />
     <Compile Include="Factories\RecordCopierFactory.cs" />
     <Compile Include="FieldDescription.cs" />
     <Compile Include="FieldJoin.cs" />
+    <Compile Include="FieldJoinTypeConverter.cs" />
     <Compile Include="IBaseEngine.cs" />
     <Compile Include="Interfaces\IInputProperty.cs" />
     <Compile Include="ConfigWindows\InputFieldTypeConverter.cs" />
@@ -79,6 +85,12 @@
     <Compile Include="Interfaces\IInputPropertyFactory.cs" />
     <Compile Include="Interfaces\IRecordCopier.cs" />
     <Compile Include="Interfaces\IRecordCopierFactory.cs" />
+    <Compile Include="Interfaces\ProgressUpdatedEventArgs.cs" />
+    <Compile Include="Interfaces\ProgressUpdatedEventHandler.cs" />
+    <Compile Include="Interfaces\RecordPushedEventArgs.cs" />
+    <Compile Include="Interfaces\RecordPushedEventHandler.cs" />
+    <Compile Include="Interfaces\SuccessEventArgs.cs" />
+    <Compile Include="Interfaces\SuccessEventHandler.cs" />
     <Compile Include="OutputHelper.cs" />
     <Compile Include="OutputType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,6 +105,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BaseTool.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AlteryxAddIns.Framework.ruleset" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

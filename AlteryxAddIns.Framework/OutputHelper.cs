@@ -16,6 +16,8 @@ namespace JDunkerley.AlteryxAddIns.Framework
 
         private PluginOutputConnectionHelper _helper;
 
+        private Lazy<Record> _lazyRecord;
+
         private ulong _recordCount;
 
         private ulong _recordLength;
@@ -32,6 +34,23 @@ namespace JDunkerley.AlteryxAddIns.Framework
 
             this._helper = new PluginOutputConnectionHelper(this._hostEngine.NToolId, this._hostEngine.Engine);
         }
+
+        /// <summary>
+        /// Gets the <see cref="RecordInfo"/> describing the Output records
+        /// </summary>
+        public RecordInfo RecordInfo { get; private set; }
+
+        /// <summary>
+        /// Gets a reusable <see cref="Record"/> object
+        /// </summary>
+        public Record Record => this._lazyRecord?.Value;
+
+        /// <summary>
+        /// Given a fieldName, gets the <see cref="FieldBase"/> for it
+        /// </summary>
+        /// <param name="fieldName">Name of field</param>
+        /// <returns><see cref="FieldBase"/> representing the field</returns>
+        public FieldBase this[string fieldName] => this.RecordInfo?.GetFieldByName(fieldName, false);
 
         /// <summary>
         /// Adds the connection.
@@ -58,25 +77,11 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._hostEngine.Engine.OutputMessage(this._hostEngine.NToolId, MessageStatus.STATUS_Info, $"Init called back on {this._connectionName}");
         }
 
-        public FieldBase this[String fieldName] => this.RecordInfo?.GetFieldByName(fieldName, false);
-
-        /// <summary>
-        ///
-        /// </summary>
-        public RecordInfo RecordInfo { get; private set; }
-
         /// <summary>
         /// Create A New Record
         /// </summary>
         /// <returns></returns>
         public Record CreateRecord() => this.RecordInfo?.CreateRecord();
-
-        private Lazy<Record> _lazyRecord;
-
-        /// <summary>
-        /// Reusable Record
-        /// </summary>
-        public Record Record => this._lazyRecord?.Value;
 
         public void Push(Record record, bool close = false)
         {

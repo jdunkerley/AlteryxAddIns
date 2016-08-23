@@ -13,7 +13,7 @@
     /// <seealso cref="System.Windows.Forms.UserControl" />
     /// <seealso cref="AlteryxGuiToolkit.Plugins.IPluginConfiguration" />
     public class PropertyGridGui<T> : UserControl, IPluginConfiguration
-        where T: new()
+        where T : new()
     {
         /// <summary>
         /// The _property grid
@@ -67,7 +67,7 @@
             var doc = new XmlDocument();
             doc.LoadXml($"<Config>{eConfig.InnerXml}</Config>");
 
-            this._config = eConfig.InnerText == "" || doc.DocumentElement == null
+            this._config = eConfig.InnerText == string.Empty || doc.DocumentElement == null
                 ? new T()
                 : (T)serialiser.Deserialize(new XmlNodeReader(doc.DocumentElement));
 
@@ -90,7 +90,7 @@
                 serialiser.Serialize(writer, this._config);
             }
 
-            eConfig.InnerXml = doc.DocumentElement?.InnerXml ?? "";
+            eConfig.InnerXml = doc.DocumentElement?.InnerXml ?? string.Empty;
             strDefaultAnnotation = this._config.ToString();
         }
     }

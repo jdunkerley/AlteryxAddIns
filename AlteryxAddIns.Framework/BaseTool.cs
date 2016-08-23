@@ -16,14 +16,13 @@
     /// <typeparam name="TEngine">The type of the engine.</typeparam>
     /// <seealso cref="AlteryxGuiToolkit.Plugins.IPlugin" />
     public abstract class BaseTool<TConfig, TEngine>
-        where TConfig: new()
+        where TConfig : new()
     {
         private readonly Lazy<Image> _icon;
 
         private readonly Connection[] _inputConnections;
 
         private readonly Connection[] _outputConnections;
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseTool{T, TEngine}"/> class.
@@ -36,30 +35,9 @@
             this._inputConnections =
                 typeof(TEngine).GetConnections<AlteryxRecordInfoNet.IIncomingConnectionInterface>().ToConnections().ToArray();
 
-
             // Read Outgoing Connection Nodes
             this._outputConnections =
                 typeof(TEngine).GetConnections<OutputHelper>().ToConnections().ToArray();
-        }
-
-        private Image GetEmbeddedImage()
-        {
-            var assembly = this.GetType().Assembly;
-            var frameworkAssembly = typeof(Utilities).Assembly;
-
-            var stream =
-                assembly.GetManifestResourceNames()
-                    .Where(n => n.Contains(this.GetType().Name) && n.EndsWith(".png"))
-                    .Select(n => assembly.GetManifestResourceStream(n))
-                    .FirstOrDefault()
-                ?? frameworkAssembly.GetManifestResourceNames()
-                       .Where(n => n.Contains(this._inputConnections.Length == 0 ? "BaseInput" : "BaseTool") && n.EndsWith(".png"))
-                       .Select(n => frameworkAssembly.GetManifestResourceStream(n))
-                       .First();
-
-            var bitmap = new Bitmap(stream);
-            bitmap.MakeTransparent();
-            return bitmap;
         }
 
         /// <summary>
@@ -90,13 +68,33 @@
         /// <summary>
         /// Input Connections
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of input connections for a tool</returns>
         public Connection[] GetInputConnections() => this._inputConnections;
 
         /// <summary>
         /// Output Connections
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of output connections for a tool</returns>
         public Connection[] GetOutputConnections() => this._outputConnections;
+
+        private Image GetEmbeddedImage()
+        {
+            var assembly = this.GetType().Assembly;
+            var frameworkAssembly = typeof(Utilities).Assembly;
+
+            var stream =
+                assembly.GetManifestResourceNames()
+                    .Where(n => n.Contains(this.GetType().Name) && n.EndsWith(".png"))
+                    .Select(n => assembly.GetManifestResourceStream(n))
+                    .FirstOrDefault()
+                ?? frameworkAssembly.GetManifestResourceNames()
+                       .Where(n => n.Contains(this._inputConnections.Length == 0 ? "BaseInput" : "BaseTool") && n.EndsWith(".png"))
+                       .Select(n => frameworkAssembly.GetManifestResourceStream(n))
+                       .First();
+
+            var bitmap = new Bitmap(stream);
+            bitmap.MakeTransparent();
+            return bitmap;
+        }
     }
 }

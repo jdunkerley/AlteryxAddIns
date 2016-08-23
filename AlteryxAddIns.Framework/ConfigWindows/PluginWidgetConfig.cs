@@ -10,18 +10,18 @@
     /// Plugin Widget Based Configuration Screen
     /// Based on Group Boxes
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class PluginWidgetConfig<T> : UserControl, AlteryxGuiToolkit.Plugins.IPluginConfiguration
+    /// <typeparam name="TConfig">Configuration Data Type To Serialise / De-serialise</typeparam>
+    public class PluginWidgetConfig<TConfig> : UserControl, AlteryxGuiToolkit.Plugins.IPluginConfiguration
     {
         public PluginWidgetConfig()
         {
             this.Margin = new Padding(4);
             this.Size = new Size(400, 400);
-            this.Name = nameof(PluginWidgetConfig<T>);
+            this.Name = nameof(PluginWidgetConfig<TConfig>);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.AutoScaleDimensions = new SizeF(6f, 13f);
 
-            var type = typeof(T);
+            var type = typeof(TConfig);
 
             var props =
                 type.GetProperties()

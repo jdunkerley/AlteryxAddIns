@@ -26,6 +26,7 @@
             {
                 return null;
             }
+
             return output;
         }
 
@@ -46,6 +47,7 @@
             {
                 return null;
             }
+
             return output.TimeOfDay;
         }
 
@@ -110,7 +112,7 @@
         /// <param name="attribsCollection"></param>
         /// <returns></returns>
         public static T GetAttrib<T>(this AttributeCollection attribsCollection)
-            where T: class
+            where T : class
         {
             T attrib = null;
             foreach (var attribute in attribsCollection)
@@ -151,7 +153,8 @@
         {
             return CreateRecordInfo(null, fields);
         }
-            public static RecordInfo CreateRecordInfo(
+
+        public static RecordInfo CreateRecordInfo(
             RecordInfo inputRecordInfo,
             params FieldDescription[] fields)
         {
