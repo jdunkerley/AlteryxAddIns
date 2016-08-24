@@ -54,7 +54,7 @@
         /// <param name="eIncomingMetaInfo">The e incoming meta information.</param>
         /// <param name="nToolId">The n tool identifier.</param>
         /// <param name="strToolName">Name of the string tool.</param>
-        /// <returns></returns>
+        /// <returns>This object as a control for Alteryx to render.</returns>
         public Control GetConfigurationControl(
             AlteryxGuiToolkit.Document.Properties docProperties,
             XmlElement eConfig,
