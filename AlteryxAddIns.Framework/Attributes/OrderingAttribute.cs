@@ -3,7 +3,7 @@ namespace JDunkerley.AlteryxAddIns.Framework.Attributes
     using System;
 
     /// <summary>
-    /// Order Field For a Connection
+    /// Specifies a numeric value to order incoming or outgoing connections.
     /// </summary>
     /// <seealso cref="System.Attribute" />
     [AttributeUsage(AttributeTargets.Property)]
@@ -12,14 +12,14 @@ namespace JDunkerley.AlteryxAddIns.Framework.Attributes
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderingAttribute"/> class.
         /// </summary>
-        /// <param name="order">The order.</param>
+        /// <param name="order">The order value.</param>
         public OrderingAttribute(int order)
         {
             this.Order = order;
         }
 
         /// <summary>
-        /// Gets the order.
+        /// Gets the order value.
         /// </summary>
         public int Order { get; }
     }

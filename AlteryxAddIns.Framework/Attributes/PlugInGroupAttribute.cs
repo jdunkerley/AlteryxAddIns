@@ -3,8 +3,8 @@
     using System;
 
     /// <summary>
-    /// Specify Which Group A PlugIn Should Appear In and Display Name
-    /// (Used by DefaultSettings Generator)
+    /// Specifies which group a PlugIn tool should appear in and display name.
+    /// (Used to write to DefaultSettings.xml)
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public sealed class PlugInGroupAttribute : Attribute
@@ -21,12 +21,12 @@
         }
 
         /// <summary>
-        /// Gets the group name to use for the <see cref="AlteryxRecordInfoNet.INetPlugin"/>
+        /// Gets the group name to use for the <see cref="AlteryxRecordInfoNet.INetPlugin"/>.
         /// </summary>
         public string GroupName { get; }
 
         /// <summary>
-        /// Gets the description (Display Name) for the <see cref="AlteryxRecordInfoNet.INetPlugin"/>
+        /// Gets the description (Display Name) for the <see cref="AlteryxRecordInfoNet.INetPlugin"/>.
         /// </summary>
         public string Description { get; }
     }

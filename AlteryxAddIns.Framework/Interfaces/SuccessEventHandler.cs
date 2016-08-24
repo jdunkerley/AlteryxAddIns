@@ -1,9 +1,8 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework.Interfaces
 {
     /// <summary>
-    /// Event Handler for <see cref="SuccessEventArgs"/>
-    /// </summary>
-    /// <param name="sender">Sender object</param>
-    /// <param name="e">Event Args</param>
+    /// Represents the method that will handle the <see cref="IInputProperty.InitCalled"/> event.
+    /// </summary>    /// <param name="sender">The source of the event, typically an <see cref="IInputProperty"/>.</param>
+    /// <param name="e">A <see cref="SuccessEventArgs"/> object whose<see cref="SuccessEventArgs.Success"/> property allows the handler to say that the process failed.</param>
     public delegate void SuccessEventHandler(object sender, SuccessEventArgs e);
 }

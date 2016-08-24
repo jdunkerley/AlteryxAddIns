@@ -81,7 +81,7 @@
     <Compile Include="IBaseEngine.cs" />
     <Compile Include="Interfaces\IInputProperty.cs" />
     <Compile Include="ConfigWindows\InputFieldTypeConverter.cs" />
-    <Compile Include="Factories\InputProperty.cs" />
+    <Compile Include="InputProperty.cs" />
     <Compile Include="Interfaces\IInputPropertyFactory.cs" />
     <Compile Include="Interfaces\IRecordCopier.cs" />
     <Compile Include="Interfaces\IRecordCopierFactory.cs" />

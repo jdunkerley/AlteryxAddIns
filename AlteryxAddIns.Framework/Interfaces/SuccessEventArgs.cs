@@ -1,11 +1,9 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework.Interfaces
 {
-    using System;
-
     /// <summary>
-    /// <see cref="EventArgs"/> with a flag to indicate success. Defaults to success.
+    /// Provides the <see cref="IInputProperty.InitCalled"/> event with a <see cref="Success"/> property to inform input propery if handling failed.
     /// </summary>
-    public class SuccessEventArgs : EventArgs
+    public class SuccessEventArgs : System.EventArgs
     {
         /// <summary>
         /// Gets or sets a value indicating whether successful or not

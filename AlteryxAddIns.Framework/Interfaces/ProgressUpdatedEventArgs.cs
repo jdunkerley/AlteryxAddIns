@@ -1,11 +1,9 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework.Interfaces
 {
-    using System;
-
     /// <summary>
-    /// EventArgs for Progress Updated
+    /// Provides data for the <see cref="IInputProperty.ProgressUpdated"/> event
     /// </summary>
-    public class ProgressUpdatedEventArgs : EventArgs
+    public class ProgressUpdatedEventArgs : System.EventArgs
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProgressUpdatedEventArgs"/> class.
@@ -17,7 +15,7 @@
         }
 
         /// <summary>
-        /// Gets the new progress level
+        /// Gets the inputs progress percentage.
         /// </summary>
         public double Progress { get; }
     }

@@ -1,31 +1,25 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework.Factories
 {
     using System;
-    using System.Collections.Generic;
-    using System.Xml;
 
-    using JDunkerley.AlteryxAddIns.Framework.Interfaces;
+    using Interfaces;
 
     /// <summary>
-    /// Factory For Creating Input Properties
+    /// Factory For Creating <see cref="InputProperty"/> objects.
     /// </summary>
     public class InputPropertyFactory : IInputPropertyFactory
     {
         /// <summary>
-        /// Given a set of call back functions create the input property
+        /// Creates a new instance of an <see cref="InputProperty"/> object.
         /// </summary>
-        /// <param name="copierFactory"></param>
-        /// <param name="showDebugMessagesFunc"></param>
-        /// <param name="sortFieldsFunc"></param>
-        /// <param name="selectFieldsFunc"></param>
-        /// <returns></returns>
+        /// <param name="copierFactory">Factory for creating RecordCopiers</param>
+        /// <param name="showDebugMessagesFunc">Call back to determine whether to show debug messages</param>
+        /// <returns>A new instance of an <see cref="InputProperty"/>.</returns>
         public IInputProperty Build(
             IRecordCopierFactory copierFactory = null,
-            Func<bool> showDebugMessagesFunc = null,
-            Func<XmlElement, IEnumerable<string>> sortFieldsFunc = null,
-            Func<XmlElement, IEnumerable<string>> selectFieldsFunc = null)
+            Func<bool> showDebugMessagesFunc = null)
         {
-            return new InputProperty(copierFactory, showDebugMessagesFunc, sortFieldsFunc, selectFieldsFunc);
+            return new InputProperty(copierFactory, showDebugMessagesFunc);
         }
     }
 }

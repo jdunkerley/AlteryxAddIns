@@ -1,7 +1,6 @@
-﻿namespace JDunkerley.AlteryxAddIns.Framework.Factories
+﻿namespace JDunkerley.AlteryxAddIns.Framework
 {
     using System;
-    using System.Collections.Generic;
     using System.Xml;
 
     using AlteryxRecordInfoNet;
@@ -18,31 +17,20 @@
     {
         private readonly Func<bool> _showDebugMessagesFunc;
 
-        private readonly Func<XmlElement, IEnumerable<string>> _sortFieldsFunc;
-
-        private readonly Func<XmlElement, IEnumerable<string>> _selectFieldsFunc;
-
         private readonly Lazy<IRecordCopier> _lazyCopier;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InputProperty"/> class.
         /// </summary>
-        /// <param name="copierFactory">Factory for creating RecordCopiers</param>
-        /// <param name="showDebugMessagesFunc">Call back to determine whether to show debug messages</param>
-        /// <param name="sortFieldsFunc">The sort fields function.</param>
-        /// <param name="selectFieldsFunc">The select fields function.</param>
+        /// <param name="copierFactory">Factory for creating <see cref="IRecordCopier"/> objects.</param>
+        /// <param name="showDebugMessagesFunc">Call back function to determine whether to show debug messages.</param>
         internal InputProperty(
             IRecordCopierFactory copierFactory = null,
-            Func<bool> showDebugMessagesFunc = null,
-            Func<XmlElement, IEnumerable<string>> sortFieldsFunc = null,
-            Func<XmlElement, IEnumerable<string>> selectFieldsFunc = null)
+            Func<bool> showDebugMessagesFunc = null)
         {
             this._lazyCopier = new Lazy<IRecordCopier>(() => copierFactory?.CreateCopier(this.RecordInfo, this.RecordInfo));
 
             this._showDebugMessagesFunc = showDebugMessagesFunc ?? (() => false);
-
-            this._sortFieldsFunc = sortFieldsFunc ?? (p => null);
-            this._selectFieldsFunc = selectFieldsFunc ?? (p => null);
         }
 
         /// <summary>
@@ -89,11 +77,6 @@
         {
             this.State = ConnectionState.Added;
 
-            /*
-            var sortFields = this.IncomingConnectionSort(pXmlProperties);
-            var selectFields = this.IncomingConnectionFields(pXmlProperties);
-            */
-
             // ToDo: Render Xml Output
             return null;
         }
@@ -128,7 +111,7 @@
         /// <summary>
         /// Called by Alteryx when it wants the tool to update its progress.
         /// </summary>
-        /// <param name="dPercent">The new progress</param>
+        /// <param name="dPercent">The new progress percentage.</param>
         public void II_UpdateProgress(double dPercent)
             => this.ProgressUpdated(this, new ProgressUpdatedEventArgs(dPercent));
 
@@ -141,22 +124,10 @@
             this.Closed(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Called by Alteryx to determine whether or not to display debug level messages.
+        /// </summary>
+        /// <returns>A value which indicates whether or not to show debug messages.</returns>
         public bool ShowDebugMessages() => this._showDebugMessagesFunc();
-
-        /// <summary>
-        /// Field Names to Sort By. Prefix with ~ for Descending.
-        /// </summary>
-        /// <param name="pXmlProperties">The XML Configuration Properties</param>
-        /// <returns>Sort Fields</returns>
-        private IEnumerable<string> IncomingConnectionSort(XmlElement pXmlProperties)
-            => this._sortFieldsFunc(pXmlProperties);
-
-        /// <summary>
-        /// Field Names to Select
-        /// </summary>
-        /// <param name="pXmlProperties">The XML COnfiguration Properties</param>
-        /// <returns>Selected Fields or NULL for all</returns>
-        private IEnumerable<string> IncomingConnectionFields(XmlElement pXmlProperties)
-            => this._selectFieldsFunc(pXmlProperties);
     }
 }

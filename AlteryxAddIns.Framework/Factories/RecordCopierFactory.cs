@@ -6,15 +6,18 @@
 
     using Interfaces;
 
+    /// <summary>
+    /// Factory For Creating <see cref="IRecordCopier"/> objects, which are wrapped <see cref="RecordCopier"/>.
+    /// </summary>
     public class RecordCopierFactory : IRecordCopierFactory
     {
         /// <summary>
-        /// Creates a record copier copier.
+        /// Creates a new instance of an <see cref="IRecordCopier"/>.
         /// </summary>
-        /// <param name="info">The information.</param>
-        /// <param name="newRecordInfo">The new record information.</param>
-        /// <param name="fieldsToSkip">The fields to skip.</param>
-        /// <returns></returns>
+        /// <param name="info">The source <see cref="AlteryxRecordInfoNet.RecordInfo"/> object.</param>
+        /// <param name="newRecordInfo">The target <see cref="AlteryxRecordInfoNet.RecordInfo"/> objects.</param>
+        /// <param name="fieldsToSkip">A list of fields to skip.</param>
+        /// <returns>A new instance of an <see cref="IRecordCopier"/> object.</returns>
         public IRecordCopier CreateCopier(RecordInfo info, RecordInfo newRecordInfo, params string[] fieldsToSkip)
         {
             var copier = new RecordCopier(newRecordInfo, info, true);

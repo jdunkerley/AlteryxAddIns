@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Specifies associated input field for configuration GUIs
+    /// Specifies associated input field for configuration GUIs to read available fields from.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class InputPropertyNameAttribute : Attribute
