@@ -11,12 +11,12 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="InputPropertyNameAttribute"/> class.
         /// </summary>
-        /// <param name="inputPropertyName">Name of the field.</param>
+        /// <param name="inputConnectionName">Name of the field.</param>
         /// <param name="engineType">Type of the engine</param>
         /// <param name="fieldTypes">List of valid types (defaults to all)</param>
-        public InputPropertyNameAttribute(string inputPropertyName, Type engineType, params AlteryxRecordInfoNet.FieldType[] fieldTypes)
+        public InputPropertyNameAttribute(string inputConnectionName, Type engineType, params AlteryxRecordInfoNet.FieldType[] fieldTypes)
         {
-            this.InputPropertyName = inputPropertyName;
+            this.InputConnectionName = inputConnectionName;
             this.EngineType = engineType;
 
             this.FieldTypes = fieldTypes;
@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets the name of the field.
         /// </summary>
-        public string InputPropertyName { get; }
+        public string InputConnectionName { get; }
 
         /// <summary>
         /// Gets the type of the engine.

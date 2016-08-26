@@ -1,6 +1,11 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework.ConfigWindows
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
+    using System.Xml;
 
     using Attributes;
 
@@ -31,8 +36,49 @@
                 return base.GetStandardValues(context);
             }
 
-            var names = Statics.GetFieldList(attrib.EngineType, attrib.InputPropertyName, attrib.FieldTypes);
+            var instance = context.Instance as ConfigWithIncomingConnection;
+            if (instance == null)
+            {
+                return base.GetStandardValues(context);
+            }
+
+            var names = GetFieldList(instance.IncomingMetaInfo, attrib.EngineType, attrib.InputConnectionName, attrib.FieldTypes);
             return new StandardValuesCollection(names);
+        }
+
+        private static ICollection GetFieldList(XmlElement[] incomingMetaData, Type engineType, string connectionName, IList<AlteryxRecordInfoNet.FieldType> fieldTypes)
+        {
+            var input = engineType.GetConnections<AlteryxRecordInfoNet.IIncomingConnectionInterface>()
+                    .Select((kvp, i) => new { kvp.Key, i })
+                    .FirstOrDefault(o => o.Key == connectionName);
+
+            if (input == null || incomingMetaData == null || incomingMetaData.Length <= input.i)
+            {
+                return null;
+            }
+
+            var sourceElement = incomingMetaData[input.i]?.SelectNodes("RecordInfo/Field");
+            if (sourceElement == null)
+            {
+                return null;
+            }
+
+            var names = new List<string>();
+            foreach (XmlNode field in sourceElement)
+            {
+                var name = field.SelectSingleNode("@name")?.Value;
+                var fieldTypeName = field.SelectSingleNode("@type")?.Value;
+                AlteryxRecordInfoNet.FieldType fieldType;
+                if (name == null || fieldTypeName == null || !Enum.TryParse("E_FT_" + fieldTypeName, out fieldType)
+                    || !fieldTypes.Contains(fieldType))
+                {
+                    continue;
+                }
+
+                names.Add(name);
+            }
+
+            return names;
         }
     }
 }

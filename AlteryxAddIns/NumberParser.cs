@@ -15,7 +15,7 @@
     public class NumberParser :
         BaseTool<NumberParser.Config, NumberParser.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
-        public class Config
+        public class Config : ConfigWithIncomingConnection
         {
             public Config()
             {

@@ -1,7 +1,7 @@
 namespace JDunkerley.AlteryxAddIns.Framework
 {
     /// <summary>
-    /// Simple Descriptor Class
+    /// Simple Field Descriptor Class
     /// </summary>
     public class FieldDescription
     {

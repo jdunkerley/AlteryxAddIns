@@ -14,7 +14,7 @@
     public class HexBin :
         BaseTool<HexBin.Config, HexBin.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
-        public class Config
+        public class Config : ConfigWithIncomingConnection
         {
             /// <summary>
             /// Specify the name of the field for the X co-ordinate

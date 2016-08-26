@@ -6,6 +6,8 @@
 
     using AlteryxGuiToolkit.Plugins;
 
+    using JDunkerley.AlteryxAddIns.Framework.Interfaces;
+
     /// <summary>
     /// Simple Property Grid Based Configuration Panel
     /// </summary>
@@ -50,10 +52,10 @@
         /// Gets the configuration control.
         /// </summary>
         /// <param name="docProperties">The document properties.</param>
-        /// <param name="eConfig">The e configuration.</param>
-        /// <param name="eIncomingMetaInfo">The e incoming meta information.</param>
-        /// <param name="nToolId">The n tool identifier.</param>
-        /// <param name="strToolName">Name of the string tool.</param>
+        /// <param name="eConfig">The current configuration.</param>
+        /// <param name="eIncomingMetaInfo">The incoming connection meta data.</param>
+        /// <param name="nToolId">The tool identifier.</param>
+        /// <param name="strToolName">Name of the tool.</param>
         /// <returns>This object as a control for Alteryx to render.</returns>
         public Control GetConfigurationControl(
             AlteryxGuiToolkit.Document.Properties docProperties,
@@ -72,7 +74,13 @@
                 : (T)serialiser.Deserialize(new XmlNodeReader(doc.DocumentElement));
 
             this._propertyGrid.SelectedObject = this._config;
-            Statics.CurrentMetaData = eIncomingMetaInfo;
+
+            var configWithIncomingConnection = this._config as IConfigWithIncomingConnection;
+            if (configWithIncomingConnection != null)
+            {
+                configWithIncomingConnection.IncomingMetaInfo = eIncomingMetaInfo;
+            }
+
             return this;
         }
 

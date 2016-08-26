@@ -1,5 +1,7 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework
 {
+    // ToDo: Add support for fixed decimal.
+
     /// <summary>
     /// Enumeration Representing All The Alteryx DataTypes
     /// </summary>

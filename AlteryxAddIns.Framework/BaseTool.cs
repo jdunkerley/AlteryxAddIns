@@ -4,15 +4,16 @@
     using System.Drawing;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
 
     using AlteryxGuiToolkit.Plugins;
 
-    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
+    using ConfigWindows;
 
     /// <summary>
     /// Base Tool Class
     /// </summary>
-    /// <typeparam name="TConfig">The type of the config object</typeparam>
+    /// <typeparam name="TConfig">The type of the configuration object</typeparam>
     /// <typeparam name="TEngine">The type of the engine.</typeparam>
     /// <seealso cref="AlteryxGuiToolkit.Plugins.IPlugin" />
     public abstract class BaseTool<TConfig, TEngine>
@@ -43,19 +44,19 @@
         /// <summary>
         /// Get The Icon
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Icon for Alteryx to use to represent the tool.</returns>
         public Image GetIcon() => this._icon.Value;
 
         /// <summary>
         /// GUI Designer
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The configuration object to render in the properties window.</returns>
         public virtual IPluginConfiguration GetConfigurationGui() => new PropertyGridGui<TConfig>();
 
         /// <summary>
         /// Engine Entry Point
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An entry point to the function for the Engine to run.</returns>
         public EntryPoint GetEngineEntryPoint()
         {
             var entryPoint = new EntryPoint(
@@ -84,7 +85,7 @@
 
             var stream =
                 assembly.GetManifestResourceNames()
-                    .Where(n => n.Contains(this.GetType().Name) && n.EndsWith(".png"))
+                    .Where(n => n.Contains(this.GetType().Name))
                     .Select(n => assembly.GetManifestResourceStream(n))
                     .FirstOrDefault()
                 ?? frameworkAssembly.GetManifestResourceNames()

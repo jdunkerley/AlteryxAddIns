@@ -72,13 +72,16 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ConfigWindows\PluginWidgetHelper.cs" />
+    <Compile Include="ConfigWithIncomingConnection.cs" />
     <Compile Include="ConnectionState.cs" />
     <Compile Include="Factories\InputPropertyFactory.cs" />
     <Compile Include="Factories\RecordCopierFactory.cs" />
+    <Compile Include="FieldBaseHelpers.cs" />
     <Compile Include="FieldDescription.cs" />
     <Compile Include="FieldJoin.cs" />
     <Compile Include="FieldJoinTypeConverter.cs" />
     <Compile Include="IBaseEngine.cs" />
+    <Compile Include="Interfaces\IConfigWithIncomingConnection.cs" />
     <Compile Include="Interfaces\IInputProperty.cs" />
     <Compile Include="ConfigWindows\InputFieldTypeConverter.cs" />
     <Compile Include="InputProperty.cs" />
@@ -93,18 +96,12 @@
     <Compile Include="Interfaces\SuccessEventHandler.cs" />
     <Compile Include="OutputHelper.cs" />
     <Compile Include="OutputType.cs" />
+    <Compile Include="OutputTypeHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConfigWindows\PropertyGridGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Statics.cs" />
     <Compile Include="Utilities.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="BaseInput.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="BaseTool.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlteryxAddIns.Framework.ruleset" />
@@ -114,6 +111,12 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BaseInput.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BaseTool.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

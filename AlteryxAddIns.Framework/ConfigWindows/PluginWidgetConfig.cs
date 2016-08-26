@@ -1,18 +1,21 @@
-    namespace JDunkerley.AlteryxAddIns.Framework.ConfigWindows
+namespace JDunkerley.AlteryxAddIns.Framework.ConfigWindows
 {
-    using System.Collections.Generic;
+    using System.Collections.Concurrent;
     using System.ComponentModel;
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
 
     /// <summary>
-    /// Plugin Widget Based Configuration Screen
+    /// Plug In Widget Based Configuration Screen
     /// Based on Group Boxes
     /// </summary>
-    /// <typeparam name="TConfig">Configuration Data Type To Serialise / De-serialise</typeparam>
+    /// <typeparam name="TConfig">Configuration Data Type To serialize / De-serialize</typeparam>
     public class PluginWidgetConfig<TConfig> : UserControl, AlteryxGuiToolkit.Plugins.IPluginConfiguration
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PluginWidgetConfig{TConfig}"/> class.
+        /// </summary>
         public PluginWidgetConfig()
         {
             this.Margin = new Padding(4);
@@ -28,7 +31,7 @@
                     .OrderBy(p => p.GetAttrib<CategoryAttribute>()?.Category ?? "ZZZZ")
                     .ThenBy(p => p.Name);
 
-            var categoriesBoxes = new Dictionary<string, GroupBox>();
+            var categoriesBoxes = new ConcurrentDictionary<string, GroupBox>();
 
             foreach (var propertyInfo in props)
             {
@@ -44,14 +47,14 @@
         }
 
         /// <summary>
-        ///
+        /// Gets the configuration control.
         /// </summary>
-        /// <param name="docProperties"></param>
-        /// <param name="eConfig"></param>
-        /// <param name="eIncomingMetaInfo"></param>
-        /// <param name="nToolId"></param>
-        /// <param name="strToolName"></param>
-        /// <returns></returns>
+        /// <param name="docProperties">The document properties.</param>
+        /// <param name="eConfig">The current configuration.</param>
+        /// <param name="eIncomingMetaInfo">The incoming connection meta data.</param>
+        /// <param name="nToolId">The tool identifier.</param>
+        /// <param name="strToolName">Name of the tool.</param>
+        /// <returns>This object as a control for Alteryx to render.</returns>
         public Control GetConfigurationControl(
             AlteryxGuiToolkit.Document.Properties docProperties,
             System.Xml.XmlElement eConfig,
@@ -62,9 +65,14 @@
             return this;
         }
 
+        /// <summary>
+        /// Saves the results to XML.
+        /// </summary>
+        /// <param name="eConfig">The e configuration.</param>
+        /// <param name="strDefaultAnnotation">The string default annotation.</param>
         public void SaveResultsToXml(System.Xml.XmlElement eConfig, out string strDefaultAnnotation)
         {
-            strDefaultAnnotation = "Undevelopement...";
+            strDefaultAnnotation = "Under development...";
         }
     }
 }

@@ -19,7 +19,7 @@
     public class DateTimeParser :
         BaseTool<DateTimeParser.Config, DateTimeParser.Engine>, IPlugin
     {
-        public class Config
+        public class Config : ConfigWithIncomingConnection
         {
             /// <summary>
             /// Gets or sets the type of the output.

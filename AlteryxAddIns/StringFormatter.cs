@@ -20,7 +20,7 @@ namespace JDunkerley.AlteryxAddIns
         /// <summary>
         /// Configuration object for the Formatter Tool
         /// </summary>
-        public class Config
+        public class Config : ConfigWithIncomingConnection
         {
             /// <summary>
             /// Specify the name of the  formatted field in the Output
@@ -95,9 +95,9 @@ namespace JDunkerley.AlteryxAddIns
                         return r => inputFieldBase.GetAsDouble(r)?.ToString(format, culture);
                     case FieldType.E_FT_Date:
                     case FieldType.E_FT_DateTime:
-                        return r => inputFieldBase.GetAsString(r).ToDateTime()?.ToString(format, culture);
+                        return r => inputFieldBase.GetAsDateTime(r)?.ToString(format, culture);
                     case FieldType.E_FT_Time:
-                        return r => inputFieldBase.GetAsString(r).ToTimeSpan()?.ToString(format, culture);
+                        return r => inputFieldBase.GetAsTimeSpan(r)?.ToString(format, culture);
                 }
 
                 return null;

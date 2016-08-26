@@ -16,7 +16,7 @@
     public class SortWithCulture :
         BaseTool<SortWithCulture.Config, SortWithCulture.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
-        public class Config
+        public class Config : ConfigWithIncomingConnection
         {
             /// <summary>
             /// Gets or sets the culture.

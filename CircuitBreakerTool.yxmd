@@ -2,7 +2,7 @@
 <AlteryxDocument yxmdVer="10.0">
   <Nodes>
     <Node ToolID="1">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.CircuitBreaker">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.CircuitBreaker">
         <Position x="186" y="162" />
       </GuiSettings>
       <Properties>
@@ -13,7 +13,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.CircuitBreaker+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.CircuitBreaker+Engine" />
     </Node>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
@@ -106,7 +106,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
     <Node ToolID="5">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.CircuitBreaker">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.CircuitBreaker">
         <Position x="186" y="270" />
       </GuiSettings>
       <Properties>
@@ -117,7 +117,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.CircuitBreaker+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.CircuitBreaker+Engine" />
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
@@ -168,7 +168,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
     <Node ToolID="9">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.CircuitBreaker">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.CircuitBreaker">
         <Position x="294" y="390" />
       </GuiSettings>
       <Properties>
@@ -179,7 +179,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.CircuitBreaker+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.CircuitBreaker+Engine" />
     </Node>
     <Node ToolID="10">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
@@ -300,7 +300,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTest" />
     </Node>
     <Node ToolID="18">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.CircuitBreaker">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.CircuitBreaker">
         <Position x="294" y="510" />
       </GuiSettings>
       <Properties>
@@ -311,7 +311,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.CircuitBreaker+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.CircuitBreaker+Engine" />
     </Node>
     <Node ToolID="19">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">

@@ -27,7 +27,7 @@
         }
         // ReSharper restore InconsistentNaming
 
-        public class Config
+        public class Config : ConfigWithIncomingConnection
         {
             /// <summary>
             /// Specify the name of the  hashed value field in the Output

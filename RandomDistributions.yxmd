@@ -113,7 +113,7 @@
           <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
         </Node>
         <Node ToolID="20">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.RandomNumber">
             <Position x="318" y="102" />
           </GuiSettings>
           <Properties>
@@ -133,10 +133,10 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.RandomNumber+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.RandomNumber+Engine" />
         </Node>
         <Node ToolID="21">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.StringFormatter">
             <Position x="438" y="102" />
           </GuiSettings>
           <Properties>
@@ -153,10 +153,10 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.StringFormatter+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.StringFormatter+Engine" />
         </Node>
         <Node ToolID="22">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.NumberParser">
             <Position x="726" y="102" />
           </GuiSettings>
           <Properties>
@@ -172,7 +172,7 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.NumberParser+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.NumberParser+Engine" />
         </Node>
         <Node ToolID="23">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
@@ -314,7 +314,7 @@
           <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
         </Node>
         <Node ToolID="28">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.RandomNumber">
             <Position x="318" y="270" />
           </GuiSettings>
           <Properties>
@@ -334,10 +334,10 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.RandomNumber+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.RandomNumber+Engine" />
         </Node>
         <Node ToolID="29">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.StringFormatter">
             <Position x="438" y="270" />
           </GuiSettings>
           <Properties>
@@ -354,10 +354,10 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.StringFormatter+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.StringFormatter+Engine" />
         </Node>
         <Node ToolID="30">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.NumberParser">
             <Position x="726" y="270" />
           </GuiSettings>
           <Properties>
@@ -373,7 +373,7 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.NumberParser+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.NumberParser+Engine" />
         </Node>
         <Node ToolID="31">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
@@ -515,7 +515,7 @@
           <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
         </Node>
         <Node ToolID="36">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.RandomNumber">
             <Position x="318" y="438" />
           </GuiSettings>
           <Properties>
@@ -535,10 +535,10 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.RandomNumber+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.RandomNumber+Engine" />
         </Node>
         <Node ToolID="37">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.StringFormatter">
             <Position x="438" y="438" />
           </GuiSettings>
           <Properties>
@@ -555,10 +555,10 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.StringFormatter+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.StringFormatter+Engine" />
         </Node>
         <Node ToolID="38">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.NumberParser">
             <Position x="726" y="438" />
           </GuiSettings>
           <Properties>
@@ -574,7 +574,7 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.NumberParser+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.NumberParser+Engine" />
         </Node>
         <Node ToolID="39">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
@@ -716,7 +716,7 @@
           <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
         </Node>
         <Node ToolID="44">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.RandomNumber">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.RandomNumber">
             <Position x="318" y="606" />
           </GuiSettings>
           <Properties>
@@ -736,10 +736,10 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.RandomNumber+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.RandomNumber+Engine" />
         </Node>
         <Node ToolID="45">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.StringFormatter">
             <Position x="438" y="606" />
           </GuiSettings>
           <Properties>
@@ -756,10 +756,10 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.StringFormatter+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.StringFormatter+Engine" />
         </Node>
         <Node ToolID="46">
-          <GuiSettings Plugin="JDunkerley.AlteryxAddins.NumberParser">
+          <GuiSettings Plugin="JDunkerley.AlteryxAddIns.NumberParser">
             <Position x="726" y="606" />
           </GuiSettings>
           <Properties>
@@ -775,7 +775,7 @@
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.NumberParser+Engine" />
+          <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.NumberParser+Engine" />
         </Node>
         <Node ToolID="47">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">

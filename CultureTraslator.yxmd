@@ -2,7 +2,7 @@
 <AlteryxDocument yxmdVer="10.0">
   <Nodes>
     <Node ToolID="1">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeParser">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.DateTimeParser">
         <Position x="162" y="54" />
       </GuiSettings>
       <Properties>
@@ -18,7 +18,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.DateTimeParser+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.DateTimeParser+Engine" />
     </Node>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
@@ -80,7 +80,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
     <Node ToolID="4">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.StringFormatter">
         <Position x="282" y="54" />
       </GuiSettings>
       <Properties>
@@ -97,10 +97,10 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.StringFormatter+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.StringFormatter+Engine" />
     </Node>
     <Node ToolID="5">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.StringFormatter">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.StringFormatter">
         <Position x="390" y="54" />
       </GuiSettings>
       <Properties>
@@ -117,7 +117,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.StringFormatter+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.StringFormatter+Engine" />
     </Node>
   </Nodes>
   <Connections>
