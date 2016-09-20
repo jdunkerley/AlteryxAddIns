@@ -34,11 +34,11 @@
 
             // Read Incoming Connection Nodes
             this._inputConnections =
-                typeof(TEngine).GetConnections<AlteryxRecordInfoNet.IIncomingConnectionInterface>().ToConnections().ToArray();
+                typeof(TEngine).GetProperties<AlteryxRecordInfoNet.IIncomingConnectionInterface>().ToConnections().ToArray();
 
             // Read Outgoing Connection Nodes
             this._outputConnections =
-                typeof(TEngine).GetConnections<OutputHelper>().ToConnections().ToArray();
+                typeof(TEngine).GetProperties<OutputHelper>().ToConnections().ToArray();
         }
 
         /// <summary>
@@ -81,7 +81,7 @@
         private Image GetEmbeddedImage()
         {
             var assembly = this.GetType().Assembly;
-            var frameworkAssembly = typeof(Utilities).Assembly;
+            var frameworkAssembly = typeof(FieldDescription).Assembly;
 
             var stream =
                 assembly.GetManifestResourceNames()

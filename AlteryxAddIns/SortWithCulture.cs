@@ -97,7 +97,7 @@
                     return false;
                 }
 
-                this.Output?.Init(Utilities.CreateRecordInfo(info));
+                this.Output?.Init(FieldDescription.CreateRecordInfo(info));
 
                 // Create the Copier
                 this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo);

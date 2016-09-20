@@ -11,7 +11,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
     /// <summary>
     /// Base Implementation of an <see cref="AlteryxRecordInfoNet.INetPlugin"/>
     /// </summary>
-    /// <typeparam name="TConfig">Configuration object for de-serialising XML to</typeparam>
+    /// <typeparam name="TConfig">Configuration object for reading XML into.</typeparam>
     public abstract class BaseEngine<TConfig> : AlteryxRecordInfoNet.INetPlugin, IBaseEngine
         where TConfig : new()
     {
@@ -31,8 +31,8 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this.RecordCopierFactory = recordCopierFactory;
 
             var type = this.GetType();
-            this._inputs = type.GetConnections<AlteryxRecordInfoNet.IIncomingConnectionInterface>();
-            this._outputs = type.GetConnections<OutputHelper>();
+            this._inputs = type.GetProperties<AlteryxRecordInfoNet.IIncomingConnectionInterface>();
+            this._outputs = type.GetProperties<OutputHelper>();
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         public int NToolId { get; private set; }
 
         /// <summary>
-        /// Gets the XML configuration from the workflow.
+        /// Gets the XML configuration from the work flow.
         /// </summary>
         public XmlElement XmlConfig
         {
@@ -68,7 +68,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         protected IRecordCopierFactory RecordCopierFactory { get; }
 
         /// <summary>
-        /// Gets the configuration object de-serialized from the XML config
+        /// Gets the configuration object read from the XML node.
         /// </summary>
         /// <returns>Configuration Object</returns>
         protected TConfig ConfigObject => this._configObject.Value;
@@ -77,7 +77,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// Called by Alteryx to initialize the plug in with configuration info.
         /// </summary>
         /// <param name="nToolId">Tool ID</param>
-        /// <param name="engineInterface">Connection to Alteryx Engine (for logging etc)</param>
+        /// <param name="engineInterface">Connection to Alteryx Engine (for logging and so on).</param>
         /// <param name="pXmlProperties">Configuration details</param>
         public void PI_Init(int nToolId, AlteryxRecordInfoNet.EngineInterface engineInterface, XmlElement pXmlProperties)
         {
@@ -95,11 +95,11 @@ namespace JDunkerley.AlteryxAddIns.Framework
         }
 
         /// <summary>
-        /// Handle Incoming Connections Being Added
+        /// The PI_AddIncomingConnection function pointed to by this property will be called by the Alteryx Engine when an incoming data connection is being made.
         /// </summary>
-        /// <param name="pIncomingConnectionType"></param>
-        /// <param name="pIncomingConnectionName"></param>
-        /// <returns></returns>
+        /// <param name="pIncomingConnectionType">The name of connection given in GetInputConnections.</param>
+        /// <param name="pIncomingConnectionName">The name the user gave the connection.</param>
+        /// <returns>An <see cref="AlteryxRecordInfoNet.IIncomingConnectionInterface"/> set up to handle the connection.</returns>
         public virtual AlteryxRecordInfoNet.IIncomingConnectionInterface PI_AddIncomingConnection(string pIncomingConnectionType, string pIncomingConnectionName)
         {
             PropertyInfo prop;
@@ -118,11 +118,11 @@ namespace JDunkerley.AlteryxAddIns.Framework
         }
 
         /// <summary>
-        /// Handle Outgoing Connections Being Added
+        /// The PI_AddOutgoingConnection function pointed to by this property will be called by the Alteryx Engine when an outgoing data connection is being made.
         /// </summary>
-        /// <param name="pOutgoingConnectionName"></param>
-        /// <param name="outgoingConnection"></param>
-        /// <returns></returns>
+        /// <param name="pOutgoingConnectionName">The name will be the name that you gave the connection in the IPlugin.GetOutputConnections() method.</param>
+        /// <param name="outgoingConnection">You will need to use the OutgoingConnection object to send your data downstream.</param>
+        /// <returns>True if the connection was handled successfully, false otherwise.</returns>
         public virtual bool PI_AddOutgoingConnection(string pOutgoingConnectionName, AlteryxRecordInfoNet.OutgoingConnection outgoingConnection)
         {
             PropertyInfo prop;
@@ -143,17 +143,19 @@ namespace JDunkerley.AlteryxAddIns.Framework
         }
 
         /// <summary>
-        /// Called only if you have no Input Connections
+        /// The PI_PushAllRecords function pointed to by this property will be called by the Alteryx Engine when the plugin should provide all of it's data to the downstream tools.
+        /// This is only pertinent to tools which have no upstream (input) connections (such as the Input tool).
         /// </summary>
-        /// <param name="nRecordLimit"></param>
-        /// <returns></returns>
+        /// <param name="nRecordLimit">The nRecordLimit parameter will be &lt; 0 to indicate that there is no limit, 0 to indicate that the tool is being configured and no records should be sent, or &gt; 0 to indicate that only the requested number of records should be sent.</param>
+        /// <returns>Return true to indicate you successfully handled the request.</returns>
         public virtual bool PI_PushAllRecords(long nRecordLimit) => true;
 
         /// <summary>
-        /// Called by Alteryx to close the tool
+        /// The PI_Close function pointed to by this property will be called by the Alteryx Engine just prior to the destruction of the tool object.
+        /// This is guaranteed to happen after all data has finished flowing through all the fields.
         /// </summary>
-        /// <param name="bHasErrors">if set to <c>true</c> [b has errors].</param>
-        public virtual void PI_Close(bool bHasErrors)
+        /// <param name="bHasErrors">If the bHasErrors parameter is set to true, you would typically not do the final processing.</param>
+        public void PI_Close(bool bHasErrors)
         {
             this.DebugMessage("PI_Close Called.");
 
@@ -168,9 +170,9 @@ namespace JDunkerley.AlteryxAddIns.Framework
         }
 
         /// <summary>
-        /// Show Debug Error Messages
+        /// Tells Alteryx whether to show debug error messages or not.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A value indicating whether to show debug error messages or not.</returns>
 #if DEBUG
         public bool ShowDebugMessages() => true;
 #else
@@ -178,7 +180,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
 #endif
 
         /// <summary>
-        /// Tell Alteryx Is Complete
+        /// Tell Alteryx execution is complete.
         /// </summary>
         public void ExecutionComplete()
         {
@@ -186,6 +188,10 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this.Engine?.OutputMessage(this.NToolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Complete, string.Empty);
         }
 
+        /// <summary>
+        /// Sends a Debug message to the Alteryx log window.
+        /// </summary>
+        /// <param name="message">Message text.</param>
         public void DebugMessage(string message)
         {
             if (this.ShowDebugMessages())

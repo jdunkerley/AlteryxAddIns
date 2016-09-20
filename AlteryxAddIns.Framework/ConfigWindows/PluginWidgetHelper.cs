@@ -9,8 +9,18 @@ namespace JDunkerley.AlteryxAddIns.Framework.ConfigWindows
 
     using Attributes;
 
+    /// <summary>
+    /// Helper class for working with Alteryx's Plugin Widgets
+    /// </summary>
     public static class PluginWidgetHelper
     {
+        /// <summary>
+        /// Add A Control to the top of a collection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="control"></param>
+        /// <returns></returns>
         public static T AddAtTop<T>(this Control.ControlCollection collection, T control)
             where T : Control
         {

@@ -162,7 +162,7 @@ namespace JDunkerley.AlteryxAddIns
 
                 // Create Output Format
                 var fieldDescription = new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_WString) { Size = this.ConfigObject.OutputFieldLength, Source = nameof(StringFormatter) };
-                this.Output?.Init(Utilities.CreateRecordInfo(info, fieldDescription));
+                this.Output?.Init(FieldDescription.CreateRecordInfo(info, fieldDescription));
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier

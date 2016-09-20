@@ -96,7 +96,7 @@
                 fieldDescription.Source = nameof(DateTimeInput);
                 fieldDescription.Description = $"{this.ConfigObject.DateToReturn}";
 
-                var recordInfo = Utilities.CreateRecordInfo(fieldDescription);
+                var recordInfo = FieldDescription.CreateRecordInfo(fieldDescription);
 
                 this.Output.Init(recordInfo);
                 if (nRecordLimit == 0)

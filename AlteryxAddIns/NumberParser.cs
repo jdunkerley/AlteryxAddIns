@@ -126,7 +126,7 @@
                     return false;
                 }
 
-                this.Output?.Init(Utilities.CreateRecordInfo(info, fieldDescription));
+                this.Output?.Init(FieldDescription.CreateRecordInfo(info, fieldDescription));
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier

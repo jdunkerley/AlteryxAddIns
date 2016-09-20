@@ -16,13 +16,19 @@ namespace JDunkerley.AlteryxAddIns.Framework
         int NToolId { get; }
 
         /// <summary>
-        /// Gets the XML configuration from the workflow.
+        /// Gets the XML configuration from the work flow.
         /// </summary>
         System.Xml.XmlElement XmlConfig { get; }
 
         /// <summary>
-        /// Tell Alteryx Is Complete
+        /// Tell Alteryx execution is complete.
         /// </summary>
         void ExecutionComplete();
+
+        /// <summary>
+        /// Sends a Debug message to the Alteryx log window.
+        /// </summary>
+        /// <param name="message">Message text.</param>
+        void DebugMessage(string message);
     }
 }

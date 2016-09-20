@@ -1,7 +1,7 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework
 {
     /// <summary>
-    /// Commmon Class For Defining Field to Field Joins
+    /// Common Class For Defining Field to Field Joins
     /// </summary>
     public class FieldJoin
     {

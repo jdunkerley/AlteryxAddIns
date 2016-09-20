@@ -14,6 +14,7 @@
         /// Gets or sets the meta data for the incoming connections.
         /// </summary>
         [XmlIgnore]
+        [System.ComponentModel.Browsable(false)]
         public XmlElement[] IncomingMetaInfo { get; set; }
     }
 }

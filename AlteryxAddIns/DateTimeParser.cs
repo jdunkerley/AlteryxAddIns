@@ -68,7 +68,7 @@
             public override string ToString() => $"{this.InputFieldName} ({this.FormatString}) ⇒ {this.OutputFieldName}";
 
             /// <summary>
-            /// Create Parser Func
+            /// Create Parser <see cref="Func{T, TResult}"/>
             /// </summary>
             /// <returns></returns>
             public Func<string, DateTime?> CreateParser()
@@ -152,7 +152,7 @@
                     return false;
                 }
 
-                this.Output?.Init(Utilities.CreateRecordInfo(info, fieldDescription));
+                this.Output?.Init(FieldDescription.CreateRecordInfo(info, fieldDescription));
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier

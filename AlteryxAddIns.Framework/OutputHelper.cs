@@ -60,11 +60,11 @@ namespace JDunkerley.AlteryxAddIns.Framework
             => this._helper?.AddOutgoingConnection(connection);
 
         /// <summary>
-        ///
+        /// Initializes the output stream.
         /// </summary>
-        /// <param name="recordInfo"></param>
-        /// <param name="sortConfig"></param>
-        /// <param name="oldConfig"></param>
+        /// <param name="recordInfo">RecordInfo defining the fields and outputs of the connection.</param>
+        /// <param name="sortConfig">Sort configuration to pass onto Alteryx.</param>
+        /// <param name="oldConfig">XML configuration of the tool.</param>
         public void Init(RecordInfo recordInfo, XmlElement sortConfig = null, XmlElement oldConfig = null)
         {
             this.RecordInfo = recordInfo;
@@ -78,11 +78,16 @@ namespace JDunkerley.AlteryxAddIns.Framework
         }
 
         /// <summary>
-        /// Create A New Record
+        /// Create A New Record (Can be reused)
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An empty record based off the RecordInfo.</returns>
         public Record CreateRecord() => this.RecordInfo?.CreateRecord();
 
+        /// <summary>
+        /// Pushes a record to Alteryx to hand onto over tools.
+        /// </summary>
+        /// <param name="record">Record object to push to the stream.</param>
+        /// <param name="close">Value indicating whether to close the connection after pushing the record.</param>
         public void Push(Record record, bool close = false)
         {
             this._helper?.PushRecord(record.GetRecord());

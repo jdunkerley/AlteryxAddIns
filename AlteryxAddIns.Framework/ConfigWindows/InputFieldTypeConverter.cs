@@ -48,7 +48,7 @@
 
         private static ICollection GetFieldList(XmlElement[] incomingMetaData, Type engineType, string connectionName, IList<AlteryxRecordInfoNet.FieldType> fieldTypes)
         {
-            var input = engineType.GetConnections<AlteryxRecordInfoNet.IIncomingConnectionInterface>()
+            var input = engineType.GetProperties<AlteryxRecordInfoNet.IIncomingConnectionInterface>()
                     .Select((kvp, i) => new { kvp.Key, i })
                     .FirstOrDefault(o => o.Key == connectionName);
 

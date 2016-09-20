@@ -79,7 +79,7 @@
     <Compile Include="FieldBaseHelpers.cs" />
     <Compile Include="FieldDescription.cs" />
     <Compile Include="FieldJoin.cs" />
-    <Compile Include="FieldJoinTypeConverter.cs" />
+    <Compile Include="ConfigWindows\FieldJoinTypeConverter.cs" />
     <Compile Include="IBaseEngine.cs" />
     <Compile Include="Interfaces\IConfigWithIncomingConnection.cs" />
     <Compile Include="Interfaces\IInputProperty.cs" />
@@ -101,7 +101,7 @@
     <Compile Include="ConfigWindows\PropertyGridGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Utilities.cs" />
+    <Compile Include="ReflectionHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlteryxAddIns.Framework.ruleset" />
