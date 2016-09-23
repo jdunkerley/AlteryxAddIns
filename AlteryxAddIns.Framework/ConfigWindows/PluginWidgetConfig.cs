@@ -38,11 +38,11 @@ namespace JDunkerley.AlteryxAddIns.Framework.ConfigWindows
                 var category = propertyInfo.GetAttrib<CategoryAttribute>()?.Category ?? "General";
                 var groupBox = categoriesBoxes.GetOrAdd(
                     category,
-                    c => this.Controls.AddAtTop(PluginWidgetHelper.GroupBox(c)));
+                    c => PluginWidgetHelper.CreateGroupBox(c).AddAtTop(this.Controls));
 
                 // Add A Label
-                groupBox.Controls.AddAtTop(PluginWidgetHelper.CreateLabel(propertyInfo));
-                groupBox.Controls.AddAtTop(PluginWidgetHelper.GetControl(propertyInfo));
+                PluginWidgetHelper.CreateLabel(propertyInfo).AddAtTop(groupBox.Controls);
+                PluginWidgetHelper.GetControl(propertyInfo).AddAtTop(groupBox.Controls);
             }
         }
 
