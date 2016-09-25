@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns", "AlteryxAddIns\AlteryxAddIns.csproj", "{8ADB9CD3-7081-4C6E-91A5-A74C5B9100C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns.Framework", "AlteryxAddIns.Framework\AlteryxAddIns.Framework.csproj", "{C2813972-BA56-42FE-B3F3-25DA51733946}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns.Roslyn", "AlteryxAddIns.Roslyn\AlteryxAddIns.Roslyn.csproj", "{65B57ECE-465D-41DC-909E-00F4879D21A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C2813972-BA56-42FE-B3F3-25DA51733946}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2813972-BA56-42FE-B3F3-25DA51733946}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2813972-BA56-42FE-B3F3-25DA51733946}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65B57ECE-465D-41DC-909E-00F4879D21A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B57ECE-465D-41DC-909E-00F4879D21A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B57ECE-465D-41DC-909E-00F4879D21A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B57ECE-465D-41DC-909E-00F4879D21A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

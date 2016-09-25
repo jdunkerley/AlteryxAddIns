@@ -1,5 +1,6 @@
 namespace JDunkerley.AlteryxAddIns.Framework
 {
+    using System;
     using System.Linq;
 
     /// <summary>
@@ -47,6 +48,48 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// Gets or sets the description of the field.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Given a .Net Type and a name create a FieldDescription
+        /// </summary>
+        /// <param name="name">Field Name</param>
+        /// <param name="type">DotNet Type</param>
+        /// <returns>FieldDescription for Alteryx</returns>
+        public static FieldDescription FromNameAndType(string name, Type type)
+        {
+            switch (type.Name)
+            {
+                case nameof(String):
+                    return OutputType.VWString.OutputDescription(name, 32000);
+
+                case nameof(DateTime):
+                    return OutputType.DateTime.OutputDescription(name, 19);
+
+                case nameof(Boolean):
+                    return OutputType.Bool.OutputDescription(name, 0);
+
+                case nameof(Byte):
+                    return OutputType.Byte.OutputDescription(name, 0);
+
+                case nameof(Int16):
+                    return OutputType.Int16.OutputDescription(name, 0);
+
+                case nameof(Int32):
+                    return OutputType.Int32.OutputDescription(name, 0);
+
+                case nameof(Int64):
+                    return OutputType.Int64.OutputDescription(name, 0);
+
+                case nameof(Double):
+                    return OutputType.Double.OutputDescription(name, 0);
+
+                case nameof(Single):
+                    return OutputType.Float.OutputDescription(name, 0);
+
+                default:
+                    return null;
+            }
+        }
 
         /// <summary>
         /// Given a set of <see cref="FieldDescription"/>, create a new RecordInfo with specified fields..

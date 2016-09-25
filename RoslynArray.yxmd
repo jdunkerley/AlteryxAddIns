@@ -7,7 +7,10 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <LambdaCode>() =&gt; new { A = "Hello World", B = 123, Alha = DateTime.Today }</LambdaCode>
+          <LambdaCode>() =&gt; new[] {
+ new { A = "Hello World", B = 123, Alha = DateTime.Today },
+ new { A = "Hello James", B = 456, Alha = DateTime.Today }
+}</LambdaCode>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
@@ -23,7 +26,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_6024_226a8105535946a6a976c4b4c80ed05a_\Engine_6024_f1c25b48c1c44005880bfe374ee01067_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_6972_52fa6fde996f4163804150dc39473efb_\Engine_6972_99f2047513cb4ffa9da40c440a4d0b5f_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -60,7 +63,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_6024_226a8105535946a6a976c4b4c80ed05a_\Engine_6024_1dc99c90e48c4bf1b5cfdf932bb2fd9e_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_6972_52fa6fde996f4163804150dc39473efb_\Engine_6972_d57b32a9e63f4bb79ed838af9283770d_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -110,7 +113,7 @@
     <LayoutType>Horizontal</LayoutType>
     <MetaInfo>
       <NameIsFileName value="True" />
-      <Name>Roslyn</Name>
+      <Name>RoslynArray</Name>
       <Description />
       <RootToolName />
       <ToolVersion />
