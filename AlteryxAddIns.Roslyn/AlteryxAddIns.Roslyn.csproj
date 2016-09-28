@@ -7,8 +7,8 @@
     <ProjectGuid>{65B57ECE-465D-41DC-909E-00F4879D21A2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlteryxAddIns.Roslyn</RootNamespace>
-    <AssemblyName>AlteryxAddIns.Roslyn</AssemblyName>
+    <RootNamespace>JDunkerley.AlteryxAddIns.Roslyn</RootNamespace>
+    <AssemblyName>JDunkerley.AlteryxAddIns.Roslyn</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -67,7 +67,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler.cs" />
+    <Compile Include="CompilerResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoslynEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RoslynEditor.Designer.cs">
+      <DependentUpon>RoslynEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynEditorGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="RoslynInput.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +99,11 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RoslynEditor.resx">
+      <DependentUpon>RoslynEditor.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

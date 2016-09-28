@@ -1,54 +1,24 @@
-﻿namespace JDunkerley.AlteryxAddIns
+﻿namespace JDunkerley.AlteryxAddIns.Roslyn
 {
     using System;
     using System.Collections;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.Design;
     using System.Drawing.Design;
-    using System.IO;
     using System.Linq;
-    using System.Reflection;
+
+    using AlteryxGuiToolkit.Plugins;
 
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.AlteryxAddIns.Framework;
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
-
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp;
+    using Framework;
+    using Framework.Attributes;
 
     public class RoslynInput :
         BaseTool<RoslynInput.Config, RoslynInput.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
-        private class CompilerResult
-        {
-            public bool Success { get; set; }
-
-            public Type ReturnType { get; set; }
-
-            public MethodInfo Execute { get; set; }
-
-            public List<string> Messages { get; set; }
-        }
-
-        private static class Compiler
-        {
-            private static readonly PortableExecutableReference[] references;
-
-            private static readonly ConcurrentDictionary<string, CompilerResult> results;
-
-            static Compiler()
-            {
-                references = new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) // System
-                                 };
-                results = new ConcurrentDictionary<string, CompilerResult>();
-            }
-
-            private static SyntaxTree BuildSyntaxTree(string lambda)
-            {
-                var code = $@"
+        private static string GetCodeFromLambda(string lambda) => $@"
 using System;
 
 namespace Temporary
@@ -61,62 +31,15 @@ namespace Temporary
             => Lambda({lambda});
 
 
-        private static Func<T> Lambda<T>(Func<T> lambda)
+        private static Func<T> Lambda<T>(Func<T> code)
         {{
-            return lambda;
+            return code;
         }}
     }}
-}}
-";
-                return CSharpSyntaxTree.ParseText(code);
-            }
+}}";
 
-            public static CompilerResult Compile(string lambda) =>
-                results.GetOrAdd(lambda, DoCompilation);
-
-            private static CompilerResult DoCompilation(string lambda)
-            {
-
-                var csharpSyntaxTree = BuildSyntaxTree(lambda);
-
-                var compilation = CSharpCompilation.Create(
-                    Path.GetRandomFileName(),
-                    new[] { csharpSyntaxTree },
-                    references,
-                    new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
-                using (var ms = new MemoryStream())
-                {
-                    var emitResult = compilation.Emit(ms);
-                    var output = new CompilerResult
-                                     {
-                                         Success = emitResult.Success,
-                                         Messages =
-                                             emitResult.Diagnostics.Select(d => $"{d.DefaultSeverity}: {d.GetMessage()}")
-                                                 .ToList()
-                                     };
-
-
-                    if (emitResult.Success)
-                    {
-                        var type = Assembly.Load(ms.GetBuffer())
-                            .GetTypes()
-                            .FirstOrDefault(t => t.Name == "ExpressionClass");
-
-                        output.ReturnType = type
-                            ?.GetMethod("Lambda", BindingFlags.Static | BindingFlags.Public)
-                            ?.Invoke(null, new object[0])
-                            ?.GetType().GetGenericArguments()[0];
-
-                        output.Execute = type
-                            ?.GetMethod("Execute", BindingFlags.Static | BindingFlags.Public);
-                    }
-
-                    return output;
-                }
-            }
-
-        }
+        public override IPluginConfiguration GetConfigurationGui()
+            => new RoslynEditorGui(GetCodeFromLambda);
 
         public class Config
         {
@@ -162,12 +85,12 @@ namespace Temporary
                     return false;
                 }
 
-                var code = this.ConfigObject.LambdaCode;
+                var code = GetCodeFromLambda(this.ConfigObject.LambdaCode);
                 var result = Compiler.Compile(code);
 
                 foreach (var resultMessage in result.Messages)
                 {
-                    this.Engine.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, resultMessage);
+                    this.Engine.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, resultMessage.GetMessage());
                 }
 
                 if (!result.Success)
