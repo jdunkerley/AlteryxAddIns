@@ -126,7 +126,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
     </Node>
     <Node ToolID="18">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.SortWithCulture">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.SortWithCulture">
         <Position x="726" y="114" />
       </GuiSettings>
       <Properties>
@@ -141,7 +141,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.SortWithCulture+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.SortWithCulture+Engine" />
     </Node>
     <Node ToolID="19">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
@@ -167,7 +167,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
     <Node ToolID="20">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.SortWithCulture">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.SortWithCulture">
         <Position x="714" y="294" />
       </GuiSettings>
       <Properties>
@@ -182,7 +182,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.SortWithCulture+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.SortWithCulture+Engine" />
     </Node>
     <Node ToolID="21">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">

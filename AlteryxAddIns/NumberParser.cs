@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.AlteryxAddins
+﻿namespace JDunkerley.AlteryxAddIns
 {
     using System;
     using System.ComponentModel;
@@ -6,14 +6,16 @@
 
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.AlteryxAddIns.Framework;
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
-    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
+    using Framework;
+    using Framework.Attributes;
+    using Framework.ConfigWindows;
+    using Framework.Factories;
+    using Framework.Interfaces;
 
     public class NumberParser :
         BaseTool<NumberParser.Config, NumberParser.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
-        public class Config
+        public class Config : ConfigWithIncomingConnection
         {
             public Config()
             {
@@ -66,26 +68,40 @@
 
         public class Engine : BaseEngine<Config>
         {
-            private FieldBase _inputFieldBase;
+            private IRecordCopier _copier;
 
-            private RecordCopier _copier;
+            private FieldBase _inputFieldBase;
 
             private FieldBase _outputFieldBase;
 
+            /// <summary>
+            /// Constructor For Alteryx
+            /// </summary>
             public Engine()
+                : this(new RecordCopierFactory(), new InputPropertyFactory())
             {
-                this.Input = new InputProperty(
-                    initFunc: this.InitFunc,
-                    progressAction: d => this.Output?.UpdateProgress(d, true),
-                    pushFunc: this.PushFunc,
-                    closedAction: () => this.Output?.Close(true));
+            }
+
+            /// <summary>
+            /// Create An Engine
+            /// </summary>
+            /// <param name="recordCopierFactory">Factory to create copiers</param>
+            /// <param name="inputPropertyFactory">Factory to create input properties</param>
+            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
+                : base(recordCopierFactory)
+            {
+                this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(args.Progress, true);
+                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
+                this.Input.Closed += (sender, args) => this.Output?.Close(true);
             }
 
             /// <summary>
             /// Gets the input stream.
             /// </summary>
             [CharLabel('I')]
-            public InputProperty Input { get; }
+            public IInputProperty Input { get; }
 
             /// <summary>
             /// Gets or sets the output stream.
@@ -110,11 +126,11 @@
                     return false;
                 }
 
-                this.Output?.Init(Utilities.CreateRecordInfo(info, fieldDescription));
+                this.Output?.Init(FieldDescription.CreateRecordInfo(info, fieldDescription));
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier
-                this._copier = Utilities.CreateCopier(info, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
+                this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
 
                 return true;
             }

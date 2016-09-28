@@ -35,7 +35,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
     </Node>
     <Node ToolID="7">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeParser">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.DateTimeParser">
         <Position x="174" y="54" />
       </GuiSettings>
       <Properties>
@@ -51,7 +51,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.DateTimeParser+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.DateTimeParser+Engine" />
     </Node>
     <Node ToolID="8">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
@@ -179,7 +179,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTest" />
     </Node>
     <Node ToolID="14">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeParser">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.DateTimeParser">
         <Position x="174" y="246" />
       </GuiSettings>
       <Properties>
@@ -195,7 +195,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.DateTimeParser+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.DateTimeParser+Engine" />
     </Node>
     <Node ToolID="15">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">

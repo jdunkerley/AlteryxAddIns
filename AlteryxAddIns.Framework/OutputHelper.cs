@@ -8,13 +8,15 @@ namespace JDunkerley.AlteryxAddIns.Framework
     /// <summary>
     /// Output Helper Class
     /// </summary>
-    public class OutputHelper
+    public sealed class OutputHelper : IDisposable
     {
         private readonly IBaseEngine _hostEngine;
 
         private readonly string _connectionName;
 
-        private readonly AlteryxRecordInfoNet.PluginOutputConnectionHelper _helper;
+        private PluginOutputConnectionHelper _helper;
+
+        private Lazy<Record> _lazyRecord;
 
         private ulong _recordCount;
 
@@ -30,26 +32,43 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._hostEngine = hostEngine;
             this._connectionName = connectionName;
 
-            this._helper = new AlteryxRecordInfoNet.PluginOutputConnectionHelper(this._hostEngine.NToolId, this._hostEngine.Engine);
+            this._helper = new PluginOutputConnectionHelper(this._hostEngine.NToolId, this._hostEngine.Engine);
         }
+
+        /// <summary>
+        /// Gets the <see cref="RecordInfo"/> describing the Output records
+        /// </summary>
+        public RecordInfo RecordInfo { get; private set; }
+
+        /// <summary>
+        /// Gets a reusable <see cref="Record"/> object
+        /// </summary>
+        public Record Record => this._lazyRecord?.Value;
+
+        /// <summary>
+        /// Given a fieldName, gets the <see cref="FieldBase"/> for it
+        /// </summary>
+        /// <param name="fieldName">Name of field</param>
+        /// <returns><see cref="FieldBase"/> representing the field</returns>
+        public FieldBase this[string fieldName] => this.RecordInfo?.GetFieldByName(fieldName, false);
 
         /// <summary>
         /// Adds the connection.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public void AddConnection(AlteryxRecordInfoNet.OutgoingConnection connection)
-            => this._helper.AddOutgoingConnection(connection);
+        public void AddConnection(OutgoingConnection connection)
+            => this._helper?.AddOutgoingConnection(connection);
 
         /// <summary>
-        ///
+        /// Initializes the output stream.
         /// </summary>
-        /// <param name="recordInfo"></param>
-        /// <param name="sortConfig"></param>
-        /// <param name="oldConfig"></param>
-        public void Init(AlteryxRecordInfoNet.RecordInfo recordInfo, XmlElement sortConfig = null, XmlElement oldConfig = null)
+        /// <param name="recordInfo">RecordInfo defining the fields and outputs of the connection.</param>
+        /// <param name="sortConfig">Sort configuration to pass onto Alteryx.</param>
+        /// <param name="oldConfig">XML configuration of the tool.</param>
+        public void Init(RecordInfo recordInfo, XmlElement sortConfig = null, XmlElement oldConfig = null)
         {
             this.RecordInfo = recordInfo;
-            this._lazyRecord = new Lazy<Record>(() => this.CreateRecord());
+            this._lazyRecord = new Lazy<Record>(this.CreateRecord);
 
             this._recordCount = 0;
             this._recordLength = 0;
@@ -58,27 +77,18 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._hostEngine.Engine.OutputMessage(this._hostEngine.NToolId, MessageStatus.STATUS_Info, $"Init called back on {this._connectionName}");
         }
 
-        public AlteryxRecordInfoNet.FieldBase this[String fieldName] => this.RecordInfo?.GetFieldByName(fieldName, false);
+        /// <summary>
+        /// Create A New Record (Can be reused)
+        /// </summary>
+        /// <returns>An empty record based off the RecordInfo.</returns>
+        public Record CreateRecord() => this.RecordInfo?.CreateRecord();
 
         /// <summary>
-        ///
+        /// Pushes a record to Alteryx to hand onto over tools.
         /// </summary>
-        public AlteryxRecordInfoNet.RecordInfo RecordInfo { get; private set; }
-
-        /// <summary>
-        /// Create A New Record
-        /// </summary>
-        /// <returns></returns>
-        public AlteryxRecordInfoNet.Record CreateRecord() => this.RecordInfo?.CreateRecord();
-
-        private Lazy<AlteryxRecordInfoNet.Record> _lazyRecord;
-
-        /// <summary>
-        /// Reusable Record
-        /// </summary>
-        public AlteryxRecordInfoNet.Record Record => this._lazyRecord?.Value;
-
-        public void Push(AlteryxRecordInfoNet.Record record, bool close = false)
+        /// <param name="record">Record object to push to the stream.</param>
+        /// <param name="close">Value indicating whether to close the connection after pushing the record.</param>
+        public void Push(Record record, bool close = false)
         {
             this._helper?.PushRecord(record.GetRecord());
 
@@ -102,7 +112,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="setToolProgress">Set Tool Progress As Well</param>
         public void UpdateProgress(double percentage, bool setToolProgress = false)
         {
-            this._helper.UpdateProgress(percentage);
+            this._helper?.UpdateProgress(percentage);
 
             if (setToolProgress)
             {
@@ -128,13 +138,25 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._lazyRecord = null;
         }
 
+        /// <summary>
+        /// Dispose of the internal helper and release the reference
+        /// </summary>
+        public void Dispose()
+        {
+            if (this._helper != null)
+            {
+                this._helper.Dispose();
+                this._helper = null;
+            }
+        }
+
         private void PushCountAndSize(bool final = false)
         {
             this._hostEngine.Engine.OutputMessage(
                 this._hostEngine.NToolId,
-                AlteryxRecordInfoNet.MessageStatus.STATUS_RecordCountAndSize,
+                MessageStatus.STATUS_RecordCountAndSize,
                 $"{this._connectionName}|{this._recordCount}|{this._recordLength}");
-            this._helper.OutputRecordCount(final);
+            this._helper?.OutputRecordCount(final);
         }
     }
 }

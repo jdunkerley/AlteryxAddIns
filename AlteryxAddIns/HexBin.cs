@@ -1,31 +1,33 @@
-﻿namespace JDunkerley.AlteryxAddins
+﻿namespace JDunkerley.AlteryxAddIns
 {
     using System;
     using System.ComponentModel;
 
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.AlteryxAddIns.Framework;
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
-    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
+    using Framework;
+    using Framework.Attributes;
+    using Framework.ConfigWindows;
+    using Framework.Factories;
+    using Framework.Interfaces;
 
     public class HexBin :
         BaseTool<HexBin.Config, HexBin.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
-        public class Config
+        public class Config : ConfigWithIncomingConnection
         {
             /// <summary>
             /// Specify the name of the field for the X co-ordinate
             /// </summary>
             [Category("Output")]
-            [Description("Field Name To Use For X Coordingate Of HexBin Center")]
+            [Description("Field Name To Use For X Co-ordinate Of HexBin Centre")]
             public string OutputBinXFieldName { get; set; } = "HexBinX";
 
             /// <summary>
             /// Specify the name of the field for the Y co-ordinate
             /// </summary>
             [Category("Output")]
-            [Description("Field Name To Use For Y Coordingate Of HexBin Center")]
+            [Description("Field Name To Use For Y Co-ordinate Of HexBin Centre")]
             public string OutputBinYFieldName { get; set; } = "HexBinY";
 
             /// <summary>
@@ -47,7 +49,7 @@
             public string InputPointYFieldName { get; set; }
 
             /// <summary>
-            /// Gets or sets the radius of a heaxgon.
+            /// Gets or sets the radius of a hexagon.
             /// </summary>
             public double Radius { get; set; } = 1;
 
@@ -84,26 +86,40 @@
 
             private Func<RecordData, Tuple<double?, double?>> _inputReader;
 
+            /// <summary>
+            /// Constructor For Alteryx
+            /// </summary>
             public Engine()
+                : this(new RecordCopierFactory(), new InputPropertyFactory())
             {
-                this.Input = new InputProperty(
-                    initFunc: this.InitFunc,
-                    progressAction: d => this.Output.UpdateProgress(d, true),
-                    pushFunc: this.PushFunc,
-                    closedAction: () =>
+            }
+
+            /// <summary>
+            /// Create An Engine
+            /// </summary>
+            /// <param name="recordCopierFactory">Factory to create copiers</param>
+            /// <param name="inputPropertyFactory">Factory to create input properties</param>
+            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
+                : base(recordCopierFactory)
+            {
+                this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
+                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
+                this.Input.Closed += (sender, args) =>
                     {
                         this._inputReader = null;
                         this._outputBinXFieldBase = null;
                         this._outputBinYFieldBase = null;
                         this.Output?.Close(true);
-                    });
+                    };
             }
 
             /// <summary>
             /// Gets the input stream.
             /// </summary>
             [CharLabel('I')]
-            public InputProperty Input { get; }
+            public IInputProperty Input { get; }
 
             /// <summary>
             /// Gets or sets the output stream.
@@ -119,10 +135,10 @@
                     return false;
                 }
 
-                this.Output?.Init(Utilities.CreateRecordInfo(
+                this.Output?.Init(FieldDescription.CreateRecordInfo(
                     info,
-                    new FieldDescription(this.ConfigObject.OutputBinXFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "X Co-ordinate of HexBin Center" },
-                    new FieldDescription(this.ConfigObject.OutputBinYFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "Y Co-ordinate of HexBin Center" }));
+                    new FieldDescription(this.ConfigObject.OutputBinXFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "X Co-ordinate of HexBin Centre" },
+                    new FieldDescription(this.ConfigObject.OutputBinYFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "Y Co-ordinate of HexBin Centre" }));
                 this._outputBinXFieldBase = this.Output?[this.ConfigObject.OutputBinXFieldName];
                 this._outputBinYFieldBase = this.Output?[this.ConfigObject.OutputBinYFieldName];
 

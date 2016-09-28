@@ -25,7 +25,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
     <Node ToolID="3">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeInput">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.DateTimeInput">
         <Position x="54" y="54" />
       </GuiSettings>
       <Properties>
@@ -40,7 +40,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.DateTimeInput+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.DateTimeInput+Engine" />
     </Node>
   </Nodes>
   <Connections>

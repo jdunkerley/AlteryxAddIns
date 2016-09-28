@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.AlteryxAddins
+﻿namespace JDunkerley.AlteryxAddIns
 {
     using System;
     using System.ComponentModel;
@@ -7,9 +7,11 @@
 
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.AlteryxAddIns.Framework;
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
-    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
+    using Framework;
+    using Framework.Attributes;
+    using Framework.ConfigWindows;
+    using Framework.Factories;
+    using Framework.Interfaces;
 
     public class HashCodeGenerator : BaseTool<HashCodeGenerator.Config, HashCodeGenerator.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
@@ -25,7 +27,7 @@
         }
         // ReSharper restore InconsistentNaming
 
-        public class Config
+        public class Config : ConfigWithIncomingConnection
         {
             /// <summary>
             /// Specify the name of the  hashed value field in the Output
@@ -90,24 +92,38 @@
 
             private HashAlgorithm _hashAlgorithm;
 
+            /// <summary>
+            /// Constructor For Alteryx
+            /// </summary>
             public Engine()
+                : this(new RecordCopierFactory(), new InputPropertyFactory())
             {
-                this.Input = new InputProperty(
-                    initFunc: this.InitFunc,
-                    progressAction: d => this.Output.UpdateProgress(d, true),
-                    pushFunc: this.PushFunc,
-                    closedAction: () =>
-                        {
-                            this._hashAlgorithm = null;
-                            this.Output?.Close(true);
-                        });
+            }
+
+            /// <summary>
+            /// Create An Engine
+            /// </summary>
+            /// <param name="recordCopierFactory">Factory to create copiers</param>
+            /// <param name="inputPropertyFactory">Factory to create input properties</param>
+            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
+                : base(recordCopierFactory)
+            {
+                this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
+                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
+                this.Input.Closed += (sender, args) =>
+                    {
+                        this._hashAlgorithm = null;
+                        this.Output?.Close(true);
+                    };
             }
 
             /// <summary>
             /// Gets the input stream.
             /// </summary>
             [CharLabel('I')]
-            public InputProperty Input { get; }
+            public IInputProperty Input { get; }
 
             /// <summary>
             /// Gets or sets the output stream.
@@ -124,7 +140,7 @@
                 }
 
                 this.Output.Init(
-                    Utilities.CreateRecordInfo(
+                    FieldDescription.CreateRecordInfo(
                     info,
                     new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_String) { Size = 256, Source = nameof(HashCodeGenerator)}));
                 this._outputFieldBase = this.Output[this.ConfigObject.OutputFieldName];
