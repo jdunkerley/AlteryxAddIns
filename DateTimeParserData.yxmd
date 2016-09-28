@@ -1,0 +1,220 @@
+<?xml version="1.0"?>
+<AlteryxDocument yxmdVer="10.5">
+  <Nodes>
+    <Node ToolID="1">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
+        <Position x="54" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <NumRows value="53" />
+          <Fields>
+            <Field name="text" />
+          </Fields>
+          <Data>
+            <r>
+              <c>1/JAN/15</c>
+            </r>
+            <r>
+              <c>1-JAN-15</c>
+            </r>
+            <r>
+              <c>15/JAn/15</c>
+            </r>
+            <r>
+              <c>15-Jan-15</c>
+            </r>
+            <r>
+              <c>1/JAN/2015</c>
+            </r>
+            <r>
+              <c>1-JAN-2015</c>
+            </r>
+            <r>
+              <c>15/JAn/2015</c>
+            </r>
+            <r>
+              <c>15-Jan-2015</c>
+            </r>
+            <r>
+              <c>Tuesday, 01 January 2015</c>
+            </r>
+            <r>
+              <c>Tuesday, 1 January 2015</c>
+            </r>
+            <r>
+              <c>Tuesday, 15 January 2015</c>
+            </r>
+            <r>
+              <c>Tuesday, 15 Jan 2015</c>
+            </r>
+            <r>
+              <c>1/01/15</c>
+            </r>
+            <r>
+              <c>1-1-15</c>
+            </r>
+            <r>
+              <c>15/01/15</c>
+            </r>
+            <r>
+              <c>15-01-15</c>
+            </r>
+            <r>
+              <c>1/1/2015</c>
+            </r>
+            <r>
+              <c>1-1-15</c>
+            </r>
+            <r>
+              <c>15/01/2015</c>
+            </r>
+            <r>
+              <c>15-01-2015</c>
+            </r>
+            <r>
+              <c>Tuesday, January 01 2015</c>
+            </r>
+            <r>
+              <c>Tuesday, January 1 2015</c>
+            </r>
+            <r>
+              <c>Tuesday, January 15 2015</c>
+            </r>
+            <r>
+              <c>Tuesday, Jan 15 2015</c>
+            </r>
+            <r>
+              <c>15/01/15 14:12:12</c>
+            </r>
+            <r>
+              <c>15/01/2015 14:12:12</c>
+            </r>
+            <r>
+              <c>January 01, 2015</c>
+            </r>
+            <r>
+              <c>January 1, 2015</c>
+            </r>
+            <r>
+              <c>January 15, 2015</c>
+            </r>
+            <r>
+              <c>January 01, 15</c>
+            </r>
+            <r>
+              <c>January 1, 15</c>
+            </r>
+            <r>
+              <c>January 15, 15</c>
+            </r>
+            <r>
+              <c>15-01-15 14:12:12</c>
+            </r>
+            <r>
+              <c>15-01-2015 14:12:12</c>
+            </r>
+            <r>
+              <c>1-01-15 14:12:12</c>
+            </r>
+            <r>
+              <c>1-01-2015 14:12:12</c>
+            </r>
+            <r>
+              <c>15.01.15 14:12:12</c>
+            </r>
+            <r>
+              <c>15.01.2015 14:12:12</c>
+            </r>
+            <r>
+              <c>1.01.15 14:12:12</c>
+            </r>
+            <r>
+              <c>1.01.2015 14:12:12</c>
+            </r>
+            <r>
+              <c>1.JAN.15</c>
+            </r>
+            <r>
+              <c>15.JAn.15</c>
+            </r>
+            <r>
+              <c>1.JAN.2015</c>
+            </r>
+            <r>
+              <c>15.JAn.2015</c>
+            </r>
+            <r>
+              <c>1.01.15</c>
+            </r>
+            <r>
+              <c>15.01.15</c>
+            </r>
+            <r>
+              <c>1.1.2015</c>
+            </r>
+            <r>
+              <c>15.01.2015</c>
+            </r>
+            <r>
+              <c>20150115</c>
+            </r>
+            <r>
+              <c>20150101</c>
+            </r>
+            <r>
+              <c>Nov 16, 2015</c>
+            </r>
+            <r>
+              <c>16-NOV-2015</c>
+            </r>
+            <r>
+              <c>6-Jan-05</c>
+            </r>
+          </Data>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
+    </Node>
+  </Nodes>
+  <Connections />
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="10" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="True" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>DateTimeParserData</Name>
+      <Description />
+      <RootToolName />
+      <ToolVersion />
+      <ToolInDb value="False" />
+      <CategoryName />
+      <SearchTags />
+      <Author />
+      <Company />
+      <Copyright />
+      <DescriptionLink actual="" displayed="" />
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+  </Properties>
+</AlteryxDocument>

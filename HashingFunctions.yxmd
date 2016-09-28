@@ -38,7 +38,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
     </Node>
     <Node ToolID="4">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.HashCodeGenerator">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.HashCodeGenerator">
         <Position x="186" y="54" />
       </GuiSettings>
       <Properties>
@@ -53,7 +53,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.HashCodeGenerator+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.HashCodeGenerator+Engine" />
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
@@ -97,7 +97,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
     </Node>
     <Node ToolID="8">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.HashCodeGenerator">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.HashCodeGenerator">
         <Position x="186" y="162" />
       </GuiSettings>
       <Properties>
@@ -112,7 +112,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.HashCodeGenerator+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.HashCodeGenerator+Engine" />
     </Node>
     <Node ToolID="9">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
@@ -156,7 +156,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
     </Node>
     <Node ToolID="11">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.HashCodeGenerator">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.HashCodeGenerator">
         <Position x="186" y="270" />
       </GuiSettings>
       <Properties>
@@ -171,7 +171,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.HashCodeGenerator+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.HashCodeGenerator+Engine" />
     </Node>
     <Node ToolID="12">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">

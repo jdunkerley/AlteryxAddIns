@@ -49,7 +49,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
     <Node ToolID="4">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.DateTimeParser">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.DateTimeParser">
         <Position x="126" y="54" />
       </GuiSettings>
       <Properties>
@@ -65,7 +65,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.DateTimeParser+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.DateTimeParser+Engine" />
     </Node>
   </Nodes>
   <Connections>

@@ -51,7 +51,7 @@
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
     </Node>
     <Node ToolID="9">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddins.CircuitBreaker">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.CircuitBreaker">
         <Position x="282" y="150" />
       </GuiSettings>
       <Properties>
@@ -62,7 +62,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddins.CircuitBreaker+Engine" />
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.CircuitBreaker+Engine" />
     </Node>
     <Node ToolID="10">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
