@@ -20,6 +20,8 @@
     {
         private static string GetCodeFromLambda(string lambda) => $@"
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Temporary
 {{

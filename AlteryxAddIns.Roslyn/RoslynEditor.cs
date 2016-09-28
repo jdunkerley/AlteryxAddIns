@@ -8,16 +8,19 @@ namespace JDunkerley.AlteryxAddIns.Roslyn
 
     using Microsoft.CodeAnalysis;
 
+    using Syncfusion.Windows.Forms.Edit.Enums;
+
     public partial class RoslynEditor : UserControl
     {
-        private readonly TextBox _textBox;
+        private readonly Syncfusion.Windows.Forms.Edit.EditControl _textBox;
 
         public RoslynEditor()
         {
             this.InitializeComponent();
 
             // Set up text box
-            this._textBox = new TextBox { Multiline = true, Dock = DockStyle.Fill };
+            this._textBox = new Syncfusion.Windows.Forms.Edit.EditControl { Dock = DockStyle.Fill };
+            this._textBox.ApplyConfiguration(KnownLanguages.CSharp);
             this._textBox.TextChanged += (sender, args) => this.CodeChanged(this, args);
             this.Controls.Add(this._textBox);
         }

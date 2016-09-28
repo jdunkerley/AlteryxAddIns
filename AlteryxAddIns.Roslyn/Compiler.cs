@@ -4,7 +4,6 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using System.Threading.Tasks;
 
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
@@ -17,8 +16,13 @@
 
         static Compiler()
         {
-            References = new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) // System
-                             };
+            References = new[]
+                             {
+                                 typeof(object), // System
+                                 typeof(System.Linq.Enumerable), // System.Core,
+                                 typeof(System.Xml.XmlDocument), // System.Xml,
+                                 typeof(System.Data.DataTable) // System.Data
+                             }.Select(t => MetadataReference.CreateFromFile(t.Assembly.Location)).ToArray();
             Results = new ConcurrentDictionary<string, CompilerResult>();
         }
 
@@ -28,7 +32,7 @@
         }
 
         public static CompilerResult Compile(string code) =>
-            Results.GetOrAdd(code, c => DoCompilation(c));
+            Results.GetOrAdd(code, DoCompilation);
 
         private static CompilerResult DoCompilation(string code)
         {
