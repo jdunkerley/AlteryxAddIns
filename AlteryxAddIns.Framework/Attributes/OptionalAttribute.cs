@@ -3,10 +3,11 @@ namespace JDunkerley.AlteryxAddIns.Framework.Attributes
     using System;
 
     /// <summary>
-    /// Tag an Incoming Connection As Optional
+    /// Specifies that an incoming connection is an optional input
     /// </summary>
     /// <seealso cref="System.Attribute" />
-    public class OptionalAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property)]
+    public sealed class OptionalAttribute : Attribute
     {
     }
 }

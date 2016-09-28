@@ -9,10 +9,12 @@
         /// Alteryx Has Called To Get XML Sort Setting
         /// </summary>
         Added,
+
         /// <summary>
         /// Alteryx Has Called Initialize
         /// </summary>
         InitCalled,
+
         /// <summary>
         /// Alteryx Has Called Close
         /// </summary>

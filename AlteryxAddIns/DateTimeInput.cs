@@ -1,11 +1,11 @@
-﻿namespace JDunkerley.AlteryxAddins
+﻿namespace JDunkerley.AlteryxAddIns
 {
     using System;
     using System.ComponentModel;
 
-    using JDunkerley.AlteryxAddIns.Framework;
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
-    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
+    using Framework;
+    using Framework.Attributes;
+    using Framework.ConfigWindows;
 
     /// <summary>
     /// Simple Date Time Input Control
@@ -59,6 +59,14 @@
         public class Engine : BaseEngine<Config>
         {
             /// <summary>
+            /// Constructor for Alteryx Engine
+            /// </summary>
+            public Engine()
+                : base(null)
+            {
+            }
+
+            /// <summary>
             /// Gets or sets the output.
             /// </summary>
             [CharLabel('O')]
@@ -88,7 +96,7 @@
                 fieldDescription.Source = nameof(DateTimeInput);
                 fieldDescription.Description = $"{this.ConfigObject.DateToReturn}";
 
-                var recordInfo = Utilities.CreateRecordInfo(fieldDescription);
+                var recordInfo = FieldDescription.CreateRecordInfo(fieldDescription);
 
                 this.Output.Init(recordInfo);
                 if (nRecordLimit == 0)

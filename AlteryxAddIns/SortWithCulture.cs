@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.AlteryxAddins
+﻿namespace JDunkerley.AlteryxAddIns
 {
     using System;
     using System.Collections.Generic;
@@ -7,14 +7,16 @@
 
     using AlteryxRecordInfoNet;
 
-    using JDunkerley.AlteryxAddIns.Framework;
-    using JDunkerley.AlteryxAddIns.Framework.Attributes;
-    using JDunkerley.AlteryxAddIns.Framework.ConfigWindows;
+    using Framework;
+    using Framework.Attributes;
+    using Framework.ConfigWindows;
+    using Framework.Factories;
+    using Framework.Interfaces;
 
     public class SortWithCulture :
         BaseTool<SortWithCulture.Config, SortWithCulture.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
-        public class Config
+        public class Config : ConfigWithIncomingConnection
         {
             /// <summary>
             /// Gets or sets the culture.
@@ -49,23 +51,37 @@
         {
             private FieldBase _inputFieldBase;
 
-            private RecordCopier _copier;
+            private IRecordCopier _copier;
 
             private List<Tuple<string, Record>> _data;
 
+            /// <summary>
+            /// Constructor For Alteryx
+            /// </summary>
             public Engine()
+                : this(new RecordCopierFactory(), new InputPropertyFactory())
             {
-                this.Input = new InputProperty(
-                    initFunc: this.InitFunc,
-                    pushFunc: this.PushFunc,
-                    closedAction: this.ClosedAction);
+            }
+
+            /// <summary>
+            /// Create An Engine
+            /// </summary>
+            /// <param name="recordCopierFactory">Factory to create copiers</param>
+            /// <param name="inputPropertyFactory">Factory to create input properties</param>
+            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
+                : base(recordCopierFactory)
+            {
+                this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
+                this.Input.Closed += (sender, args) => this.ClosedAction();
             }
 
             /// <summary>
             /// Gets the input stream.
             /// </summary>
             [CharLabel('I')]
-            public InputProperty Input { get; }
+            public IInputProperty Input { get; }
 
             /// <summary>
             /// Gets or sets the output stream.
@@ -81,10 +97,10 @@
                     return false;
                 }
 
-                this.Output?.Init(Utilities.CreateRecordInfo(info));
+                this.Output?.Init(FieldDescription.CreateRecordInfo(info));
 
                 // Create the Copier
-                this._copier = Utilities.CreateCopier(info, this.Output?.RecordInfo);
+                this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo);
 
                 this._data = new List<Tuple<string, Record>>();
 
@@ -106,10 +122,10 @@
                 var culture = CultureTypeConverter.GetCulture(this.ConfigObject.Culture);
                 var comparer = StringComparer.Create(culture, this.ConfigObject.IgnoreCase);
 
-                int count = 0;
+                var count = 0;
                 foreach (var record in this._data.OrderBy(t=>t.Item1, comparer).Select(t => t.Item2))
                 {
-                    double d = count++ / (double)this._data.Count;
+                    var d = count++ / (double)this._data.Count;
                     this.Output?.UpdateProgress(d, true);
                     this.Output?.Push(record);
                 }
