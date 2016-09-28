@@ -71,17 +71,12 @@
     <Compile Include="ConfigWindows\CultureTypeConverter.cs" />
     <Compile Include="Attributes\FieldListAttribute.cs" />
     <Compile Include="ConfigWindows\FixedListTypeConverter.cs" />
-    <Compile Include="ConfigWindows\PluginWidgetConfig.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ConfigWindows\PluginWidgetHelper.cs" />
     <Compile Include="ConfigWithIncomingConnection.cs" />
     <Compile Include="ConnectionState.cs" />
     <Compile Include="Factories\InputPropertyFactory.cs" />
     <Compile Include="Factories\RecordCopierFactory.cs" />
     <Compile Include="FieldBaseHelpers.cs" />
     <Compile Include="FieldDescription.cs" />
-    <Compile Include="FieldJoin.cs" />
     <Compile Include="IBaseEngine.cs" />
     <Compile Include="Interfaces\IConfigWithIncomingConnection.cs" />
     <Compile Include="Interfaces\IInputProperty.cs" />
