@@ -62,6 +62,7 @@
     <Compile Include="CircuitBreaker.cs" />
     <Compile Include="DateTimeInput.cs" />
     <Compile Include="HexBin.cs" />
+    <Compile Include="jsonParser.cs" />
     <Compile Include="RandomNumber.cs" />
     <Compile Include="RollupAggregator.cs" />
     <Compile Include="SortWithCulture.cs" />
@@ -90,6 +91,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HexBin.png">
       <DependentUpon>HexBin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="jsonParser.png">
+      <DependentUpon>jsonParser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NumberParser.png">
       <DependentUpon>NumberParser.cs</DependentUpon>

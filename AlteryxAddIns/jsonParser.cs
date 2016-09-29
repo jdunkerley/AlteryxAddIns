@@ -90,6 +90,8 @@
 
                 this.Output?.Init(FieldDescription.CreateRecordInfo(info));
 
+                this._outputFieldBase = this.Output?[this.ConfigObject.OutputParsedJson];
+
                 // Create the Copier
                 this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo);
 
