@@ -79,14 +79,18 @@
                 DateTime dt;
                 if (string.IsNullOrWhiteSpace(format))
                 {
-                    return i => DateTime.TryParse(i, culture, DateTimeStyles.AllowWhiteSpaces, out dt)
-                    ? (DateTime?)dt
-                    : null;
+                    return
+                        i =>
+                            DateTime.TryParse(i, culture, DateTimeStyles.AllowWhiteSpaces, out dt)
+                                ? (DateTime?)dt
+                                : null;
                 }
 
-                return input => DateTime.TryParseExact(input, format, culture, DateTimeStyles.AllowWhiteSpaces, out dt)
-                    ? (DateTime?)dt
-                    : null;
+                return
+                    i =>
+                        DateTime.TryParseExact(i, format, culture, DateTimeStyles.AllowWhiteSpaces, out dt)
+                            ? (DateTime?)dt
+                            : null;
             }
         }
 
@@ -164,24 +168,19 @@
 
             private bool PushFunc(RecordData r)
             {
-                var record = this.Output.Record;
-                record.Reset();
+                this.Output.Record.Reset();
 
-                this._copier.Copy(record, r);
+                this._copier.Copy(this.Output.Record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);
                 var result = this._parser(input);
 
                 if (result.HasValue)
                 {
-                    this._outputFieldBase.SetFromString(record, result.Value.ToString(this._outputFieldBase.FieldType == FieldType.E_FT_Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
-                }
-                else
-                {
-                    this._outputFieldBase.SetNull(record);
+                    this._outputFieldBase.SetFromString(this.Output.Record, result.Value.ToString(this._outputFieldBase.FieldType == FieldType.E_FT_Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
                 }
 
-                this.Output.Push(record);
+                this.Output.Push(this.Output.Record, false, 1000000);
                 return true;
             }
         }

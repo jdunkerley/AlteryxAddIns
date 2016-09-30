@@ -14,6 +14,8 @@ namespace JDunkerley.AlteryxAddIns.Roslyn
     {
         private readonly Syncfusion.Windows.Forms.Edit.EditControl _textBox;
 
+        private string _code;
+
         public RoslynEditor()
         {
             this.InitializeComponent();
@@ -21,7 +23,11 @@ namespace JDunkerley.AlteryxAddIns.Roslyn
             // Set up text box
             this._textBox = new Syncfusion.Windows.Forms.Edit.EditControl { Dock = DockStyle.Fill };
             this._textBox.ApplyConfiguration(KnownLanguages.CSharp);
-            this._textBox.TextChanged += (sender, args) => this.CodeChanged(this, args);
+            this._textBox.TextChanged += (sender, args) =>
+                {
+                    this._code = this._textBox.Text;
+                    this.CodeChanged(this, args);
+                };
             this.Controls.Add(this._textBox);
         }
 
@@ -29,10 +35,11 @@ namespace JDunkerley.AlteryxAddIns.Roslyn
         {
             get
             {
-                return this._textBox.Text;
+                return this._code;
             }
             set
             {
+                this._code = value;
                 this._textBox.Text = value;
             }
         }

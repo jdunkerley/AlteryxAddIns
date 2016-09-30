@@ -117,82 +117,75 @@ namespace Temporary
                 }
 
                 var data = result.Execute.Invoke(null, new object[0]);
-                var asEnum = (data as IEnumerable)?.Cast<object>().ToArray() ?? new[] { data };
+                var recordOut = this.Output.CreateRecord();
 
-                for (int index = 0; index < asEnum.Length; index++)
+                var asEnum = (data as IEnumerable) ?? new[] { data };
+                foreach (object sample in asEnum)
                 {
-                    var sample = asEnum[index];
-                    var recordOut = this.Output.CreateRecord();
-
-                    // To Do Set Values
-                    foreach (var fieldDescription in descriptions)
-                    {
-                        var prop = sample.GetType().GetProperty(fieldDescription.Name);
-                        var value = prop.GetValue(sample);
-                        if (value == null)
-                        {
-                            this.Output[fieldDescription.Name].SetNull(recordOut);
-                            continue;
-                        }
-
-                        switch (prop.PropertyType.Name)
-                        {
-                            case nameof(String):
-                                this.Output[fieldDescription.Name].SetFromString(recordOut, (string)value);
-                                break;
-                            case nameof(DateTime):
-                                this.Output[fieldDescription.Name].SetFromString(
-                                    recordOut,
-                                    ((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss"));
-                                break;
-                            case nameof(Boolean):
-                                this.Output[fieldDescription.Name].SetFromBool(recordOut, (bool)value);
-                                break;
-                            case nameof(Byte):
-                                this.Output[fieldDescription.Name].SetFromInt32(recordOut, (byte)value);
-                                break;
-                            case nameof(Int16):
-                                this.Output[fieldDescription.Name].SetFromInt32(recordOut, (short)value);
-                                break;
-                            case nameof(Int32):
-                                this.Output[fieldDescription.Name].SetFromInt32(recordOut, (int)value);
-                                break;
-                            case nameof(Int64):
-                                this.Output[fieldDescription.Name].SetFromInt64(recordOut, (long)value);
-                                break;
-                            case nameof(Double):
-                                this.Output[fieldDescription.Name].SetFromDouble(recordOut, (double)value);
-                                break;
-                            case nameof(Single):
-                                this.Output[fieldDescription.Name].SetFromDouble(recordOut, (float)value);
-                                break;
-                            default:
-                                continue;
-                        }
-                    }
-
-                    this.Output.Push(recordOut);
-                    this.Output.UpdateProgress((double)index / asEnum.Length);
+                    this.PushRecord(recordOut, descriptions, sample);
                 }
+
                 this.ExecutionComplete();
                 this.Output.Close(true);
                 return true;
             }
 
-            private static List<FieldDescription> FieldDescriptionsFromType(Type sampleType, string prefix = "")
+            private void PushRecord(Record recordOut, List<FieldDescription> descriptions, object sample)
             {
-                // Handle Enumerable Types
-                var iEnumerableType =
-                    sampleType == typeof(string) ? null :
-                    sampleType.GetInterfaces()
-                        .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                        .Select(i => i.GenericTypeArguments[0])
-                        .FirstOrDefault();
-                if (iEnumerableType != null)
+                recordOut.Reset();
+
+                // To Do Set Values
+                foreach (var fieldDescription in descriptions)
                 {
-                    return FieldDescriptionsFromType(iEnumerableType);
+                    var prop = sample.GetType().GetProperty(fieldDescription.Name);
+                    var value = prop.GetValue(sample);
+                    if (value == null)
+                    {
+                        this.Output[fieldDescription.Name].SetNull(recordOut);
+                        continue;
+                    }
+
+                    switch (prop.PropertyType.Name)
+                    {
+                        case nameof(String):
+                            this.Output[fieldDescription.Name].SetFromString(recordOut, (string)value);
+                            break;
+                        case nameof(DateTime):
+                            this.Output[fieldDescription.Name].SetFromString(
+                                recordOut,
+                                ((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss"));
+                            break;
+                        case nameof(Boolean):
+                            this.Output[fieldDescription.Name].SetFromBool(recordOut, (bool)value);
+                            break;
+                        case nameof(Byte):
+                            this.Output[fieldDescription.Name].SetFromInt32(recordOut, (byte)value);
+                            break;
+                        case nameof(Int16):
+                            this.Output[fieldDescription.Name].SetFromInt32(recordOut, (short)value);
+                            break;
+                        case nameof(Int32):
+                            this.Output[fieldDescription.Name].SetFromInt32(recordOut, (int)value);
+                            break;
+                        case nameof(Int64):
+                            this.Output[fieldDescription.Name].SetFromInt64(recordOut, (long)value);
+                            break;
+                        case nameof(Double):
+                            this.Output[fieldDescription.Name].SetFromDouble(recordOut, (double)value);
+                            break;
+                        case nameof(Single):
+                            this.Output[fieldDescription.Name].SetFromDouble(recordOut, (float)value);
+                            break;
+                        default:
+                            continue;
+                    }
                 }
 
+                this.Output.Push(recordOut, updateCountMod: 100);
+            }
+
+            private static List<FieldDescription> FieldDescriptionsFromType(Type sampleType, string prefix = "")
+            {
                 var descriptions = new List<FieldDescription>();
 
                 // Handle A Primitive Type
@@ -201,6 +194,22 @@ namespace Temporary
                 {
                     descriptions.Add(primitive);
                     return descriptions;
+                }
+
+                // Handle Enumerable Types
+                var iEnumerableType = sampleType.IsInterface
+                                      && sampleType.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+                                          ? sampleType.GenericTypeArguments[0]
+                                          : sampleType.GetInterfaces()
+                                              .Where(
+                                                  i =>
+                                                      i.IsGenericType
+                                                      && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                                              .Select(i => i.GenericTypeArguments[0])
+                                              .FirstOrDefault();
+                if (iEnumerableType != null)
+                {
+                    return FieldDescriptionsFromType(iEnumerableType);
                 }
 
                 // Add All Properties
