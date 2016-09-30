@@ -19,7 +19,7 @@
             References = new[]
                              {
                                  typeof(object), // System
-                                 typeof(System.Linq.Enumerable), // System.Core,
+                                 typeof(Enumerable), // System.Core,
                                  typeof(System.Xml.XmlDocument), // System.Xml,
                                  typeof(System.Data.DataTable) // System.Data
                              }.Select(t => MetadataReference.CreateFromFile(t.Assembly.Location)).ToArray();

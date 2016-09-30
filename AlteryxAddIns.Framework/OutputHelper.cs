@@ -104,7 +104,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
             }
             else
             {
-                if (updateCountMod == 0 || (updateCountMod > 0 && this._recordCount % updateCountMod == 0))
+                if (updateCountMod > 0 && this._recordCount % updateCountMod == 0)
                 {
                     this.PushCountAndSize();
                 }

@@ -66,25 +66,25 @@ namespace JDunkerley.AlteryxAddIns.Framework
                     return OutputType.DateTime.OutputDescription(name, 19);
 
                 case nameof(Boolean):
-                    return OutputType.Bool.OutputDescription(name, 0);
+                    return OutputType.Bool.OutputDescription(name);
 
                 case nameof(Byte):
-                    return OutputType.Byte.OutputDescription(name, 0);
+                    return OutputType.Byte.OutputDescription(name);
 
                 case nameof(Int16):
-                    return OutputType.Int16.OutputDescription(name, 0);
+                    return OutputType.Int16.OutputDescription(name);
 
                 case nameof(Int32):
-                    return OutputType.Int32.OutputDescription(name, 0);
+                    return OutputType.Int32.OutputDescription(name);
 
                 case nameof(Int64):
-                    return OutputType.Int64.OutputDescription(name, 0);
+                    return OutputType.Int64.OutputDescription(name);
 
                 case nameof(Double):
-                    return OutputType.Double.OutputDescription(name, 0);
+                    return OutputType.Double.OutputDescription(name);
 
                 case nameof(Single):
-                    return OutputType.Float.OutputDescription(name, 0);
+                    return OutputType.Float.OutputDescription(name);
 
                 default:
                     return null;

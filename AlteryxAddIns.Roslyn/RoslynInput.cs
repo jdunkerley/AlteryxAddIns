@@ -16,7 +16,7 @@
     using Framework.Attributes;
 
     public class RoslynInput :
-        BaseTool<RoslynInput.Config, RoslynInput.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
+        BaseTool<RoslynInput.Config, RoslynInput.Engine>, IPlugin
     {
         private static string GetCodeFromLambda(string lambda) => $@"
 using System;
@@ -56,6 +56,10 @@ namespace Temporary
 
         public class Engine : BaseEngine<Config>
         {
+            private CompilerResult _result;
+
+            private List<FieldDescription> _descriptions;
+
             /// <summary>
             /// Constructor for Alteryx Engine
             /// </summary>
@@ -78,36 +82,21 @@ namespace Temporary
             /// <returns></returns>
             public override bool PI_PushAllRecords(long nRecordLimit)
             {
+                if (!this._result.Success)
+                {
+                    return false;
+                }
+
                 if (this.Output == null)
                 {
                     this.Engine.OutputMessage(
                         this.NToolId,
-                        AlteryxRecordInfoNet.MessageStatus.STATUS_Error,
+                        MessageStatus.STATUS_Error,
                         "Output is not set.");
                     return false;
                 }
 
-                var code = GetCodeFromLambda(this.ConfigObject.LambdaCode);
-                var result = Compiler.Compile(code);
-
-                foreach (var resultMessage in result.Messages)
-                {
-                    this.Engine.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, resultMessage.GetMessage());
-                }
-
-                if (!result.Success)
-                {
-                    this.Engine.OutputMessage(
-                        this.NToolId,
-                        AlteryxRecordInfoNet.MessageStatus.STATUS_Error,
-                        "Compilation Failed.");
-                    return false;
-                }
-
-                var sampleType = result.ReturnType;
-
-                var descriptions = FieldDescriptionsFromType(sampleType);
-                var recordInfo = FieldDescription.CreateRecordInfo(descriptions.ToArray());
+                var recordInfo = FieldDescription.CreateRecordInfo(this._descriptions.ToArray());
                 this.Output.Init(recordInfo);
 
                 if (nRecordLimit == 0)
@@ -116,18 +105,42 @@ namespace Temporary
                     return true;
                 }
 
-                var data = result.Execute.Invoke(null, new object[0]);
+                var data = this._result.Execute.Invoke(null, new object[0]);
                 var recordOut = this.Output.CreateRecord();
 
                 var asEnum = (data as IEnumerable) ?? new[] { data };
                 foreach (object sample in asEnum)
                 {
-                    this.PushRecord(recordOut, descriptions, sample);
+                    this.PushRecord(recordOut, this._descriptions, sample);
                 }
 
                 this.ExecutionComplete();
                 this.Output.Close(true);
                 return true;
+            }
+
+            protected override void OnInitCalled()
+            {
+                var code = GetCodeFromLambda(this.ConfigObject.LambdaCode);
+                this._result = Compiler.Compile(code);
+
+                foreach (var resultMessage in this._result.Messages)
+                {
+                    this.Engine.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, resultMessage.GetMessage());
+                }
+
+                if (!this._result.Success)
+                {
+                    this.Engine.OutputMessage(
+                        this.NToolId,
+                        MessageStatus.STATUS_Error,
+                        "Compilation Failed.");
+                    return;
+                }
+
+                var sampleType = this._result.ReturnType;
+
+                this._descriptions = FieldDescriptionsFromType(sampleType);
             }
 
             private void PushRecord(Record recordOut, List<FieldDescription> descriptions, object sample)

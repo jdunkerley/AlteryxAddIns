@@ -133,9 +133,9 @@ namespace JDunkerley.AlteryxAddIns
 
             {
                 this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
-                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.InitCalled += this.OnInit;
                 this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
-                this.Input.RecordPushed += (sender, args) => this.PushFunc(args.RecordData);
+                this.Input.RecordPushed += this.OnRecordPushed;
                 this.Input.Closed += (sender, args) => this.Output?.Close(true);
             }
 
@@ -151,37 +151,38 @@ namespace JDunkerley.AlteryxAddIns
             [CharLabel('O')]
             public OutputHelper Output { get; set; }
 
-            private bool InitFunc(RecordInfo info)
+            private void OnInit(object sender, SuccessEventArgs args)
             {
                 // Get Input Field
-                var inputFieldBase = info.GetFieldByName(this.ConfigObject.InputFieldName, false);
+                var inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (inputFieldBase == null)
                 {
-                    return false;
+                    args.Success = false;
+                    return;
                 }
 
                 // Create Output Format
                 var fieldDescription = new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_WString) { Size = this.ConfigObject.OutputFieldLength, Source = nameof(StringFormatter) };
-                this.Output?.Init(FieldDescription.CreateRecordInfo(info, fieldDescription));
+                this.Output?.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo, fieldDescription));
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier
-                this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
+                this._copier = this.RecordCopierFactory.CreateCopier(this.Input.RecordInfo, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
 
                 // Create the Formatter function
                 this._formatter = this.ConfigObject.CreateFormatter(inputFieldBase);
 
-                return this._formatter != null;
+                args.Success = this._formatter != null;
             }
 
-            private void PushFunc(RecordData r)
+            private void OnRecordPushed(object sender, RecordPushedEventArgs args)
             {
                 var record = this.Output.Record;
                 record.Reset();
 
-                this._copier.Copy(record, r);
+                this._copier.Copy(record, args.RecordData);
 
-                string result = this._formatter(r);
+                string result = this._formatter(args.RecordData);
 
                 if (result != null)
                 {

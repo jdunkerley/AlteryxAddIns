@@ -1,32 +1,13 @@
 <?xml version="1.0"?>
 <AlteryxDocument yxmdVer="10.5">
   <Nodes>
-    <Node ToolID="1">
-      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.RoslynInput">
-        <Position x="54" y="54" />
-      </GuiSettings>
-      <Properties>
-        <Configuration>
-          <LambdaCode>() =&gt; new[] {
- new { A = "Hello World", B = 123, Alha = DateTime.Today },
- new { A = "Hello James", B = 456, Alha = DateTime.Today }
-}</LambdaCode>
-        </Configuration>
-        <Annotation DisplayMode="0">
-          <Name />
-          <DefaultAnnotationText>JDunkerley.AlteryxAddIns.RoslynInput+Config</DefaultAnnotationText>
-          <Left value="False" />
-        </Annotation>
-      </Properties>
-      <EngineSettings EngineDll="JDunkerley.AlteryxAddins.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.RoslynInput+Engine" />
-    </Node>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
         <Position x="366" y="114" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_6972_52fa6fde996f4163804150dc39473efb_\Engine_6972_99f2047513cb4ffa9da40c440a4d0b5f_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_14500_cb3b101d43e34462beb2e341b888cd2f_\Engine_14500_80cf603b64ba4cac8ad44dc2c8f464b9_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -63,7 +44,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_6972_52fa6fde996f4163804150dc39473efb_\Engine_6972_d57b32a9e63f4bb79ed838af9283770d_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_14500_cb3b101d43e34462beb2e341b888cd2f_\Engine_14500_69ac96eae3d948c69c6dbd115923c4f5_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -80,19 +61,38 @@
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
+    <Node ToolID="5">
+      <GuiSettings Plugin="JDunkerley.AlteryxAddIns.Roslyn.RoslynInput">
+        <Position x="42" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <LambdaCode>() =&gt; new[] {
+ new { A = "Hello World", B = 123, Alha = DateTime.Today },
+ new { A = "Hello James", B = 456, Alha = DateTime.Today }
+}</LambdaCode>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>JDunkerley.AlteryxAddIns.Roslyn.RoslynInput+Config</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.Roslyn.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.Roslyn.RoslynInput+Engine" />
+    </Node>
   </Nodes>
   <Connections>
     <Connection>
-      <Origin ToolID="1" Connection="Output" />
-      <Destination ToolID="3" Connection="Input" />
+      <Origin ToolID="3" Connection="Output" />
+      <Destination ToolID="2" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="1" Connection="Output" />
+      <Origin ToolID="5" Connection="Output" />
       <Destination ToolID="4" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="3" Connection="Output" />
-      <Destination ToolID="2" Connection="Input" />
+      <Origin ToolID="5" Connection="Output" />
+      <Destination ToolID="3" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>

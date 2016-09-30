@@ -61,7 +61,7 @@
         /// <summary>
         /// Gets the record information of incoming stream.
         /// </summary>
-        public AlteryxRecordInfoNet.RecordInfo RecordInfo { get; private set; }
+        public RecordInfo RecordInfo { get; private set; }
 
         /// <summary>
         /// Gets the record copier for this property.
@@ -86,7 +86,7 @@
         /// </summary>
         /// <param name="recordInfo">The record information.</param>
         /// <returns>True if OK</returns>
-        public bool II_Init(AlteryxRecordInfoNet.RecordInfo recordInfo)
+        public bool II_Init(RecordInfo recordInfo)
         {
             this.State = ConnectionState.InitCalled;
             this.RecordInfo = recordInfo;
@@ -101,7 +101,7 @@
         /// </summary>
         /// <param name="pRecord">The new record</param>
         /// <returns>True if Ok</returns>
-        public bool II_PushRecord(AlteryxRecordInfoNet.RecordData pRecord)
+        public bool II_PushRecord(RecordData pRecord)
         {
             var args = new RecordPushedEventArgs(pRecord);
             this.RecordPushed(this, args);

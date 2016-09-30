@@ -109,14 +109,10 @@
                 : base(recordCopierFactory)
             {
                 this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
-                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.InitCalled += this.OnInit;
                 this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
-                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
-                this.Input.Closed += (sender, args) =>
-                    {
-                        this._hashAlgorithm = null;
-                        this.Output?.Close(true);
-                    };
+                this.Input.RecordPushed += this.OnRecordPushed;
+                this.Input.Closed += (sender, args) => this.Output?.Close(true);
             }
 
             /// <summary>
@@ -131,33 +127,34 @@
             [CharLabel('O')]
             public OutputHelper Output { get; set; }
 
-            private bool InitFunc(RecordInfo info)
+            private void OnInit(object sender, SuccessEventArgs args)
             {
-                this._inputFieldBase = info.GetFieldByName(this.ConfigObject.InputFieldName, false);
+                this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (this._inputFieldBase == null)
                 {
-                    return false;
+                    args.Success = false;
+                    return;
                 }
 
                 this.Output.Init(
                     FieldDescription.CreateRecordInfo(
-                    info,
+                    this.Input.RecordInfo,
                     new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_String) { Size = 256, Source = nameof(HashCodeGenerator)}));
                 this._outputFieldBase = this.Output[this.ConfigObject.OutputFieldName];
 
                 this._hashAlgorithm = this.ConfigObject.GetAlgorithm();
 
-                return true;
+                args.Success = true;
             }
 
-            private bool PushFunc(RecordData r)
+            private void OnRecordPushed(object sender, RecordPushedEventArgs args)
             {
                 var record = this.Output.Record;
                 record.Reset();
 
-                this.Input.Copier.Copy(record, r);
+                this.Input.Copier.Copy(record, args.RecordData);
 
-                string input = this._inputFieldBase.GetAsString(r);
+                string input = this._inputFieldBase.GetAsString(args.RecordData);
                 var bytes = this._hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
                 var sb = new StringBuilder();
                 foreach (var b in bytes)
@@ -167,7 +164,7 @@
                 this._outputFieldBase.SetFromString(record, sb.ToString());
 
                 this.Output.Push(record);
-                return true;
+                args.Success = true;
             }
         }
     }

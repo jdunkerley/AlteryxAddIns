@@ -109,17 +109,7 @@
                 switch (this.Distribution)
                 {
                     case Distribution.Triangular:
-                        return () =>
-                            {
-                                double p = random.NextDouble();
-                                return p < (this.Average - this.Minimum) / (this.Maximum - this.Minimum)
-                                           ? this.Minimum
-                                             + Math.Sqrt(
-                                                 p * (this.Maximum - this.Minimum) * (this.Average - this.Minimum))
-                                           : this.Maximum
-                                             - Math.Sqrt(
-                                                 (1 - p) * (this.Maximum - this.Minimum) * (this.Maximum - this.Average));
-                            };
+                        return () => this.TriangularNumber(random.NextDouble());
                     case Distribution.Normal:
                         {
                             var normal = new MathNet.Numerics.Distributions.Normal(
@@ -141,6 +131,13 @@
                 }
 
                 return () => double.NaN;
+            }
+
+            private double TriangularNumber(double p)
+            {
+                return p < (this.Average - this.Minimum) / (this.Maximum - this.Minimum)
+                           ? this.Minimum + Math.Sqrt(p * (this.Maximum - this.Minimum) * (this.Average - this.Minimum))
+                           : this.Maximum - Math.Sqrt((1 - p) * (this.Maximum - this.Minimum) * (this.Maximum - this.Average));
             }
         }
 
@@ -167,14 +164,10 @@
                 : base(recordCopierFactory)
             {
                 this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
-                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.InitCalled += this.OnInit;
                 this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(args.Progress, true);
-                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
-                this.Input.Closed += (sender, args) =>
-                    {
-                        this.Output?.Close(true);
-                        this._nextValue = null;
-                    };
+                this.Input.RecordPushed += this.OnRecordPushed;
+                this.Input.Closed += (sender, args) => this.Output?.Close(true);
             }
 
             /// <summary>
@@ -189,36 +182,37 @@
             [CharLabel('O')]
             public OutputHelper Output { get; set; }
 
-            private bool InitFunc(RecordInfo info)
+            private void OnInit(object sender, SuccessEventArgs args)
             {
                 this._nextValue = this.ConfigObject.CreateRandomFunc();
 
                 var fieldDescription = this.ConfigObject.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
                 if (fieldDescription == null)
                 {
-                    return false;
+                    args.Success = false;
+                    return;
                 }
                 fieldDescription.Source = nameof(RandomNumber);
                 fieldDescription.Description = $"Random Number {this.ConfigObject.ToString().Replace($"{this.ConfigObject.OutputFieldName}=", "")}";
 
-                this.Output?.Init(FieldDescription.CreateRecordInfo(info, fieldDescription));
+                this.Output?.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo, fieldDescription));
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
-                return true;
+                args.Success = true;
             }
 
-            private bool PushFunc(RecordData r)
+            private void OnRecordPushed(object sender, RecordPushedEventArgs args)
             {
                 var record = this.Output.Record;
                 record.Reset();
 
-                this.Input.Copier.Copy(record, r);
+                this.Input.Copier.Copy(record, args.RecordData);
 
                 double val = this._nextValue();
                 this._outputFieldBase.SetFromDouble(record, val);
 
                 this.Output.Push(record);
-                return true;
+                args.Success = true;
             }
         }
     }

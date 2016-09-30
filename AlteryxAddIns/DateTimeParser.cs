@@ -121,9 +121,9 @@
                 : base(recordCopierFactory)
             {
                 this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
-                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.InitCalled += this.OnInit;
                 this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(args.Progress, true);
-                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
+                this.Input.RecordPushed += this.OnRecordPushed;
                 this.Input.Closed += (sender, args) => this.Output?.Close(true);
             }
 
@@ -139,12 +139,13 @@
             [CharLabel('O')]
             public OutputHelper Output { get; set; }
 
-            private bool InitFunc(RecordInfo info)
+            private void OnInit(object sender, SuccessEventArgs args)
             {
                 var fieldDescription = this.ConfigObject.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
                 if (fieldDescription == null)
                 {
-                    return false;
+                    args.Success = false;
+                    return;
                 }
                 fieldDescription.Source = nameof(DateTimeParser);
                 fieldDescription.Description = $"{this.ConfigObject.InputFieldName} parsed as a DateTime";
@@ -153,26 +154,27 @@
                 this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (this._inputFieldBase == null)
                 {
-                    return false;
+                    args.Success = false;
+                    return;
                 }
 
-                this.Output?.Init(FieldDescription.CreateRecordInfo(info, fieldDescription));
+                this.Output?.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo, fieldDescription));
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier
                 this._copier = this.RecordCopierFactory.CreateCopier(this.Input.RecordInfo, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
 
                 this._parser = this.ConfigObject.CreateParser();
-                return true;
+                args.Success = true;
             }
 
-            private bool PushFunc(RecordData r)
+            private void OnRecordPushed(object sender, RecordPushedEventArgs args)
             {
                 this.Output.Record.Reset();
 
-                this._copier.Copy(this.Output.Record, r);
+                this._copier.Copy(this.Output.Record, args.RecordData);
 
-                string input = this._inputFieldBase.GetAsString(r);
+                string input = this._inputFieldBase.GetAsString(args.RecordData);
                 var result = this._parser(input);
 
                 if (result.HasValue)
@@ -180,8 +182,8 @@
                     this._outputFieldBase.SetFromString(this.Output.Record, result.Value.ToString(this._outputFieldBase.FieldType == FieldType.E_FT_Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
                 }
 
-                this.Output.Push(this.Output.Record, false, 1000000);
-                return true;
+                this.Output.Push(this.Output.Record, false, 0);
+                args.Success = true;
             }
         }
     }

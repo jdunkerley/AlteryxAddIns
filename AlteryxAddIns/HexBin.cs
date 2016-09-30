@@ -103,16 +103,10 @@
                 : base(recordCopierFactory)
             {
                 this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
-                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.InitCalled += this.OnInit;
                 this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
-                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
-                this.Input.Closed += (sender, args) =>
-                    {
-                        this._inputReader = null;
-                        this._outputBinXFieldBase = null;
-                        this._outputBinYFieldBase = null;
-                        this.Output?.Close(true);
-                    };
+                this.Input.RecordPushed += this.OnRecordPushed;
+                this.Input.Closed += (sender, args) => this.OnClosed();
             }
 
             /// <summary>
@@ -127,32 +121,34 @@
             [CharLabel('O')]
             public OutputHelper Output { get; set; }
 
-            private bool InitFunc(RecordInfo info)
+            private void OnInit(object sender, SuccessEventArgs args)
             {
-                this._inputReader = this.ConfigObject.InputPointReader(info);
+                this._inputReader = this.ConfigObject.InputPointReader(this.Input.RecordInfo);
                 if (this._inputReader == null)
                 {
-                    return false;
+                    args.Success = false;
+                    return;
                 }
 
                 this.Output?.Init(FieldDescription.CreateRecordInfo(
-                    info,
+                    this.Input.RecordInfo,
                     new FieldDescription(this.ConfigObject.OutputBinXFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "X Co-ordinate of HexBin Centre" },
                     new FieldDescription(this.ConfigObject.OutputBinYFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "Y Co-ordinate of HexBin Centre" }));
                 this._outputBinXFieldBase = this.Output?[this.ConfigObject.OutputBinXFieldName];
                 this._outputBinYFieldBase = this.Output?[this.ConfigObject.OutputBinYFieldName];
 
-                return true;
+                args.Success = true;
             }
 
-            private bool PushFunc(RecordData r)
+            private void OnRecordPushed(object sender, RecordPushedEventArgs args)
             {
+                args.Success = true;
+
                 var record = this.Output.Record;
                 record.Reset();
 
-                this.Input.Copier.Copy(record, r);
-
-                var point = this._inputReader(r);
+                this.Input.Copier.Copy(record, args.RecordData);
+                var point = this._inputReader(args.RecordData);
 
                 if (!point.Item1.HasValue || double.IsNaN(point.Item1.Value) ||
                     !point.Item2.HasValue || double.IsNaN(point.Item2.Value))
@@ -160,7 +156,7 @@
                     this._outputBinXFieldBase.SetNull(record);
                     this._outputBinYFieldBase.SetNull(record);
                     this.Output.Push(record);
-                    return true;
+                    return;
                 }
 
                 double dy = 2 * 0.86602540378443864676372317075294 * this.ConfigObject.Radius; // 2 * Sin(π/3)
@@ -193,7 +189,15 @@
                 this._outputBinXFieldBase.SetFromDouble(record, pi * dx);
 
                 this.Output.Push(record);
-                return true;
+            }
+
+            private void OnClosed()
+
+            {
+                this._inputReader = null;
+                this._outputBinXFieldBase = null;
+                this._outputBinYFieldBase = null;
+                this.Output?.Close(true);
             }
         }
     }
