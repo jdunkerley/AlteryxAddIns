@@ -39,15 +39,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlteryxGuiToolkit">
-      <HintPath>..\..\..\..\Program Files\Alteryx\bin\AlteryxGuiToolkit.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\Program Files\Alteryx\bin\AlteryxGuiToolkit.dll</HintPath>
     </Reference>
     <Reference Include="AlteryxRecordInfo.Net">
-      <HintPath>..\..\..\..\Program Files\Alteryx\bin\AlteryxRecordInfo.Net.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\Program Files\Alteryx\bin\AlteryxRecordInfo.Net.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics, Version=3.11.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.3.11.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -64,6 +66,7 @@
     <Compile Include="CircuitBreaker.cs" />
     <Compile Include="DateTimeInput.cs" />
     <Compile Include="HexBin.cs" />
+    <Compile Include="jsonParser.cs" />
     <Compile Include="RandomNumber.cs" />
     <Compile Include="SortWithCulture.cs" />
     <Compile Include="StringFormatter.cs" />
@@ -105,6 +108,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Install.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -127,6 +131,11 @@
       <Name>AlteryxAddIns.Framework</Name>
       <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="jsonParser.png">
+      <DependentUpon>jsonParser.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

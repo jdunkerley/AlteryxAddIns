@@ -42,12 +42,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlteryxGuiToolkit">
-      <HintPath>..\..\..\Program Files\Alteryx\bin\AlteryxGuiToolkit.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\Program Files\Alteryx\bin\AlteryxGuiToolkit.dll</HintPath>
     </Reference>
     <Reference Include="AlteryxRecordInfo.Net">
-      <HintPath>..\..\..\Program Files\Alteryx\bin\AlteryxRecordInfo.Net.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\Program Files\Alteryx\bin\AlteryxRecordInfo.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
