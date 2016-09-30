@@ -21,13 +21,6 @@
         public class Config : ConfigWithIncomingConnection
         {
             /// <summary>
-            /// Specify the name of the field for the X co-ordinate
-            /// </summary>
-            [Category("Output")]
-            [Description("Json Output as CSV String - from here, split to columns using Parse Tool")]
-            public string OutputParsedJson { get; set; } = "jsonOutCSV";
-
-            /// <summary>
             /// Gets or sets the name of the input field.
             /// </summary>
             [Description("The Input Field Containing Json to Parse")]
@@ -39,7 +32,7 @@
             /// ToString used for annotation
             /// </summary>
             /// <returns></returns>
-            public override string ToString() => $"{this.jsonField}=>{this.OutputParsedJson}";
+            public override string ToString() => $"{this.jsonField}=>jsonAsCSV";
         }
 
         public class Engine : BaseEngine<Config>
@@ -94,20 +87,13 @@
                     return false;
                 }
 
-                //var fieldDescription = this.ConfigObject.OutputParsedJson.OutputDescription(this.ConfigObject.jsonField, 19);
-                //if (fieldDescription == null)
-                //{
-                //    return false;
-                //}
-                //fieldDescription.Source = nameof(DateTimeParser);
-                //fieldDescription.Description = $"{this.ConfigObject.jsonField} parsed as CSV";
-                var fieldDescription = new FieldDescription(this.ConfigObject.OutputParsedJson, FieldType.E_FT_V_WString) {
-                    Size = Int32.MaxValue,
+                var fd = new FieldDescription("jsonAsCSV", FieldType.E_FT_V_WString) {
+                    Size = Int16.MaxValue,
                     Source = nameof(jsonParser),
                     Description = $"{this.ConfigObject.jsonField} parsed as CSV"
                 };
-                this.Output?.Init(FieldDescription.CreateRecordInfo(info, fieldDescription));
-                this._outputFieldBase = this.Output?[this.ConfigObject.OutputParsedJson];
+                this.Output?.Init(FieldDescription.CreateRecordInfo(info, fd));
+                this._outputFieldBase = this.Output?["jsonAsCSV"];
 
                 // Create the Copier
                 this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo);
@@ -119,9 +105,6 @@
 
             private bool PushFunc(RecordData r)
             {
-                var record = this.Output.CreateRecord();
-                this._copier.Copy(record, r);
-
                 string input = this._inputFieldBase.GetAsString(r);
                 this._data.Add(input);
                 return true;
@@ -134,6 +117,8 @@
                 {
                     sb.Append(record);
                 }
+
+                _data.Clear();
 
                 var obj = JObject.Parse(sb.ToString());
 
@@ -170,19 +155,16 @@
                 //var count = 0;
                 foreach (var csvRow in csvRows)
                 {
-                    //var d = count++ / (double)this._data.Count;
-                    //this.Output?.UpdateProgress(d, true);
-
+                    var outRecord = this.Output.CreateRecord();
                     if (csvRow != null && csvRow.Trim().Length > 0)
                     {
-                        var outRecord = this.Output.CreateRecord();
-                        this.Output?[this.ConfigObject.OutputParsedJson]?
-                            .SetFromString(outRecord, csvRow);
+                        outRecord.Reset();
                         this._outputFieldBase.SetFromString(outRecord, csvRow);
-                        this.Output?.Push(outRecord);
+
+                        this.Output.Push(outRecord);
                     }
                 }
-                this.Output?.Close(true);
+                this.Output.Close(true);
             }
         }
     }

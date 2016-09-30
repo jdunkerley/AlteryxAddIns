@@ -8,7 +8,7 @@
       <Properties>
         <Configuration>
           <Passwords />
-          <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="21">C:\Users\john__000\OneDrive\myGit\AlteryxAddIns\jsonTestFile.txt</File>
+          <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="21">C:\Users\Aorus\OneDrive\myGit\AlteryxAddIns\jsonTestFile.txt</File>
           <FormatSpecificOptions>
             <TrimWhiteSpace>Unset</TrimWhiteSpace>
             <LineEndStyle>Unset</LineEndStyle>
@@ -19,7 +19,7 @@
               <flatfile version="1">
                 <file eoltype="crlf" allowShortLines="t" allowLongLines="t" trimWhiteSpace="t" />
                 <fields>
-                  <field name="Field_1" type="V_String" length="6500" />
+                  <field name="Field1" type="V_String" length="512" />
                 </fields>
               </flatfile>
             </FlatFileXML>
@@ -32,7 +32,7 @@
         </Annotation>
         <MetaInfo connection="Output">
           <RecordInfo>
-            <Field name="Field_1" size="6500" source="File: C:\Users\john__000\OneDrive\myGit\AlteryxAddIns\jsonTestFile.txt" type="V_String" />
+            <Field name="Field1" size="512" source="File: C:\Users\Aorus\OneDrive\myGit\AlteryxAddIns\jsonTestFile.txt" type="V_String" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -40,46 +40,27 @@
     </Node>
     <Node ToolID="3">
       <GuiSettings Plugin="JDunkerley.AlteryxAddIns.jsonParser">
-        <Position x="282" y="54" />
+        <Position x="162" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <OutputParsedJson>jsonOutCSV</OutputParsedJson>
-          <jsonField>Field_1</jsonField>
+          <jsonField>Field1</jsonField>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>JDunkerley.AlteryxAddIns.jsonParser+Config</DefaultAnnotationText>
+          <DefaultAnnotationText>Field1=&gt;jsonAsStringCSV</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
       <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.jsonParser+Engine" />
     </Node>
-    <Node ToolID="5">
-      <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-        <Position x="174" y="54" />
-      </GuiSettings>
-      <Properties>
-        <Configuration>
-          <FormulaFields>
-            <FormulaField field="jsonOutCSV" type="V_String" size="8192" expression="&quot;&quot;" />
-          </FormulaFields>
-        </Configuration>
-        <Annotation DisplayMode="0">
-          <Name />
-          <DefaultAnnotationText>jsonOutCSV=""</DefaultAnnotationText>
-          <Left value="False" />
-        </Annotation>
-      </Properties>
-      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
-    </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="414" y="54" />
+        <Position x="294" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <File MaxRecords="" FileFormat="0">C:\Users\john__000\OneDrive\myGit\AlteryxAddIns\jsonTestFile.csv</File>
+          <File MaxRecords="" FileFormat="0">C:\Users\Aorus\OneDrive\myGit\AlteryxAddIns\jsonTestOutput.csv</File>
           <Passwords />
           <FormatSpecificOptions>
             <LineEndStyle>CRLF</LineEndStyle>
@@ -92,12 +73,9 @@
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>jsonTestFile.csv</DefaultAnnotationText>
+          <DefaultAnnotationText>jsonTestOutput.csv</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
     </Node>
@@ -105,15 +83,11 @@
   <Connections>
     <Connection>
       <Origin ToolID="2" Connection="Output" />
-      <Destination ToolID="5" Connection="Input" />
+      <Destination ToolID="3" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="3" Connection="Output" />
       <Destination ToolID="6" Connection="Input" />
-    </Connection>
-    <Connection>
-      <Origin ToolID="5" Connection="Output" />
-      <Destination ToolID="3" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>
