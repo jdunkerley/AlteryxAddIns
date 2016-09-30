@@ -34,6 +34,12 @@
             [TypeConverter(typeof(InputFieldTypeConverter))]
             [InputPropertyName(nameof(Engine.Input), typeof(Engine), FieldType.E_FT_String, FieldType.E_FT_V_String, FieldType.E_FT_V_WString, FieldType.E_FT_WString)]
             public string jsonField { get; set; } = "jsonToParse";
+
+            /// <summary>
+            /// ToString used for annotation
+            /// </summary>
+            /// <returns></returns>
+            public override string ToString() => $"{this.jsonField}=>{this.OutputParsedJson}";
         }
 
         public class Engine : BaseEngine<Config>
@@ -44,7 +50,7 @@
 
             private IRecordCopier _copier;
 
-            private List<Tuple<string, Record>> _data;
+            private List<string> _data;
 
             /// <summary>
             /// Constructor For Alteryx
@@ -88,14 +94,25 @@
                     return false;
                 }
 
-                this.Output?.Init(FieldDescription.CreateRecordInfo(info));
-
+                //var fieldDescription = this.ConfigObject.OutputParsedJson.OutputDescription(this.ConfigObject.jsonField, 19);
+                //if (fieldDescription == null)
+                //{
+                //    return false;
+                //}
+                //fieldDescription.Source = nameof(DateTimeParser);
+                //fieldDescription.Description = $"{this.ConfigObject.jsonField} parsed as CSV";
+                var fieldDescription = new FieldDescription(this.ConfigObject.OutputParsedJson, FieldType.E_FT_V_WString) {
+                    Size = Int32.MaxValue,
+                    Source = nameof(jsonParser),
+                    Description = $"{this.ConfigObject.jsonField} parsed as CSV"
+                };
+                this.Output?.Init(FieldDescription.CreateRecordInfo(info, fieldDescription));
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputParsedJson];
 
                 // Create the Copier
                 this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo);
 
-                this._data = new List<Tuple<string, Record>>();
+                this._data = new List<string>();
 
                 return true;
             }
@@ -106,7 +123,7 @@
                 this._copier.Copy(record, r);
 
                 string input = this._inputFieldBase.GetAsString(r);
-                this._data.Add(Tuple.Create(input, record));
+                this._data.Add(input);
                 return true;
             }
 
@@ -115,7 +132,7 @@
                 System.Text.StringBuilder sb = new System.Text.StringBuilder("");
                 foreach (var record in this._data)
                 {
-                    sb.Append(record.Item1);
+                    sb.Append(record);
                 }
 
                 var obj = JObject.Parse(sb.ToString());
@@ -150,15 +167,20 @@
 
                 var csvRows = new[] { columns }.Concat(rows).Select(r => string.Join(",", r));
 
-                var count = 0;
+                //var count = 0;
                 foreach (var csvRow in csvRows)
                 {
-                    var d = count++ / (double)this._data.Count;
-                    this.Output?.UpdateProgress(d, true);
+                    //var d = count++ / (double)this._data.Count;
+                    //this.Output?.UpdateProgress(d, true);
 
-                    var record = this.Output.CreateRecord();
-                    this._outputFieldBase.SetFromString(record, csvRow);
-                    this.Output?.Push(record);
+                    if (csvRow != null && csvRow.Trim().Length > 0)
+                    {
+                        var outRecord = this.Output.CreateRecord();
+                        this.Output?[this.ConfigObject.OutputParsedJson]?
+                            .SetFromString(outRecord, csvRow);
+                        this._outputFieldBase.SetFromString(outRecord, csvRow);
+                        this.Output?.Push(outRecord);
+                    }
                 }
                 this.Output?.Close(true);
             }

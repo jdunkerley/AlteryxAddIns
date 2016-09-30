@@ -95,6 +95,9 @@
     <EmbeddedResource Include="HexBin.png">
       <DependentUpon>HexBin.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="jsonParser.png">
+      <DependentUpon>jsonParser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NumberParser.png">
       <DependentUpon>NumberParser.cs</DependentUpon>
     </EmbeddedResource>
