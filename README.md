@@ -1,5 +1,7 @@
 # Alteryx Omni-Bus Tools
 
+![Alteryx OmniBus]()
+
 A set of open-source extension tools for Alteryx.
 
 ## Installation
@@ -52,6 +54,12 @@ This generates a random number based of a sepcified distribution (currently Line
 
 ### HexBin
 This reproduces the hexagonal binning functionality built into Tableau. It is based of the d3 HexBin plugin. It defaults to a radius 1 hexagon but you can specify different sizes.
+
+### Sort with Culture
+This tool exposes sorting with a culture from .Net. **This was an experiment and there is actually sorting with culture provided in the main Sort tool.**
+
+### Roslyn Input
+Currently a proof of concept tool. It allows you to write C# code and have the results be pushed straight into Alteryx as a data flow. It has support for syntax highlighting and pushing one or more records. **This is not a final version and will under go many changes in the next versions.** 
 
 ## Testing the ToolSet
 
