@@ -1,6 +1,6 @@
 # Alteryx Omni-Bus Tools
 
-![Alteryx OmniBus](AlteryxOmniBus.jpg?raw=true)
+![Alteryx OmniBus](AlteryxOmnibus.jpg?raw=true)
 
 A set of open-source extension tools for Alteryx.
 
