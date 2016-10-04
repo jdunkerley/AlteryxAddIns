@@ -1,5 +1,6 @@
-# AlteryxAddIns
-Some C# based Alteryx Custom Tools.
+# Alteryx Omni-Bus Tools
+
+A set of open-source extension tools for Alteryx.
 
 ## Installation
 
