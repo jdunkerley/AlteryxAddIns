@@ -6,18 +6,22 @@ A set of open-source extension tools for Alteryx.
 
 ## Installation
 
-There is a batch file called `Install.bat`
-This will create an ini file looking like:
+First extract the files to a location where you want the tools to run from.
+
+There is a batch file called `Install.bat`. This will create an ini file looking like:
 
 ```
 [Settings]
-x64Path=C:\Repos\AlteryxAddIns\AlteryxDateParser\bin\Debug\
-x86Path=C:\Repos\AlteryxAddIns\AlteryxDateParser\bin\Debug\
+x64Path=C:\Download\AlteryxAddIns\
+x86Path=C:\Download\AlteryxAddIns\\
 ToolGroup=JDTools
 ```
+
 It will copy this to `C:\Program Files\Alteryx\Settings\AdditionalPlugins\JDTools.ini`.
 
-There is also an `Uninstall.bat` which will remove this file.
+**Please note this does not install the RoslynInput tool. Run the `RoslynInstall.bat` file to install this.**
+
+There is also an `Uninstall.bat` which will remove this file (and the Roslyn.ini file if present too).
 
 ## Current Toolset
 
