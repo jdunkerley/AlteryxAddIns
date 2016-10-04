@@ -215,3 +215,4 @@ ModelManifest.xml
 /Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 /Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 *.bak
+*.pdnBak
