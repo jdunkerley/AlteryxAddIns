@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Reflection;
 
     using Microsoft.CodeAnalysis;
 
@@ -12,7 +11,7 @@
 
         public Type ReturnType { get; set; }
 
-        public MethodInfo Execute { get; set; }
+        public Delegate Execute { get; set; }
 
         public List<Diagnostic> Messages { get; set; }
     }

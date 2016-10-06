@@ -1,6 +1,7 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Roslyn
 {
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -32,7 +33,7 @@
         }
 
         public static CompilerResult Compile(string code) =>
-            Results.GetOrAdd(code, DoCompilation);
+            !string.IsNullOrWhiteSpace(code) ? Results.GetOrAdd(code, DoCompilation) : new CompilerResult { Success = false, Messages = new List<Diagnostic>() };
 
         private static CompilerResult DoCompilation(string code)
         {
@@ -60,13 +61,12 @@
                         .GetTypes()
                         .FirstOrDefault(t => t.Name == "ExpressionClass");
 
-                    output.ReturnType = type
-                        ?.GetMethod("Lambda", BindingFlags.Static | BindingFlags.Public)
-                        ?.Invoke(null, new object[0])
-                        ?.GetType().GetGenericArguments()[0];
+                    var delegateObject = type
+                        ?.GetMethod("CreateDelegate", BindingFlags.Static | BindingFlags.Public)
+                        ?.Invoke(null, new object[0]) as System.Delegate;
 
-                    output.Execute = type
-                        ?.GetMethod("Execute", BindingFlags.Static | BindingFlags.Public);
+                    output.ReturnType = delegateObject?.GetType().GetGenericArguments()[0];
+                    output.Execute = delegateObject;
                 }
 
                 return output;

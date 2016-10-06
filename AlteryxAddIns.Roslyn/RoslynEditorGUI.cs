@@ -33,7 +33,7 @@
 
             if (this._editor.Code == lambda)
             {
-                this._editor.Messages = result.Messages;
+                this._editor.SetMessages(result.Messages, 10, 13);
             }
         }
 

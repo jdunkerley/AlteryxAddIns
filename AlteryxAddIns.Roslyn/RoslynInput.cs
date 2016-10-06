@@ -18,7 +18,7 @@
     public class RoslynInput :
         BaseTool<RoslynInput.Config, RoslynInput.Engine>, IPlugin
     {
-        private static string GetCodeFromLambda(string lambda) => $@"
+        private static string GetCodeFromLambda(string lambda) => string.IsNullOrWhiteSpace(lambda) ? null : $@"
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,13 +27,11 @@ namespace Temporary
 {{
     public class ExpressionClass
     {{
-        public static object Execute() => Lambda({lambda})();
-
-        public static object Lambda()
-            => Lambda({lambda});
+        public static Delegate CreateDelegate()
+            => MakeFunc({lambda});
 
 
-        private static Func<T> Lambda<T>(Func<T> code)
+        private static Func<T> MakeFunc<T>(Func<T> code)
         {{
             return code;
         }}
@@ -105,10 +103,11 @@ namespace Temporary
                     return true;
                 }
 
-                var data = this._result.Execute.Invoke(null, new object[0]);
+                var data = this._result.Execute.DynamicInvoke();
                 var recordOut = this.Output.CreateRecord();
 
-                var asEnum = (data as IEnumerable) ?? new[] { data };
+                var asString = data as string;
+                var asEnum = asString != null ? new[] { asString } : (data as IEnumerable) ?? new[] { data };
                 foreach (object sample in asEnum)
                 {
                     this.PushRecord(recordOut, this._descriptions, sample);
@@ -150,15 +149,28 @@ namespace Temporary
                 // To Do Set Values
                 foreach (var fieldDescription in descriptions)
                 {
-                    var prop = sample.GetType().GetProperty(fieldDescription.Name);
-                    var value = prop.GetValue(sample);
+                    object value;
+                    string valueTypeName;
+
+                    if (fieldDescription.Description?.StartsWith("BaseValue: ") ?? false)
+                    {
+                        value = sample;
+                        valueTypeName = fieldDescription.Description.Substring(11);
+                    }
+                    else
+                    {
+                        var prop = sample.GetType().GetProperty(fieldDescription.Name);
+                        value = prop.GetValue(sample);
+                        valueTypeName = prop.PropertyType.Name;
+                    }
+
                     if (value == null)
                     {
                         this.Output[fieldDescription.Name].SetNull(recordOut);
                         continue;
                     }
 
-                    switch (prop.PropertyType.Name)
+                    switch (valueTypeName)
                     {
                         case nameof(String):
                             this.Output[fieldDescription.Name].SetFromString(recordOut, (string)value);
@@ -205,6 +217,7 @@ namespace Temporary
                 var primitive = FieldDescription.FromNameAndType("Value", sampleType);
                 if (primitive != null)
                 {
+                    primitive.Description = "BaseValue: " + sampleType.Name;
                     descriptions.Add(primitive);
                     return descriptions;
                 }

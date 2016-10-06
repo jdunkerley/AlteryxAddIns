@@ -1,10 +1,9 @@
-﻿using System.Windows.Forms;
-
-namespace JDunkerley.AlteryxAddIns.Roslyn
+﻿namespace JDunkerley.AlteryxAddIns.Roslyn
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows.Forms;
 
     using Microsoft.CodeAnalysis;
 
@@ -53,16 +52,34 @@ namespace JDunkerley.AlteryxAddIns.Roslyn
         /// <summary>
         /// Sets the Error Messages
         /// </summary>
-        public IEnumerable<Diagnostic> Messages
+        public void SetMessages(IEnumerable<Diagnostic> value, int startLine, int startCharacter)
         {
-            set
-            {
-                this.dgvErrors.DataSource = value.Select(d => new
-                                                                  {
-                                                                      d.Severity,
-                                                                      Message = d.GetMessage()
-                                                                  });
-            }
+            this.dgvErrors.DataSource = value.Select(
+                d =>
+                    {
+                        var start = d.Location.SourceTree.GetLineSpan(d.Location.SourceSpan);
+
+                        return new DiagnosticMessate
+                                   {
+                                       Severity = d.Severity,
+                                       Message = d.GetMessage(),
+                                       StartLine = start.StartLinePosition.Line - startLine,
+                                       StartCharacter = start.StartLinePosition.Character - (start.StartLinePosition.Line == startLine ? startCharacter : 0)
+                                   };
+                    }).ToArray();
+        }
+
+        private class DiagnosticMessate
+        {
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+            public DiagnosticSeverity Severity { get; set; }
+
+            public string Message { get; set; }
+
+            public int StartLine { get; set; }
+
+            public int StartCharacter { get; set; }
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
     }
 }
