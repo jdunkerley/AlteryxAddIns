@@ -91,9 +91,9 @@
                 : base(recordCopierFactory)
             {
                 this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
-                this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
+                this.Input.InitCalled += this.OnInit;
                 this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(args.Progress, true);
-                this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
+                this.Input.RecordPushed += this.OnRecordPushed;
                 this.Input.Closed += (sender, args) => this.Output?.Close(true);
             }
 
@@ -109,40 +109,42 @@
             [CharLabel('O')]
             public OutputHelper Output { get; set; }
 
-            private bool InitFunc(RecordInfo info)
+            private void OnInit(object sender, SuccessEventArgs args)
             {
                 var fieldDescription = this.ConfigObject?.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
                 if (fieldDescription == null)
                 {
-                    return false;
+                    args.Success = false;
+                    return;
                 }
                 fieldDescription.Source = nameof(NumberParser);
                 fieldDescription.Description = $"{this.ConfigObject.InputFieldName} parsed as a number";
 
 
-                this._inputFieldBase = info.GetFieldByName(this.ConfigObject.InputFieldName, false);
+                this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (this._inputFieldBase == null)
                 {
-                    return false;
+                    args.Success = false;
+                    return;
                 }
 
-                this.Output?.Init(FieldDescription.CreateRecordInfo(info, fieldDescription));
+                this.Output?.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo, fieldDescription));
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
                 // Create the Copier
-                this._copier = this.RecordCopierFactory.CreateCopier(info, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
+                this._copier = this.RecordCopierFactory.CreateCopier(this.Input.RecordInfo, this.Output?.RecordInfo, this.ConfigObject.OutputFieldName);
 
-                return true;
+                args.Success = true;
             }
 
-            private bool PushFunc(RecordData r)
+            private void OnRecordPushed(object sender, RecordPushedEventArgs args)
             {
                 var record = this.Output.Record;
                 record.Reset();
 
-                this._copier.Copy(record, r);
+                this._copier.Copy(record, args.RecordData);
 
-                string input = this._inputFieldBase.GetAsString(r);
+                string input = this._inputFieldBase.GetAsString(args.RecordData);
 
                 double value;
                 bool result = double.TryParse(input, NumberStyles.Any, this.ConfigObject.CultureObject.Value, out value);
@@ -151,13 +153,9 @@
                 {
                     this._outputFieldBase.SetFromDouble(record, value);
                 }
-                else
-                {
-                    this._outputFieldBase.SetNull(record);
-                }
 
                 this.Output.Push(record);
-                return true;
+                args.Success = true;
             }
         }
     }

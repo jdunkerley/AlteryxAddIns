@@ -91,6 +91,8 @@ namespace JDunkerley.AlteryxAddIns.Framework
                 kvp.Value.SetValue(this, new OutputHelper(this, kvp.Key), null);
             }
 
+            this.OnInitCalled();
+
             this.DebugMessage("PI_Init Called");
         }
 
@@ -198,6 +200,13 @@ namespace JDunkerley.AlteryxAddIns.Framework
             {
                 this.Engine?.OutputMessage(this.NToolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Info, message);
             }
+        }
+
+        /// <summary>
+        /// Called after <see cref="PI_Init"/> is done.
+        /// </summary>
+        protected virtual void OnInitCalled()
+        {
         }
 
         private TConfig CreateConfigObject()

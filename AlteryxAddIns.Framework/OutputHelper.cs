@@ -22,6 +22,8 @@ namespace JDunkerley.AlteryxAddIns.Framework
 
         private ulong _recordLength;
 
+        private double _percentage;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OutputHelper"/> class.
         /// </summary>
@@ -88,7 +90,8 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// </summary>
         /// <param name="record">Record object to push to the stream.</param>
         /// <param name="close">Value indicating whether to close the connection after pushing the record.</param>
-        public void Push(Record record, bool close = false)
+        /// <param name="updateCountMod">How often to update Row Count and Data</param>
+        public void Push(Record record, bool close = false, ulong updateCountMod = 250)
         {
             this._helper?.PushRecord(record.GetRecord());
 
@@ -101,7 +104,10 @@ namespace JDunkerley.AlteryxAddIns.Framework
             }
             else
             {
-                this.PushCountAndSize();
+                if (updateCountMod > 0 && this._recordCount % updateCountMod == 0)
+                {
+                    this.PushCountAndSize();
+                }
             }
         }
 
@@ -112,11 +118,15 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="setToolProgress">Set Tool Progress As Well</param>
         public void UpdateProgress(double percentage, bool setToolProgress = false)
         {
-            this._helper?.UpdateProgress(percentage);
-
-            if (setToolProgress)
+            if (Math.Abs(percentage - this._percentage) > 0.01)
             {
-                this._hostEngine.Engine.OutputToolProgress(this._hostEngine.NToolId, percentage);
+                this._percentage = percentage;
+                this._helper?.UpdateProgress(percentage);
+
+                if (setToolProgress)
+                {
+                    this._hostEngine.Engine.OutputToolProgress(this._hostEngine.NToolId, percentage);
+                }
             }
         }
 

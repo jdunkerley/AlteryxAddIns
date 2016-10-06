@@ -1,20 +1,27 @@
-# AlteryxAddIns
-Some C# based Alteryx Custom Tools.
+# Alteryx Omni-Bus Tools
+
+![Alteryx OmniBus](AlteryxOmnibus.jpg?raw=true)
+
+A set of open-source extension tools for Alteryx.
 
 ## Installation
 
-There is a batch file called `Install.bat`
-This will create an ini file looking like:
+First extract the files to a location where you want the tools to run from.
+
+There is a batch file called `Install.bat`. This will create an ini file looking like:
 
 ```
 [Settings]
-x64Path=C:\Repos\AlteryxAddIns\AlteryxDateParser\bin\Debug\
-x86Path=C:\Repos\AlteryxAddIns\AlteryxDateParser\bin\Debug\
+x64Path=C:\Download\AlteryxAddIns\
+x86Path=C:\Download\AlteryxAddIns\\
 ToolGroup=JDTools
 ```
+
 It will copy this to `C:\Program Files\Alteryx\Settings\AdditionalPlugins\JDTools.ini`.
 
-There is also an `Uninstall.bat` which will remove this file.
+**Please note this does not install the RoslynInput tool. Run the `RoslynInstall.bat` file to install this.**
+
+There is also an `Uninstall.bat` which will remove this file (and the Roslyn.ini file if present too).
 
 ## Current Toolset
 
@@ -51,6 +58,12 @@ This generates a random number based of a sepcified distribution (currently Line
 
 ### HexBin
 This reproduces the hexagonal binning functionality built into Tableau. It is based of the d3 HexBin plugin. It defaults to a radius 1 hexagon but you can specify different sizes.
+
+### Sort with Culture
+This tool exposes sorting with a culture from .Net. **This was an experiment and there is actually sorting with culture provided in the main Sort tool.**
+
+### Roslyn Input
+Currently a proof of concept tool. It allows you to write C# code and have the results be pushed straight into Alteryx as a data flow. It has support for syntax highlighting and pushing one or more records. **This is not a final version and will under go many changes in the next versions.** 
 
 ## Testing the ToolSet
 

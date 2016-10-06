@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.0">
+<AlteryxDocument yxmdVer="10.5">
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Directory.Directory">
-        <Position x="54" y="90" />
+        <Position x="54" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -21,7 +21,7 @@
     </Node>
     <Node ToolID="3">
       <GuiSettings>
-        <Position x="270" y="90" />
+        <Position x="270" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -39,7 +39,7 @@
     </Node>
     <Node ToolID="4">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="354" y="90" />
+        <Position x="354" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -56,11 +56,11 @@
     </Node>
     <Node ToolID="5">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="858" y="90" />
+        <Position x="858" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_25780_ae01d56cf1674ac5a031325416fc1758_\Engine_33484_4f326f36dfa14e27aa17858c9d7da127_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_34364_cfee0d0fa8e94feba038c8f3deef749c_\Engine_34364_aeec291ca74f47babf046ffdcf404799_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -80,7 +80,7 @@
     </Node>
     <Node ToolID="7">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="162" y="90" />
+        <Position x="162" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -103,7 +103,7 @@
     </Node>
     <Node ToolID="8">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextToColumns.TextToColumns">
-        <Position x="474" y="90" />
+        <Position x="474" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -122,20 +122,20 @@
     </Node>
     <Node ToolID="9">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="570" y="90" />
+        <Position x="570" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <Expression>StartsWith([Log], "Error")
+          <Expression>(StartsWith([Log], "Error")
 or
-StartsWith([Log], "Warning")</Expression>
+StartsWith([Log], "Warning")) and [Log] != 'Warning - Alteryx Engine: The machine is running low on available physical memory'</Expression>
           <Mode>Custom</Mode>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>StartsWith([Log], "Error")
+          <DefaultAnnotationText>(StartsWith([Log], "Error")
 or
-StartsWith([Log], "Warning")</DefaultAnnotationText>
+StartsWith([Log], "Warning")) ...</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -143,7 +143,7 @@ StartsWith([Log], "Warning")</DefaultAnnotationText>
     </Node>
     <Node ToolID="10">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="678" y="90" />
+        <Position x="678" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -160,7 +160,7 @@ StartsWith([Log], "Warning")</DefaultAnnotationText>
     </Node>
     <Node ToolID="11">
       <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-        <Position x="762" y="90" />
+        <Position x="762" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -187,11 +187,11 @@ StartsWith([Log], "Warning")</DefaultAnnotationText>
     </Node>
     <Node ToolID="12">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="858" y="222" />
+        <Position x="858" y="186" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_25780_ae01d56cf1674ac5a031325416fc1758_\Engine_33484_718d51d57c6d41beb7affa27a30d2c1d_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_34364_cfee0d0fa8e94feba038c8f3deef749c_\Engine_34364_4ef976e4574f4dbebc56cd4324655d4d_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
