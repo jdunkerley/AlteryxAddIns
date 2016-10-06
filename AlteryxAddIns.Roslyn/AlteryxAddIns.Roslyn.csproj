@@ -108,7 +108,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Install.bat">
+    <None Include="Install.bat" />
+    <None Include="InstallRelease.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
@@ -131,6 +132,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>rmdir "$(SolutionDir)\Release\Roslyn" /s /q
+mkdir "$(SolutionDir)\Release\Roslyn"
+copy "$(TargetDir)\*.dll" "$(SolutionDir)\Release\Roslyn\"
+copy "$(TargetDir)\InstallRelease.bat" "$(SolutionDir)\Release\RoslynInstall.bat"
+</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

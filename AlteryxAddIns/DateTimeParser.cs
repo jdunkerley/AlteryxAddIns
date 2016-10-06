@@ -4,8 +4,6 @@
     using System.ComponentModel;
     using System.Globalization;
 
-    using AlteryxGuiToolkit.Plugins;
-
     using AlteryxRecordInfoNet;
 
     using Framework;
@@ -17,7 +15,7 @@
 
     [PlugInGroup("JDTools", "DateTime Parser")]
     public class DateTimeParser :
-        BaseTool<DateTimeParser.Config, DateTimeParser.Engine>, IPlugin
+        BaseTool<DateTimeParser.Config, DateTimeParser.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
         public class Config : ConfigWithIncomingConnection
         {

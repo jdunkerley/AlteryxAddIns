@@ -24,9 +24,10 @@ if '%errorlevel%' NEQ '0' (
         pushd "%alteryxPath%\..\Settings\AdditionalPlugins\"
         del JDTools.ini /Q
         echo Deleted installed config from "%alteryxPath%\..\Settings\AdditionalPlugins\JDTools.ini"
-    echo Config installed to "%alteryxPath%\..\Settings\AdditionalPlugins\JDTools.ini"
+        del RoslynPlugIn.ini /Q
+        echo Deleted installed config from "%alteryxPath%\..\Settings\AdditionalPlugins\RoslynPlugIn.ini"
     ) else (
-        echo Please delete "%cd$\JDTools.ini" from <AlteryxInstallDir>\Settings\AdditionalPlugins
+        echo Please delete "JDTools.ini" and "RoslynPlugIn.ini" from <AlteryxInstallDir>\Settings\AdditionalPlugins
     )
 
     popd
