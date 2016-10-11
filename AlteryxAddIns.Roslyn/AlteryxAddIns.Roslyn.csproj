@@ -108,10 +108,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Install.bat" />
+    <None Include="Install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="InstallRelease.bat" />
     <None Include="packages.config" />
-    <None Include="Uninstall.bat" />
+    <None Include="Uninstall.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />

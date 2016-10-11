@@ -64,6 +64,7 @@
     <Compile Include="Attributes\OrderingAttribute.cs" />
     <Compile Include="Attributes\PlugInGroupAttribute.cs" />
     <Compile Include="BaseEngine.cs" />
+    <Compile Include="BaseStreamEngine.cs" />
     <Compile Include="BaseTool.cs" />
     <Compile Include="ConfigWindows\BaseGui.cs">
       <SubType>UserControl</SubType>
@@ -74,6 +75,7 @@
     <Compile Include="ConfigWithIncomingConnection.cs" />
     <Compile Include="ConnectionState.cs" />
     <Compile Include="Factories\InputPropertyFactory.cs" />
+    <Compile Include="Factories\OutputHelperFactory.cs" />
     <Compile Include="Factories\RecordCopierFactory.cs" />
     <Compile Include="FieldBaseHelpers.cs" />
     <Compile Include="FieldDescription.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="ConfigWindows\InputFieldTypeConverter.cs" />
     <Compile Include="InputProperty.cs" />
     <Compile Include="Interfaces\IInputPropertyFactory.cs" />
+    <Compile Include="Interfaces\IOutputHelperFactory.cs" />
     <Compile Include="Interfaces\IRecordCopier.cs" />
     <Compile Include="Interfaces\IRecordCopierFactory.cs" />
     <Compile Include="Interfaces\ProgressUpdatedEventArgs.cs" />
@@ -91,6 +94,7 @@
     <Compile Include="Interfaces\RecordPushedEventHandler.cs" />
     <Compile Include="Interfaces\SuccessEventArgs.cs" />
     <Compile Include="Interfaces\SuccessEventHandler.cs" />
+    <Compile Include="Interfaces\IOutputHelper.cs" />
     <Compile Include="OutputHelper.cs" />
     <Compile Include="OutputType.cs" />
     <Compile Include="OutputTypeHelpers.cs" />

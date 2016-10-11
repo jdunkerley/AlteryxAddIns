@@ -15,6 +15,8 @@ namespace JDunkerley.AlteryxAddIns.Framework
     public abstract class BaseEngine<TConfig> : AlteryxRecordInfoNet.INetPlugin, IBaseEngine
         where TConfig : new()
     {
+        private readonly IOutputHelperFactory _outputHelperFactory;
+
         private readonly Dictionary<string, PropertyInfo> _inputs;
         private readonly Dictionary<string, PropertyInfo> _outputs;
 
@@ -26,13 +28,20 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// Initializes a new instance of the <see cref="BaseEngine{T}"/> class.
         /// </summary>
         /// <param name="recordCopierFactory">Factory to create copiers</param>
-        protected BaseEngine(IRecordCopierFactory recordCopierFactory)
+        /// <param name="outputHelperFactory">Factory to create output helpers</param>
+        protected BaseEngine(IRecordCopierFactory recordCopierFactory, IOutputHelperFactory outputHelperFactory)
         {
             this.RecordCopierFactory = recordCopierFactory;
+            this._outputHelperFactory = outputHelperFactory;
 
             var type = this.GetType();
             this._inputs = type.GetProperties<AlteryxRecordInfoNet.IIncomingConnectionInterface>();
-            this._outputs = type.GetProperties<OutputHelper>();
+            this._outputs = type.GetProperties<IOutputHelper>();
+
+            if (this._outputHelperFactory == null && this._outputs.Count > 0)
+            {
+                throw new ArgumentNullException(nameof(outputHelperFactory), "Tool has an output but no factory has been provided.");
+            }
         }
 
         /// <summary>
@@ -88,7 +97,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
 
             foreach (var kvp in this._outputs)
             {
-                kvp.Value.SetValue(this, new OutputHelper(this, kvp.Key), null);
+                kvp.Value.SetValue(this, this._outputHelperFactory.CreateOutputHelper(this, kvp.Key), null);
             }
 
             this.OnInitCalled();

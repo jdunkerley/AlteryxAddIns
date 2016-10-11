@@ -6,6 +6,9 @@
     using Framework;
     using Framework.Attributes;
     using Framework.ConfigWindows;
+    using Framework.Interfaces;
+
+    using JDunkerley.AlteryxAddIns.Framework.Factories;
 
     /// <summary>
     /// Simple Date Time Input Control
@@ -62,7 +65,16 @@
             /// Constructor for Alteryx Engine
             /// </summary>
             public Engine()
-                : base(null)
+                : this(new OutputHelperFactory())
+            {
+            }
+
+            /// <summary>
+            /// Create An Engine for unit testing.
+            /// </summary>
+            /// <param name="outputHelperFactory">Factory to create output helpers</param>
+            internal Engine(IOutputHelperFactory outputHelperFactory)
+                : base(null, outputHelperFactory)
             {
             }
 
@@ -70,7 +82,7 @@
             /// Gets or sets the output.
             /// </summary>
             [CharLabel('O')]
-            public OutputHelper Output { get; set; }
+            public IOutputHelper Output { get; set; }
 
             /// <summary>
             /// Called only if you have no Input Connections
@@ -131,7 +143,7 @@
                         break;
                 }
 
-                var recordOut = this.Output.CreateRecord();
+                var recordOut = this.Output.Record;
                 this.Output[this.ConfigObject.OutputFieldName]?
                     .SetFromString(recordOut, dateOutput.ToString(this.ConfigObject.OutputType == OutputType.Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
                 this.Output.Push(recordOut);

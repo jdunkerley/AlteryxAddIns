@@ -14,6 +14,9 @@
 
     using Framework;
     using Framework.Attributes;
+    using Framework.Interfaces;
+
+    using JDunkerley.AlteryxAddIns.Framework.Factories;
 
     public class RoslynInput :
         BaseTool<RoslynInput.Config, RoslynInput.Engine>, IPlugin
@@ -62,16 +65,24 @@ namespace Temporary
             /// Constructor for Alteryx Engine
             /// </summary>
             public Engine()
-                : base(null)
+                : this(new OutputHelperFactory())
             {
             }
 
+            /// <summary>
+            /// Create An Engine for unit testing.
+            /// </summary>
+            /// <param name="outputHelperFactory">Factory to create output helpers</param>
+            internal Engine(IOutputHelperFactory outputHelperFactory)
+                : base(null, outputHelperFactory)
+            {
+            }
 
             /// <summary>
             /// Gets or sets the output.
             /// </summary>
             [CharLabel('O')]
-            public OutputHelper Output { get; set; }
+            public IOutputHelper Output { get; set; }
 
             /// <summary>
             /// Called only if you have no Input Connections
@@ -104,7 +115,7 @@ namespace Temporary
                 }
 
                 var data = this._result.Execute.DynamicInvoke();
-                var recordOut = this.Output.CreateRecord();
+                var recordOut = this.Output.Record;
 
                 var asString = data as string;
                 var asEnum = asString != null ? new[] { asString } : (data as IEnumerable) ?? new[] { data };

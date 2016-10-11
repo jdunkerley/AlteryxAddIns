@@ -39,17 +39,18 @@
             /// Constructor For Alteryx
             /// </summary>
             public Engine()
-                : this(new RecordCopierFactory(), new InputPropertyFactory())
+                : this(new RecordCopierFactory(), new InputPropertyFactory(), new OutputHelperFactory())
             {
             }
 
             /// <summary>
-            /// Create An Engine
+            /// Create An Engine for unit testing.
             /// </summary>
             /// <param name="recordCopierFactory">Factory to create copiers</param>
             /// <param name="inputPropertyFactory">Factory to create input properties</param>
-            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
-                : base(recordCopierFactory)
+            /// <param name="outputHelperFactory">Factory to create output helpers</param>
+            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory, IOutputHelperFactory outputHelperFactory)
+                : base(recordCopierFactory, outputHelperFactory)
             {
                 // Handle Breaker Connection
                 this.Breaker = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
@@ -74,7 +75,7 @@
             public IInputProperty Input { get; }
 
             [CharLabel('O')]
-            public OutputHelper Output { get; set; }
+            public IOutputHelper Output { get; set; }
 
             private void BreakerOnRecordPushed(object sender, RecordPushedEventArgs args)
             {

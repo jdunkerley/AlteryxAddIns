@@ -9,6 +9,9 @@
     using Framework;
     using Framework.Attributes;
     using Framework.ConfigWindows;
+    using Framework.Interfaces;
+
+    using JDunkerley.AlteryxAddIns.Framework.Factories;
 
     public class TickingClock :
         BaseTool<TickingClock.Config, TickingClock.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
@@ -63,26 +66,28 @@
             public long RecordLimit { get; set; }
         }
 
-        public class Engine : BaseEngine<Config>
+        public class Engine : BaseStreamEngine<Config>
         {
             private ConcurrentQueue<DateTime> _ticks;
 
             private AutoResetEvent _resetEvent;
 
             /// <summary>
-            ///
+            /// Constructor for Alteryx Engine
             /// </summary>
             public Engine()
-                : base(null)
+                : this(new OutputHelperFactory())
             {
-
             }
 
             /// <summary>
-            /// Gets or sets the output.
+            /// Create An Engine for unit testing.
             /// </summary>
-            [CharLabel('O')]
-            public OutputHelper Output { get; set; }
+            /// <param name="outputHelperFactory">Factory to create output helpers</param>
+            internal Engine(IOutputHelperFactory outputHelperFactory)
+                : base(null, outputHelperFactory)
+            {
+            }
 
             public override bool PI_PushAllRecords(long nRecordLimit)
             {
@@ -130,7 +135,7 @@
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
 
-                var recordOut = this.Output.CreateRecord();
+                var recordOut = this.Output.Record;
                 var fmt = this.ConfigObject.OutputType == OutputType.Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss";
 
                 nRecordLimit = Math.Min(nRecordLimit, this.ConfigObject.RecordLimit);

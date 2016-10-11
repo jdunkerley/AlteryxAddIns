@@ -119,17 +119,18 @@ namespace JDunkerley.AlteryxAddIns
             /// Constructor For Alteryx
             /// </summary>
             public Engine()
-                : this(new RecordCopierFactory(), new InputPropertyFactory())
+                : this(new RecordCopierFactory(), new InputPropertyFactory(), new OutputHelperFactory())
             {
             }
 
             /// <summary>
-            /// Create An Engine
+            /// Create An Engine for unit testing.
             /// </summary>
             /// <param name="recordCopierFactory">Factory to create copiers</param>
             /// <param name="inputPropertyFactory">Factory to create input properties</param>
-            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory)
-                : base(recordCopierFactory)
+            /// <param name="outputHelperFactory">Factory to create output helpers</param>
+            internal Engine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory, IOutputHelperFactory outputHelperFactory)
+                : base(recordCopierFactory, outputHelperFactory)
 
             {
                 this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
@@ -149,7 +150,7 @@ namespace JDunkerley.AlteryxAddIns
             /// Gets or sets the output stream.
             /// </summary>
             [CharLabel('O')]
-            public OutputHelper Output { get; set; }
+            public IOutputHelper Output { get; set; }
 
             private void OnInit(object sender, SuccessEventArgs args)
             {

@@ -65,6 +65,7 @@
     <Compile Include="SortWithCulture.cs" />
     <Compile Include="StringFormatter.cs" />
     <Compile Include="TickingClock.cs" />
+    <Compile Include="TwitterStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CircuitBreaker.png">

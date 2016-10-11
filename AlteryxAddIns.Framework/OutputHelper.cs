@@ -5,10 +5,12 @@ namespace JDunkerley.AlteryxAddIns.Framework
 
     using AlteryxRecordInfoNet;
 
+    using Interfaces;
+
     /// <summary>
     /// Output Helper Class
     /// </summary>
-    public sealed class OutputHelper : IDisposable
+    internal sealed class OutputHelper : IDisposable, IOutputHelper
     {
         private readonly IBaseEngine _hostEngine;
 
@@ -70,7 +72,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         public void Init(RecordInfo recordInfo, XmlElement sortConfig = null, XmlElement oldConfig = null)
         {
             this.RecordInfo = recordInfo;
-            this._lazyRecord = new Lazy<Record>(this.CreateRecord);
+            this._lazyRecord = new Lazy<Record>(() => this.RecordInfo?.CreateRecord());
 
             this._recordCount = 0;
             this._recordLength = 0;
@@ -78,12 +80,6 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._helper?.Init(recordInfo, this._connectionName, sortConfig, oldConfig ?? this._hostEngine.XmlConfig);
             this._hostEngine.Engine.OutputMessage(this._hostEngine.NToolId, MessageStatus.STATUS_Info, $"Init called back on {this._connectionName}");
         }
-
-        /// <summary>
-        /// Create A New Record (Can be reused)
-        /// </summary>
-        /// <returns>An empty record based off the RecordInfo.</returns>
-        public Record CreateRecord() => this.RecordInfo?.CreateRecord();
 
         /// <summary>
         /// Pushes a record to Alteryx to hand onto over tools.
