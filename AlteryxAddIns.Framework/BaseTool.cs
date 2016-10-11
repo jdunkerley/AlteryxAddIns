@@ -17,6 +17,7 @@
     /// <seealso cref="AlteryxGuiToolkit.Plugins.IPlugin" />
     public abstract class BaseTool<TConfig, TEngine>
         where TConfig : new()
+        where TEngine : AlteryxRecordInfoNet.INetPlugin
     {
         private readonly Lazy<Image> _icon;
 
