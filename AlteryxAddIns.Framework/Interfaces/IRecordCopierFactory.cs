@@ -1,7 +1,7 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Framework.Interfaces
 {
     /// <summary>
-    /// Interface to decouple the construction of <see cref="IRecordCopier"/> objects from the engines.
+    /// Interface to decouple the construction of <see cref="IRecordCopier"/> objects from <see cref="BaseEngine{TConfig}"/>.
     /// </summary>
     public interface IRecordCopierFactory
     {

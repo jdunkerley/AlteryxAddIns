@@ -98,13 +98,9 @@
     <None Include="Install.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="InstallRelease.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="InstallRelease.bat" />
     <None Include="packages.config" />
-    <None Include="Uninstall.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Uninstall.bat" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlteryxAddIns.Framework\AlteryxAddIns.Framework.csproj">
@@ -117,8 +113,8 @@
     <PostBuildEvent>rmdir "$(SolutionDir)\Release\AddIns" /s /q
 mkdir "$(SolutionDir)\Release\AddIns"
 copy "$(TargetDir)\*.dll" "$(SolutionDir)\Release\AddIns\"
-copy "$(TargetDir)\InstallRelease.bat" "$(SolutionDir)\Release\Install.bat"
-copy "$(TargetDir)\UnInstall.bat" "$(SolutionDir)\Release\"
+copy "$(ProjectDir)\InstallRelease.bat" "$(SolutionDir)\Release\Install.bat"
+copy "$(ProjectDir)\UnInstall.bat" "$(SolutionDir)\Release\"
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
