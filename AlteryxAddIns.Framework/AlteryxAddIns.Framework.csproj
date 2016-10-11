@@ -64,7 +64,6 @@
     <Compile Include="Attributes\OrderingAttribute.cs" />
     <Compile Include="Attributes\PlugInGroupAttribute.cs" />
     <Compile Include="BaseEngine.cs" />
-    <Compile Include="BaseStreamEngine.cs" />
     <Compile Include="BaseTool.cs" />
     <Compile Include="ConfigWindows\BaseGui.cs">
       <SubType>UserControl</SubType>

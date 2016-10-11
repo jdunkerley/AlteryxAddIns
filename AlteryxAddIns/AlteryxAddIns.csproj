@@ -64,8 +64,6 @@
     <Compile Include="RandomNumber.cs" />
     <Compile Include="SortWithCulture.cs" />
     <Compile Include="StringFormatter.cs" />
-    <Compile Include="TickingClock.cs" />
-    <Compile Include="TwitterStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CircuitBreaker.png">
@@ -109,11 +107,6 @@
       <Project>{c2813972-ba56-42fe-b3f3-25da51733946}</Project>
       <Name>AlteryxAddIns.Framework</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TickingClock.png">
-      <DependentUpon>TickingClock.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
