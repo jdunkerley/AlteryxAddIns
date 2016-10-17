@@ -112,15 +112,16 @@
 
             private void OnInit(object sender, SuccessEventArgs args)
             {
-                var fieldDescription = this.ConfigObject?.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
+                var fieldDescription = this.ConfigObject?.OutputType.OutputDescription(
+                    this.ConfigObject.OutputFieldName,
+                    source: nameof(NumberParser),
+                    description: $"{this.ConfigObject.InputFieldName} parsed as a number");
+
                 if (fieldDescription == null)
                 {
                     args.Success = false;
                     return;
                 }
-                fieldDescription.Source = nameof(NumberParser);
-                fieldDescription.Description = $"{this.ConfigObject.InputFieldName} parsed as a number";
-
 
                 this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (this._inputFieldBase == null)

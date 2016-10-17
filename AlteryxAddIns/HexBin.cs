@@ -133,8 +133,9 @@
 
                 this.Output?.Init(FieldDescription.CreateRecordInfo(
                     this.Input.RecordInfo,
-                    new FieldDescription(this.ConfigObject.OutputBinXFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "X Co-ordinate of HexBin Centre" },
-                    new FieldDescription(this.ConfigObject.OutputBinYFieldName, FieldType.E_FT_Double) { Source = nameof(HexBin), Description = "Y Co-ordinate of HexBin Centre" }));
+                    OutputType.Double.OutputDescription(this.ConfigObject.OutputBinXFieldName, source: nameof(HexBin), description: "X Co-ordinate of HexBin Centre"),
+                    OutputType.Double.OutputDescription(this.ConfigObject.OutputBinYFieldName, source: nameof(HexBin), description: "Y Co-ordinate of HexBin Centre")));
+
                 this._outputBinXFieldBase = this.Output?[this.ConfigObject.OutputBinXFieldName];
                 this._outputBinYFieldBase = this.Output?[this.ConfigObject.OutputBinYFieldName];
 

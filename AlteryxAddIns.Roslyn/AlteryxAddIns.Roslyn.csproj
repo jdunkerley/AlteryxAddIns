@@ -111,7 +111,6 @@
     <None Include="Install.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="InstallRelease.bat" />
     <None Include="packages.config" />
     <None Include="Uninstall.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -133,11 +132,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rmdir "$(SolutionDir)\Release\Roslyn" /s /q
+    <PostBuildEvent>if $(ConfigurationName) equ Release (
+rmdir "$(SolutionDir)\Release\Roslyn" /s /q
 mkdir "$(SolutionDir)\Release\Roslyn"
 copy "$(ProjectDir)\*.dll" "$(SolutionDir)\Release\Roslyn\"
-copy "$(ProjectDir)\InstallRelease.bat" "$(SolutionDir)\Release\RoslynInstall.bat"
-</PostBuildEvent>
+)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns.Roslyn", "Alt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns", "AlteryxAddIns\AlteryxAddIns.csproj", "{9776ADBB-DE47-413F-897B-B6EF1AB368CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns.Streaming", "AlteryxAddIns.Streaming\AlteryxAddIns.Streaming.csproj", "{B1C1D886-9D3F-42CD-AF20-92553FB4540B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9776ADBB-DE47-413F-897B-B6EF1AB368CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9776ADBB-DE47-413F-897B-B6EF1AB368CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9776ADBB-DE47-413F-897B-B6EF1AB368CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1C1D886-9D3F-42CD-AF20-92553FB4540B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1C1D886-9D3F-42CD-AF20-92553FB4540B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1C1D886-9D3F-42CD-AF20-92553FB4540B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1C1D886-9D3F-42CD-AF20-92553FB4540B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

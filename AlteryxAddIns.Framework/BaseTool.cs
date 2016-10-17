@@ -9,6 +9,8 @@
 
     using ConfigWindows;
 
+    using Interfaces;
+
     /// <summary>
     /// Base Tool Class
     /// </summary>
@@ -38,7 +40,7 @@
 
             // Read Outgoing Connection Nodes
             this._outputConnections =
-                typeof(TEngine).GetProperties<OutputHelper>().ToConnections().ToArray();
+                typeof(TEngine).GetProperties<IOutputHelper>().ToConnections().ToArray();
         }
 
         /// <summary>

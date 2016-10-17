@@ -3,6 +3,8 @@ namespace JDunkerley.AlteryxAddIns.Framework
     using System;
     using System.Linq;
 
+    using AlteryxRecordInfoNet;
+
     /// <summary>
     /// Simple Field Descriptor Class
     /// </summary>
@@ -13,7 +15,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="fieldType">Type of the field.</param>
-        public FieldDescription(string name, AlteryxRecordInfoNet.FieldType fieldType)
+        public FieldDescription(string name, FieldType fieldType)
         {
             this.Name = name;
             this.FieldType = fieldType;
@@ -27,7 +29,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <summary>
         /// Gets the type of the field.
         /// </summary>
-        public AlteryxRecordInfoNet.FieldType FieldType { get; }
+        public FieldType FieldType { get; }
 
         /// <summary>
         /// Gets or sets the size of the field in bytes.
@@ -60,31 +62,31 @@ namespace JDunkerley.AlteryxAddIns.Framework
             switch (type.Name)
             {
                 case nameof(String):
-                    return OutputType.VWString.OutputDescription(name, 32000);
+                    return new FieldDescription(name, FieldType.E_FT_V_WString) { Size = 32000 };
 
                 case nameof(DateTime):
-                    return OutputType.DateTime.OutputDescription(name, 19);
+                    return new FieldDescription(name, FieldType.E_FT_DateTime);
 
                 case nameof(Boolean):
-                    return OutputType.Bool.OutputDescription(name);
+                    return new FieldDescription(name, FieldType.E_FT_Bool);
 
                 case nameof(Byte):
-                    return OutputType.Byte.OutputDescription(name);
+                    return new FieldDescription(name, FieldType.E_FT_Byte);
 
                 case nameof(Int16):
-                    return OutputType.Int16.OutputDescription(name);
+                    return new FieldDescription(name, FieldType.E_FT_Int16);
 
                 case nameof(Int32):
-                    return OutputType.Int32.OutputDescription(name);
+                    return new FieldDescription(name, FieldType.E_FT_Int32);
 
                 case nameof(Int64):
-                    return OutputType.Int64.OutputDescription(name);
+                    return new FieldDescription(name, FieldType.E_FT_Int64);
 
                 case nameof(Double):
-                    return OutputType.Double.OutputDescription(name);
+                    return new FieldDescription(name, FieldType.E_FT_Double);
 
                 case nameof(Single):
-                    return OutputType.Float.OutputDescription(name);
+                    return new FieldDescription(name, FieldType.E_FT_Float);
 
                 default:
                     return null;
@@ -96,7 +98,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// </summary>
         /// <param name="fields">Set of Field Descriptions.</param>
         /// <returns>A configured RecordInfo object.</returns>
-        public static AlteryxRecordInfoNet.RecordInfo CreateRecordInfo(
+        public static RecordInfo CreateRecordInfo(
             params FieldDescription[] fields)
         {
             return CreateRecordInfo(null, fields);
@@ -108,12 +110,12 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="inputRecordInfo">Existing RecordInfo object.</param>
         /// <param name="fields">Set of Field Descriptions.</param>
         /// <returns>A configured RecordInfo object.</returns>
-        public static AlteryxRecordInfoNet.RecordInfo CreateRecordInfo(
-            AlteryxRecordInfoNet.RecordInfo inputRecordInfo,
+        public static RecordInfo CreateRecordInfo(
+            RecordInfo inputRecordInfo,
             params FieldDescription[] fields)
         {
             var fieldDict = fields.ToDictionary(f => f.Name, f => false);
-            var output = new AlteryxRecordInfoNet.RecordInfo();
+            var output = new RecordInfo();
 
             if (inputRecordInfo != null)
             {

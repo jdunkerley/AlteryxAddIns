@@ -64,6 +64,7 @@
     <Compile Include="Attributes\OrderingAttribute.cs" />
     <Compile Include="Attributes\PlugInGroupAttribute.cs" />
     <Compile Include="BaseEngine.cs" />
+    <Compile Include="BaseStreamEngine.cs" />
     <Compile Include="BaseTool.cs" />
     <Compile Include="ConfigWindows\BaseGui.cs">
       <SubType>UserControl</SubType>
@@ -87,6 +88,7 @@
     <Compile Include="Interfaces\IOutputHelperFactory.cs" />
     <Compile Include="Interfaces\IRecordCopier.cs" />
     <Compile Include="Interfaces\IRecordCopierFactory.cs" />
+    <Compile Include="Interfaces\IRecordLimit.cs" />
     <Compile Include="Interfaces\ProgressUpdatedEventArgs.cs" />
     <Compile Include="Interfaces\ProgressUpdatedEventHandler.cs" />
     <Compile Include="Interfaces\RecordPushedEventArgs.cs" />

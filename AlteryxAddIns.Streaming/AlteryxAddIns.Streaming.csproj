@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9776ADBB-DE47-413F-897B-B6EF1AB368CF}</ProjectGuid>
+    <ProjectGuid>{B1C1D886-9D3F-42CD-AF20-92553FB4540B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JDunkerley.AlteryxAddIns</RootNamespace>
-    <AssemblyName>JDunkerley.AlteryxAddIns</AssemblyName>
+    <RootNamespace>JDunkerley.AlteryxAddIns.Streaming</RootNamespace>
+    <AssemblyName>JDunkerley.AlteryxAddIns.Streaming</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,13 +40,6 @@
       <HintPath>..\..\..\Program Files\Alteryx\bin\AlteryxRecordInfo.Net.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MathNet.Numerics">
-      <HintPath>..\packages\MathNet.Numerics.3.13.1\lib\net40\MathNet.Numerics.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -58,65 +51,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CircuitBreaker.cs" />
-    <Compile Include="DateTimeInput.cs" />
-    <Compile Include="DateTimeParser.cs" />
-    <Compile Include="HashCodeGenerator.cs" />
-    <Compile Include="HexBin.cs" />
-    <Compile Include="NumberParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomNumber.cs" />
-    <Compile Include="SortWithCulture.cs" />
-    <Compile Include="StringFormatter.cs" />
+    <Compile Include="TickingClock.cs" />
+    <Compile Include="TwitterStream.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CircuitBreaker.png">
-      <DependentUpon>CircuitBreaker.cs</DependentUpon>
+    <EmbeddedResource Include="TickingClock.png">
+      <DependentUpon>TickingClock.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DateTimeInput.png">
-      <DependentUpon>DateTimeInput.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DateTimeParser.png">
-      <DependentUpon>DateTimeParser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HashCodeGenerator.png">
-      <DependentUpon>HashCodeGenerator.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HexBin.png">
-      <DependentUpon>HexBin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NumberParser.png">
-      <DependentUpon>NumberParser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RandomNumber.png">
-      <DependentUpon>RandomNumber.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SortWithCulture.png">
-      <DependentUpon>SortWithCulture.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StringFormatter.png">
-      <DependentUpon>StringFormatter.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Install.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
-    <None Include="Uninstall.bat" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlteryxAddIns.Framework\AlteryxAddIns.Framework.csproj">
       <Project>{c2813972-ba56-42fe-b3f3-25da51733946}</Project>
       <Name>AlteryxAddIns.Framework</Name>
+      <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Uninstall.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) equ Release (
-rmdir "$(SolutionDir)\Release\AddIns" /s /q
-mkdir "$(SolutionDir)\Release\AddIns"
-copy "$(TargetDir)\*.dll" "$(SolutionDir)\Release\AddIns\"
+rmdir "$(SolutionDir)\Release\Streaming" /s /q
+mkdir "$(SolutionDir)\Release\Streaming"
+copy "$(ProjectDir)\*.dll" "$(SolutionDir)\Release\Roslyn\"
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

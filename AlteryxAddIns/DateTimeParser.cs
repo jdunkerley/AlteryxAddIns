@@ -140,15 +140,16 @@
 
             private void OnInit(object sender, SuccessEventArgs args)
             {
-                var fieldDescription = this.ConfigObject.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
+                var fieldDescription = this.ConfigObject.OutputType.OutputDescription(
+                    this.ConfigObject.OutputFieldName,
+                    source: nameof(DateTimeParser),
+                    description: $"{this.ConfigObject.InputFieldName} parsed as a DateTime");
+
                 if (fieldDescription == null)
                 {
                     args.Success = false;
                     return;
                 }
-                fieldDescription.Source = nameof(DateTimeParser);
-                fieldDescription.Description = $"{this.ConfigObject.InputFieldName} parsed as a DateTime";
-
 
                 this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (this._inputFieldBase == null)

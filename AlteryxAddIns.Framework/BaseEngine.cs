@@ -111,7 +111,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="pIncomingConnectionType">The name of connection given in GetInputConnections.</param>
         /// <param name="pIncomingConnectionName">The name the user gave the connection.</param>
         /// <returns>An <see cref="AlteryxRecordInfoNet.IIncomingConnectionInterface"/> set up to handle the connection.</returns>
-        public virtual AlteryxRecordInfoNet.IIncomingConnectionInterface PI_AddIncomingConnection(string pIncomingConnectionType, string pIncomingConnectionName)
+        public AlteryxRecordInfoNet.IIncomingConnectionInterface PI_AddIncomingConnection(string pIncomingConnectionType, string pIncomingConnectionName)
         {
             PropertyInfo prop;
             if (!this._inputs.TryGetValue(pIncomingConnectionType, out prop))
@@ -134,7 +134,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="pOutgoingConnectionName">The name will be the name that you gave the connection in the IPlugin.GetOutputConnections() method.</param>
         /// <param name="outgoingConnection">You will need to use the OutgoingConnection object to send your data downstream.</param>
         /// <returns>True if the connection was handled successfully, false otherwise.</returns>
-        public virtual bool PI_AddOutgoingConnection(string pOutgoingConnectionName, AlteryxRecordInfoNet.OutgoingConnection outgoingConnection)
+        public bool PI_AddOutgoingConnection(string pOutgoingConnectionName, AlteryxRecordInfoNet.OutgoingConnection outgoingConnection)
         {
             PropertyInfo prop;
             if (!this._outputs.TryGetValue(pOutgoingConnectionName, out prop))
@@ -187,7 +187,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
 #if DEBUG
         public bool ShowDebugMessages() => true;
 #else
-        public virtual bool ShowDebugMessages() => false;
+        public bool ShowDebugMessages() => false;
 #endif
 
         /// <summary>

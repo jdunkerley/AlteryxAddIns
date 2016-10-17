@@ -187,14 +187,16 @@
             {
                 this._nextValue = this.ConfigObject.CreateRandomFunc();
 
-                var fieldDescription = this.ConfigObject.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
+                var fieldDescription = this.ConfigObject.OutputType.OutputDescription(
+                    this.ConfigObject.OutputFieldName,
+                    source: nameof(RandomNumber),
+                    description: $"Random Number {this.ConfigObject.ToString().Replace($"{this.ConfigObject.OutputFieldName}=", "")}");
+
                 if (fieldDescription == null)
                 {
                     args.Success = false;
                     return;
                 }
-                fieldDescription.Source = nameof(RandomNumber);
-                fieldDescription.Description = $"Random Number {this.ConfigObject.ToString().Replace($"{this.ConfigObject.OutputFieldName}=", "")}";
 
                 this.Output?.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo, fieldDescription));
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];

@@ -100,13 +100,15 @@
                     return false;
                 }
 
-                var fieldDescription = this.ConfigObject.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
+                var fieldDescription = this.ConfigObject.OutputType.OutputDescription(
+                    this.ConfigObject.OutputFieldName,
+                    source: nameof(DateTimeInput),
+                    description: this.ConfigObject.DateToReturn.ToString());
+
                 if (fieldDescription == null)
                 {
                     return false;
                 }
-                fieldDescription.Source = nameof(DateTimeInput);
-                fieldDescription.Description = $"{this.ConfigObject.DateToReturn}";
 
                 var recordInfo = FieldDescription.CreateRecordInfo(fieldDescription);
 
