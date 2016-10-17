@@ -77,7 +77,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) equ Release (
+    <PostBuildEvent>if $(ConfigurationName) equ "Release" (
 rmdir "$(SolutionDir)\Release\Streaming" /s /q
 mkdir "$(SolutionDir)\Release\Streaming"
 copy "$(ProjectDir)\*.dll" "$(SolutionDir)\Release\Roslyn\"

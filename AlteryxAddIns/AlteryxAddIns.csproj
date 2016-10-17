@@ -113,10 +113,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) equ Release (
-rmdir "$(SolutionDir)\Release\AddIns" /s /q
-mkdir "$(SolutionDir)\Release\AddIns"
-copy "$(TargetDir)\*.dll" "$(SolutionDir)\Release\AddIns\"
+    <PostBuildEvent>if $(ConfigurationName) equ "Release" (
+    rmdir "$(SolutionDir)\Release\AddIns" /s /q
+    mkdir "$(SolutionDir)\Release\AddIns"
+    copy "$(TargetDir)\*.dll" "$(SolutionDir)\Release\AddIns\"
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
