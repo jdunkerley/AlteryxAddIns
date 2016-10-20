@@ -16,12 +16,12 @@ namespace JDunkerley.AlteryxAddIns.Framework
     /// </summary>
     /// <typeparam name="TConfig">Configuration object for reading XML into.</typeparam>
     /// <typeparam name="TValue">Type of value queued from background thread to push</typeparam>
-    public abstract class BaseStreamEngine<TConfig, TValue> : BaseEngine<TConfig>
+    public abstract class BaseStreamEngine<TConfig, TValue> : BaseEngine<TConfig>, IDisposable
         where TConfig : IRecordLimit, new()
     {
         private ConcurrentQueue<TValue> _ticks;
 
-        private AutoResetEvent _resetEvent;
+        private ManualResetEventSlim _resetEvent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseStreamEngine{TConfig, TValue}"/> class.
@@ -65,7 +65,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this.Output.Init(recordInfo);
 
             this._ticks = new ConcurrentQueue<TValue>();
-            this._resetEvent = new AutoResetEvent(false);
+            this._resetEvent = new ManualResetEventSlim(false);
 
             if (nRecordLimit == 0)
             {
@@ -84,7 +84,7 @@ namespace JDunkerley.AlteryxAddIns.Framework
             nRecordLimit = Math.Min(nRecordLimit, this.ConfigObject.RecordLimit);
             while (nRecordLimit > 0)
             {
-                this._resetEvent.WaitOne(250);
+                this._resetEvent.Wait(250);
 
                 TValue tmp;
                 if (this._ticks.TryDequeue(out tmp))
@@ -94,6 +94,10 @@ namespace JDunkerley.AlteryxAddIns.Framework
                     this.Output.Push(recordOut, false, 1);
                     nRecordLimit--;
                 }
+                else
+                {
+                    this._resetEvent.Reset();
+                }
             }
 
             this.Output.Close(true);
@@ -102,6 +106,31 @@ namespace JDunkerley.AlteryxAddIns.Framework
             this._resetEvent = null;
 
             return true;
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Bulk of the disposing method
+        /// </summary>
+        /// <param name="disposing">Called from Dispose method</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this._resetEvent != null)
+                {
+                    this._resetEvent.Dispose();
+                    this._resetEvent = null;
+                }
+            }
         }
 
         /// <summary>
