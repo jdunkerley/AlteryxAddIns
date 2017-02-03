@@ -15,19 +15,6 @@
     /// </summary>
     public static class ReflectionHelpers
     {
-        static ReflectionHelpers()
-        {
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-                {
-                    if (args.Name == Assembly.GetAssembly(typeof(ReflectionHelpers)).FullName)
-                    {
-                        return Assembly.GetAssembly(typeof(ReflectionHelpers));
-                    }
-
-                    return null;
-                };
-        }
-
         /// <summary>
         /// Gets all properties of a <see cref="Type"/> which can be assigned to a <typeparamref name="T"/>.
         /// </summary>
@@ -36,6 +23,11 @@
         /// <returns>Dictionary of properties for the type</returns>
         public static Dictionary<string, PropertyInfo> GetProperties<T>(this Type type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
             var properties =
                 type
                     .GetProperties()
@@ -53,12 +45,17 @@
         /// <summary>
         /// Converts ordered set of properties into Alteryx Connections
         /// </summary>
-        /// <param name="connections">The connections.</param>
+        /// <param name="properties">The properties to form the connections.</param>
         /// <returns>Set of Alteryx Connection objects in the specified order with labels and names set.</returns>
         public static IEnumerable<Connection> ToConnections(
-            this IEnumerable<KeyValuePair<string, PropertyInfo>> connections)
+            this IEnumerable<KeyValuePair<string, PropertyInfo>> properties)
         {
-            return connections
+            if (properties == null)
+            {
+                throw new ArgumentNullException(nameof(properties));
+            }
+
+            return properties
                 .OrderBy(kvp => kvp.Value.GetAttrib<OrderingAttribute>()?.Order ?? int.MaxValue)
                 .ThenBy(kvp => kvp.Key)
                 .Select(
@@ -80,6 +77,11 @@
         /// <returns>Attribute or null if not found.</returns>
         internal static TAttrib GetAttrib<TAttrib>(this PropertyInfo propertyInfo)
         {
+            if (propertyInfo == null)
+            {
+                throw new ArgumentNullException(nameof(propertyInfo));
+            }
+
             return propertyInfo.GetCustomAttributes(typeof(TAttrib), true).Cast<TAttrib>().FirstOrDefault();
         }
 
@@ -87,12 +89,17 @@
         /// Gets matching attribute in an attribute collection.
         /// </summary>
         /// <typeparam name="TAttrib">Attribute type to find.</typeparam>
-        /// <param name="attribsCollection">Collection of attributes to scan.</param>
+        /// <param name="attributeCollection">Collection of attributes to scan.</param>
         /// <returns>Attribute or null if not found.</returns>
-        internal static TAttrib GetAttrib<TAttrib>(this AttributeCollection attribsCollection)
+        internal static TAttrib GetAttrib<TAttrib>(this AttributeCollection attributeCollection)
             where TAttrib : class
         {
-            foreach (var attribute in attribsCollection)
+            if (attributeCollection == null)
+            {
+                throw new ArgumentNullException(nameof(attributeCollection));
+            }
+
+            foreach (var attribute in attributeCollection)
             {
                 var attrib = attribute as TAttrib;
                 if (attrib != null)

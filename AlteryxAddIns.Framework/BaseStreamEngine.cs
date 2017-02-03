@@ -2,6 +2,8 @@ namespace JDunkerley.AlteryxAddIns.Framework
 {
     using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -51,12 +53,12 @@ namespace JDunkerley.AlteryxAddIns.Framework
             {
                 this.Engine.OutputMessage(
                     this.NToolId,
-                    AlteryxRecordInfoNet.MessageStatus.STATUS_Error,
+                    MessageStatus.STATUS_Error,
                     "Output is not set.");
                 return false;
             }
 
-            var recordInfo = this.CreateRecordInfo();
+            var recordInfo = FieldDescription.CreateRecordInfo(this.CreateFieldDescriptions().ToArray());
             if (recordInfo == null)
             {
                 return false;
@@ -144,10 +146,10 @@ namespace JDunkerley.AlteryxAddIns.Framework
         }
 
         /// <summary>
-        /// Create the <see cref="RecordInfo"/> for the output stream
+        /// Create the meta-data for the output stream
         /// </summary>
-        /// <returns>A <see cref="RecordInfo"/> configured with the output columns.</returns>
-        protected abstract RecordInfo CreateRecordInfo();
+        /// <returns>A collection <see cref="FieldDescription"/> which contain the output columns.</returns>
+        protected abstract IEnumerable<FieldDescription> CreateFieldDescriptions();
 
         /// <summary>
         /// Create the background thread that will generate the data stream.

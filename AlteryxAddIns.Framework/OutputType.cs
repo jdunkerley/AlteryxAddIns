@@ -3,7 +3,7 @@
     // ToDo: Add support for fixed decimal.
 
     /// <summary>
-    /// Enumeration Representing All The Alteryx DataTypes
+    /// Enumeration Representing All The Alteryx DataTypes Supported In Framework
     /// </summary>
     public enum OutputType
     {
@@ -51,6 +51,11 @@
         /// DateTime Value
         /// </summary>
         DateTime = AlteryxRecordInfoNet.FieldType.E_FT_DateTime,
+
+        /// <summary>
+        /// Fixed Decimal Value
+        /// </summary>
+        FixedDecimal = AlteryxRecordInfoNet.FieldType.E_FT_FixedDecimal,
 
         /// <summary>
         /// Time Value

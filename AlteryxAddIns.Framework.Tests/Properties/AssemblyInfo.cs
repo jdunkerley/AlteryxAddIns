@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AlteryxAddIns.Streaming")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("AlteryxAddIns.Framework.Tests")]
+[assembly: AssemblyDescription("Unit Tests for AlteryxAddIns.Framework")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AlteryxAddIns.Streaming")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("AlteryxAddIns.Framework.Tests")]
+[assembly: AssemblyCopyright("Copyright © James Dunkerley 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b1c1d886-9d3f-42cd-af20-92553fb4540b")]
+[assembly: Guid("5cdeb5ba-5057-4e5f-a882-b587d9710f5b")]
 
 // Version information for an assembly consists of the following four values:
 //

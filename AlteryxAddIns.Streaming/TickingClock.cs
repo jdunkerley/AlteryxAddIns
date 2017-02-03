@@ -1,10 +1,10 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Streaming
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using System.Threading;
-
-    using AlteryxRecordInfoNet;
 
     using Framework;
     using Framework.Attributes;
@@ -67,7 +67,7 @@
 
         public class Engine : BaseStreamEngine<Config, DateTime>
         {
-            private string fmt;
+            private string _fmt;
 
             /// <summary>
             /// Constructor for Alteryx Engine
@@ -87,14 +87,14 @@
             }
 
             /// <summary>
-            /// Called after <see cref="PI_Init"/> is done.
+            /// Called after <see cref="BaseEngine{TConfig}.PI_Init"/> is done.
             /// </summary>
             protected override void OnInitCalled()
             {
-                this.fmt = this.ConfigObject.OutputType == OutputType.Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss";
+                this._fmt = this.ConfigObject.OutputType == OutputType.Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss";
             }
 
-            protected override RecordInfo CreateRecordInfo()
+            protected override IEnumerable<FieldDescription> CreateFieldDescriptions()
             {
                 var fieldDescription = this.ConfigObject.OutputType.OutputDescription(
                     this.ConfigObject.OutputFieldName,
@@ -103,10 +103,10 @@
 
                 if (fieldDescription == null)
                 {
-                    return null;
+                    return Enumerable.Empty<FieldDescription>();
                 }
 
-                return FieldDescription.CreateRecordInfo(fieldDescription);
+                return new[] { fieldDescription };
             }
 
             protected override Action CreateBackgroundAction(CancellationToken token)
@@ -123,9 +123,9 @@
                     };
             }
 
-            protected override void UpdateRecord(Record record, DateTime value)
+            protected override void UpdateRecord(AlteryxRecordInfoNet.Record record, DateTime value)
             {
-                this.Output[this.ConfigObject.OutputFieldName]?.SetFromString(record, value.ToString(fmt));
+                this.Output[this.ConfigObject.OutputFieldName]?.SetFromString(record, value.ToString(this._fmt));
             }
         }
     }

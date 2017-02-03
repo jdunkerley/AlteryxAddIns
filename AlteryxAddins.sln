@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns", "AlteryxAdd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns.Streaming", "AlteryxAddIns.Streaming\AlteryxAddIns.Streaming.csproj", "{B1C1D886-9D3F-42CD-AF20-92553FB4540B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns.Framework.Tests", "AlteryxAddIns.Framework.Tests\AlteryxAddIns.Framework.Tests.csproj", "{5CDEB5BA-5057-4E5F-A882-B587D9710F5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B1C1D886-9D3F-42CD-AF20-92553FB4540B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1C1D886-9D3F-42CD-AF20-92553FB4540B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1C1D886-9D3F-42CD-AF20-92553FB4540B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CDEB5BA-5057-4E5F-A882-B587D9710F5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CDEB5BA-5057-4E5F-A882-B587D9710F5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CDEB5BA-5057-4E5F-A882-B587D9710F5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CDEB5BA-5057-4E5F-A882-B587D9710F5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

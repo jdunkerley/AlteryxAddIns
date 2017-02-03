@@ -1,6 +1,7 @@
 ﻿namespace JDunkerley.AlteryxAddIns.Streaming
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -61,13 +62,14 @@
             {
             }
 
-            protected override RecordInfo CreateRecordInfo()
+            protected override IEnumerable<FieldDescription> CreateFieldDescriptions()
             {
                 return
-                    FieldDescription.CreateRecordInfo(
+                    new [] {
                         OutputType.VWString.OutputDescription(nameof(Tweet.UserName), 256),
                         OutputType.VWString.OutputDescription(nameof(Tweet.Body), 256),
-                        OutputType.DateTime.OutputDescription(nameof(Tweet.TimeStamp)));
+                        OutputType.DateTime.OutputDescription(nameof(Tweet.TimeStamp))
+                        };
             }
 
             protected override void OnInitCalled()
