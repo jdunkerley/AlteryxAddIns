@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>James HTML Play</title>
+
+    <script type="text/javascript">
+        document.write(`<link rel="stylesheet" type="text/css" href="${window.Alteryx.LibDir}1/css/alteryx-config.css">`)
+        document.write(`<link rel="stylesheet" type="text/css" href="${window.Alteryx.LibDir}1/lib/alteryx/gui/plugin-widgets/alteryx-desktop-widgets.css">`)
+        document.write(`<link rel="stylesheet" type="text/css" href="${window.Alteryx.LibDir}1/lib/build/designerDesktop.css">`)
+        document.write(`<script src="${window.Alteryx.LibDir}1/lib/build/designerDesktop.bundle.js">\x3c/script>`)
+    </script>
+    <script src="codemirror.js"></script>
+    <script src="codemirror-regex.js"></script>
+    <link rel="stylesheet" href="codemirror.css">
+    <link rel="stylesheet" href="codemirror-regex.css">
+</head>
+<body>
+	<form>
+        <fieldset>
+            <legend class='blueTitle'>Output Method</legend>
+            <div>
+                <label for="regexType">Mode</label>
+                <alteryx-pluginwidget type="DropDown" id="method" dataName="Method"></alteryx-pluginwidget>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend class='blueTitle'>Input Field</legend>
+            <div>
+                <label for="fieldSelector">Name</label>
+                <alteryx-pluginwidget type="DropDown" dataType="FieldSelector" id="fieldSelector" dataName="Field" connectionNumber="0" inputNumber="0" fieldType="StringOrDate"></alteryx-pluginwidget>
+            </div>
+            <div>
+                <alteryx-pluginwidget type="CheckBox" id="showPreview" showAsToggle="true" text="Show Preview" dataName="showPreview"></alteryx-pluginwidget>
+                <pre id="preview" style="background-color: #f7f7f7">&nbsp;</pre>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend class='blueTitle'>Regular Expression</legend>
+            <div>
+                <!--DataName RegExExpression-->
+                <label for="regularExpression">Expression</label>
+                <textarea id="regularExpression" style="height: 1.5em"></textarea>
+            </div>
+            <div>
+                <alteryx-pluginwidget type="CheckBox" id="caseInsensitive" dataName="CaseInsensitive" showAsToggle="true" text="Case Insensitive"></alteryx-pluginwidget>
+            </div>
+        </fieldset>
+        <fieldset id="MatchFieldSet">
+            <legend class='blueTitle'>Match Field</legend>
+            <div>
+                <label for="matchField">Name</label>
+                <alteryx-pluginwidget type="TextBox" id="matchField" dataName="MatchField"></alteryx-pluginwidget>
+            </div>
+            <div>
+                <alteryx-pluginwidget type="CheckBox" id="errorUnmatched" dataName="ErrorUnmatched" showAsToggle="true" text="Error if not matched"></alteryx-pluginwidget>
+            </div>
+        </fieldset>
+
+        <pre id='bananas'></pre>
+	</form>
+    <script type="text/javascript" src="OmnibusHTMLHelper.js"></script>
+    <script type="text/javascript" src="OmnibusRegEx.js"></script>
+</body>
+</html>
