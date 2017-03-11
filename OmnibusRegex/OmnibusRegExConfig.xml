@@ -9,7 +9,7 @@
   <!-- A filename of the form file://path/FileName.html will load the specified file from this plugin's directory. -->
   <!-- A filename of the form file://C:/path/FileName.html will load the specified file from an absolute path. -->
   <!-- An HTML filename without a preceding path or protocol indicator will load that HTML file in the Alteryx web help. -->
-  <GuiSettings Html="OmnibusRegEx.html" Icon="RegEx.png" SDKVersion="10.1">
+  <GuiSettings Html="OmnibusRegEx.html" Icon="OmnibusRegEx.png" SDKVersion="10.1">
     <InputConnections>
       <Connection Name="Input" AllowMultiple="False" Optional="True" Type="Connection" />
     </InputConnections>
@@ -17,4 +17,16 @@
       <Connection Name="Output" AllowMultiple="False" Optional="True" Type="Connection" />
     </OutputConnections>
   </GuiSettings>
+   <Properties>
+    <MetaInfo>
+      <Name>Omnibus Regex</Name>
+      <Description>Regex with an HTML GUI</Description>
+      <CategoryName>Parse</CategoryName>
+      <SearchTags>regular expression , regular , data , parse , text , regex , parse category</SearchTags>
+      <Example>
+        <Description>Open Example</Description>
+        <File>04 Parse\RegEx.yxmd</File>
+      </Example>
+    </MetaInfo>
+  </Properties>
 </AlteryxJavaScriptPlugin>

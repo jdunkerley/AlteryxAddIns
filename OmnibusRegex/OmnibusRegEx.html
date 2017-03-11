@@ -45,6 +45,10 @@
             <div>
                 <alteryx-pluginwidget type="CheckBox" id="caseInsensitive" dataName="CaseInsensitive" showAsToggle="true" text="Case Insensitive"></alteryx-pluginwidget>
             </div>
+            <div id="previewRegex">
+                <label for="previewResult">Preview</label>
+                <pre id="previewResult" style="background-color: #f7f7f7">&nbsp;</pre>
+            </div>
         </fieldset>
         <fieldset id="MatchFieldSet">
             <legend class='blueTitle'>Match Field</legend>
@@ -56,8 +60,16 @@
                 <alteryx-pluginwidget type="CheckBox" id="errorUnmatched" dataName="ErrorUnmatched" showAsToggle="true" text="Error if not matched"></alteryx-pluginwidget>
             </div>
         </fieldset>
-
-        <pre id='bananas'></pre>
+        <fieldset id="ReplaceFieldSet">
+            <legend class='blueTitle'>Replace</legend>
+            <div>
+                <label for="replaceExpression">Expression</label>
+                <alteryx-pluginwidget type="TextBox" id="replaceExpression" dataName="ReplaceExpression"></alteryx-pluginwidget>
+            </div>
+            <!--<div>
+                <alteryx-pluginwidget type="CheckBox" id="copyUnmatched" dataName="CopyUnmatched" showAsToggle="true" text="Copy unmatched text to output"></alteryx-pluginwidget>
+            </div>-->
+        </fieldset>
 	</form>
     <script type="text/javascript" src="OmnibusHTMLHelper.js"></script>
     <script type="text/javascript" src="OmnibusRegEx.js"></script>
