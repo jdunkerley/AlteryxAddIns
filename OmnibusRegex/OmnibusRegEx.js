@@ -73,8 +73,9 @@ Alteryx.Gui.AfterLoad = function(manager, AlteryxDataItems){
     const fieldItem = manager.GetDataItem('Field')
     const methodItem = manager.GetDataItem('Method')
     const regExExpressionItem = manager.GetDataItem('RegExExpressionTemp')
+    const caseInsensitiveItem = manager.GetDataItem('CaseInsensitive')
     const replaceItem = manager.GetDataItem('ReplaceExpression')
-    const callReevaluate = () => reevaluate(fieldItem.value, methodItem.value, regExExpressionItem.value, '', replaceItem.value)
+    const callReevaluate = () => reevaluate(fieldItem.value, methodItem.value, regExExpressionItem.value, caseInsensitiveItem.value, replaceItem.value)
 
     const getFieldPreview = (v) => document.getElementById('preview').textContent = (v && previewData ? previewData[v] : ' ')
     plugInHelper.getInputDataArray('', 1, d => {

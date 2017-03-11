@@ -22,7 +22,7 @@
       <Name>Omnibus Regex</Name>
       <Description>Regex with an HTML GUI</Description>
       <CategoryName>Parse</CategoryName>
-      <SearchTags>regular expression , regular , data , parse , text , regex , parse category</SearchTags>
+      <SearchTags>omnibus, regular expression , regular , data , parse , text , regex , parse category</SearchTags>
       <Example>
         <Description>Open Example</Description>
         <File>04 Parse\RegEx.yxmd</File>
