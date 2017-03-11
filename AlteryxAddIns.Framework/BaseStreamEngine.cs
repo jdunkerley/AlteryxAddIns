@@ -1,18 +1,18 @@
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+using AlteryxRecordInfoNet;
+
+using JDunkerley.AlteryxAddIns.Framework.Attributes;
+
+using JDunkerley.AlteryxAddIns.Framework.Interfaces;
+
 namespace JDunkerley.AlteryxAddIns.Framework
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    using AlteryxRecordInfoNet;
-
-    using Attributes;
-
-    using Interfaces;
-
     /// <summary>
     /// Base streaming input tool. Has a single output.
     /// </summary>
@@ -125,13 +125,10 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// <param name="disposing">Called from Dispose method</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && this._resetEvent != null)
             {
-                if (this._resetEvent != null)
-                {
-                    this._resetEvent.Dispose();
-                    this._resetEvent = null;
-                }
+                this._resetEvent.Dispose();
+                this._resetEvent = null;
             }
         }
 

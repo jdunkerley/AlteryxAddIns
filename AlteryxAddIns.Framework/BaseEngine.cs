@@ -1,13 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Xml;
+using System.Xml.Serialization;
+
+using JDunkerley.AlteryxAddIns.Framework.Interfaces;
+
 namespace JDunkerley.AlteryxAddIns.Framework
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Xml;
-    using System.Xml.Serialization;
-
-    using Interfaces;
-
     /// <summary>
     /// Base Implementation of an <see cref="AlteryxRecordInfoNet.INetPlugin"/>
     /// </summary>
@@ -184,11 +184,14 @@ namespace JDunkerley.AlteryxAddIns.Framework
         /// Tells Alteryx whether to show debug error messages or not.
         /// </summary>
         /// <returns>A value indicating whether to show debug error messages or not.</returns>
+        public bool ShowDebugMessages()
+        {
 #if DEBUG
-        public bool ShowDebugMessages() => true;
+            return true;
 #else
-        public bool ShowDebugMessages() => false;
+            return false;
 #endif
+        }
 
         /// <summary>
         /// Tell Alteryx execution is complete.

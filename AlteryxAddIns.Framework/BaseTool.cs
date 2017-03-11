@@ -1,4 +1,4 @@
-﻿namespace JDunkerley.AlteryxAddIns.Framework
+﻿]namespace JDunkerley.AlteryxAddIns.Framework
 {
     using System;
     using System.Drawing;
