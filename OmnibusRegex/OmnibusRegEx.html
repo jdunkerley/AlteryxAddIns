@@ -14,61 +14,76 @@
     <script src="codemirror-regex.js"></script>
     <link rel="stylesheet" href="codemirror.css">
     <link rel="stylesheet" href="codemirror-regex.css">
+    <style>
+.CodeMirror {
+  line-height: 1.2em;
+  height: 1.7em;
+  min-height: 0
+}
+
+.alteryx-toggle-switch-outer {
+  position: absolute;
+  right: 4px;
+}
+    </style>
 </head>
 <body>
 	<form>
         <fieldset>
             <legend class='blueTitle'>Output Method</legend>
-            <div>
-                <label for="regexType">Mode</label>
-                <alteryx-pluginwidget type="DropDown" id="method" dataName="Method"></alteryx-pluginwidget>
-            </div>
+
+            <label for="regexType">Mode</label>
+            <alteryx-pluginwidget type="DropDown" id="method" dataName="MethodTemp"></alteryx-pluginwidget>
         </fieldset>
         <fieldset>
             <legend class='blueTitle'>Input Field</legend>
-            <div>
-                <label for="fieldSelector">Name</label>
-                <alteryx-pluginwidget type="DropDown" dataType="FieldSelector" id="fieldSelector" dataName="Field" connectionNumber="0" inputNumber="0" fieldType="StringOrDate"></alteryx-pluginwidget>
-            </div>
-            <div>
-                <alteryx-pluginwidget type="CheckBox" id="showPreview" showAsToggle="true" text="Show Preview" dataName="showPreview"></alteryx-pluginwidget>
-                <pre id="preview" style="background-color: #f7f7f7">&nbsp;</pre>
-            </div>
+
+            <label for="fieldSelector">Name</label>
+            <alteryx-pluginwidget type="DropDown" dataType="FieldSelector" id="fieldSelector" dataName="Field" connectionNumber="0" inputNumber="0" fieldType="StringOrDate"></alteryx-pluginwidget>
+
+            <alteryx-pluginwidget type="CheckBox" id="showPreview" showAsToggle="true" text="Show Preview?" dataName="showPreview"></alteryx-pluginwidget>
+            <pre id="preview" style="background-color: #d2d2d2; border-color: #999;">&nbsp;</pre>
         </fieldset>
         <fieldset>
             <legend class='blueTitle'>Regular Expression</legend>
-            <div>
-                <!--DataName RegExExpression-->
-                <label for="regularExpression">Expression</label>
-                <textarea id="regularExpression" style="height: 1.5em"></textarea>
-            </div>
-            <div>
-                <alteryx-pluginwidget type="CheckBox" id="caseInsensitive" dataName="CaseInsensitive" showAsToggle="true" text="Case Insensitive"></alteryx-pluginwidget>
-            </div>
-            <div id="previewRegex">
-                <label for="previewResult">Preview</label>
-                <pre id="previewResult" style="background-color: #f7f7f7">&nbsp;</pre>
-            </div>
+
+            <!--DataName RegExExpression-->
+            <label for="regularExpression">Expression</label>
+            <textarea id="regularExpression" style="height: 1.5em"></textarea>
+
+            <alteryx-pluginwidget type="CheckBox" id="caseInsensitive" dataName="CaseInsensitiveTemp" showAsToggle="true" text="Case Insensitive"></alteryx-pluginwidget>
         </fieldset>
         <fieldset id="MatchFieldSet">
             <legend class='blueTitle'>Match Field</legend>
-            <div>
-                <label for="matchField">Name</label>
-                <alteryx-pluginwidget type="TextBox" id="matchField" dataName="MatchField"></alteryx-pluginwidget>
-            </div>
-            <div>
-                <alteryx-pluginwidget type="CheckBox" id="errorUnmatched" dataName="ErrorUnmatched" showAsToggle="true" text="Error if not matched"></alteryx-pluginwidget>
-            </div>
+
+            <label for="matchField">Name</label>
+            <alteryx-pluginwidget type="TextBox" id="matchField" dataName="MatchField"></alteryx-pluginwidget>
+
+            <alteryx-pluginwidget type="CheckBox" id="errorUnmatched" dataName="ErrorUnmatched" showAsToggle="true" text="Error if not matched"></alteryx-pluginwidget>
         </fieldset>
         <fieldset id="ReplaceFieldSet">
             <legend class='blueTitle'>Replace</legend>
-            <div>
-                <label for="replaceExpression">Expression</label>
-                <alteryx-pluginwidget type="TextBox" id="replaceExpression" dataName="ReplaceExpression"></alteryx-pluginwidget>
-            </div>
-            <!--<div>
-                <alteryx-pluginwidget type="CheckBox" id="copyUnmatched" dataName="CopyUnmatched" showAsToggle="true" text="Copy unmatched text to output"></alteryx-pluginwidget>
-            </div>-->
+
+            <label for="replaceExpression">Expression</label>
+            <alteryx-pluginwidget type="TextBox" id="replaceExpression" dataName="ReplaceExpression"></alteryx-pluginwidget>
+
+            <alteryx-pluginwidget type="CheckBox" id="copyUnmatched" dataName="CopyUnmatched" showAsToggle="true" text="Copy unmatched text to output"></alteryx-pluginwidget>
+        </fieldset>
+        <fieldset id="ColumnFieldSet">
+            <legend class='blueTitle'>Output Columns</legend>
+
+            <label for="numberFields">Number of Fields</label>
+            <alteryx-pluginwidget type="NumericSpinner" min="1" max="1000" id="numberFields" dataName="NumFields"></alteryx-pluginwidget>
+
+            <label for="extraColumns">Action on Extra Columns</label>
+            <alteryx-pluginwidget type="DropDown" id="extraColumns" dataName="ParseColumnError"></alteryx-pluginwidget>
+
+            <label for="rootName">Root Name</label>
+            <alteryx-pluginwidget type="TextBox" id="rootName" dataName="RootName"></alteryx-pluginwidget>
+        </fieldset>
+        <fieldset id="previewRegex">
+            <legend for="previewResult">Regex Result:</legend>
+            <pre id="previewResult" style="background-color: #d2d2d2; border-color: #999;">&nbsp;</pre>
         </fieldset>
 	</form>
     <script type="text/javascript" src="OmnibusHTMLHelper.js"></script>

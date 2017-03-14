@@ -1,5 +1,4 @@
-window.PlugInHelper = (() => { return { Create: (alteryx, manager, window) => {
-    const metaInfo = manager.metaInfo
+window.PlugInHelper = (() => { return { Create: (alteryx, manager, AlteryxDataItems, window) => {
     const formulaConstants = []
 
     const jsEvent = (obj) => alteryx.JsEvent(JSON.stringify(obj))
@@ -26,10 +25,10 @@ window.PlugInHelper = (() => { return { Create: (alteryx, manager, window) => {
     })})
 
     // Get Connections
-    const connectionNames = Array(metaInfo.Count).fill().map((_, i) => metaInfo.Get(i).ConnectionName)
+    const connectionNames = Array(manager.metaInfo.Count).fill().map((_, i) => manager.metaInfo.Get(i).ConnectionName)
     const connections = {}
     connectionNames.forEach((n, i) => {
-        const fields = metaInfo.Get(i)._GetFields().map((f, j) => { return { name: f.strName, type: f.strType, size: f.nSize, scale: f.nScale, description: f.strDescription, index: j } })
+        const fields = manager.metaInfo.Get(i)._GetFields().map((f, j) => { return { name: f.strName, type: f.strType, size: f.nSize, scale: f.nScale, description: f.strDescription, index: j } })
         connections[n] = fields
     })
 
@@ -77,7 +76,34 @@ window.PlugInHelper = (() => { return { Create: (alteryx, manager, window) => {
 	      callback: makeCallback(callback),
 	      expressions: previewObject
 	    })
+    }
 
+    function truncateString(input, length = 30) {
+        return input.length > length ? `${input.substring(0, 27)}...` : input
+    }
+
+    function createDataItem(dataName, value, suppressed = false) {
+        let output
+        switch (typeof(value)) {
+            case "boolean":
+                output = new AlteryxDataItems.SimpleBool({dataname: dataName, id: dataName})
+                break
+            case "string":
+                output = value.match(/^\d{4}-\d{2}-\d{2}$/) 
+                    ? new AlteryxDataItems.SimpleDate({dataname: dataName, id: dataName})
+                    : new AlteryxDataItems.SimpleString({dataname: dataName, id: dataName})
+                break
+            case "number":
+                output = value % 1
+                    ? new AlteryxDataItems.SimpleFloat({dataname: dataName, id: dataName})
+                    : new AlteryxDataItems.SimpleInt({dataname: dataName, id: dataName})
+                break;
+        }
+
+        output.suppressed = suppressed
+        output.setValue(value)
+        manager.AddDataItem(output)
+        return output
     }
 
     return {
@@ -90,6 +116,8 @@ window.PlugInHelper = (() => { return { Create: (alteryx, manager, window) => {
         getInputDataArray,
         setFormulaConstantsCallback: (callback) => formulaConstantsCallback = callback,
         testExpression,
-        formulaPreview
+        formulaPreview,
+        truncateString,
+        createDataItem
     }
 } } })()

@@ -17,7 +17,8 @@ Write-Host "Finding Alteryx User Install Location..."
 $reg = Get-ItemProperty HKCU:\SOFTWARE\SRC\Alteryx -ErrorAction SilentlyContinue
 if ($reg -ne $null) {
     $bin = $reg.InstallDir64 + '\HtmlPlugins\OmnibusRegex'
-    New-Item -Path $bin -ItemType SymbolicLink -Value $root
+    $cmd = "/c mklink /J ""$bin"" ""$root"""
+    Start-Process cmd -ArgumentList $cmd -wait
 }
 
 Pop-Location

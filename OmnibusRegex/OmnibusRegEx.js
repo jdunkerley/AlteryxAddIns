@@ -21,37 +21,46 @@ document.addEventListener('keydown', (e) => {
  * @param json Configuration
  */
 Alteryx.Gui.BeforeLoad = function(manager, AlteryxDataItems, json) {
-    const showPreviewItem = new AlteryxDataItems.SimpleBool({dataname: 'showPreview', id: 'showPreview'})
-    showPreviewItem.suppressed = true
-    showPreviewItem.setValue(true)
-    manager.AddDataItem(showPreviewItem)
+    plugInHelper = PlugInHelper.Create(Alteryx, manager, AlteryxDataItems, window)
 
-    const regExExpressionItem = new AlteryxDataItems.SimpleString({dataname: 'RegExExpressionTemp', id: 'RegExExpressionTemp'})
-    regExExpressionItem.setValue(json.Configuration && json.Configuration.RegExExpression ? json.Configuration.RegExExpression['@value'] : '')
-    manager.AddDataItem(regExExpressionItem)
+    plugInHelper.createDataItem('showPreview', true, true)
 
-    const caseInsensitiveItem = new AlteryxDataItems.SimpleBool({dataname: 'CaseInsensitive', id: 'CaseInsensitive'})
-    caseInsensitiveItem.setValue(!json.Configuration || json.Configuration.CaseInsensitive['@value'] === 'True')
-    manager.RemoveDataItem(caseInsensitiveItem.dataName)
-    manager.AddDataItem(caseInsensitiveItem)
+    plugInHelper.createDataItem('RegExExpressionTemp', json.Configuration && json.Configuration.RegExExpression ? json.Configuration.RegExExpression['@value'] : '')
 
-    const methodSelectorItem = new AlteryxDataItems.StringSelector({dataname: 'Method', id: 'Method'})
+    plugInHelper.createDataItem('CaseInsensitiveTemp', !json.Configuration || !json.Configuration.CaseInsensitive || json.Configuration.CaseInsensitive['@value'] !== 'False')
+
+    const methodSelectorItem = new AlteryxDataItems.StringSelector({dataname: 'MethodTemp', id: 'MethodTemp'})
     methodSelectorItem.StringList
         .Add('Match', 'Match')
         .Add('Replace', 'Replace')
         .Add('ParseSimple', 'Split To Rows')
-        // .Add('ParseSimpleColumns', 'Split To Columns')
+        .Add('ParseSimpleColumns', 'Split To Columns')
         // .Add('ParseComplex', 'Parse')
-    methodSelectorItem.setValue(json.Configuration ? json.Configuration.Match : 'Match')
+    methodSelectorItem.setValue(json.Configuration ? json.Configuration.Method : 'Match')
+    if (methodSelectorItem.value === 'ParseSimple' && json.Configuration && json.Configuration.ParseSimple && json.Configuration.ParseSimple.SplitToRows && json.Configuration.ParseSimple.SplitToRows['@value'] === 'False') {
+        methodSelectorItem.setValue('ParseSimpleColumns')
+    }
     manager.AddDataItem(methodSelectorItem)
 
-    const matchFieldItem = new AlteryxDataItems.SimpleString({dataname: 'MatchField', id: 'MatchField'})
-    matchFieldItem.setValue(json.Configuration && json.Configuration.Match ? json.Configuration.Match.Field : '')
-    manager.AddDataItem(matchFieldItem)
+    plugInHelper.createDataItem('MatchField', json.Configuration && json.Configuration.Match ? json.Configuration.Match.Field : '')
 
-    const replaceItem = new AlteryxDataItems.SimpleString({dataname: 'ReplaceExpression', id: 'ReplaceExpression'})
-    replaceItem.setValue(json.Configuration && json.Configuration.Replace ? json.Configuration.Replace['@expression'] : '')
-    manager.AddDataItem(replaceItem)
+    plugInHelper.createDataItem('ErrorUnmatched', json.Configuration && json.Configuration && json.Configuration.Match && json.Configuration.Match.ErrorUnmatched && json.Configuration.Match.ErrorUnmatched['@value'] === "True" || false)
+
+    plugInHelper.createDataItem('ReplaceExpression', json.Configuration && json.Configuration.Replace ? json.Configuration.Replace['@expression'] : '')
+
+    plugInHelper.createDataItem('CopyUnmatched', json.Configuration && json.Configuration.Replace && json.Configuration.Replace.CopyUnmatched ? json.Configuration.Replace.CopyUnmatched['@value'] !== 'False' : true)
+
+    plugInHelper.createDataItem('NumFields', json.Configuration && json.Configuration.ParseSimple && json.Configuration.ParseSimple.NumFields ? +json.Configuration.ParseSimple.NumFields['@value'] : 1)
+
+    plugInHelper.createDataItem('RootName', json.Configuration && json.Configuration.ParseSimple && json.Configuration.ParseSimple.RootName || '')
+
+    const parseColumnErrorItem = new AlteryxDataItems.StringSelector({dataname: 'ParseColumnError', id: 'ParseColumnError'})
+    parseColumnErrorItem.StringList
+        .Add("Warn", "Drop Extra with Warning")
+        .Add("Ignore", "Drop Extra without Warning")
+        .Add("Error", "Error")
+    parseColumnErrorItem.setValue(json.Configuration && json.Configuration.ParseSimple && json.Configuration.ParseSimple.ErrorHandling ? json.Configuration.ParseSimple.ErrorHandling : 'Warn')
+    manager.AddDataItem(parseColumnErrorItem)
 }
 
 /**
@@ -61,7 +70,31 @@ Alteryx.Gui.BeforeLoad = function(manager, AlteryxDataItems, json) {
  * @param AlteryxDataItems The data items in use on this page.
  */
 Alteryx.Gui.AfterLoad = function(manager, AlteryxDataItems){
-    plugInHelper = PlugInHelper.Create(Alteryx, manager, window)
+    function reevaluate(fieldName, method, regex, caseInsensitive, replace) {
+        let fail = false
+        const flags = caseInsensitive ? 'gi' : 'g'
+
+        try {
+            if (!previewData || !previewData[fieldName]) {
+                fail = true
+                previewElement.textContent = 'No Preview Data Available. Run the workflow.'
+            } else if (method === 'Match') {
+                previewElement.textContent = new RegExp(regex, flags).test(previewData[fieldName]) + ' '
+            } else if (method === `Replace`) {
+                previewElement.textContent = previewData[fieldName].replace(new RegExp(regex, flags), replace) + ' '
+            } else if (method === 'ParseSimple') {
+                const matches = previewData[fieldName].match(new RegExp(regex, flags))
+                previewElement.textContent = matches.length ? matches.join('\r\n') : 'null'
+            } else {
+                fail = true
+                previewElement.textContent = `${method} preview not supported yet`
+            }
+        } catch(err) {
+            previewElement.textContent = err.message
+        }
+
+        previewElement.style.color = fail ? '#cc0000' : '#333'
+    }
 
     const showPreviewItem = manager.GetDataItem('showPreview')
     const showPreviewChanged = (v) => {
@@ -71,34 +104,33 @@ Alteryx.Gui.AfterLoad = function(manager, AlteryxDataItems){
     showPreviewItem.BindUserDataChanged(showPreviewChanged)
 
     const fieldItem = manager.GetDataItem('Field')
-    const methodItem = manager.GetDataItem('Method')
+    const methodItem = manager.GetDataItem('MethodTemp')
     const regExExpressionItem = manager.GetDataItem('RegExExpressionTemp')
-    const caseInsensitiveItem = manager.GetDataItem('CaseInsensitive')
+    const caseInsensitiveItem = manager.GetDataItem('CaseInsensitiveTemp')
     const replaceItem = manager.GetDataItem('ReplaceExpression')
-    const callReevaluate = () => reevaluate(fieldItem.value, methodItem.value, regExExpressionItem.value, caseInsensitiveItem.value, replaceItem.value)
 
+    const callReevaluate = () => reevaluate(fieldItem.value, methodItem.value, regExExpressionItem.value, caseInsensitiveItem.value, replaceItem.value)
     const getFieldPreview = (v) => document.getElementById('preview').textContent = (v && previewData ? previewData[v] : ' ')
     plugInHelper.getInputDataArray('', 1, d => {
         previewData = d[0]
         getFieldPreview(fieldItem.value)
         callReevaluate()
     })
-    fieldItem.BindUserDataChanged(getFieldPreview)
-
     const methodChanged = (v) => {
         document.getElementById('MatchFieldSet').style.display = (v === 'Match' ? 'block' : 'none')
         document.getElementById('ReplaceFieldSet').style.display = (v === 'Replace' ? 'block' : 'none')
+        document.getElementById('ColumnFieldSet').style.display = (v === 'ParseSimpleColumns' ? 'block' : 'none')
         callReevaluate()
     }
-    methodItem.BindUserDataChanged(methodChanged)
 
     codeMirrorEditor.getDoc().setValue(regExExpressionItem.value)
-    codeMirrorEditor.on('change', () => {
-        regExExpressionItem.setValue(codeMirrorEditor.getDoc().getValue())
-        callReevaluate()
-    })
+    codeMirrorEditor.on('change', () => regExExpressionItem.setValue(codeMirrorEditor.getDoc().getValue()))
 
-    regExExpressionItem.BindDataChanged((v) => console.log(v))
+    methodItem.BindUserDataChanged(methodChanged)
+    fieldItem.BindUserDataChanged(getFieldPreview)
+    caseInsensitiveItem.BindUserDataChanged(callReevaluate)
+    regExExpressionItem.BindDataChanged(callReevaluate)
+    replaceItem.BindUserDataChanged(callReevaluate)
 
     methodChanged(methodItem.value)
 }
@@ -115,20 +147,22 @@ Alteryx.Gui.Annotation = function(manager, AlteryxDataItems) {
 
     const regexText = manager.GetDataItem('RegExExpressionTemp').value
     const suffixText = methodName === `Replace` ? `\n${manager.GetDataItem('ReplaceExpression').value}` : ''
-    return `${methodName}:\n${regexText.Length > 30 ? regexText.substring(0, 27)+ '...' : regexText}${suffixText.Length > 30 ? suffixText.substring(0, 27) + '...' : suffixText}`
+    return `${methodName}:\n${plugInHelper.truncateString(regexText)}${plugInHelper.truncateString(suffixText)}`
 }
 
 /**
  * Reformat the JSON to the style we need
  */
 Alteryx.Gui.BeforeGetConfiguration = function (json) {
-    json.Configuration.CaseInsensitive = [{'@value': json.Configuration.CaseInsensitive}]
+    json.Configuration.CaseInsensitive = [{'@value': json.Configuration.CaseInsensitiveTemp}]
+    delete json.Configuration.CaseInsensitiveTemp
+
     json.Configuration.RegExExpression = [{'@value': json.Configuration.RegExExpressionTemp}]
     delete json.Configuration.RegExExpressionTemp
 
     // Match
     json.Configuration.Match = {
-        Field: json.Configuration.MatchField || `${json.Configuration.Field}_Matched`,
+        Field: json.Configuration.MatchField || (json.Configuration.Field ? `${json.Configuration.Field}_Matched` : ''),
         ErrorUnmatched: [{'@value': json.Configuration.ErrorUnmatched}]
     }
     delete json.Configuration.MatchField
@@ -137,66 +171,28 @@ Alteryx.Gui.BeforeGetConfiguration = function (json) {
     // Replace
     json.Configuration.Replace = [{
         '@expression': json.Configuration.ReplaceExpression,
-        'CopyUnmatched': [{'@value': true}]
+        'CopyUnmatched': [{'@value': json.Configuration.CopyUnmatched}]
     }]
     delete json.Configuration.ReplaceExpression
+    delete json.Configuration.CopyUnmatched
 
     // Parse Simple
     json.Configuration.ParseSimple = {
-        SplitToRows: [{'@value': json.Configuration.Method === 'ParseSimple'}]
+        SplitToRows: [{'@value': json.Configuration.Method === 'ParseSimple' ? 'True' : 'False'}],
+        NumFields: [{'@value': json.Configuration.NumFields}],
+        ErrorHandling: json.Configuration.ParseColumnError,
+        RootName: json.Configuration.RootName || json.Configuration.Field
     }
+    delete json.Configuration.NumFields
+    delete json.Configuration.ParseColumnError
+    delete json.Configuration.RootName
+
+    json.Configuration.Method = json.Configuration.MethodTemp
     if (json.Configuration.Method.match(/ParseSimple.*/)) {
         json.Configuration.Method = 'ParseSimple'
-    }  
+    }
+    delete json.Configuration.MethodTemp
 
     console.log(json.Configuration)
     return json
-}
-
-function reevaluateMatch(fieldName, regex, flags) {
-    try {
-        previewElement.textContent = new RegExp(regex, flags).test(previewData[fieldName]) + ' '
-        previewElement.style.backgroundColor = '#f7f7f7'
-    } catch(err) {
-        previewElement.style.backgroundColor = '#f76666'
-        previewElement.textContent = err.message
-    }
-}
-
-function reevaluateReplace(fieldName, regex, flags, replace) {
-    try {
-        previewElement.textContent = previewData[fieldName].replace(new RegExp(regex, flags), replace) + ' '
-        previewElement.style.backgroundColor = '#f7f7f7'
-    } catch(err) {
-        previewElement.style.backgroundColor = '#f76666'
-        previewElement.textContent = err.message
-    }
-}
-
-function reevaluateSplit(fieldName, regex, flags) {
-    try {
-        const matches = previewData[fieldName].match(new RegExp(regex, flags))
-        if (matches.length === 0) { 
-            previewElement.textContent = 'null'
-        } else {
-            previewElement.textContent = matches.join('\r\n')
-        }
-        previewElement.style.backgroundColor = '#f7f7f7'
-    } catch(err) {
-        previewElement.style.backgroundColor = '#f76666'
-        previewElement.textContent = err.message
-    }
-}
-
-function reevaluate(fieldName, method, regex, caseInsensitive, replace) {
-    if (method === 'Match') {
-        reevaluateMatch(fieldName, regex, caseInsensitive ? 'i' : '')
-    } else if (method === `Replace`) {
-        reevaluateReplace(fieldName, regex, caseInsensitive ? 'gi' : 'g', replace)
-    } else if (method === 'ParseSimple') {
-        reevaluateSplit(fieldName, regex, caseInsensitive ? 'gi' : 'g')
-    } else {
-        previewElement.style.backgroundColor = '#f76666'
-        previewElement.textContent = `${method} preview not supported yet`
-    }
 }
