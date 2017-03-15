@@ -34,9 +34,11 @@
   <ItemGroup>
     <Reference Include="AlteryxGuiToolkit">
       <HintPath>C:\Program Files\Alteryx\bin\AlteryxGuiToolkit.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="AlteryxRecordInfo.Net">
       <HintPath>C:\Program Files\Alteryx\bin\AlteryxRecordInfo.Net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MathNet.Numerics">
       <HintPath>..\packages\MathNet.Numerics.3.13.1\lib\net40\MathNet.Numerics.dll</HintPath>
@@ -104,6 +106,7 @@
     <ProjectReference Include="..\AlteryxAddIns.Framework\AlteryxAddIns.Framework.csproj">
       <Project>{c2813972-ba56-42fe-b3f3-25da51733946}</Project>
       <Name>AlteryxAddIns.Framework</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

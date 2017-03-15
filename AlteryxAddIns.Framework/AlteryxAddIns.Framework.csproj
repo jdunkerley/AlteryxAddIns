@@ -43,9 +43,11 @@
   <ItemGroup>
     <Reference Include="AlteryxGuiToolkit">
       <HintPath>C:\Program Files\Alteryx\bin\AlteryxGuiToolkit.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="AlteryxRecordInfo.Net">
       <HintPath>C:\Program Files\Alteryx\bin\AlteryxRecordInfo.Net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
