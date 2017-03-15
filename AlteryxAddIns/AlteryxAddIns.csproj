@@ -33,12 +33,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlteryxGuiToolkit">
-      <HintPath>..\..\..\Program Files\Alteryx\bin\AlteryxGuiToolkit.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Alteryx\bin\AlteryxGuiToolkit.dll</HintPath>
     </Reference>
     <Reference Include="AlteryxRecordInfo.Net">
-      <HintPath>..\..\..\Program Files\Alteryx\bin\AlteryxRecordInfo.Net.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Alteryx\bin\AlteryxRecordInfo.Net.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics">
       <HintPath>..\packages\MathNet.Numerics.3.13.1\lib\net40\MathNet.Numerics.dll</HintPath>
