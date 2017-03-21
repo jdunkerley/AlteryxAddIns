@@ -1,10 +1,10 @@
-﻿namespace JDunkerley.AlteryxAddIns.Roslyn
+﻿using System;
+using System.Threading.Tasks;
+
+using OmniBus.Framework.ConfigWindows;
+
+namespace JDunkerley.AlteryxAddIns.Roslyn
 {
-    using System;
-    using System.Threading.Tasks;
-
-    using Framework.ConfigWindows;
-
     /// <summary>
     /// Roslyn Editor based Config Window
     /// </summary>

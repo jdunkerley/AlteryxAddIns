@@ -1,18 +1,18 @@
-﻿namespace JDunkerley.AlteryxAddIns
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+
+using AlteryxRecordInfoNet;
+
+using OmniBus.Framework;
+using OmniBus.Framework.Attributes;
+using OmniBus.Framework.Factories;
+using OmniBus.Framework.Interfaces;
+using OmniBus.Framework.TypeConverters;
+
+namespace JDunkerley.AlteryxAddIns
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Linq;
-
-    using AlteryxRecordInfoNet;
-
-    using Framework;
-    using Framework.Attributes;
-    using Framework.ConfigWindows;
-    using Framework.Factories;
-    using Framework.Interfaces;
-
     public class SortWithCulture :
         BaseTool<SortWithCulture.Config, SortWithCulture.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
@@ -75,7 +75,7 @@
                 this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
                 this.Input.InitCalled += (sender, args) => args.Success = this.InitFunc(this.Input.RecordInfo);
                 this.Input.RecordPushed += (sender, args) => args.Success = this.PushFunc(args.RecordData);
-                this.Input.Closed += (sender, args) => this.ClosedAction();
+                this.Input.Closed += sender => this.ClosedAction();
             }
 
             /// <summary>

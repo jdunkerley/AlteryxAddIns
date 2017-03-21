@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A4BE9A96-6D35-4998-9866-3B53B9372A76}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OmniBus.Framework</RootNamespace>
+    <AssemblyName>OmniBus.Framework</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>..\OmniBus.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DocumentationFile>bin\Debug\OmniBus.Framework.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>..\OmniBus.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DocumentationFile>bin\Release\OmniBus.Framework.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AlteryxRecordInfo.Net">
+      <HintPath>..\AlteryxRecordInfo.Net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="BaseEngine.cs" />
+    <Compile Include="ConfigWithIncomingConnection.cs" />
+    <Compile Include="ConnectionState.cs" />
+    <Compile Include="EventHandlers\ClosedEventHandler.cs" />
+    <Compile Include="EventHandlers\ProgressUpdatedEventArgs.cs" />
+    <Compile Include="EventHandlers\ProgressUpdatedEventHandler.cs" />
+    <Compile Include="EventHandlers\RecordPushedEventArgs.cs" />
+    <Compile Include="EventHandlers\RecordPushedEventHandler.cs" />
+    <Compile Include="EventHandlers\SuccessEventArgs.cs" />
+    <Compile Include="EventHandlers\SuccessEventHandler.cs" />
+    <Compile Include="Factories\InputPropertyFactory.cs" />
+    <Compile Include="Factories\OutputHelperFactory.cs" />
+    <Compile Include="Factories\RecordCopierFactory.cs" />
+    <Compile Include="FieldBaseHelpers.cs" />
+    <Compile Include="FieldDescription.cs" />
+    <Compile Include="InputProperty.cs" />
+    <Compile Include="Interfaces\IBaseEngine.cs" />
+    <Compile Include="Interfaces\IInputProperty.cs" />
+    <Compile Include="Interfaces\IInputPropertyFactory.cs" />
+    <Compile Include="Interfaces\IOutputHelperFactory.cs" />
+    <Compile Include="Interfaces\IRecordCopier.cs" />
+    <Compile Include="Interfaces\IRecordCopierFactory.cs" />
+    <Compile Include="OutputHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Framework.Shared\OmniBus.Framework.Shared.csproj">
+      <Project>{93daafd9-1b8a-4582-8a37-ead80bfcc129}</Project>
+      <Name>OmniBus.Framework.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

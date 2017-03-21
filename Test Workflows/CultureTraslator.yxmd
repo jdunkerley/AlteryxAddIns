@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.0">
+<AlteryxDocument yxmdVer="11.0">
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="JDunkerley.AlteryxAddIns.DateTimeParser">
@@ -7,14 +7,14 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <OutputType>Date</OutputType>
+          <OutputType value="Date" />
           <OutputFieldName>Date</OutputFieldName>
           <Culture>French (France)</Culture>
           <InputFieldName>FrenchDate</InputFieldName>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>FrenchDate=&gt;Date</DefaultAnnotationText>
+          <DefaultAnnotationText>FrenchDate () ⇒ Date</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -62,13 +62,18 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_17740_89cb2aa114c24fc6bc3fefae319f83ac_\Engine_17740_e0c8131d915640c5b6f4c88c1a5daeb4_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_23824_8e2beefaff9a41ef95754de921b41161_\Engine_23824_8ea17591fc484a768361e483bb982312_.yxdb</TempFile>
+          <TempFileDataProfiling />
           <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
             <View1>
+              <DefaultTab>Profile</DefaultTab>
               <Hints>
                 <Table />
               </Hints>
             </View1>
+            <View2 />
           </Layout>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -86,14 +91,13 @@
       <Properties>
         <Configuration>
           <OutputFieldName>EnglishDate</OutputFieldName>
-          <OutputFieldLength>64</OutputFieldLength>
+          <OutputFieldLength value="64" />
           <Culture>Current</Culture>
           <InputFieldName>Date</InputFieldName>
-          <OutputFormat>d MMMM yyyy</OutputFormat>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>Date=&gt;EnglishDate</DefaultAnnotationText>
+          <DefaultAnnotationText>Date=&gt;EnglishDate []</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -106,14 +110,13 @@
       <Properties>
         <Configuration>
           <OutputFieldName>GermanDate</OutputFieldName>
-          <OutputFieldLength>64</OutputFieldLength>
+          <OutputFieldLength value="64" />
           <Culture>German (Germany)</Culture>
           <InputFieldName>Date</InputFieldName>
-          <OutputFormat>d MMMM yyyy</OutputFormat>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>Date=&gt;GermanDate</DefaultAnnotationText>
+          <DefaultAnnotationText>Date=&gt;GermanDate []</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -167,6 +170,10 @@
       <Company />
       <Copyright />
       <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
     </MetaInfo>
     <Events>
       <Enabled value="True" />

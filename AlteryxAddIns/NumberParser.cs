@@ -1,4 +1,7 @@
-﻿namespace JDunkerley.AlteryxAddIns
+﻿using OmniBus.Framework.EventHandlers;
+using OmniBus.Framework.TypeConverters;
+
+namespace JDunkerley.AlteryxAddIns
 {
     using System;
     using System.ComponentModel;
@@ -6,11 +9,11 @@
 
     using AlteryxRecordInfoNet;
 
-    using Framework;
-    using Framework.Attributes;
-    using Framework.ConfigWindows;
-    using Framework.Factories;
-    using Framework.Interfaces;
+    using OmniBus.Framework;
+    using OmniBus.Framework.Attributes;
+    using OmniBus.Framework.ConfigWindows;
+    using OmniBus.Framework.Factories;
+    using OmniBus.Framework.Interfaces;
 
     public class NumberParser :
         BaseTool<NumberParser.Config, NumberParser.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
@@ -27,9 +30,9 @@
             /// </summary>
             [Category("Output")]
             [Description("Alteryx Type for the Output Field")]
-            [TypeConverter(typeof(FixedListTypeConverter<OutputType>))]
-            [FieldList(OutputType.Byte, OutputType.Int16, OutputType.Int32, OutputType.Int64, OutputType.Float, OutputType.Double)]
-            public OutputType OutputType { get; set; } = OutputType.Double;
+            [FieldList(FieldType.E_FT_Byte, FieldType.E_FT_Int16, FieldType.E_FT_Int32, FieldType.E_FT_Int64, FieldType.E_FT_Float, FieldType.E_FT_Double)]
+            [TypeConverter(typeof(FixedListTypeConverter<FieldType>))]
+            public FieldType OutputType { get; set; } = FieldType.E_FT_Double;
 
             /// <summary>
             /// Gets or sets the name of the output field.
@@ -95,7 +98,7 @@
                 this.Input.InitCalled += this.OnInit;
                 this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(args.Progress, true);
                 this.Input.RecordPushed += this.OnRecordPushed;
-                this.Input.Closed += (sender, args) => this.Output?.Close(true);
+                this.Input.Closed += sender => this.Output?.Close(true);
             }
 
             /// <summary>
@@ -110,17 +113,16 @@
             [CharLabel('O')]
             public IOutputHelper Output { get; set; }
 
-            private void OnInit(object sender, SuccessEventArgs args)
+            private void OnInit(IInputProperty sender, SuccessEventArgs args)
             {
-                var fieldDescription = this.ConfigObject?.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
-                if (fieldDescription == null)
-                {
-                    args.Success = false;
-                    return;
-                }
-                fieldDescription.Source = nameof(NumberParser);
-                fieldDescription.Description = $"{this.ConfigObject.InputFieldName} parsed as a number";
-
+                var fieldDescription = new FieldDescription(
+                                           this.ConfigObject.OutputFieldName,
+                                           this.ConfigObject.OutputType)
+                                           {
+                                               Source = nameof(NumberParser),
+                                               Description =
+                                                   $"{this.ConfigObject.InputFieldName} parsed as a number"
+                                           };
 
                 this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
                 if (this._inputFieldBase == null)
@@ -147,10 +149,7 @@
 
                 string input = this._inputFieldBase.GetAsString(args.RecordData);
 
-                double value;
-                bool result = double.TryParse(input, NumberStyles.Any, this.ConfigObject.CultureObject.Value, out value);
-
-                if (result)
+                if (double.TryParse(input, NumberStyles.Any, this.ConfigObject.CultureObject.Value, out double value))
                 {
                     this._outputFieldBase.SetFromDouble(record, value);
                 }

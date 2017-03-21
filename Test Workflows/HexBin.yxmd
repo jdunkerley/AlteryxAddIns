@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.0">
+<AlteryxDocument yxmdVer="11.0">
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="JDunkerley.AlteryxAddIns.HexBin">
-        <Position x="198" y="90" />
+        <Position x="198" y="126" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -23,14 +23,15 @@
     </Node>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-        <Position x="54" y="90" />
+        <Position x="54" y="126" />
       </GuiSettings>
       <Properties>
         <Configuration>
           <Passwords />
-          <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`</File>
+          <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">.\HexBinData.xlsx|||`Sheet1$`</File>
           <FormatSpecificOptions>
             <FirstRowData>False</FirstRowData>
+            <ImportLine>1</ImportLine>
           </FormatSpecificOptions>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -39,13 +40,16 @@
 Table=`Sheet1$`</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
+        <Dependencies>
+          <Implicit />
+        </Dependencies>
         <MetaInfo connection="Output">
           <RecordInfo>
-            <Field name="Row Count" source="File: C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`" type="Double" />
-            <Field name="Point X" source="File: C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`" type="Double" />
-            <Field name="Point Y" source="File: C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`" type="Double" />
-            <Field name="HexX" source="File: C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`" type="Double" />
-            <Field name="HexY" source="File: C:\Repos\AlteryxAddIns\HexBinData.xlsx|`Sheet1$`" type="Double" />
+            <Field name="Row Count" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|||`Sheet1$`" type="Double" />
+            <Field name="Point X" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|||`Sheet1$`" type="Double" />
+            <Field name="Point Y" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|||`Sheet1$`" type="Double" />
+            <Field name="HexX" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|||`Sheet1$`" type="Double" />
+            <Field name="HexY" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|||`Sheet1$`" type="Double" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -53,7 +57,7 @@ Table=`Sheet1$`</DefaultAnnotationText>
     </Node>
     <Node ToolID="3">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="330" y="90" />
+        <Position x="330" y="126" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -75,7 +79,7 @@ Abs([HexY]-[HexBinY])>1e-3 ]]></DefaultAnnotationText>
     </Node>
     <Node ToolID="4">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="486" y="78" />
+        <Position x="486" y="114" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -98,7 +102,7 @@ Abs([HexY]-[HexBinY])>1e-3 ]]></DefaultAnnotationText>
     </Node>
     <Node ToolID="5">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="486" y="150" />
+        <Position x="486" y="186" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -121,7 +125,7 @@ Abs([HexY]-[HexBinY])>1e-3 ]]></DefaultAnnotationText>
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Test.Test">
-        <Position x="486" y="18" />
+        <Position x="486" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -195,6 +199,10 @@ Abs([HexY]-[HexBinY])>1e-3 ]]></DefaultAnnotationText>
       <Company />
       <Copyright />
       <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
     </MetaInfo>
     <Events>
       <Enabled value="True" />

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.0">
+<AlteryxDocument yxmdVer="11.0">
   <Nodes>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
@@ -7,13 +7,18 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_12476_fbc43eb91c9848b2bd796bd84a58e9b3_\Engine_12476_f5eb85aa40ba408a976cb3a5c87f4e1e_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_10056_e0c3ed8785c34ff9a39179c4b8d3e11a_\Engine_10056_3d92c9d125664413944a09f323a08ead_.yxdb</TempFile>
+          <TempFileDataProfiling />
           <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
             <View1>
+              <DefaultTab>Profile</DefaultTab>
               <Hints>
                 <Table />
               </Hints>
             </View1>
+            <View2 />
           </Layout>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -30,7 +35,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <OutputType>DateTime</OutputType>
+          <OutputType>Date</OutputType>
           <OutputFieldName>Date</OutputFieldName>
           <DateToReturn>StartOfWeek</DateToReturn>
         </Configuration>
@@ -78,6 +83,10 @@
       <Company />
       <Copyright />
       <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
     </MetaInfo>
     <Events>
       <Enabled value="True" />

@@ -1,15 +1,18 @@
-﻿namespace JDunkerley.AlteryxAddIns
+﻿using OmniBus.Framework.EventHandlers;
+using OmniBus.Framework.TypeConverters;
+
+namespace JDunkerley.AlteryxAddIns
 {
     using System;
     using System.ComponentModel;
 
     using AlteryxRecordInfoNet;
 
-    using Framework;
-    using Framework.Attributes;
-    using Framework.ConfigWindows;
-    using Framework.Factories;
-    using Framework.Interfaces;
+    using OmniBus.Framework;
+    using OmniBus.Framework.Attributes;
+    using OmniBus.Framework.ConfigWindows;
+    using OmniBus.Framework.Factories;
+    using OmniBus.Framework.Interfaces;
 
     public class RandomNumber :
         BaseTool<RandomNumber.Config, RandomNumber.Engine>, AlteryxGuiToolkit.Plugins.IPlugin
@@ -36,9 +39,9 @@
             /// </summary>
             [Category("Output")]
             [Description("Alteryx Type for the Output Field")]
-            [TypeConverter(typeof(FixedListTypeConverter<OutputType>))]
-            [FieldList(OutputType.Double, OutputType.Float, OutputType.Int16, OutputType.Int32, OutputType.Int64)]
-            public OutputType OutputType { get; set; } = OutputType.Double;
+            [FieldList(FieldType.E_FT_Double, FieldType.E_FT_Float, FieldType.E_FT_Int16, FieldType.E_FT_Int32, FieldType.E_FT_Int64)]
+            [TypeConverter(typeof(FixedListTypeConverter<FieldType>))]
+            public FieldType OutputType { get; set; } = FieldType.E_FT_Double;
 
             /// <summary>
             /// Gets or sets the name of the output field.
@@ -168,7 +171,7 @@
                 this.Input.InitCalled += this.OnInit;
                 this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(args.Progress, true);
                 this.Input.RecordPushed += this.OnRecordPushed;
-                this.Input.Closed += (sender, args) => this.Output?.Close(true);
+                this.Input.Closed += sender => this.Output?.Close(true);
             }
 
             /// <summary>
@@ -183,18 +186,18 @@
             [CharLabel('O')]
             public IOutputHelper Output { get; set; }
 
-            private void OnInit(object sender, SuccessEventArgs args)
+            private void OnInit(IInputProperty sender, SuccessEventArgs args)
             {
                 this._nextValue = this.ConfigObject.CreateRandomFunc();
 
-                var fieldDescription = this.ConfigObject.OutputType.OutputDescription(this.ConfigObject.OutputFieldName, 19);
-                if (fieldDescription == null)
-                {
-                    args.Success = false;
-                    return;
-                }
-                fieldDescription.Source = nameof(RandomNumber);
-                fieldDescription.Description = $"Random Number {this.ConfigObject.ToString().Replace($"{this.ConfigObject.OutputFieldName}=", "")}";
+                var fieldDescription = new FieldDescription(
+                                           this.ConfigObject.OutputFieldName,
+                                           this.ConfigObject.OutputType)
+                                           {
+                                               Source = nameof(RandomNumber),
+                                               Description =
+                                                   $"Random Number {this.ConfigObject.ToString().Replace($"{this.ConfigObject.OutputFieldName}=", "")}"
+                                           };
 
                 this.Output?.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo, fieldDescription));
                 this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
@@ -202,7 +205,7 @@
                 args.Success = true;
             }
 
-            private void OnRecordPushed(object sender, RecordPushedEventArgs args)
+            private void OnRecordPushed(IInputProperty sender, RecordPushedEventArgs args)
             {
                 var record = this.Output.Record;
                 record.Reset();

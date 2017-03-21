@@ -1,23 +1,22 @@
-﻿namespace JDunkerley.AlteryxAddIns.Roslyn
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Drawing.Design;
+using System.Linq;
+
+using AlteryxGuiToolkit.Plugins;
+
+using AlteryxRecordInfoNet;
+
+using OmniBus.Framework;
+using OmniBus.Framework.Attributes;
+using OmniBus.Framework.Factories;
+using OmniBus.Framework.Interfaces;
+
+namespace JDunkerley.AlteryxAddIns.Roslyn
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.Design;
-    using System.Drawing.Design;
-    using System.Linq;
-
-    using AlteryxGuiToolkit.Plugins;
-
-    using AlteryxRecordInfoNet;
-
-    using Framework;
-    using Framework.Attributes;
-    using Framework.Interfaces;
-
-    using JDunkerley.AlteryxAddIns.Framework.Factories;
-
     public class RoslynInput :
         BaseTool<RoslynInput.Config, RoslynInput.Engine>, IPlugin
     {
