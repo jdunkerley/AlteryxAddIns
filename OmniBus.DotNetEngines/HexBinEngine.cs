@@ -112,21 +112,21 @@ namespace OmniBus
             var px = point.Item1.Value / dx;
             var pi = (int)Math.Round(px);
             var mod2 = (pi & 1) == 1;
-            var py = point.Item2.Value / dy - (mod2 ? 0.5 : 0);
+            var py = (point.Item2.Value / dy) - (mod2 ? 0.5 : 0);
             var pj = Math.Round(py);
             var px1 = (px - pi) * dx;
 
             if (Math.Abs(px1) * 3 > 1)
             {
                 var py1 = (py - pj) * dy;
-                var pj2 = pj + (py < pj ? -1 : 1) / 2.0;
+                var pj2 = pj + ((py < pj ? -1 : 1) / 2.0);
                 var pi2 = pi + (px < pi ? -1 : 1);
                 var px2 = (px - pi2) * dx;
                 var py2 = (py - pj2) * dy;
 
-                if (px1 * px1 + py1 * py1 > px2 * px2 + py2 * py2)
+                if ((px1 * px1) + (py1 * py1) > (px2 * px2) + (py2 * py2))
                 {
-                    pj = pj2 + (mod2 ? 1 : -1) / 2.0;
+                    pj = pj2 + ((mod2 ? 1 : -1) / 2.0);
                     pi = pi2;
                     mod2 = (pi & 1) == 1;
                 }

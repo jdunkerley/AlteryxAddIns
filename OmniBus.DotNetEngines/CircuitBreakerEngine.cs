@@ -21,6 +21,7 @@ namespace OmniBus
         private Queue<Record> _inputRecords;
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="CircuitBreakerEngine" /> class.
         ///     Constructor For Alteryx
         /// </summary>
         public CircuitBreakerEngine()
@@ -29,6 +30,7 @@ namespace OmniBus
         }
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="CircuitBreakerEngine" /> class.
         ///     Create An Engine for unit testing.
         /// </summary>
         /// <param name="recordCopierFactory">Factory to create copiers</param>
@@ -55,14 +57,23 @@ namespace OmniBus
             this.Input.Closed += this.InputOnClosed;
         }
 
+        /// <summary>
+        ///     Gets the input connection for the breaker - If Any Rows Then Block The Input
+        /// </summary>
         [CharLabel('B')]
         [Ordering(1)]
         public IInputProperty Breaker { get; }
 
+        /// <summary>
+        ///     Gets the input connection for data - Passed Through If No Rows On Breaker
+        /// </summary>
         [CharLabel('I')]
         [Ordering(2)]
         public IInputProperty Input { get; }
 
+        /// <summary>
+        ///     Gets or sets the Data output connection
+        /// </summary>
         [CharLabel('O')]
         public IOutputHelper Output { get; set; }
 

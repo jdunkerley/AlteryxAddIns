@@ -60,6 +60,8 @@
     <Compile Include="HashCodeGeneratorMethod.cs" />
     <Compile Include="HexBinConfig.cs" />
     <Compile Include="HexBinEngine.cs" />
+    <Compile Include="NumberParserConfig.cs" />
+    <Compile Include="NumberParserEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringFormatterConfig.cs" />
     <Compile Include="StringFormatterEngine.cs" />
@@ -73,6 +75,14 @@
       <Project>{a4be9a96-6d35-4998-9866-3b53b9372a76}</Project>
       <Name>OmniBus.Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

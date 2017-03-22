@@ -1,6 +1,4 @@
-using System;
-using System.Security.Cryptography;
-using System.Text;
+using System.Globalization;
 
 using AlteryxRecordInfoNet;
 
@@ -13,31 +11,33 @@ using OmniBus.Framework.Interfaces;
 namespace OmniBus
 {
     /// <summary>
-    /// Alteryx Engine For Computing Hash Codes
+    /// Configuration class for <see cref="NumberParserEngine"/>
     /// </summary>
-    public class HashCodeGeneratorEngine : BaseEngine<HashCodeGeneratorConfig>
+    public class NumberParserEngine : BaseEngine<NumberParserConfig>
     {
-        private HashAlgorithm _hashAlgorithm;
+        private IRecordCopier _copier;
 
         private FieldBase _inputFieldBase;
 
         private FieldBase _outputFieldBase;
 
         /// <summary>
-        ///     Constructor For Alteryx
+        /// Initializes a new instance of the <see cref="NumberParserEngine"/> class.
+        /// Constructor For Alteryx
         /// </summary>
-        public HashCodeGeneratorEngine()
+        public NumberParserEngine()
             : this(new RecordCopierFactory(), new InputPropertyFactory(), new OutputHelperFactory())
         {
         }
 
         /// <summary>
-        ///     Create An Engine for unit testing.
+        /// Initializes a new instance of the <see cref="NumberParserEngine"/> class.
+        /// Create An NumberParserEngine for unit testing.
         /// </summary>
         /// <param name="recordCopierFactory">Factory to create copiers</param>
         /// <param name="inputPropertyFactory">Factory to create input properties</param>
         /// <param name="outputHelperFactory">Factory to create output helpers</param>
-        internal HashCodeGeneratorEngine(
+        internal NumberParserEngine(
             IRecordCopierFactory recordCopierFactory,
             IInputPropertyFactory inputPropertyFactory,
             IOutputHelperFactory outputHelperFactory)
@@ -45,7 +45,7 @@ namespace OmniBus
         {
             this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
             this.Input.InitCalled += this.OnInit;
-            this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
+            this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(args.Progress, true);
             this.Input.RecordPushed += this.OnRecordPushed;
             this.Input.Closed += sender => this.Output?.Close(true);
         }
@@ -64,6 +64,14 @@ namespace OmniBus
 
         private void OnInit(IInputProperty sender, SuccessEventArgs args)
         {
+            var fieldDescription = new FieldDescription(
+                                       this.ConfigObject.OutputFieldName,
+                                       this.ConfigObject.OutputType)
+                                       {
+                                           Source = nameof(NumberParserEngine).Replace("Engine", string.Empty),
+                                           Description = $"{this.ConfigObject.InputFieldName} parsed as a number"
+                                       };
+
             this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
             if (this._inputFieldBase == null)
             {
@@ -71,17 +79,14 @@ namespace OmniBus
                 return;
             }
 
-            var field =
-                    new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_String)
-                    {
-                        Size = 256,
-                        Source = nameof(HashCodeGeneratorEngine).Replace("Engine", string.Empty)
-                    };
+            this.Output?.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo, fieldDescription));
+            this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
-            this.Output.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo, field));
-            this._outputFieldBase = this.Output[this.ConfigObject.OutputFieldName];
-
-            this._hashAlgorithm = this.ConfigObject.GetAlgorithm();
+            // Create the Copier
+            this._copier = this.RecordCopierFactory.CreateCopier(
+                this.Input.RecordInfo,
+                this.Output?.RecordInfo,
+                this.ConfigObject.OutputFieldName);
 
             args.Success = true;
         }
@@ -91,17 +96,14 @@ namespace OmniBus
             var record = this.Output.Record;
             record.Reset();
 
-            this.Input.Copier.Copy(record, args.RecordData);
+            this._copier.Copy(record, args.RecordData);
 
             var input = this._inputFieldBase.GetAsString(args.RecordData);
-            var bytes = this._hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
-            var sb = new StringBuilder();
-            foreach (var b in bytes)
-            {
-                sb.Append(b.ToString("X2"));
-            }
 
-            this._outputFieldBase.SetFromString(record, sb.ToString());
+            if (double.TryParse(input, NumberStyles.Any, this.ConfigObject.CultureObject.Value, out double value))
+            {
+                this._outputFieldBase.SetFromDouble(record, value);
+            }
 
             this.Output.Push(record);
             args.Success = true;

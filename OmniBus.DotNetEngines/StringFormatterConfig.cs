@@ -15,7 +15,7 @@ namespace OmniBus
     public class StringFormatterConfig : ConfigWithIncomingConnection
     {
         /// <summary>
-        ///     Specify the name of the  formatted field in the Output
+        ///     Specify the name of the formatted field in the Output
         /// </summary>
         [Category("Output")]
         [Description("Field Name To Use For Output Field")]

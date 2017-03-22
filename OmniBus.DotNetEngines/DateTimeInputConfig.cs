@@ -29,7 +29,7 @@ namespace OmniBus
         public string OutputFieldName { get; set; } = "Date";
 
         /// <summary>
-        ///     Date To Return
+        ///     Gets or sets the Date To Return
         /// </summary>
         [Description("Value to Return")]
         public DateTimeInputValueToReturn DateToReturn { get; set; } = DateTimeInputValueToReturn.Now;
@@ -37,7 +37,7 @@ namespace OmniBus
         /// <summary>
         ///     ToString used for annotation
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Default Annotation for the tool</returns>
         public override string ToString() => $"{this.OutputFieldName}={this.DateToReturn}";
     }
 }

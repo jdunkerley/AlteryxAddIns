@@ -10,11 +10,12 @@ using OmniBus.Framework.Interfaces;
 namespace OmniBus
 {
     /// <summary>
-    /// Engine Piece For Create Date Time Input Values
+    ///     Engine Piece For Create Date Time Input Values
     /// </summary>
     public class DateTimeInputEngine : BaseEngine<DateTimeInputConfig>
     {
         /// <summary>
+        ///     Initializes a new instance of the <see cref="DateTimeInputEngine" /> class.
         ///     Constructor for Alteryx Engine
         /// </summary>
         public DateTimeInputEngine()
@@ -23,6 +24,7 @@ namespace OmniBus
         }
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="DateTimeInputEngine" /> class.
         ///     Create An Engine for unit testing.
         /// </summary>
         /// <param name="outputHelperFactory">Factory to create output helpers</param>
@@ -38,10 +40,16 @@ namespace OmniBus
         public IOutputHelper Output { get; set; }
 
         /// <summary>
-        ///     Called only if you have no Input Connections
+        ///     The PI_PushAllRecords function pointed to by this property will be called by the Alteryx Engine when the plugin
+        ///     should provide all of it's data to the downstream tools.
+        ///     This is only pertinent to tools which have no upstream (input) connections (such as the Input tool).
         /// </summary>
-        /// <param name="nRecordLimit"></param>
-        /// <returns></returns>
+        /// <param name="nRecordLimit">
+        ///     The nRecordLimit parameter will be &lt; 0 to indicate that there is no limit, 0 to indicate
+        ///     that the tool is being configured and no records should be sent, or &gt; 0 to indicate that only the requested
+        ///     number of records should be sent.
+        /// </param>
+        /// <returns>Return true to indicate you successfully handled the request.</returns>
         public override bool PI_PushAllRecords(long nRecordLimit)
         {
             if (this.Output == null)
@@ -53,7 +61,7 @@ namespace OmniBus
             var field = new FieldDescription(this.ConfigObject.OutputFieldName, this.ConfigObject.OutputType)
                             {
                                 Source = nameof(DateTimeInputEngine),
-                                Description = $"{this.ConfigObject.DateToReturn}",
+                                Description = this.ConfigObject.DateToReturn.ToString(),
                                 Size = 19
                             };
 
@@ -71,7 +79,8 @@ namespace OmniBus
             var recordOut = this.Output.Record;
             this.Output[this.ConfigObject.OutputFieldName]?.SetFromString(
                 recordOut,
-                dateOutput.ToString(this.ConfigObject.OutputType == FieldType.E_FT_Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
+                dateOutput.ToString(
+                    this.ConfigObject.OutputType == FieldType.E_FT_Time ? "HH:mm:ss" : "yyyy-MM-dd HH:mm:ss"));
             this.Output.Push(recordOut);
             this.Output.UpdateProgress(1.0);
 
@@ -82,6 +91,7 @@ namespace OmniBus
         private static DateTime ValueToReturn(DateTimeInputValueToReturn dateToReturn)
         {
             DateTime today;
+
             switch (dateToReturn)
             {
                 case DateTimeInputValueToReturn.Now:
@@ -109,9 +119,9 @@ namespace OmniBus
                 case DateTimeInputValueToReturn.StartOfWeek:
                     today = DateTime.Today;
                     return today.AddDays(-(int)today.DayOfWeek);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(dateToReturn), dateToReturn, null);
             }
-
-            return DateTime.MinValue;
         }
     }
 }
