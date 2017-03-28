@@ -12,18 +12,25 @@ namespace OmniBus.Framework.Attributes
         /// <summary>
         ///     Initializes a new instance of the <see cref="PlugInGroupAttribute" /> class.
         /// </summary>
-        /// <param name="groupName">Target Group Name</param>
+        /// <param name="catergoryName">Target Category Name</param>
+        /// <param name="toolName">Tool Name to Dispaly</param>
         /// <param name="description">Description for the PlugIn</param>
-        public PlugInGroupAttribute(string groupName, string description = null)
+        public PlugInGroupAttribute(string catergoryName, string toolName = null, string description = null)
         {
-            this.GroupName = groupName;
+            this.CatergoryName = catergoryName;
+            this.ToolName = toolName;
             this.Description = description;
         }
 
         /// <summary>
         ///     Gets the group name to use for the <see cref="AlteryxRecordInfoNet.INetPlugin" />.
         /// </summary>
-        public string GroupName { get; }
+        public string CatergoryName { get; }
+
+        /// <summary>
+        ///     Gets the display name to use for the <see cref="AlteryxRecordInfoNet.INetPlugin" />
+        /// </summary>
+        public string ToolName { get; }
 
         /// <summary>
         ///     Gets the description (Display Name) for the <see cref="AlteryxRecordInfoNet.INetPlugin" />.

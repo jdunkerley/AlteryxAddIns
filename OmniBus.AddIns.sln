@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniBus.Framework.GUI", "Framework.GUI\OmniBus.Framework.GUI.csproj", "{C2813972-BA56-42FE-B3F3-25DA51733946}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns.Roslyn", "AlteryxAddIns.Roslyn\AlteryxAddIns.Roslyn.csproj", "{65B57ECE-465D-41DC-909E-00F4879D21A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns", "AlteryxAddIns\AlteryxAddIns.csproj", "{9776ADBB-DE47-413F-897B-B6EF1AB368CF}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E56FB22E-2BB8-4451-95E2-70CA5FF532AC}"
 	ProjectSection(SolutionItems) = preProject
 		OmniBus.ruleset = OmniBus.ruleset
@@ -14,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniBus.Framework", "Framework\OmniBus.Framework.csproj", "{A4BE9A96-6D35-4998-9866-3B53B9372A76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniBus.Framework.Shared", "Framework.Shared\OmniBus.Framework.Shared.csproj", "{93DAAFD9-1B8A-4582-8A37-EAD80BFCC129}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniBus.DotNetEngines", "OmniBus.DotNetEngines\OmniBus.DotNetEngines.csproj", "{777F5219-7FF2-487D-8CBB-FBA75FC9BE21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +31,14 @@ Global
 		{C2813972-BA56-42FE-B3F3-25DA51733946}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2813972-BA56-42FE-B3F3-25DA51733946}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2813972-BA56-42FE-B3F3-25DA51733946}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65B57ECE-465D-41DC-909E-00F4879D21A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B57ECE-465D-41DC-909E-00F4879D21A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B57ECE-465D-41DC-909E-00F4879D21A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B57ECE-465D-41DC-909E-00F4879D21A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9776ADBB-DE47-413F-897B-B6EF1AB368CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9776ADBB-DE47-413F-897B-B6EF1AB368CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9776ADBB-DE47-413F-897B-B6EF1AB368CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9776ADBB-DE47-413F-897B-B6EF1AB368CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4BE9A96-6D35-4998-9866-3B53B9372A76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4BE9A96-6D35-4998-9866-3B53B9372A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4BE9A96-6D35-4998-9866-3B53B9372A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +47,10 @@ Global
 		{93DAAFD9-1B8A-4582-8A37-EAD80BFCC129}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93DAAFD9-1B8A-4582-8A37-EAD80BFCC129}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93DAAFD9-1B8A-4582-8A37-EAD80BFCC129}.Release|Any CPU.Build.0 = Release|Any CPU
+		{777F5219-7FF2-487D-8CBB-FBA75FC9BE21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{777F5219-7FF2-487D-8CBB-FBA75FC9BE21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{777F5219-7FF2-487D-8CBB-FBA75FC9BE21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{777F5219-7FF2-487D-8CBB-FBA75FC9BE21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
