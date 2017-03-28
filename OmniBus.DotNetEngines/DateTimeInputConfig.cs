@@ -8,7 +8,7 @@ using OmniBus.Framework.TypeConverters;
 namespace OmniBus
 {
     /// <summary>
-    /// Configuration Object For <see cref="DateTimeInputEngine"/>
+    /// Configuration Class For <see cref="DateTimeInputEngine"/>
     /// </summary>
     public class DateTimeInputConfig
     {

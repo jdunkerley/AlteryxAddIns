@@ -81,9 +81,11 @@
     <Rule Id="IDE0028WithoutSuggestion" Action="None" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1118" Action="None" />
     <Rule Id="SA1127" Action="None" />
     <Rule Id="SA1200" Action="None" />
     <Rule Id="SA1309" Action="None" />
+    <Rule Id="SA1407" Action="None" />
     <Rule Id="SA1512" Action="None" />
     <Rule Id="SA1633" Action="None" />
   </Rules>

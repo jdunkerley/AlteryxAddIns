@@ -15,11 +15,22 @@ namespace OmniBus.Framework
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="fieldType">Type of the field.</param>
-        public FieldDescription(string name, FieldType fieldType)
+        /// <param name="size">Size of the field in bytes.</param>
+        /// <param name="scale">Scale of the field.</param>
+        /// <param name="source">Source of the field.</param>
+        public FieldDescription(string name, FieldType fieldType, int size = 0, int scale = 0, string source = null)
         {
             this.Name = name;
             this.FieldType = fieldType;
+            this.Size = size;
+            this.Scale = scale;
+            this.Source = (source?.EndsWith("Engine") ?? false) ? source.Substring(0, source.Length - 6) : source;
         }
+
+        /// <summary>
+        /// Gets the Maximum String Length
+        /// </summary>
+        public static int MaxStringLength { get; } = 1_073_741_823;
 
         /// <summary>
         ///     Gets the name of the field.
@@ -32,19 +43,19 @@ namespace OmniBus.Framework
         public FieldType FieldType { get; }
 
         /// <summary>
-        ///     Gets or sets the size of the field in bytes.
+        ///     Gets the size of the field in bytes.
         /// </summary>
-        public int Size { get; set; }
+        public int Size { get; }
 
         /// <summary>
-        ///     Gets or sets the scale of the field.
+        ///     Gets the scale of the field.
         /// </summary>
-        public int Scale { get; set; }
+        public int Scale { get; }
 
         /// <summary>
-        ///     Gets or sets the source of the field.
+        ///     Gets the source of the field.
         /// </summary>
-        public string Source { get; set; }
+        public string Source { get; }
 
         /// <summary>
         ///     Gets or sets the description of the field.
@@ -54,33 +65,22 @@ namespace OmniBus.Framework
         /// <summary>
         ///     Given a .Net Type and a name create a FieldDescription
         /// </summary>
-        /// <param name="name">Field Name</param>
         /// <param name="type">DotNet Type</param>
         /// <returns>FieldDescription for Alteryx</returns>
-        public static FieldDescription FromNameAndType(string name, Type type)
+        public static FieldType GetAlteryxFieldType(Type type)
         {
             switch (type.Name)
             {
-                case nameof(String):
-                    return new FieldDescription(name, FieldType.E_FT_V_WString) { Size = 32000 };
-                case nameof(DateTime):
-                    return new FieldDescription(name, FieldType.E_FT_DateTime);
-                case nameof(Boolean):
-                    return new FieldDescription(name, FieldType.E_FT_Bool);
-                case nameof(Byte):
-                    return new FieldDescription(name, FieldType.E_FT_Byte);
-                case nameof(Int16):
-                    return new FieldDescription(name, FieldType.E_FT_Int16);
-                case nameof(Int32):
-                    return new FieldDescription(name, FieldType.E_FT_Int32);
-                case nameof(Int64):
-                    return new FieldDescription(name, FieldType.E_FT_Int64);
-                case nameof(Double):
-                    return new FieldDescription(name, FieldType.E_FT_Double);
-                case nameof(Single):
-                    return new FieldDescription(name, FieldType.E_FT_Float);
-                default:
-                    return null;
+                case nameof(String): return FieldType.E_FT_V_WString;
+                case nameof(DateTime): return FieldType.E_FT_DateTime;
+                case nameof(Boolean): return FieldType.E_FT_Bool;
+                case nameof(Byte): return FieldType.E_FT_Byte;
+                case nameof(Int16): return FieldType.E_FT_Int16;
+                case nameof(Int32): return FieldType.E_FT_Int32;
+                case nameof(Int64): return FieldType.E_FT_Int64;
+                case nameof(Double): return FieldType.E_FT_Double;
+                case nameof(Single): return FieldType.E_FT_Float;
+                default: return FieldType.E_FT_Unknown;
             }
         }
 

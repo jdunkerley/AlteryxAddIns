@@ -13,17 +13,16 @@ using OmniBus.Framework.Interfaces;
 namespace OmniBus
 {
     /// <summary>
-    /// Alteryx Engine For Computing Hash Codes
+    ///     Alteryx Engine For Computing Hash Codes
     /// </summary>
     public class HashCodeGeneratorEngine : BaseEngine<HashCodeGeneratorConfig>
     {
         private HashAlgorithm _hashAlgorithm;
-
         private FieldBase _inputFieldBase;
-
         private FieldBase _outputFieldBase;
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="HashCodeGeneratorEngine" /> class.
         ///     Constructor For Alteryx
         /// </summary>
         public HashCodeGeneratorEngine()
@@ -32,6 +31,7 @@ namespace OmniBus
         }
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="HashCodeGeneratorEngine" /> class.
         ///     Create An Engine for unit testing.
         /// </summary>
         /// <param name="recordCopierFactory">Factory to create copiers</param>
@@ -71,17 +71,16 @@ namespace OmniBus
                 return;
             }
 
-            var field =
-                    new FieldDescription(this.ConfigObject.OutputFieldName, FieldType.E_FT_V_String)
-                    {
-                        Size = 256,
-                        Source = nameof(HashCodeGeneratorEngine).Replace("Engine", string.Empty)
-                    };
+            var field = new FieldDescription(
+                this.ConfigObject.OutputFieldName,
+                FieldType.E_FT_V_String,
+                256,
+                source: nameof(HashCodeGeneratorEngine));
 
             this.Output.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo, field));
             this._outputFieldBase = this.Output[this.ConfigObject.OutputFieldName];
 
-            this._hashAlgorithm = this.ConfigObject.GetAlgorithm();
+            this._hashAlgorithm = this.GetAlgorithm();
 
             args.Success = true;
         }
@@ -105,6 +104,27 @@ namespace OmniBus
 
             this.Output.Push(record);
             args.Success = true;
+        }
+
+        private HashAlgorithm GetAlgorithm()
+        {
+            switch (this.ConfigObject.HashAlgorithm)
+            {
+                case HashCodeGeneratorMethod.MD5:
+                    return new MD5Cng();
+                case HashCodeGeneratorMethod.RIPEMD160:
+                    return new RIPEMD160Managed();
+                case HashCodeGeneratorMethod.SHA1:
+                    return new SHA1Managed();
+                case HashCodeGeneratorMethod.SHA256:
+                    return new SHA256Managed();
+                case HashCodeGeneratorMethod.SHA384:
+                    return new SHA384Managed();
+                case HashCodeGeneratorMethod.SHA512:
+                    return new SHA512Managed();
+                default:
+                    throw new MissingMethodException($"Can't find method for {this.ConfigObject.HashAlgorithm}");
+            }
         }
     }
 }

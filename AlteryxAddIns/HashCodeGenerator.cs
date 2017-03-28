@@ -1,11 +1,12 @@
-﻿using AlteryxGuiToolkit.Plugins;
-
-using OmniBus;
+﻿using OmniBus;
 using OmniBus.Framework;
 
 namespace JDunkerley.AlteryxAddIns
 {
-    public class HashCodeGenerator : BaseTool<HashCodeGeneratorConfig, HashCodeGeneratorEngine>, IPlugin
+    /// <summary>
+    /// Given a string field compute a hash code for it
+    /// </summary>
+    public class HashCodeGenerator : BaseTool<HashCodeGeneratorConfig, HashCodeGeneratorEngine>, AlteryxGuiToolkit.Plugins.IPlugin
     {
         /// <summary>
         /// Place Holder for Old Entry Point

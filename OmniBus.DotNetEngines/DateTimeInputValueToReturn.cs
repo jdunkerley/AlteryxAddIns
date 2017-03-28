@@ -5,7 +5,7 @@ namespace OmniBus
     /// <summary>
     /// Date To Return
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1514:ElementDocumentationHeaderMustBePrecededByBlankLine", Justification = "Enum style.")]
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1514", Justification = "Enum style.")]
     public enum DateTimeInputValueToReturn
     {
         /// <summary>

@@ -11,7 +11,9 @@ using OmniBus.Framework.Interfaces;
 namespace OmniBus
 {
     /// <summary>
-    ///     Engine for Circuit Breaker
+    ///     Engine Class Acting As A Circuit Breaker
+    ///     If Data Passed To Breaker Input Then No Data Will Be Output
+    ///     Otherwise Input Will Be Passed Through
     /// </summary>
     /// <seealso cref="BaseEngine{TConfig}" />
     public class CircuitBreakerEngine : BaseEngine<CircuitBreakerConfig>
@@ -52,8 +54,9 @@ namespace OmniBus
             this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
             this.Input.InitCalled += this.InputOnInitCalled;
             this.Input.RecordPushed += this.InputOnRecordPushed;
-            this.Input.ProgressUpdated +=
-                (sender, args) => this.Output?.UpdateProgress(this._failed ? 1.0 : args.Progress, true);
+            this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(
+                this._failed ? 1.0 : args.Progress,
+                true);
             this.Input.Closed += this.InputOnClosed;
         }
 

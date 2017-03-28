@@ -224,11 +224,17 @@ namespace Temporary
                 var descriptions = new List<FieldDescription>();
 
                 // Handle A Primitive Type
-                var primitive = FieldDescription.FromNameAndType("Value", sampleType);
-                if (primitive != null)
+                var primitiveType = FieldDescription.GetAlteryxFieldType(sampleType);
+                if (primitiveType != FieldType.E_FT_Unknown)
                 {
-                    primitive.Description = "BaseValue: " + sampleType.Name;
-                    descriptions.Add(primitive);
+                    descriptions.Add(
+                        new FieldDescription(
+                            "Value",
+                            primitiveType,
+                            source: $"RoslynInput: {sampleType.Name}")
+                            {
+                                Description = $"BaseValue: {sampleType.Name}"
+                            });
                     return descriptions;
                 }
 
@@ -256,15 +262,18 @@ namespace Temporary
                         continue;
                     }
 
-                    var description = FieldDescription.FromNameAndType(prefix + propertyInfo.Name, propertyInfo.PropertyType);
-                    if (description == null)
+                    var descriptionType = FieldDescription.GetAlteryxFieldType(propertyInfo.PropertyType);
+                    if (descriptionType == FieldType.E_FT_Unknown)
                     {
                         // ToDo: Recurse ... descriptions.AddRange(FieldDescriptionsFromType(propertyInfo.PropertyType, (prefix == "" ? "" : $"{prefix}.") + propertyInfo.Name + "."));
                         continue;
                     }
 
-                    description.Source = nameof(RoslynInput);
-                    descriptions.Add(description);
+                    descriptions.Add(
+                        new FieldDescription(
+                            prefix + propertyInfo.Name, 
+                            descriptionType,
+                            source: "RoslynInput"));
                 }
                 return descriptions;
             }

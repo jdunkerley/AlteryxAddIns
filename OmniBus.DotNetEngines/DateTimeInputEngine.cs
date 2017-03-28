@@ -10,7 +10,7 @@ using OmniBus.Framework.Interfaces;
 namespace OmniBus
 {
     /// <summary>
-    ///     Engine Piece For Create Date Time Input Values
+    ///     Engine Class For Creating Date Time Input Values
     /// </summary>
     public class DateTimeInputEngine : BaseEngine<DateTimeInputConfig>
     {
@@ -58,12 +58,11 @@ namespace OmniBus
                 return false;
             }
 
-            var field = new FieldDescription(this.ConfigObject.OutputFieldName, this.ConfigObject.OutputType)
-                            {
-                                Source = nameof(DateTimeInputEngine),
-                                Description = this.ConfigObject.DateToReturn.ToString(),
-                                Size = 19
-                            };
+            var field = new FieldDescription(
+                this.ConfigObject.OutputFieldName,
+                this.ConfigObject.OutputType,
+                19,
+                source: $"DateTImeInput: {this.ConfigObject.DateToReturn}");
 
             var recordInfo = FieldDescription.CreateRecordInfo(field);
 

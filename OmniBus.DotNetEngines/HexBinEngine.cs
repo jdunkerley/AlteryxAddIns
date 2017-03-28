@@ -11,16 +11,16 @@ using OmniBus.Framework.Interfaces;
 namespace OmniBus
 {
     /// <summary>
-    /// Given a set of X and Y co=ordinates compute HexBin X and Y co-ordinates
+    ///     Given a set of X and Y co=ordinates compute HexBin X and Y co-ordinates
     /// </summary>
     public class HexBinEngine : BaseEngine<HexBinConfig>
     {
         private Func<RecordData, Tuple<double?, double?>> _inputReader;
         private FieldBase _outputBinXFieldBase;
-
         private FieldBase _outputBinYFieldBase;
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="HexBinEngine" /> class.
         ///     Constructor For Alteryx
         /// </summary>
         public HexBinEngine()
@@ -29,6 +29,7 @@ namespace OmniBus
         }
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="HexBinEngine" /> class.
         ///     Create An Engine for unit testing.
         /// </summary>
         /// <param name="recordCopierFactory">Factory to create copiers</param>
@@ -61,7 +62,7 @@ namespace OmniBus
 
         private void OnInit(IInputProperty sender, SuccessEventArgs args)
         {
-            this._inputReader = this.ConfigObject.InputPointReader(this.Input.RecordInfo);
+            this._inputReader = this.InputPointReader(this.Input.RecordInfo);
             if (this._inputReader == null)
             {
                 args.Success = false;
@@ -71,16 +72,14 @@ namespace OmniBus
             this.Output?.Init(
                 FieldDescription.CreateRecordInfo(
                     this.Input.RecordInfo,
-                    new FieldDescription(this.ConfigObject.OutputBinXFieldName, FieldType.E_FT_Double)
-                        {
-                            Source = nameof(HexBinEngine),
-                            Description = "X Co-ordinate of HexBin Centre"
-                        },
-                    new FieldDescription(this.ConfigObject.OutputBinYFieldName, FieldType.E_FT_Double)
-                        {
-                            Source = nameof(HexBinEngine),
-                            Description = "Y Co-ordinate of HexBin Centre"
-                        }));
+                    new FieldDescription(
+                        this.ConfigObject.OutputBinXFieldName,
+                        FieldType.E_FT_Double,
+                        source: "HexBin: X Co-ordinate of Center"),
+                    new FieldDescription(
+                        this.ConfigObject.OutputBinYFieldName,
+                        FieldType.E_FT_Double,
+                        source: "HexBin: Y Co-ordinate of Center")));
             this._outputBinXFieldBase = this.Output?[this.ConfigObject.OutputBinXFieldName];
             this._outputBinYFieldBase = this.Output?[this.ConfigObject.OutputBinYFieldName];
 
@@ -112,21 +111,21 @@ namespace OmniBus
             var px = point.Item1.Value / dx;
             var pi = (int)Math.Round(px);
             var mod2 = (pi & 1) == 1;
-            var py = (point.Item2.Value / dy) - (mod2 ? 0.5 : 0);
+            var py = point.Item2.Value / dy - (mod2 ? 0.5 : 0);
             var pj = Math.Round(py);
             var px1 = (px - pi) * dx;
 
             if (Math.Abs(px1) * 3 > 1)
             {
                 var py1 = (py - pj) * dy;
-                var pj2 = pj + ((py < pj ? -1 : 1) / 2.0);
+                var pj2 = pj + (py < pj ? -1 : 1) / 2.0;
                 var pi2 = pi + (px < pi ? -1 : 1);
                 var px2 = (px - pi2) * dx;
                 var py2 = (py - pj2) * dy;
 
-                if ((px1 * px1) + (py1 * py1) > (px2 * px2) + (py2 * py2))
+                if (px1 * px1 + py1 * py1 > px2 * px2 + py2 * py2)
                 {
-                    pj = pj2 + ((mod2 ? 1 : -1) / 2.0);
+                    pj = pj2 + (mod2 ? 1 : -1) / 2.0;
                     pi = pi2;
                     mod2 = (pi & 1) == 1;
                 }
@@ -139,12 +138,24 @@ namespace OmniBus
         }
 
         private void OnClosed()
-
         {
             this._inputReader = null;
             this._outputBinXFieldBase = null;
             this._outputBinYFieldBase = null;
             this.Output?.Close(true);
+        }
+
+        private Func<RecordData, Tuple<double?, double?>> InputPointReader(RecordInfo ri)
+        {
+            var pointXBaseIndex = ri.GetFieldNum(this.ConfigObject.InputPointXFieldName, false);
+            var pointYBaseIndex = ri.GetFieldNum(this.ConfigObject.InputPointYFieldName, false);
+            if (pointXBaseIndex == -1 || pointYBaseIndex == -1)
+            {
+                return null;
+            }
+
+            return
+                data => Tuple.Create(ri[pointXBaseIndex].GetAsDouble(data), ri[pointYBaseIndex].GetAsDouble(data));
         }
     }
 }

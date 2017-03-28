@@ -65,12 +65,9 @@ namespace OmniBus
         private void OnInit(IInputProperty sender, SuccessEventArgs args)
         {
             var fieldDescription = new FieldDescription(
-                                       this.ConfigObject.OutputFieldName,
-                                       this.ConfigObject.OutputType)
-                                       {
-                                           Source = nameof(NumberParserEngine).Replace("Engine", string.Empty),
-                                           Description = $"{this.ConfigObject.InputFieldName} parsed as a number"
-                                       };
+                this.ConfigObject.OutputFieldName,
+                this.ConfigObject.OutputType,
+                source: $"NumberParser: {this.ConfigObject.InputFieldName} parsed as a number");
 
             this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
             if (this._inputFieldBase == null)
