@@ -75,16 +75,6 @@
     <Compile Include="StringFormatterEngine.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Framework.Shared\OmniBus.Framework.Shared.csproj">
-      <Project>{93daafd9-1b8a-4582-8a37-ead80bfcc129}</Project>
-      <Name>OmniBus.Framework.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Framework\OmniBus.Framework.csproj">
-      <Project>{a4be9a96-6d35-4998-9866-3b53b9372a76}</Project>
-      <Name>OmniBus.Framework</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -76,6 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="OmniBus.Framework.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

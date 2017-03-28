@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("OmniBus.Framework.Shared")]
-[assembly: AssemblyDescription("Small set of shared interfaces and attributes")]
+[assembly: AssemblyDescription("Small set of shared interfaces and attributes for creating Alteryx AddIns within the Omnibus library")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 

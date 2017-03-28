@@ -112,18 +112,6 @@
       <Project>{777f5219-7ff2-487d-8cbb-fba75fc9be21}</Project>
       <Name>OmniBus.DotNetEngines</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Framework.GUI\OmniBus.Framework.GUI.csproj">
-      <Project>{c2813972-ba56-42fe-b3f3-25da51733946}</Project>
-      <Name>OmniBus.Framework.GUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Framework.Shared\OmniBus.Framework.Shared.csproj">
-      <Project>{93daafd9-1b8a-4582-8a37-ead80bfcc129}</Project>
-      <Name>OmniBus.Framework.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Framework\OmniBus.Framework.csproj">
-      <Project>{a4be9a96-6d35-4998-9866-3b53b9372a76}</Project>
-      <Name>OmniBus.Framework</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -68,6 +68,7 @@
     <Compile Include="TypeConverters\InputFieldTypeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="OmniBus.Framework.Shared.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

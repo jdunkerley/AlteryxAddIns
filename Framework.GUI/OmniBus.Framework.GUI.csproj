@@ -70,6 +70,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="OmniBus.Framework.GUI.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
