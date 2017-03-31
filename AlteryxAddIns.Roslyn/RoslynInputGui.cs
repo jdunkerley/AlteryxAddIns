@@ -6,13 +6,13 @@ using OmniBus.Framework.ConfigWindows;
 namespace JDunkerley.AlteryxAddIns.Roslyn
 {
     /// <summary>
-    /// Roslyn Editor based Config Window
+    /// Config Window for <see cref="RoslynInput"/>
     /// </summary>
-    public class RoslynEditorGui : BaseGui<RoslynInput.Config>
+    public class RoslynInputGui : BaseGui<RoslynInputConfig>
     {
         private readonly RoslynEditor _editor;
 
-        public RoslynEditorGui(Func<string, string> getCodeBlock)
+        public RoslynInputGui(Func<string, string> getCodeBlock)
         {
             this.GetCodeBlock = getCodeBlock;
 

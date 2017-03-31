@@ -77,6 +77,8 @@
     <Compile Include="RandomNumberConfig.cs" />
     <Compile Include="RandomNumberDistribution.cs" />
     <Compile Include="RandomNumberEngine.cs" />
+    <Compile Include="SortWithCultureConfig.cs" />
+    <Compile Include="SortWithCultureEngine.cs" />
     <Compile Include="StringFormatterConfig.cs" />
     <Compile Include="StringFormatterEngine.cs" />
   </ItemGroup>

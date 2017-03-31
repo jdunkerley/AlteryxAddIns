@@ -110,10 +110,12 @@
     <Compile Include="RoslynEditor.Designer.cs">
       <DependentUpon>RoslynEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoslynEditorGUI.cs">
+    <Compile Include="RoslynInputGui.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="RoslynInput.cs" />
+    <Compile Include="RoslynInputConfig.cs" />
+    <Compile Include="RoslynInputEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Install.bat">
