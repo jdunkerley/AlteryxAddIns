@@ -8,8 +8,9 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>OmniBus.HTMLHelper</RootNamespace>
     <AssemblyName>OmniBus.HTMLHelper</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -48,8 +49,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
@@ -57,8 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyResolver.cs" />
+    <Compile Include="CommandLineArgs.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="EngineScanner.cs" />
+    <Compile Include="IConnection.cs" />
+    <Compile Include="IEngineScanner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -66,6 +68,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="XMLConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -82,6 +85,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="packages\OmniBus.Framework.Shared.0.5.0\lib\net45\OmniBus.Framework.Shared.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Framework.GUI\BaseInput.png">
+      <Link>BaseInput.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Framework.GUI\BaseTool.png">
+      <Link>BaseTool.png</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,9 +1,18 @@
-﻿namespace OmniBus.HTMLHelper
+﻿using System;
+
+namespace OmniBus.HTMLHelper
 {
-    internal class Connection
+    /// <summary>
+    /// Class Representing an Input or Output Connection
+    /// </summary>
+    public class Connection : IConnection
     {
         public Connection(string name, bool allowMultiple = false, bool optional = false, char label = '\0')
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException(nameof(name), "Expect a Name for a connection.");
+            }
             this.Name = name;
             this.AllowMultiple = allowMultiple;
             this.Optional = optional;

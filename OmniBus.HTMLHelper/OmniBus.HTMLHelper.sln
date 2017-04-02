@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniBus.HTMLHelper", "OmniBus.HTMLHelper.csproj", "{80B28F0A-AC4A-40AD-A644-48C393A6FBD1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniBus.HTMLHelper.Tests", "..\OmniBus.HTMLHelper.Tests\OmniBus.HTMLHelper.Tests.csproj", "{C18BA6A8-F821-458C-8889-7B7676C1E266}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{80B28F0A-AC4A-40AD-A644-48C393A6FBD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80B28F0A-AC4A-40AD-A644-48C393A6FBD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80B28F0A-AC4A-40AD-A644-48C393A6FBD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C18BA6A8-F821-458C-8889-7B7676C1E266}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C18BA6A8-F821-458C-8889-7B7676C1E266}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C18BA6A8-F821-458C-8889-7B7676C1E266}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C18BA6A8-F821-458C-8889-7B7676C1E266}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

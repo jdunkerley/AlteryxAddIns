@@ -23,7 +23,7 @@ namespace OmniBus.HTMLHelper
                               };
         }
 
-        public void SetUpAssemblyResolver()
+        public void Init()
         {
             var execAssembly = Assembly.GetExecutingAssembly();
             var embedded = execAssembly.GetManifestResourceNames();
@@ -86,6 +86,5 @@ namespace OmniBus.HTMLHelper
                                                          "HKEY_CURRENT_USER\\SOFTWARE\\SRC\\Alteryx",
                                                          "InstallDir64",
                                                          null))?.ToString();
-
     }
 }
