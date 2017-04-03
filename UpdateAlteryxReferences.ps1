@@ -16,8 +16,13 @@ $dir = $reg.InstallDir64
 Push-Location $root
 
 Get-ChildItem -File -Filter *.csproj -Recurse  | ForEach {
-     (Get-Content $_.FullName ).Replace("<HintPath>.*?\\(AlteryxGuiToolkit\.dll|AlteryxRecordInfo\.Net\.dll)</HintPath>", '<HintPath>$dir\$1</HintPath>') | 
-     Set-Content $_.FullName
+    $path = $_.FullName
+    Write-Host $path
+    $content = (Get-Content $path) -Replace "<HintPath>.*?\\(AlteryxGuiToolkit\.dll)</HintPath>",'<HintPath>%%DIR%%\$1</HintPath>'
+    $content = $content -Replace "<HintPath>.*?\\(AlteryxRecordInfo\.Net\.dll)</HintPath>",'<HintPath>%%DIR%%\$1</HintPath>'
+    $content = $content -Replace "%%DIR%%","$dir"
+    Set-Content -Path $path -Value $content -Force
+    Write-Host $content
 }
 
 Pop-Location
