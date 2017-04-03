@@ -14,4 +14,7 @@
     <copyright>Copyright 2017</copyright>
     <tags>Alteryx</tags>
   </metadata>
+  <files>
+    <file src="NuGetFiles\Install.ps1" target="tools\Install.ps1" />
+  </files>
 </package>
