@@ -16,5 +16,9 @@
   </metadata>
   <files>
     <file src="NuGetFiles\Install.ps1" target="tools\Install.ps1" />
+    <file src="NuGetFiles\Install.bat" target="content\Install.bat" />
+    <file src="NuGetFiles\Installer.ps1" target="content\Scripts\Installer.ps1" />
+    <file src="NuGetFiles\Uninstall.bat" target="content\Uninstall.bat" />
+    <file src="NuGetFiles\Uninstaller.ps1" target="content\Scripts\Uninstaller.ps1" />
   </files>
 </package>

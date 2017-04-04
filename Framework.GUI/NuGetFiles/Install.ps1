@@ -1,34 +1,44 @@
 ﻿param($installPath, $toolsPath, $package, $project)
 
-foreach ($reference in $project.Object.References) 
+function setContent
 {
-	if ($reference.Name -eq "AlteryxRecordInfo.Net") 
-	{
-		Write-Host "AlteryxRecordInfo.Net Found"
-		exit
+	param ($projectItem)
+	Write-Host $projectItem.FileNames(1)
+	$content = (Get-Content $projectItem.FileNames(1)) -replace "PROJECT",$project.Name
+	Set-Content -Path $projectItem.FileNames(1) -Value $content
+	$projectItem.Properties.Item("BuildAction").Value = [int]2
+	$projectItem.Properties.Item("CopyToOutputDirectory").Value = [int]2
+}
+
+$alteryxName = "AlteryxGuiToolkit"
+$alteryxRef = $project.Object.References | Where-Object { $_.Name -eq $alteryxName }
+if ($alteryxRef -eq $null) {
+	Write-Host "Finding Alteryx Install Location..."
+	$reg = Get-ItemProperty HKLM:\SOFTWARE\WOW6432Node\SRC\Alteryx -ErrorAction SilentlyContinue
+	if ($reg -eq $null) {
+		$reg = Get-ItemProperty HKCU:\SOFTWARE\SRC\Alteryx -ErrorAction SilentlyContinue
 	}
+
+	if ($reg -eq $null) {
+		throw "Couldn't Find Alteryx. You Need Alteryx Installed"
+	}
+
+	$dir = $reg.InstallDir64
+	Write-Host "Found " $dir
+
+	Write-Host "Adding a reference to $alteryxName Dll to the project"
+	$project.Object.References.Add("$dir\$alteryxName.dll")
+	$alteryxRef = $project.Object.References | Where-Object { $_.Name -eq $alteryxName }
+	$alteryxRef.CopyLocal = $false
 }
 
-Write-Host "Finding Alteryx Install Location..."
-$reg = Get-ItemProperty HKLM:\SOFTWARE\WOW6432Node\SRC\Alteryx -ErrorAction SilentlyContinue
-if ($reg -eq $null) {
-	$reg = Get-ItemProperty HKCU:\SOFTWARE\SRC\Alteryx -ErrorAction SilentlyContinue
-}
-
-if ($reg -eq $null) {
-	throw "Couldn't Find Alteryx. You Need Alteryx Installed"
-}
-
-$dir = $reg.InstallDir64
-Write-Host "Found " $dir
-
-
-Write-Host "Adding a reference to Alteryx Dlls to the project"
-$project.Object.References.Add($dir + "\AlteryxRecordInfo.Net.dll")
-foreach ($reference in $project.Object.References) 
+foreach ($projectItem in ($project.ProjectItems | Where-Object { $_.Name -eq "Install.bat" -or $_.Name -eq "Uninstall.bat" } ))
 {
-	if ($reference.Name -eq "AlteryxRecordInfo.Net") 
-	{
-		$reference.CopyLocal = $false;
-	}
+	setContent $projectItem
+}
+
+$scripts = $project.ProjectItems | Where-Object { $_.Name -eq "Scripts" }
+foreach ($projectItem in $scripts.ProjectItems) 
+{
+	setContent $projectItem
 }

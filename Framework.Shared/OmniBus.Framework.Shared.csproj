@@ -69,7 +69,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="NuGetFiles\Install.ps1" />
-    <None Include="OmniBus.Framework.Shared.nuspec" />
+    <None Include="OmniBus.Framework.Shared.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

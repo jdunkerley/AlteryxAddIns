@@ -46,7 +46,7 @@ namespace OmniBus.Framework
         {
             var stream =
                 assembly.GetManifestResourceNames()
-                    .Where(n => n.Contains(name))
+                    .Where(n => n.Contains(name.Replace("Engine", string.Empty)))
                     .Select(assembly.GetManifestResourceStream)
                     .FirstOrDefault();
             if (stream == null)

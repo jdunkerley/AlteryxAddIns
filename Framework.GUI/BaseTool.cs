@@ -82,7 +82,7 @@ namespace OmniBus.Framework
         private Image GetEmbeddedImage()
         {
             var type = this.GetType();
-            return Helpers.GetImageFromAssembly(type.Assembly, type.Name) ?? (this._inputConnections.Length == 0 ? Helpers.BaseInput : Helpers.BaseTool);
+            return Helpers.GetImageFromAssembly(type.Assembly, type.Name) ?? Helpers.GetImageFromAssembly(typeof(TEngine).Assembly, typeof(TEngine).Name) ?? (this._inputConnections.Length == 0 ? Helpers.BaseInput : Helpers.BaseTool);
         }
     }
 }
