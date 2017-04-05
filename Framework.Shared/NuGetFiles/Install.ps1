@@ -23,3 +23,6 @@ if ($alteryxRef -eq $null) {
 }
 
 # Force to x64 for all modes...
+foreach ($config in $project.ConfigurationManager) {
+	$config.Properties.Item("PlatformTarget").Value = "x64"
+}

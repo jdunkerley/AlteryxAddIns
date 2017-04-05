@@ -13,6 +13,10 @@
     <description>$description$</description>
     <copyright>Copyright 2017</copyright>
     <tags>Alteryx</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing" />
+      <frameworkAssembly assemblyName="System.Windows.Forms" />
+    </frameworkAssemblies>
   </metadata>
   <files>
     <file src="NuGetFiles\Install.ps1" target="tools\Install.ps1" />

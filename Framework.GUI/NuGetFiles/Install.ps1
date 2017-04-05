@@ -10,15 +10,16 @@ function setContent
 	$projectItem.Properties.Item("CopyToOutputDirectory").Value = [int]2
 }
 
+Write-Host "Finding Alteryx Install Location..."
+$reg = Get-ItemProperty HKLM:\SOFTWARE\WOW6432Node\SRC\Alteryx -ErrorAction SilentlyContinue
+if ($reg -eq $null) {
+	$reg = Get-ItemProperty HKCU:\SOFTWARE\SRC\Alteryx -ErrorAction SilentlyContinue
+}
+
+
 $alteryxName = "AlteryxGuiToolkit"
 $alteryxRef = $project.Object.References | Where-Object { $_.Name -eq $alteryxName }
 if ($alteryxRef -eq $null) {
-	Write-Host "Finding Alteryx Install Location..."
-	$reg = Get-ItemProperty HKLM:\SOFTWARE\WOW6432Node\SRC\Alteryx -ErrorAction SilentlyContinue
-	if ($reg -eq $null) {
-		$reg = Get-ItemProperty HKCU:\SOFTWARE\SRC\Alteryx -ErrorAction SilentlyContinue
-	}
-
 	if ($reg -eq $null) {
 		throw "Couldn't Find Alteryx. You Need Alteryx Installed"
 	}
@@ -41,4 +42,12 @@ $scripts = $project.ProjectItems | Where-Object { $_.Name -eq "Scripts" }
 foreach ($projectItem in $scripts.ProjectItems) 
 {
 	setContent $projectItem
+}
+
+
+$debug = $project.ConfigurationManager | Where-Object { $_.ConfigurationName -eq "Debug" }
+if ($debug -ne $null -and $reg -ne $null) {
+	$dir = $reg.InstallDir64
+	$debug.Properties.Item("StartAction").Value = [int]1
+	$debug.Properties.Item("StartProgram").Value = "$dir\AlteryxGui.exe"
 }
