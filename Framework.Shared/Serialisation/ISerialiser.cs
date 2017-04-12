@@ -1,26 +1,25 @@
-using System.Xml;
+﻿using System.Xml;
 
 namespace OmniBus.Framework.Serialisation
 {
     /// <summary>
-    /// Interface for serialisers
+    /// Interface for Serialisers
     /// </summary>
-    internal interface ISerialiser
+    /// <typeparam name="TConfig">Type of object to serialialise</typeparam>
+    public interface ISerialiser<TConfig> where TConfig : new()
     {
         /// <summary>
-        /// Given an object, serialise to an XmlElement
+        /// Serialise an object to an Xml Element
         /// </summary>
-        /// <param name="doc">Parent Xml Document</param>
-        /// <param name="name">Name for Node</param>
-        /// <param name="value">Object to serialise</param>
-        /// <returns>Serialised node</returns>
-        XmlElement Serialise(XmlDocument doc, string name, object value);
+        /// <param name="source">Object to serialise</param>
+        /// <returns>Serialied Node</returns>
+        XmlNode Serialise(TConfig source);
 
         /// <summary>
-        /// Given an XmlElement, deserialise to an object
+        /// Deserialise an object from an Xml Element
         /// </summary>
-        /// <param name="node">Serialised node</param>
-        /// <returns>Object</returns>
-        object Deserialise(XmlElement node);
+        /// <param name="node">Serialied Node</param>
+        /// <returns>Deserialised Object</returns>
+        TConfig Deserialise(XmlNode node);
     }
 }

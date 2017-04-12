@@ -90,6 +90,75 @@ namespace OmniBus.Framework
         }
 
         /// <summary>
+        ///     Using <see cref="IOutputHelper.Record"/> push data to Alteryx
+        /// </summary>
+        /// <param name="data">Array of data to push</param>
+        public void PushData(params object[] data)
+        {
+            void SetDateTimeField(object dataValue, Record recordObject, FieldBase fieldBaseObject, string format)
+            {
+                if (dataValue is DateTime dateTime)
+                {
+                    fieldBaseObject.SetFromString(recordObject, dateTime.ToString(format));
+                }
+                else if (dataValue is TimeSpan t)
+                {
+                    fieldBaseObject.SetFromString(recordObject, DateTime.Today.Add(t).ToString(format));
+                }
+                else
+                {
+                    fieldBaseObject.SetFromString(recordObject, dataValue.ToString());
+                }
+            }
+
+            var record = this.Record;
+            record.Reset();
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                var fieldBase = this.RecordInfo[i];
+                if (data[i] == null)
+                {
+                    fieldBase.SetNull(record);
+                    continue;
+                }
+
+                switch (fieldBase.FieldType)
+                {
+                    case FieldType.E_FT_Bool:
+                        fieldBase.SetFromBool(record, (bool)data[i]);
+                        break;
+                    case FieldType.E_FT_Byte:
+                    case FieldType.E_FT_Int16:
+                    case FieldType.E_FT_Int32:
+                        fieldBase.SetFromInt32(record, (ValueType)data[i]);
+                        break;
+                    case FieldType.E_FT_Int64:
+                        fieldBase.SetFromInt64(record, (ValueType)data[i]);
+                        break;
+                    case FieldType.E_FT_Float:
+                    case FieldType.E_FT_Double:
+                        fieldBase.SetFromDouble(record, (ValueType)data[i]);
+                        break;
+                    case FieldType.E_FT_Date:
+                        SetDateTimeField(data[i], record, fieldBase, "yyyy-MM-dd");
+                        break;
+                    case FieldType.E_FT_DateTime:
+                        SetDateTimeField(data[i], record, fieldBase, "yyyy-MM-dd HH:mm:ss");
+                        break;
+                    case FieldType.E_FT_Time:
+                        SetDateTimeField(data[i], record, fieldBase, "HH:mm:ss");
+                        break;
+                    default:
+                        fieldBase.SetFromString(record, data[i].ToString());
+                        break;
+                }
+            }
+
+            this.Push(record, false, 0);
+        }
+
+        /// <summary>
         ///     Pushes a record to Alteryx to hand onto over tools.
         /// </summary>
         /// <param name="record">Record object to push to the stream.</param>
@@ -158,7 +227,11 @@ namespace OmniBus.Framework
         /// <param name="connection">The connection.</param>
         public void AddConnection(OutgoingConnection connection) => this._helper?.AddOutgoingConnection(connection);
 
-        private void PushCountAndSize(bool final = false)
+        /// <summary>
+        ///     Push Record Count and Size to Alteryx
+        /// </summary>
+        /// <param name="final">Tell Alterysx Is Funal Update</param>
+        public void PushCountAndSize(bool final = false)
         {
             this._hostEngine.Engine.OutputMessage(
                 this._hostEngine.NToolId,

@@ -10,7 +10,7 @@ namespace OmniBus.Framework.Serialisation
     /// Serialiser Class
     /// </summary>
     /// <typeparam name="T">Type of object to serialialise</typeparam>
-    public class Serialiser<T>
+    public class Serialiser<T> : ISerialiser<T>
         where T : new()
     {
         // ReSharper disable once StaticMemberInGenericType
@@ -23,6 +23,16 @@ namespace OmniBus.Framework.Serialisation
                     .Where(p => p.CanWrite && p.CanRead)
                     .Where(p => p.GetCustomAttribute<XmlIgnoreAttribute>() == null)
                     .ToDictionary(p => p.Name, p => p);
+        }
+
+        /// <summary>
+        /// Serialise an object to an Xml Element
+        /// </summary>
+        /// <param name="source">Object to serialise</param>
+        /// <returns>Serialied Node</returns>
+        XmlNode ISerialiser<T>.Serialise(T source)
+        {
+            return this.Serialise(source);
         }
 
         /// <summary>

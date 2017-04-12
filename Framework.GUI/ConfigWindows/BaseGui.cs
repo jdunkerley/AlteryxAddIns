@@ -1,10 +1,12 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 
 using AlteryxGuiToolkit.Plugins;
 
 using OmniBus.Framework.Interfaces;
+using OmniBus.Framework.Serialisation;
 
 namespace OmniBus.Framework.ConfigWindows
 {
@@ -31,6 +33,11 @@ namespace OmniBus.Framework.ConfigWindows
             this.AutoScaleMode = AutoScaleMode.Font;
             this.AutoScaleDimensions = new SizeF(6f, 13f);
         }
+
+        /// <summary>
+        /// Gets or sets a function to construct a serialiser
+        /// </summary>
+        public Func<ISerialiser<T>> SerialiserFactory { get; set; } = () => new XmlSerialiser<T>();
 
         /// <summary>
         /// Gets the current configuration object.
@@ -77,7 +84,7 @@ namespace OmniBus.Framework.ConfigWindows
         /// <param name="strDefaultAnnotation">The string default annotation.</param>
         public void SaveResultsToXml(XmlElement eConfig, out string strDefaultAnnotation)
         {
-            var serialiser = new Serialisation.Serialiser<T>();
+            var serialiser = this.SerialiserFactory();
             var ser = serialiser.Serialise(this._config);
             eConfig.InnerXml = ser?.InnerXml ?? string.Empty;
             strDefaultAnnotation = this._config.ToString();

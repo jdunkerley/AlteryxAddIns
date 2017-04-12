@@ -5,6 +5,7 @@ using System.Xml;
 
 using AlteryxRecordInfoNet;
 
+using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
 using OmniBus.Framework.Serialisation;
 
@@ -26,6 +27,14 @@ namespace OmniBus.Framework
         private Lazy<TConfig> _configObject;
 
         private XmlElement _xmlConfig;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="BaseEngine{T}" /> class.
+        /// </summary>
+        protected BaseEngine()
+            : this(new RecordCopierFactory(), new OutputHelperFactory())
+        {
+        }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="BaseEngine{T}" /> class.
@@ -64,10 +73,7 @@ namespace OmniBus.Framework
         /// </summary>
         public XmlElement XmlConfig
         {
-            get
-            {
-                return this._xmlConfig;
-            }
+            get => this._xmlConfig;
 
             private set
             {
@@ -171,7 +177,10 @@ namespace OmniBus.Framework
         ///     number of records should be sent.
         /// </param>
         /// <returns>Return true to indicate you successfully handled the request.</returns>
-        public virtual bool PI_PushAllRecords(long nRecordLimit) => true;
+        public virtual bool PI_PushAllRecords(long nRecordLimit)
+        {
+            return true;
+        }
 
         /// <summary>
         ///     The PI_Close function pointed to by this property will be called by the Alteryx Engine just prior to the
@@ -205,7 +214,7 @@ namespace OmniBus.Framework
         public void ExecutionComplete()
         {
             this.DebugMessage("Output Complete.");
-            this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Complete, string.Empty);
+            this.Message(string.Empty, MessageStatus.STATUS_Complete);
         }
 
         /// <summary>
@@ -216,8 +225,18 @@ namespace OmniBus.Framework
         {
             if (this.ShowDebugMessages())
             {
-                this.Engine?.OutputMessage(this.NToolId, MessageStatus.STATUS_Info, message);
+                this.Message(message);
             }
+        }
+
+        /// <summary>
+        ///     Sends a message to the Alteryx log window.
+        /// </summary>
+        /// <param name="message">Message text.</param>
+        /// <param name="messageStatus">Type of Message (defaults to Info)</param>
+        public void Message(string message, MessageStatus messageStatus = MessageStatus.STATUS_Info)
+        {
+            this.Engine?.OutputMessage(this.NToolId, messageStatus, message);
         }
 
         /// <summary>
@@ -227,11 +246,17 @@ namespace OmniBus.Framework
         {
         }
 
+        /// <summary>
+        /// Create a Serialiser
+        /// </summary>
+        /// <returns><see cref="ISerialiser{TConfig}"/> to de-serialise object</returns>
+        protected virtual ISerialiser<TConfig> Serialiser()
+            => new XmlSerialiser<TConfig>();
+
         private TConfig CreateConfigObject()
         {
             var config = this.XmlConfig.SelectSingleNode("Configuration");
-            var serialiser = new Serialiser<TConfig>();
-            return serialiser.Deserialise(config);
+            return this.Serialiser().Deserialise(config);
         }
     }
 }

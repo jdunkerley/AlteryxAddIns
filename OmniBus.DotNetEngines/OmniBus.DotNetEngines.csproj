@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -45,11 +45,11 @@
     <Reference Include="MathNet.Numerics, Version=3.13.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.3.13.1\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
-    <Reference Include="OmniBus.Framework, Version=0.5.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\OmniBus.Framework.0.5.0\lib\net45\OmniBus.Framework.dll</HintPath>
+    <Reference Include="OmniBus.Framework, Version=0.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\OmniBus.Framework.0.5.2\lib\net45\OmniBus.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="OmniBus.Framework.Shared, Version=0.5.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\OmniBus.Framework.Shared.0.5.0\lib\net45\OmniBus.Framework.Shared.dll</HintPath>
+    <Reference Include="OmniBus.Framework.Shared, Version=0.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\OmniBus.Framework.Shared.0.5.2\lib\net45\OmniBus.Framework.Shared.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

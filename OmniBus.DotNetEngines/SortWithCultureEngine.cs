@@ -4,10 +4,12 @@ using System.Linq;
 
 using AlteryxRecordInfoNet;
 
+using OmniBus;
 using OmniBus.Framework;
 using OmniBus.Framework.Attributes;
 using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
+using OmniBus.Framework.Serialisation;
 using OmniBus.Framework.TypeConverters;
 
 namespace JDunkerley.AlteryxAddIns
@@ -54,6 +56,10 @@ namespace JDunkerley.AlteryxAddIns
         /// </summary>
         [CharLabel('O')]
         public IOutputHelper Output { get; set; }
+
+        /// <summary>Create a Serialiser</summary>
+        /// <returns><see cref="T:OmniBus.Framework.Serialisation.ISerialiser`1" /> to de-serialise object</returns>
+        protected override ISerialiser<SortWithCultureConfig> Serialiser() => new Serialiser<SortWithCultureConfig>();
 
         private bool InitFunc(RecordInfo info)
         {

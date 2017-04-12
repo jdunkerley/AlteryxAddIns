@@ -7,6 +7,7 @@ using OmniBus.Framework.Attributes;
 using OmniBus.Framework.EventHandlers;
 using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
+using OmniBus.Framework.Serialisation;
 using OmniBus.Framework.TypeConverters;
 
 namespace OmniBus
@@ -62,6 +63,10 @@ namespace OmniBus
         /// </summary>
         [CharLabel('O')]
         public IOutputHelper Output { get; set; }
+
+        /// <summary>Create a Serialiser</summary>
+        /// <returns><see cref="T:OmniBus.Framework.Serialisation.ISerialiser`1" /> to de-serialise object</returns>
+        protected override ISerialiser<StringFormatterConfig> Serialiser() => new Serialiser<StringFormatterConfig>();
 
         private void OnInit(IInputProperty sender, SuccessEventArgs args)
         {

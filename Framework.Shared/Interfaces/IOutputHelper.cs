@@ -35,6 +35,12 @@ namespace OmniBus.Framework.Interfaces
         void Init(RecordInfo recordInfo, XmlElement sortConfig = null, XmlElement oldConfig = null);
 
         /// <summary>
+        ///     Using <see cref="Record"/> push data to Alteryx
+        /// </summary>
+        /// <param name="data">Array of data to push</param>
+        void PushData(params object[] data);
+
+        /// <summary>
         ///     Pushes a record to Alteryx to hand onto over tools.
         /// </summary>
         /// <param name="record">Record object to push to the stream.</param>
@@ -54,5 +60,11 @@ namespace OmniBus.Framework.Interfaces
         /// </summary>
         /// <param name="executionComplete">Tell Alteryx Tool Execution Is Complete</param>
         void Close(bool executionComplete = false);
+
+        /// <summary>
+        ///     Push Record Count and Size to Alteryx
+        /// </summary>
+        /// <param name="final">Tell Alterysx Is Funal Update</param>
+        void PushCountAndSize(bool final = false);
     }
 }

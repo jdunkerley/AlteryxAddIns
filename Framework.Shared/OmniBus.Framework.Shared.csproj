@@ -57,12 +57,14 @@
     <Compile Include="Attributes\OrderingAttribute.cs" />
     <Compile Include="Attributes\PlugInGroupAttribute.cs" />
     <Compile Include="Serialisation\ISerialiser.cs" />
+    <Compile Include="Serialisation\ITypeSerialiser.cs" />
     <Compile Include="Serialisation\Serialisers.cs" />
     <Compile Include="Interfaces\IConfigWithIncomingConnection.cs" />
     <Compile Include="Interfaces\IOutputHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionHelpers.cs" />
     <Compile Include="Serialisation\Serialiser.cs" />
+    <Compile Include="Serialisation\XmlSerialiser.cs" />
     <Compile Include="TypeConverters\CultureTypeConverter.cs" />
     <Compile Include="TypeConverters\FixedListTypeConverter.cs" />
     <Compile Include="TypeConverters\InputFieldTypeConverter.cs" />

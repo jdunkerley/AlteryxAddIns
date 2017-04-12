@@ -30,7 +30,7 @@ namespace OmniBus.Framework
         /// <summary>
         /// Gets the Maximum String Length
         /// </summary>
-        public static int MaxStringLength { get; } = 1_073_741_823;
+        public static int MaxStringLength { get; } = 1_073_741_824;
 
         /// <summary>
         ///     Gets the name of the field.
@@ -61,6 +61,30 @@ namespace OmniBus.Framework
         ///     Gets or sets the description of the field.
         /// </summary>
         public string Description { get; set; }
+
+        private int ParsedSize
+        {
+            get
+            {
+                switch (this.FieldType)
+                {
+                    case FieldType.E_FT_Bool:
+                    case FieldType.E_FT_Byte: return 1;
+                    case FieldType.E_FT_Int16: return 2;
+                    case FieldType.E_FT_Int32:
+                    case FieldType.E_FT_Float: return 4;
+                    case FieldType.E_FT_Int64:
+                    case FieldType.E_FT_Double: return 8;
+                    case FieldType.E_FT_Date: return 10;
+                    case FieldType.E_FT_Time: return 8;
+                    case FieldType.E_FT_DateTime: return 19;
+                    case FieldType.E_FT_V_String:
+                    case FieldType.E_FT_V_WString: return this.Size == 0 ? MaxStringLength : this.Size;
+                }
+
+                return this.Size;
+            }
+        }
 
         /// <summary>
         ///     Given a .Net Type and a name create a FieldDescription
@@ -120,7 +144,7 @@ namespace OmniBus.Framework
                         output.AddField(
                             descr.Name,
                             descr.FieldType,
-                            descr.Size,
+                            descr.ParsedSize,
                             descr.Scale,
                             descr.Source,
                             descr.Description);
@@ -133,7 +157,7 @@ namespace OmniBus.Framework
 
             foreach (var descr in fields.Where(d => !fieldDict[d.Name]))
             {
-                output.AddField(descr.Name, descr.FieldType, descr.Size, descr.Scale, descr.Source, descr.Description);
+                output.AddField(descr.Name, descr.FieldType, descr.ParsedSize, descr.Scale, descr.Source, descr.Description);
             }
 
             return output;

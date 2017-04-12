@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -45,18 +45,19 @@
     <Reference Include="MathNet.Numerics">
       <HintPath>..\packages\MathNet.Numerics.3.13.1\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
-    <Reference Include="OmniBus.Framework, Version=0.5.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\OmniBus.Framework.0.5.0\lib\net45\OmniBus.Framework.dll</HintPath>
+    <Reference Include="OmniBus.Framework, Version=0.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\OmniBus.Framework.0.5.2\lib\net45\OmniBus.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="OmniBus.Framework.GUI, Version=0.5.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\OmniBus.Framework.GUI.0.5.0\lib\net45\OmniBus.Framework.GUI.dll</HintPath>
+    <Reference Include="OmniBus.Framework.GUI, Version=0.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\OmniBus.Framework.GUI.0.5.2\lib\net45\OmniBus.Framework.GUI.dll</HintPath>
     </Reference>
-    <Reference Include="OmniBus.Framework.Shared, Version=0.5.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\OmniBus.Framework.Shared.0.5.0\lib\net45\OmniBus.Framework.Shared.dll</HintPath>
+    <Reference Include="OmniBus.Framework.Shared, Version=0.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\OmniBus.Framework.Shared.0.5.2\lib\net45\OmniBus.Framework.Shared.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -109,12 +110,19 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Install.bat">
+    <Content Include="Install.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="InstallRelease.bat" />
+    </Content>
     <None Include="packages.config" />
-    <None Include="Uninstall.bat" />
+    <Content Include="Scripts\Installer.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\Uninstaller.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Uninstall.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OmniBus.DotNetEngines\OmniBus.DotNetEngines.csproj">
@@ -124,12 +132,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rmdir "$(SolutionDir)\Release\AddIns" /s /q
-mkdir "$(SolutionDir)\Release\AddIns"
-copy "$(TargetDir)\*.dll" "$(SolutionDir)\Release\AddIns\"
-copy "$(ProjectDir)\InstallRelease.bat" "$(SolutionDir)\Release\Install.bat"
-copy "$(ProjectDir)\UnInstall.bat" "$(SolutionDir)\Release\"
-</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

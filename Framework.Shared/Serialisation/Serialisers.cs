@@ -11,12 +11,12 @@ namespace OmniBus.Framework.Serialisation
     /// </summary>
     internal static class Serialisers
     {
-        private static readonly ConcurrentDictionary<Type, ISerialiser> SerialiserCollection;
+        private static readonly ConcurrentDictionary<Type, ITypeSerialiser> SerialiserCollection;
 
         static Serialisers()
         {
             // ReSharper disable once UseObjectOrCollectionInitializer
-            var dict = new Dictionary<Type, ISerialiser>();
+            var dict = new Dictionary<Type, ITypeSerialiser>();
             dict[typeof(bool)] = new ValueTypeSerialiser<bool>(s => new[] { "true", "yes", "1" }.Any(t => t.Equals(s, StringComparison.OrdinalIgnoreCase)), b => b ? "True" : "False");
             dict[typeof(byte)] = new ValueTypeSerialiser<byte>(byte.Parse);
             dict[typeof(short)] = new ValueTypeSerialiser<short>(short.Parse);
@@ -35,7 +35,7 @@ namespace OmniBus.Framework.Serialisation
                     t => EnumValues<AlteryxRecordInfoNet.FieldType>().First(v => v.ToString().Substring(5).Replace("_", string.Empty).Equals(t.Replace("_", string.Empty), StringComparison.OrdinalIgnoreCase)),
                     t => t.ToString().Substring(5));
 
-            SerialiserCollection = new ConcurrentDictionary<Type, ISerialiser>(dict);
+            SerialiserCollection = new ConcurrentDictionary<Type, ITypeSerialiser>(dict);
         }
 
         /// <summary>
@@ -43,11 +43,11 @@ namespace OmniBus.Framework.Serialisation
         /// </summary>
         /// <param name="type">Type to Serialise</param>
         /// <returns>Serialiser for type</returns>
-        public static ISerialiser Get(Type type) => SerialiserCollection.GetOrAdd(type, CreateSerialiser);
+        public static ITypeSerialiser Get(Type type) => SerialiserCollection.GetOrAdd(type, CreateSerialiser);
 
         private static IEnumerable<T> EnumValues<T>() => Enum.GetValues(typeof(T)).Cast<T>();
 
-        private static ISerialiser CreateSerialiser(Type t)
+        private static ITypeSerialiser CreateSerialiser(Type t)
         {
             if (t.IsEnum)
             {
@@ -62,7 +62,7 @@ namespace OmniBus.Framework.Serialisation
             return null;
         }
 
-        private static ISerialiser MakeEnumSerialiser(Type t)
+        private static ITypeSerialiser MakeEnumSerialiser(Type t)
         {
             var valueTypeSerialiser = typeof(ValueTypeSerialiser<>).MakeGenericType(t);
 
@@ -74,7 +74,7 @@ namespace OmniBus.Framework.Serialisation
             var typedFunc = funcHelperDeserialise.Invoke(funcHelper, new object[] { func });
 
             var constructor = valueTypeSerialiser.GetConstructors().First();
-            return constructor.Invoke(new[] { typedFunc, null, true }) as ISerialiser;
+            return constructor.Invoke(new[] { typedFunc, null, true }) as ITypeSerialiser;
         }
 
         private class FuncWrapper<T>
@@ -82,7 +82,7 @@ namespace OmniBus.Framework.Serialisation
             public Func<string, T> Deserialise(Func<string, object> inner) => s => (T)inner(s);
         }
 
-        private class ValueTypeSerialiser<T> : ISerialiser
+        private class ValueTypeSerialiser<T> : ITypeSerialiser
         {
             private readonly Func<T, string> _serialise;
             private readonly Func<string, T> _deserialise;
