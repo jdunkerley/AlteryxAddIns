@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.5">
+<AlteryxDocument yxmdVer="11.0">
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="JDunkerley.AlteryxAddIns.Roslyn.RoslynInput">
@@ -124,7 +124,7 @@
         <Configuration>
           <OrderChanged value="False" />
           <SelectFields>
-            <SelectField field="Value" selected="True" type="V_WString" size="32000" />
+            <SelectField field="Value" selected="True" type="V_WString" size="1073741823" />
             <SelectField field="*Unknown" selected="True" />
           </SelectFields>
         </Configuration>
@@ -193,6 +193,10 @@
       <Company />
       <Copyright />
       <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
     </MetaInfo>
     <Events>
       <Enabled value="True" />

@@ -4,7 +4,6 @@ using System.Linq;
 
 using AlteryxRecordInfoNet;
 
-using OmniBus;
 using OmniBus.Framework;
 using OmniBus.Framework.Attributes;
 using OmniBus.Framework.Factories;
@@ -12,18 +11,21 @@ using OmniBus.Framework.Interfaces;
 using OmniBus.Framework.Serialisation;
 using OmniBus.Framework.TypeConverters;
 
-namespace JDunkerley.AlteryxAddIns
+namespace OmniBus
 {
+    /// <summary>
+    ///     Alteryx Engine to Sort Data With A Culture
+    /// </summary>
     public class SortWithCultureEngine : BaseEngine<SortWithCultureConfig>
     {
-        private FieldBase _inputFieldBase;
-
         private IRecordCopier _copier;
 
         private List<Tuple<string, Record>> _data;
+        private FieldBase _inputFieldBase;
 
         /// <summary>
-        /// Constructor For Alteryx
+        ///     Initializes a new instance of the <see cref="SortWithCultureEngine" /> class.
+        ///     Constructor For Alteryx
         /// </summary>
         public SortWithCultureEngine()
             : this(new RecordCopierFactory(), new InputPropertyFactory(), new OutputHelperFactory())
@@ -31,12 +33,16 @@ namespace JDunkerley.AlteryxAddIns
         }
 
         /// <summary>
-        /// Create An Engine for unit testing.
+        ///     Initializes a new instance of the <see cref="SortWithCultureEngine" /> class.
+        ///     Create An Engine for unit testing.
         /// </summary>
         /// <param name="recordCopierFactory">Factory to create copiers</param>
         /// <param name="inputPropertyFactory">Factory to create input properties</param>
         /// <param name="outputHelperFactory">Factory to create output helpers</param>
-        internal SortWithCultureEngine(IRecordCopierFactory recordCopierFactory, IInputPropertyFactory inputPropertyFactory, IOutputHelperFactory outputHelperFactory)
+        internal SortWithCultureEngine(
+            IRecordCopierFactory recordCopierFactory,
+            IInputPropertyFactory inputPropertyFactory,
+            IOutputHelperFactory outputHelperFactory)
             : base(recordCopierFactory, outputHelperFactory)
         {
             this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
@@ -46,13 +52,13 @@ namespace JDunkerley.AlteryxAddIns
         }
 
         /// <summary>
-        /// Gets the input stream.
+        ///     Gets the input stream.
         /// </summary>
         [CharLabel('I')]
         public IInputProperty Input { get; }
 
         /// <summary>
-        /// Gets or sets the output stream.
+        ///     Gets or sets the output stream.
         /// </summary>
         [CharLabel('O')]
         public IOutputHelper Output { get; set; }
@@ -84,7 +90,7 @@ namespace JDunkerley.AlteryxAddIns
             var record = this.Output.Record;
             this._copier.Copy(record, r);
 
-            string input = this._inputFieldBase.GetAsString(r);
+            var input = this._inputFieldBase.GetAsString(r);
             this._data.Add(Tuple.Create(input, record));
             return true;
         }

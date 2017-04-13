@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.5">
+<AlteryxDocument yxmdVer="11.0">
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Directory.Directory">
@@ -7,13 +7,13 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <Directory>C:\Repos\AlteryxAddIns</Directory>
+          <Directory>.\Test Workflows</Directory>
           <FileSpec>*.yxmd</FileSpec>
           <IncludeSubDirs value="True" />
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>dir C:\Repos\AlteryxAddIns\*.yxmd</DefaultAnnotationText>
+          <DefaultAnnotationText>dir .\Test Workflows\*.yxmd</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -60,13 +60,18 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_34364_cfee0d0fa8e94feba038c8f3deef749c_\Engine_34364_aeec291ca74f47babf046ffdcf404799_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_21412_f7ea4495dd88469ea89a56b93dc7f294_\Engine_21412_e92c5ae91ad5468c8b6f5635de7d7b0a_.yxdb</TempFile>
+          <TempFileDataProfiling />
           <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
             <View1>
+              <DefaultTab>Profile</DefaultTab>
               <Hints>
                 <Table />
               </Hints>
             </View1>
+            <View2 />
           </Layout>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -191,7 +196,7 @@ StartsWith([Log], "Warning")) ...</DefaultAnnotationText>
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_34364_cfee0d0fa8e94feba038c8f3deef749c_\Engine_34364_4ef976e4574f4dbebc56cd4324655d4d_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_21412_43927fc26d6645e4901a6c24b5cc9131_\Engine_21412_b274f33eef9f49efbd5184ce41480f0a_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -277,6 +282,10 @@ StartsWith([Log], "Warning")) ...</DefaultAnnotationText>
       <Company />
       <Copyright />
       <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
     </MetaInfo>
     <Events>
       <Enabled value="True" />

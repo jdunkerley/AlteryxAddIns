@@ -9,6 +9,7 @@ using OmniBus.Framework;
 using OmniBus.Framework.Attributes;
 using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
+using OmniBus.Framework.Serialisation;
 
 namespace JDunkerley.AlteryxAddIns.Roslyn
 {
@@ -111,6 +112,10 @@ namespace Temporary
             this.Output.Close(true);
             return true;
         }
+
+        /// <summary>Create a Serialiser</summary>
+        /// <returns><see cref="T:OmniBus.Framework.Serialisation.ISerialiser`1" /> to de-serialise object</returns>
+        protected override ISerialiser<RoslynInputConfig> Serialiser() => new Serialiser<RoslynInputConfig>();
 
         protected override void OnInitCalled()
         {

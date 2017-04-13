@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.5">
+<AlteryxDocument yxmdVer="11.0">
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="JDunkerley.AlteryxAddIns.Roslyn.RoslynInput">
@@ -29,7 +29,7 @@ PiR = Math.PI * r
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_34364_674416d537c7438db9c608b95cf3990b_\Engine_34364_a100cdb6901c451d9110d8b1439c5cd7_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_21412_7eaf8601799f4e4a9dca64a2c8647ab9_\Engine_21412_67ee96700f4746a98fdce31bf3ded19a_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -58,7 +58,7 @@ PiR = Math.PI * r
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings Macro="C:\Repos\AlteryxAddIns\ResultCompare.yxmc" />
+      <EngineSettings Macro=".\ResultCompare.yxmc" />
     </Node>
     <Node ToolID="5">
       <GuiSettings Plugin="AlteryxBasePluginsGui.FieldInfo.FieldInfo">
@@ -80,7 +80,7 @@ PiR = Math.PI * r
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_34364_674416d537c7438db9c608b95cf3990b_\Engine_34364_a7f19e44af7f40c78d5bcf31b465a52a_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_21412_7eaf8601799f4e4a9dca64a2c8647ab9_\Engine_21412_02c73a83bda440d1918484fbc9604e51_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -105,7 +105,7 @@ PiR = Math.PI * r
         <Configuration>
           <OrderChanged value="False" />
           <SelectFields>
-            <SelectField field="A" selected="True" type="V_WString" size="32000" />
+            <SelectField field="A" selected="True" type="V_WString" size="1073741823" />
             <SelectField field="B" selected="True" type="Int32" size="4" />
             <SelectField field="*Unknown" selected="True" />
           </SelectFields>
@@ -6199,6 +6199,10 @@ PiR = Math.PI * r
       <Company />
       <Copyright />
       <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
     </MetaInfo>
     <Events>
       <Enabled value="True" />

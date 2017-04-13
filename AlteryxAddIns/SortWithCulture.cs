@@ -1,4 +1,9 @@
-﻿using OmniBus.Framework;
+﻿using AlteryxGuiToolkit.Plugins;
+
+using OmniBus;
+using OmniBus.Framework;
+using OmniBus.Framework.ConfigWindows;
+using OmniBus.Framework.Serialisation;
 
 namespace JDunkerley.AlteryxAddIns
 {
@@ -6,7 +11,7 @@ namespace JDunkerley.AlteryxAddIns
     /// Allow sorting on a field with specified culture
     /// </summary>
     public class SortWithCulture :
-        BaseTool<SortWithCultureConfig, SortWithCultureEngine>, AlteryxGuiToolkit.Plugins.IPlugin
+        BaseTool<SortWithCultureConfig, SortWithCultureEngine>, IPlugin
     {
         /// <summary>
         /// Place Holder for Old Entry Point
@@ -14,5 +19,11 @@ namespace JDunkerley.AlteryxAddIns
         public class Engine : SortWithCultureEngine
         {
         }
+
+        /// <summary>GUI Designer</summary>
+        /// <returns>The configuration object to render in the properties window.</returns>
+        public override IPluginConfiguration GetConfigurationGui()
+            => new PropertyGridGui<SortWithCultureConfig> { SerialiserFactory = () => new Serialiser<SortWithCultureConfig>() };
+
     }
 }

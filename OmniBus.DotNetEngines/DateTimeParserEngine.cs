@@ -73,7 +73,8 @@ namespace OmniBus
             var fieldDescription = new FieldDescription(
                 this.ConfigObject.OutputFieldName,
                 this.ConfigObject.OutputType,
-                source: $"DateTimeParser: {this.ConfigObject.InputFieldName} parsed as a DateTime");
+                source: $"DateTimeParser: {this.ConfigObject.InputFieldName} parsed as a DateTime", 
+                size: 19);
 
             this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
             if (this._inputFieldBase == null)

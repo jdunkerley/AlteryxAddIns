@@ -1,17 +1,18 @@
-﻿namespace JDunkerley.AlteryxAddIns.Roslyn
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+
+using Microsoft.CodeAnalysis;
+
+using Syncfusion.Windows.Forms.Edit;
+using Syncfusion.Windows.Forms.Edit.Enums;
+
+namespace JDunkerley.AlteryxAddIns.Roslyn
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows.Forms;
-
-    using Microsoft.CodeAnalysis;
-
-    using Syncfusion.Windows.Forms.Edit.Enums;
-
     public partial class RoslynEditor : UserControl
     {
-        private readonly Syncfusion.Windows.Forms.Edit.EditControl _textBox;
+        private readonly EditControl _textBox;
 
         private string _code;
 
@@ -20,7 +21,7 @@
             this.InitializeComponent();
 
             // Set up text box
-            this._textBox = new Syncfusion.Windows.Forms.Edit.EditControl { Dock = DockStyle.Fill };
+            this._textBox = new EditControl { Dock = DockStyle.Fill };
             this._textBox.ApplyConfiguration(KnownLanguages.CSharp);
             this._textBox.TextChanged += (sender, args) =>
                 {
@@ -32,10 +33,7 @@
 
         public string Code
         {
-            get
-            {
-                return this._code;
-            }
+            get => this._code;
             set
             {
                 this._code = value;
@@ -43,30 +41,34 @@
             }
         }
 
-
         /// <summary>
-        /// Event When Code Changed
+        ///     Event When Code Changed
         /// </summary>
         public event EventHandler CodeChanged = delegate { };
 
         /// <summary>
-        /// Sets the Error Messages
+        ///     Sets the Error Messages
         /// </summary>
         public void SetMessages(IEnumerable<Diagnostic> value, int startLine, int startCharacter)
         {
             this.dgvErrors.DataSource = value.Select(
-                d =>
-                    {
-                        var start = d.Location.SourceTree.GetLineSpan(d.Location.SourceSpan);
+                    d =>
+                        {
+                            var start = d.Location.SourceTree.GetLineSpan(d.Location.SourceSpan);
 
-                        return new DiagnosticMessate
-                                   {
-                                       Severity = d.Severity,
-                                       Message = d.GetMessage(),
-                                       StartLine = start.StartLinePosition.Line - startLine,
-                                       StartCharacter = start.StartLinePosition.Character - (start.StartLinePosition.Line == startLine ? startCharacter : 0)
-                                   };
-                    }).ToArray();
+                            return new DiagnosticMessate
+                                       {
+                                           Severity = d.Severity,
+                                           Message = d.GetMessage(),
+                                           StartLine = start.StartLinePosition.Line - startLine,
+                                           StartCharacter =
+                                               start.StartLinePosition.Character
+                                               - (start.StartLinePosition.Line == startLine
+                                                      ? startCharacter
+                                                      : 0)
+                                       };
+                        })
+                .ToArray();
         }
 
         private class DiagnosticMessate

@@ -40,10 +40,6 @@ namespace OmniBus
         [CharLabel('O')]
         public IOutputHelper Output { get; set; }
 
-        /// <summary>Create a Serialiser</summary>
-        /// <returns><see cref="T:OmniBus.Framework.Serialisation.ISerialiser`1" /> to de-serialise object</returns>
-        protected override ISerialiser<DateTimeInputConfig> Serialiser() => new Serialiser<DateTimeInputConfig>();
-
         /// <summary>
         ///     The PI_PushAllRecords function pointed to by this property will be called by the Alteryx Engine when the plugin
         ///     should provide all of it's data to the downstream tools.
@@ -91,6 +87,10 @@ namespace OmniBus
             this.Output.Close(true);
             return true;
         }
+
+        /// <summary>Create a Serialiser</summary>
+        /// <returns><see cref="T:OmniBus.Framework.Serialisation.ISerialiser`1" /> to de-serialise object</returns>
+        protected override ISerialiser<DateTimeInputConfig> Serialiser() => new Serialiser<DateTimeInputConfig>();
 
         private static DateTime ValueToReturn(DateTimeInputValueToReturn dateToReturn)
         {

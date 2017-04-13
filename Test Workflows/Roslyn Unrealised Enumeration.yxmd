@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.5">
+<AlteryxDocument yxmdVer="11.0">
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="JDunkerley.AlteryxAddIns.Roslyn.RoslynInput">
@@ -57,7 +57,7 @@ Enumerable.Range(0,1000)
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings Macro="C:\Repos\AlteryxAddIns\ResultCompare.yxmc" />
+      <EngineSettings Macro=".\ResultCompare.yxmc" />
     </Node>
     <Node ToolID="4">
       <GuiSettings Plugin="AlteryxBasePluginsGui.FieldInfo.FieldInfo">
@@ -105,7 +105,7 @@ Enumerable.Range(0,1000)
           <OrderChanged value="False" />
           <SelectFields>
             <SelectField field="Value" selected="True" type="Int32" size="4" />
-            <SelectField field="B" selected="True" type="V_WString" size="32000" />
+            <SelectField field="B" selected="True" type="V_WString" size="1073741823" />
             <SelectField field="*Unknown" selected="True" />
           </SelectFields>
         </Configuration>
@@ -4196,6 +4196,10 @@ Enumerable.Range(0,1000)
       <Company />
       <Copyright />
       <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
     </MetaInfo>
     <Events>
       <Enabled value="True" />

@@ -68,11 +68,11 @@ namespace OmniBus
         [CharLabel('O')]
         public IOutputHelper Output { get; set; }
 
+        private static Lazy<Random> DefaultRandom { get; }
+
         /// <summary>Create a Serialiser</summary>
         /// <returns><see cref="T:OmniBus.Framework.Serialisation.ISerialiser`1" /> to de-serialise object</returns>
         protected override ISerialiser<RandomNumberConfig> Serialiser() => new Serialiser<RandomNumberConfig>();
-
-        private static Lazy<Random> DefaultRandom { get; }
 
         private void OnInit(IInputProperty sender, SuccessEventArgs args)
         {
