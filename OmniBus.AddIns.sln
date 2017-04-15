@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E56FB2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniBus.DotNetEngines", "OmniBus.DotNetEngines\OmniBus.DotNetEngines.csproj", "{777F5219-7FF2-487D-8CBB-FBA75FC9BE21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniBus.XmlTools", "OmniBus.XmlTools\OmniBus.XmlTools.csproj", "{A24AF181-EB58-4FE4-84B9-BF7CD213732E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{777F5219-7FF2-487D-8CBB-FBA75FC9BE21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{777F5219-7FF2-487D-8CBB-FBA75FC9BE21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{777F5219-7FF2-487D-8CBB-FBA75FC9BE21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A24AF181-EB58-4FE4-84B9-BF7CD213732E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A24AF181-EB58-4FE4-84B9-BF7CD213732E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A24AF181-EB58-4FE4-84B9-BF7CD213732E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A24AF181-EB58-4FE4-84B9-BF7CD213732E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
