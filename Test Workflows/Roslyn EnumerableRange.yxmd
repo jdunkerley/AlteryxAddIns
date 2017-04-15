@@ -29,7 +29,7 @@ PiR = Math.PI * r
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_21412_7eaf8601799f4e4a9dca64a2c8647ab9_\Engine_21412_67ee96700f4746a98fdce31bf3ded19a_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_21412_088d8ad09d7c4ca6818aead53b3a50c7_\Engine_21412_d87fd44b27ba43ba9c3119d1f274bafb_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -80,7 +80,7 @@ PiR = Math.PI * r
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_21412_7eaf8601799f4e4a9dca64a2c8647ab9_\Engine_21412_02c73a83bda440d1918484fbc9604e51_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_21412_088d8ad09d7c4ca6818aead53b3a50c7_\Engine_21412_5898798bc3a44c909b38980a1f7c3818_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -105,7 +105,7 @@ PiR = Math.PI * r
         <Configuration>
           <OrderChanged value="False" />
           <SelectFields>
-            <SelectField field="A" selected="True" type="V_WString" size="1073741823" />
+            <SelectField field="A" selected="True" type="V_WString" size="32000" />
             <SelectField field="B" selected="True" type="Int32" size="4" />
             <SelectField field="*Unknown" selected="True" />
           </SelectFields>
@@ -143,7 +143,7 @@ PiR = Math.PI * r
               <c>Hello World 2</c>
               <c>2</c>
               <c>2019-06-30 00:00:00</c>
-              <c>6.28318530717959</c>
+              <c>6.2831853717959</c>
             </r>
             <r>
               <c>Hello World 3</c>
