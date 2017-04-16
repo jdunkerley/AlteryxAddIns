@@ -12,7 +12,7 @@ if ($reg -ne $null) {
 }
 
 foreach ($dir in $bins) {
-    $bin = Join-Path $dir + "HtmlPlugins\$target"
+    $bin = Join-Path $dir "HtmlPlugins\$target"
     if (Test-PAth $bin) {
         Write-Host "Removing Existing Link $bin"
         $cmd = "/c rmdir ""$bin"""
