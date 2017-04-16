@@ -49,7 +49,7 @@ Get-ChildItem .\Release\Scripts\*.bat | Move-Item -Destination .\Release
 & .\Release\Install.bat
 
 .\RunUnitTests.ps1
-if ($LASTEXITCODE -ne 0) {
+if ($LASTEXITCODE -eQ 2) {
     Pop-Location
     exit -1
 }
