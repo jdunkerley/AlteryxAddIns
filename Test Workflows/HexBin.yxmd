@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="11.0">
+<AlteryxDocument yxmdVer="10.5">
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="JDunkerley.AlteryxAddIns.HexBin">
@@ -28,10 +28,9 @@
       <Properties>
         <Configuration>
           <Passwords />
-          <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">.\HexBinData.xlsx|||`Sheet1$`</File>
+          <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">.\HexBinData.xlsx|`Sheet1$`</File>
           <FormatSpecificOptions>
             <FirstRowData>False</FirstRowData>
-            <ImportLine>1</ImportLine>
           </FormatSpecificOptions>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -45,11 +44,11 @@ Table=`Sheet1$`</DefaultAnnotationText>
         </Dependencies>
         <MetaInfo connection="Output">
           <RecordInfo>
-            <Field name="Row Count" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|||`Sheet1$`" type="Double" />
-            <Field name="Point X" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|||`Sheet1$`" type="Double" />
-            <Field name="Point Y" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|||`Sheet1$`" type="Double" />
-            <Field name="HexX" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|||`Sheet1$`" type="Double" />
-            <Field name="HexY" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|||`Sheet1$`" type="Double" />
+            <Field name="Row Count" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|`Sheet1$`" type="Double" />
+            <Field name="Point X" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|`Sheet1$`" type="Double" />
+            <Field name="Point Y" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|`Sheet1$`" type="Double" />
+            <Field name="HexX" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|`Sheet1$`" type="Double" />
+            <Field name="HexY" source="File: D:\Repos\AlteryxAddIns\Test Workflows\HexBinData.xlsx|`Sheet1$`" type="Double" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -83,7 +82,7 @@ Abs([HexY]-[HexBinY])>1e-3 ]]></DefaultAnnotationText>
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_22356_1cf22203f54f407cb11af7447931c733_\Engine_22356_9f7badef98df45b58f082d6e44808703_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_4232_d0ea7c468d0c40a7969c71df79c7ce22_\Engine_16836_f3e77e97b7b04d94a280b8d4dbb5fa29_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -106,7 +105,7 @@ Abs([HexY]-[HexBinY])>1e-3 ]]></DefaultAnnotationText>
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_22356_1cf22203f54f407cb11af7447931c733_\Engine_22356_a513afa451c949bbb5948f020a23edde_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_4232_d0ea7c468d0c40a7969c71df79c7ce22_\Engine_16836_9b9cc96761a9442b9ab131163b4c8072_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -199,10 +198,6 @@ Abs([HexY]-[HexBinY])>1e-3 ]]></DefaultAnnotationText>
       <Company />
       <Copyright />
       <DescriptionLink actual="" displayed="" />
-      <Example>
-        <Description />
-        <File />
-      </Example>
     </MetaInfo>
     <Events>
       <Enabled value="True" />
