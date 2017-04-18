@@ -59,7 +59,24 @@ while ($version -notmatch '^\d+\.\d+\.?\d*$') {
     $version = Read-Host "Invalid Version. Enter version number (e.g. 1.3.2)"
 }
 
+Write-Host "Building ReadMe.docx ..."
+& pandoc -f markdown_github -t docx README.md -o README.docx
+if ($LASTEXITCODE -ne 0) {
+    $message = "Documentation failed (you need pandoc): " + $LASTEXITCODE
+    Write-Host $message
+    Pop-Location
+    exit -1
+}
+
+Write-Host "Running Word to create pdf ..."
+$word = New-Object -ComObject "Word.Application"
+$doc = $word.Documents.Open("$root/Readme.docx")
+$doc.ExportAsFixedFormat("$root/README.pdf", 17, 0)
+$doc.Close(0)
+$word.Quit([ref]0)
+Remove-Item "$root\README.docx"
+
 $output = "$root\AlteryxOmniBus v$version.zip"
-Compress-Archive -Path ("$root\Release\*") -DestinationPath $output -Verbose -Update
+Compress-Archive -Path ("$root\README.pdf", "$root\Release\*") -DestinationPath $output -Verbose -Update
 
 Pop-Location
