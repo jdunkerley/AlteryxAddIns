@@ -59,6 +59,8 @@ while ($version -notmatch '^\d+\.\d+\.?\d*$') {
     $version = Read-Host "Invalid Version. Enter version number (e.g. 1.3.2)"
 }
 
+Get-ChildItem *.bak -Recurse | Remove-Item -Force
+
 Write-Host "Building ReadMe.docx ..."
 & pandoc -f markdown_github -t docx README.md -o README.docx
 if ($LASTEXITCODE -ne 0) {
@@ -78,5 +80,9 @@ Remove-Item "$root\README.docx"
 
 $output = "$root\AlteryxOmniBus v$version.zip"
 Compress-Archive -Path ("$root\README.pdf", "$root\Release\*") -DestinationPath $output -Verbose -Update
+Remove-Item "$root\README.pdf"
+
+$output = "$root\AlteryxOmniBus Tests v$version.zip"
+Compress-Archive -Path ("$root\RunUnitTests.ps1", "$root\RunUnitTests.yxmd", "$root\Test Workflows") -DestinationPath $output -Verbose -Update
 
 Pop-Location
