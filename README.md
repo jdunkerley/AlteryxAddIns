@@ -6,9 +6,11 @@ A set of open-source extension tools for Alteryx.
 
 ## Installation
 
-There is an `Install.bat` script included within the addins release zip which will set up the configuration Alteryx needs. It does this by asking for UAC permission to run `Scripts\Install.ps1` which will install all the individual components of the OmniBus. This should work whether you have an Admin or User install of Alteryx. If you only have a User install and cannot run under UAC then you can just run the `Install.ps1` script directly. This should install with UAC permission to the User install. For uninstalling, there is an equivalent `Uninstall.bat` which calls `Scripts\Uninstall.ps1` to do the uninstall. Again the batch file will ask for UAC permission and then run the `Uninstall.ps1`.
+There is an `Install.bat` script included within the zip which will set up the configuration Alteryx needs. It does this by asking for UAC permission to run `Scripts\Install.ps1`, which will install all the individual components of the OmniBus. This should work whether you have an Admin or User install of Alteryx. If you only have a User install and cannot run under UAC then you can just run the `Install.ps1` within the `Scripts` folder directly. This should install without needing UAC permission to the User install location. 
 
-[https://github.com/jdunkerley/AlteryxAddIns/wiki/Installation|More Details]
+For uninstalling, there is an equivalent `Uninstall.bat` which calls `Scripts\Uninstall.ps1` to do the uninstall. Again the batch file will ask for UAC permission and then run the Uninstall.ps1.
+
+[More Details](https://github.com/jdunkerley/AlteryxAddIns/wiki/Installation)
 
 ## Current Toolset
 
@@ -77,5 +79,5 @@ The current [release notes](https://github.com/jdunkerley/AlteryxAddIns/wiki/Rel
 
 ## Notices
 
-- Some of the algorithms are based on (d3-HexBins)[https://github.com/d3/d3-plugins/tree/master/hexbin] plugin.
-- Numerical distributions based on (Math.Net Numerics)[https://numerics.mathdotnet.com/] library.
+- Some of the algorithms are based on [d3-HexBins](https://github.com/d3/d3-plugins/tree/master/hexbin) plugin.
+- Numerical distributions based on [Math.Net Numerics](https://numerics.mathdotnet.com/) library.
