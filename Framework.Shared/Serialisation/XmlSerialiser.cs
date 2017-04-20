@@ -1,3 +1,4 @@
+using System;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -10,6 +11,8 @@ namespace OmniBus.Framework.Serialisation
     public class XmlSerialiser<TConfig> : ISerialiser<TConfig>
         where TConfig : new()
     {
+        private static readonly Lazy<string> RootName = new Lazy<string>(() => new XmlSerialiser<TConfig>().Serialise(new TConfig()).Name);
+
         /// <summary>
         /// Serialise an object to an Xml Element
         /// </summary>
@@ -41,7 +44,7 @@ namespace OmniBus.Framework.Serialisation
             }
 
             var doc = new XmlDocument();
-            doc.LoadXml($"<Config>{node.InnerXml}</Config>");
+            doc.LoadXml($"<{RootName.Value}>{node.InnerXml}</{RootName.Value}>");
             if (doc.DocumentElement == null)
             {
                 return new TConfig();
