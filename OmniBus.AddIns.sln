@@ -9,6 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns", "AlteryxAdd
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E56FB22E-2BB8-4451-95E2-70CA5FF532AC}"
 	ProjectSection(SolutionItems) = preProject
+		Installbin.ps1 = Installbin.ps1
+		InstallbinDebug.bat = InstallbinDebug.bat
+		InstallbinRelease.bat = InstallbinRelease.bat
 		OmniBus.ruleset = OmniBus.ruleset
 		VersionInfo.cs = VersionInfo.cs
 	EndProjectSection

@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<AlteryxDocument yxmdVer="10.5">
+  <Nodes>
+    <Node ToolID="1">
+      <GuiSettings Plugin="OmniBus.XmlTools.XmlInput">
+        <Position x="54" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <FileName>XmlInputTest.xml</FileName>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>XmlInputTest.xml</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="OmniBus.XmlTools.dll" EngineDllEntryPoint=".Net:OmniBus.XmlTools.XmlInputEngine" />
+    </Node>
+    <Node ToolID="4">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
+        <Position x="54" y="174" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <NumRows value="14" />
+          <Fields>
+            <Field name="XPath" />
+            <Field name="InnerText" />
+            <Field name="InnerXml" />
+          </Fields>
+          <Data>
+            <r>
+              <c>/productListing</c>
+              <c />
+              <c>&lt;product&gt;&lt;name&gt;Product One&lt;/name&gt;&lt;description&gt;Product One is an exciting new widget that will simplify your life.&lt;/description&gt;&lt;cost&gt;$19.95&lt;/cost&gt;&lt;shipping&gt;$2.95&lt;/shipping&gt;&lt;/product&gt;&lt;product&gt;&lt;name&gt;Product Two&lt;/name&gt;&lt;/product&gt;&lt;product&gt;&lt;name&gt;Product Three&lt;/name&gt;&lt;description&gt;This is such a terrific widget that you will most certainly want to buy one for your home and another one for your office!&lt;/description&gt;&lt;cost&gt;$24.95&lt;/cost&gt;&lt;shipping&gt;$0.00&lt;/shipping&gt;&lt;/product&gt;</c>
+            </r>
+            <r>
+              <c>/productListing/@title</c>
+              <c>ABC Products</c>
+              <c>ABC Products</c>
+            </r>
+            <r>
+              <c>/productListing/product</c>
+              <c />
+              <c>&lt;name&gt;Product One&lt;/name&gt;&lt;description&gt;Product One is an exciting new widget that will simplify your life.&lt;/description&gt;&lt;cost&gt;$19.95&lt;/cost&gt;&lt;shipping&gt;$2.95&lt;/shipping&gt;</c>
+            </r>
+            <r>
+              <c>/productListing/product/name</c>
+              <c>Product One</c>
+              <c>Product One</c>
+            </r>
+            <r>
+              <c>/productListing/product/description</c>
+              <c>Product One is an exciting new widget that will simplify your life.</c>
+              <c>Product One is an exciting new widget that will simplify your life.</c>
+            </r>
+            <r>
+              <c>/productListing/product/cost</c>
+              <c>$19.95</c>
+              <c>$19.95</c>
+            </r>
+            <r>
+              <c>/productListing/product/shipping</c>
+              <c>$2.95</c>
+              <c>$2.95</c>
+            </r>
+            <r>
+              <c>/productListing/product</c>
+              <c />
+              <c>&lt;name&gt;Product Two&lt;/name&gt;</c>
+            </r>
+            <r>
+              <c>/productListing/product/name</c>
+              <c>Product Two</c>
+              <c>Product Two</c>
+            </r>
+            <r>
+              <c>/productListing/product</c>
+              <c />
+              <c>&lt;name&gt;Product Three&lt;/name&gt;&lt;description&gt;This is such a terrific widget that you will most certainly want to buy one for your home and another one for your office!&lt;/description&gt;&lt;cost&gt;$24.95&lt;/cost&gt;&lt;shipping&gt;$0.00&lt;/shipping&gt;</c>
+            </r>
+            <r>
+              <c>/productListing/product/name</c>
+              <c>Product Three</c>
+              <c>Product Three</c>
+            </r>
+            <r>
+              <c>/productListing/product/description</c>
+              <c>This is such a terrific widget that you will most certainly want to buy one for your home and another one for your office!</c>
+              <c>This is such a terrific widget that you will most certainly want to buy one for your home and another one for your office!</c>
+            </r>
+            <r>
+              <c>/productListing/product/cost</c>
+              <c>$24.95</c>
+              <c>$24.95</c>
+            </r>
+            <r>
+              <c>/productListing/product/shipping</c>
+              <c>$0.00</c>
+              <c>$0.00</c>
+            </r>
+          </Data>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name>ExpectXMLResults</Name>
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
+    </Node>
+    <Node ToolID="5">
+      <GuiSettings>
+        <Position x="342" y="66" />
+      </GuiSettings>
+      <Properties>
+        <Configuration />
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <Dependencies>
+          <Implicit />
+        </Dependencies>
+      </Properties>
+      <EngineSettings Macro="ResultCompare.yxmc" />
+    </Node>
+    <Node ToolID="6">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+        <Position x="174" y="174" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OrderChanged value="False" />
+          <SelectFields>
+            <SelectField field="XPath" selected="True" type="V_WString" forced="True" size="1073741823" />
+            <SelectField field="InnerText" selected="True" type="V_WString" size="1073741823" />
+            <SelectField field="InnerXml" selected="True" type="V_WString" size="1073741823" />
+            <SelectField field="*Unknown" selected="True" />
+          </SelectFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+    </Node>
+  </Nodes>
+  <Connections>
+    <Connection>
+      <Origin ToolID="1" Connection="Output" />
+      <Destination ToolID="5" Connection="Expected" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="6" Connection="Output" />
+      <Destination ToolID="5" Connection="Actual" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="4" Connection="Output" />
+      <Destination ToolID="6" Connection="Input" />
+    </Connection>
+  </Connections>
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="10" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="True" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>XmlInputTest</Name>
+      <Description />
+      <RootToolName />
+      <ToolVersion />
+      <ToolInDb value="False" />
+      <CategoryName />
+      <SearchTags />
+      <Author />
+      <Company />
+      <Copyright />
+      <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+  </Properties>
+</AlteryxDocument>

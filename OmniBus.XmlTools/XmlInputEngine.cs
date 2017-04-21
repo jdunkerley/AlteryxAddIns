@@ -80,7 +80,13 @@ namespace OmniBus.XmlTools
                 return null;
             }
 
-            if (!System.IO.File.Exists(this.ConfigObject.FileName))
+            var fileName = System.IO.Path.IsPathRooted(this.ConfigObject.FileName)
+                               ? this.ConfigObject.FileName
+                               : System.IO.Path.Combine(
+                                   this.Engine.GetInitVar(nameof(InitVar.DefaultDir)),
+                                   this.ConfigObject.FileName);
+
+            if (!System.IO.File.Exists(fileName))
             {
                 this.Message($"File {this.ConfigObject.FileName} could not be read.", MessageStatus.STATUS_Error);
                 return null;
@@ -90,7 +96,7 @@ namespace OmniBus.XmlTools
 
             try
             {
-                document.Load(this.ConfigObject.FileName);
+                document.Load(fileName);
             }
             catch (XmlException ex)
             {
@@ -105,6 +111,8 @@ namespace OmniBus.XmlTools
         /// Read All The Xml Nodes From A Node
         /// Recursive scan from input node
         /// </summary>
+        /// <param name="node">Xml node to scan</param>
+        /// <param name="path">Current path to node</param>
         /// <returns>List of nodes</returns>
         public IEnumerable<object[]> ReadNodes(XmlNode node, string path = "")
         {
@@ -115,14 +123,14 @@ namespace OmniBus.XmlTools
 
             path = path + "/" + (node is XmlAttribute ? "@" : "") + node.Name;
 
-            var nodes = node.ChildNodes.Cast<XmlNode>();
+            var nodes = node.ChildNodes.Cast<XmlNode>().ToArray();
             var txtNodes = nodes.Where(x => x.Name == "#text").ToArray();
 
-            var txt = txtNodes.Length == 0 ? node.InnerText : null;
+            var txt = nodes.Length == 0 ? node.InnerText : null;
             if (txtNodes.Length == 1)
             {
                 txt = txtNodes[0].InnerText;
-                nodes = nodes.Where(n => n.Name != "#text");
+                nodes = nodes.Where(n => n.Name != "#text").ToArray();
             }
 
             IEnumerable<object[]> result = new[] { new object[] { path, txt, node.InnerXml } };

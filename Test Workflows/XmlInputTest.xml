@@ -1,0 +1,18 @@
+<?xml version="1.0"?> 
+ <productListing title="ABC Products"> 
+  <product> 
+    <name>Product One</name> 
+    <description>Product One is an exciting new widget that will simplify your life.</description> 
+    <cost>$19.95</cost> 
+    <shipping>$2.95</shipping> 
+  </product> 
+  <product> 
+    <name>Product Two</name> 
+  </product> 
+  <product> 
+    <name>Product Three</name> 
+    <description>This is such a terrific widget that you will most certainly want to buy one for your home and another one for your office!</description> 
+    <cost>$24.95</cost> 
+    <shipping>$0.00</shipping> 
+  </product> 
+ </productListing>
