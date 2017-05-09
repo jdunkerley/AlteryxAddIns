@@ -25,7 +25,7 @@
       <SearchTags>omnibus, regular expression , regular , data , parse , text , regex , parse category</SearchTags>
       <Example>
         <Description>Open Example</Description>
-        <File>04 Parse\RegEx.yxmd</File>
+        <File>..\..\..\bin\HtmlPlugins\OmniBusRegex\OmniBusRegEx.yxmd</File>
       </Example>
     </MetaInfo>
   </Properties>

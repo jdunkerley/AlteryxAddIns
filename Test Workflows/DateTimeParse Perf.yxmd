@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.5">
+<AlteryxDocument yxmdVer="11.0">
   <Nodes>
     <Node ToolID="3">
       <GuiSettings Plugin="JDunkerley.AlteryxAddIns.DateTimeParser">
-        <Position x="318" y="102" />
+        <Position x="330" y="162" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -24,11 +24,11 @@
     </Node>
     <Node ToolID="4">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="438" y="102" />
+        <Position x="450" y="162" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_11868_bd68d4975c2a4e03b17268c35b11f21c_\Engine_11868_defaf87d1246449092d7c789d1b67e3b_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_20796_dc0f3af13191415a8b1e10b23b32265d_\Engine_20796_31d2fea1029f4806b5d5f8333c1793db_.yxdb</TempFile>
           <Layout>
             <View1>
               <Hints>
@@ -47,7 +47,7 @@
     </Node>
     <Node ToolID="5">
       <GuiSettings Plugin="AlteryxBasePluginsGui.GenerateRows.GenerateRows">
-        <Position x="42" y="42" />
+        <Position x="54" y="102" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -71,7 +71,7 @@
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-        <Position x="126" y="42" />
+        <Position x="138" y="102" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -90,7 +90,7 @@ DateTimeAdd("1900-01-01", RandInt(...</DefaultAnnotationText>
     </Node>
     <Node ToolID="7">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BlockUntilDone.BlockUntilDone">
-        <Position x="222" y="42" />
+        <Position x="234" y="102" />
       </GuiSettings>
       <Properties>
         <Configuration />
@@ -104,7 +104,7 @@ DateTimeAdd("1900-01-01", RandInt(...</DefaultAnnotationText>
     </Node>
     <Node ToolID="8">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DateTime.DateTime">
-        <Position x="318" y="-6" />
+        <Position x="330" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -124,17 +124,22 @@ d/-Mon.-yy</DefaultAnnotationText>
     </Node>
     <Node ToolID="9">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="438" y="-6" />
+        <Position x="450" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_11868_bd68d4975c2a4e03b17268c35b11f21c_\Engine_11868_1ea0d371113247ee905fcf793850f384_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_20796_dc0f3af13191415a8b1e10b23b32265d_\Engine_20796_b9170c686e44496f8b26f2637e594530_.yxdb</TempFile>
+          <TempFileDataProfiling />
           <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
             <View1>
+              <DefaultTab>Profile</DefaultTab>
               <Hints>
                 <Table />
               </Hints>
             </View1>
+            <View2 />
           </Layout>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -147,7 +152,7 @@ d/-Mon.-yy</DefaultAnnotationText>
     </Node>
     <Node ToolID="10">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-        <Position x="318" y="222" />
+        <Position x="330" y="282" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -165,11 +170,23 @@ d/-Mon.-yy</DefaultAnnotationText>
     </Node>
     <Node ToolID="11">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="414" y="222" />
+        <Position x="426" y="282" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_11868_bd68d4975c2a4e03b17268c35b11f21c_\Engine_11868_ec120af3918e41a5b7892365fd1345dc_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_20796_dc0f3af13191415a8b1e10b23b32265d_\Engine_20796_67c4decb6fda400cb288b3c7e00c03cf_.yxdb</TempFile>
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+            <View2 />
+          </Layout>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
@@ -243,6 +260,10 @@ d/-Mon.-yy</DefaultAnnotationText>
       <Company />
       <Copyright />
       <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
     </MetaInfo>
     <Events>
       <Enabled value="True" />

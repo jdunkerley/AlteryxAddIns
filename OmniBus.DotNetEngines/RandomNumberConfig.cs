@@ -43,7 +43,7 @@ namespace OmniBus
         ///     Gets or sets the distribution.
         /// </summary>
         [Description("RandomNumberDistribution For Random Number")]
-        public RandomNumberDistribution RandomNumberDistribution { get; set; } = RandomNumberDistribution.Uniform;
+        public RandomNumberDistribution Distribution { get; set; } = RandomNumberDistribution.Uniform;
 
         /// <summary>
         ///     Gets or sets the minimum boundary.
@@ -75,14 +75,14 @@ namespace OmniBus
         /// <returns>Default Annotation for Alteryx</returns>
         public override string ToString()
         {
-            switch (this.RandomNumberDistribution)
+            switch (this.Distribution)
             {
                 case RandomNumberDistribution.Uniform: return $"{this.OutputFieldName}=Rand[{this.Minimum}, {this.Maximum}]";
                 case RandomNumberDistribution.Triangular:
                     return $"{this.OutputFieldName}=Tri[{this.Minimum}, {this.Average}, {this.Maximum}]";
                 case RandomNumberDistribution.Normal:
                 case RandomNumberDistribution.LogNormal:
-                    return $"{this.OutputFieldName}={this.RandomNumberDistribution}[{this.Average}, {this.StandardDeviation}]";
+                    return $"{this.OutputFieldName}={this.Distribution}[{this.Average}, {this.StandardDeviation}]";
             }
 
             return string.Empty;

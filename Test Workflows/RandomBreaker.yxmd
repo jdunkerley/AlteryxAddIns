@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.0">
+<AlteryxDocument yxmdVer="11.0">
   <Nodes>
     <Node ToolID="2">
       <GuiSettings Plugin="JDunkerley.AlteryxAddIns.RandomNumber">
-        <Position x="342" y="174" />
+        <Position x="246" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <OutputType>Double</OutputType>
+          <OutputType value="Double" />
           <OutputFieldName>Random</OutputFieldName>
-          <Seed>0</Seed>
-          <Distribution>Normal</Distribution>
-          <Minimum>0</Minimum>
-          <Maximum>1</Maximum>
-          <Average>0</Average>
-          <StandardDeviation>1</StandardDeviation>
+          <Seed value="0" />
+          <RandomNumberDistribution value="Uniform" />
+          <Minimum value="0" />
+          <Maximum value="1" />
+          <Average value="0" />
+          <StandardDeviation value="1" />
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
@@ -26,7 +26,7 @@
     </Node>
     <Node ToolID="3">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
-        <Position x="150" y="174" />
+        <Position x="54" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -50,7 +50,7 @@
     </Node>
     <Node ToolID="4">
       <GuiSettings Plugin="AlteryxBasePluginsGui.GenerateRows.GenerateRows">
-        <Position x="234" y="174" />
+        <Position x="138" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -73,17 +73,22 @@
     </Node>
     <Node ToolID="5">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="678" y="162" />
+        <Position x="582" y="126" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_22508_cd3c521b41e04da48ade023c083c694c_\Engine_26144_50566987fa1b425c967b454bad251e77_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_20796_e1961c320bfd4b0c8dd722989563bb18_\Engine_20796_5e797e215e7c4647937e84cab2ac7837_.yxdb</TempFile>
+          <TempFileDataProfiling />
           <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
             <View1>
+              <DefaultTab>Profile</DefaultTab>
               <Hints>
                 <Table />
               </Hints>
             </View1>
+            <View2 />
           </Layout>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -96,7 +101,7 @@
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="JDunkerley.AlteryxAddIns.CircuitBreaker">
-        <Position x="582" y="162" />
+        <Position x="486" y="126" />
       </GuiSettings>
       <Properties>
         <Configuration />
@@ -110,7 +115,7 @@
     </Node>
     <Node ToolID="7">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="450" y="102" />
+        <Position x="354" y="66" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -133,17 +138,22 @@
     </Node>
     <Node ToolID="8">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="582" y="90" />
+        <Position x="486" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_22508_cd3c521b41e04da48ade023c083c694c_\Engine_26144_98e613a9e991426194c419ab8ada83d7_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_20796_e1961c320bfd4b0c8dd722989563bb18_\Engine_20796_3045fdf8e1eb4577a621587e6589d9d4_.yxdb</TempFile>
+          <TempFileDataProfiling />
           <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
             <View1>
+              <DefaultTab>Profile</DefaultTab>
               <Hints>
                 <Table />
               </Hints>
             </View1>
+            <View2 />
           </Layout>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -156,17 +166,22 @@
     </Node>
     <Node ToolID="9">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="450" y="174" />
+        <Position x="354" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_22508_cd3c521b41e04da48ade023c083c694c_\Engine_26144_08b8a6af44c0497b916c0d4495433f04_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_20796_e1961c320bfd4b0c8dd722989563bb18_\Engine_20796_bc7c6d3147084eb0b964c1d4206a6bb2_.yxdb</TempFile>
+          <TempFileDataProfiling />
           <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
             <View1>
+              <DefaultTab>Profile</DefaultTab>
               <Hints>
                 <Table />
               </Hints>
             </View1>
+            <View2 />
           </Layout>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -241,6 +256,10 @@
       <Company />
       <Copyright />
       <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
     </MetaInfo>
     <Events>
       <Enabled value="True" />

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.0">
+<AlteryxDocument yxmdVer="11.0">
   <Nodes>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
@@ -45,7 +45,7 @@
         <Configuration>
           <OutputFieldName>HashValue</OutputFieldName>
           <InputFieldName>Input</InputFieldName>
-          <HashAlgorithm>MD5</HashAlgorithm>
+          <HashAlgorithm value="MD5" />
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
@@ -282,6 +282,10 @@
       <Company />
       <Copyright />
       <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
     </MetaInfo>
     <Events>
       <Enabled value="True" />

@@ -110,10 +110,10 @@ namespace OmniBus
                     return new DateTime(DateTime.Today.Year - 1, 12, 31);
                 case DateTimeInputValueToReturn.StartOfQuarter:
                     today = DateTime.Today;
-                    return new DateTime(today.Year, (today.Month + 2) / 3 * 3, 1);
+                    return new DateTime(today.Year, (today.Month - 1) / 3 * 3 + 1, 1);
                 case DateTimeInputValueToReturn.PreviousQuarterEnd:
                     today = DateTime.Today;
-                    return new DateTime(today.Year, (today.Month + 2) / 3 * 3, 1);
+                    return new DateTime(today.Year, (today.Month - 1) / 3 * 3 + 1, 1).AddDays(-1);
                 case DateTimeInputValueToReturn.StartOfMonth:
                     today = DateTime.Today;
                     return today.AddDays(1 - today.Day);

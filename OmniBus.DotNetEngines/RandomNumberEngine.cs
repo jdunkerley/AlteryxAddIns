@@ -107,7 +107,7 @@ namespace OmniBus
         {
             var random = this.ConfigObject.Seed == 0 ? DefaultRandom.Value : new Random(this.ConfigObject.Seed);
 
-            switch (this.ConfigObject.RandomNumberDistribution)
+            switch (this.ConfigObject.Distribution)
             {
                 case RandomNumberDistribution.Triangular:
                     return () => this.TriangularNumber(random.NextDouble());

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="10.5">
+<AlteryxDocument yxmdVer="11.0">
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="JDunkerley.AlteryxAddIns.DateTimeParser">
@@ -58,11 +58,11 @@
     </Node>
     <Node ToolID="3">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="510" y="54" />
+        <Position x="582" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_23824_8e2beefaff9a41ef95754de921b41161_\Engine_23824_8ea17591fc484a768361e483bb982312_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_20796_e82668e310034ca2a1259d288b13274f_\Engine_20796_52f342797317402ebcf7745ebaeec2ee_.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -94,10 +94,11 @@
           <OutputFieldLength value="64" />
           <Culture>Current</Culture>
           <InputFieldName>Date</InputFieldName>
+          <FormatString>d MMMM yyyy</FormatString>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>Date=&gt;EnglishDate []</DefaultAnnotationText>
+          <DefaultAnnotationText>Date=&gt;EnglishDate [d MMMM yyyy]</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -113,14 +114,104 @@
           <OutputFieldLength value="64" />
           <Culture>German (Germany)</Culture>
           <InputFieldName>Date</InputFieldName>
+          <FormatString>d MMMM yyyy</FormatString>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>Date=&gt;GermanDate []</DefaultAnnotationText>
+          <DefaultAnnotationText>Date=&gt;GermanDate [d MMMM yyyy]</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
       <EngineSettings EngineDll="JDunkerley.AlteryxAddIns.dll" EngineDllEntryPoint=".Net:JDunkerley.AlteryxAddIns.StringFormatter+Engine" />
+    </Node>
+    <Node ToolID="6">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
+        <Position x="186" y="174" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <NumRows value="5" />
+          <Fields>
+            <Field name="FrenchDate" />
+            <Field name="Date" />
+            <Field name="EnglishDate" />
+            <Field name="GermanDate" />
+          </Fields>
+          <Data>
+            <r>
+              <c>22 juin 2016</c>
+              <c>2016-06-22</c>
+              <c>22 June 2016</c>
+              <c>22 Juni 2016</c>
+            </r>
+            <r>
+              <c>15 juillet 2016</c>
+              <c>2016-07-15</c>
+              <c>15 July 2016</c>
+              <c>15 Juli 2016</c>
+            </r>
+            <r>
+              <c>13 août 2016</c>
+              <c>2016-08-13</c>
+              <c>13 August 2016</c>
+              <c>13 August 2016</c>
+            </r>
+            <r>
+              <c>27 septembre 2016</c>
+              <c>2016-09-27</c>
+              <c>27 September 2016</c>
+              <c>27 September 2016</c>
+            </r>
+            <r>
+              <c>31 octobre 2016</c>
+              <c>2016-10-31</c>
+              <c>31 October 2016</c>
+              <c>31 Oktober 2016</c>
+            </r>
+          </Data>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
+    </Node>
+    <Node ToolID="7">
+      <GuiSettings>
+        <Position x="594" y="186" />
+      </GuiSettings>
+      <Properties>
+        <Configuration />
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings Macro="D:\Repos\AlteryxAddIns\Test Workflows\ResultCompare.yxmc" />
+    </Node>
+    <Node ToolID="8">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+        <Position x="282" y="174" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OrderChanged value="False" />
+          <SelectFields>
+            <SelectField field="EnglishDate" selected="True" type="V_WString" size="64" />
+            <SelectField field="GermanDate" selected="True" type="V_WString" size="64" />
+            <SelectField field="*Unknown" selected="True" />
+          </SelectFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
     </Node>
   </Nodes>
   <Connections>
@@ -139,6 +230,18 @@
     <Connection>
       <Origin ToolID="5" Connection="Output" />
       <Destination ToolID="3" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="5" Connection="Output" />
+      <Destination ToolID="7" Connection="Actual" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="8" Connection="Output" />
+      <Destination ToolID="7" Connection="Expected" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="6" Connection="Output" />
+      <Destination ToolID="8" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>
@@ -159,7 +262,7 @@
     <LayoutType>Horizontal</LayoutType>
     <MetaInfo>
       <NameIsFileName value="True" />
-      <Name>CultureTraslator</Name>
+      <Name>CultureTranslator</Name>
       <Description />
       <RootToolName />
       <ToolVersion />
