@@ -13,10 +13,6 @@
 
 declare namespace Alteryx {
 
-    interface AlteryxGui {
-        BeforeLoad(manager: AlteryxDataManager, dataItems: any, jsonConfiguration: ToolConfiguration) => void
-    }
-
     export class FieldInfo {
         constructor (_name: string, _type: FieldType, _size: number, _scale: number, _source: string, _desc: string)
         strName: string
@@ -36,7 +32,7 @@ declare namespace Alteryx {
         constructor (_name: string, _type: FieldType, _size: number, _scale: number, _source: string, _desc: string)
     }
 
-    declare type FieldType = "Blob" | "Bool" | "Byte" | "Int16" | "Int32" | "Int64" | "FixedDecimal" | "Float" | "Double" | "String" | "WString" | "V_String" | "V_WString" | "Date" | "Time" | "DateTime" | "SpatialObj" | "Unknown"
+    export type FieldType = "Blob" | "Bool" | "Byte" | "Int16" | "Int32" | "Int64" | "FixedDecimal" | "Float" | "Double" | "String" | "WString" | "V_String" | "V_WString" | "Date" | "Time" | "DateTime" | "SpatialObj" | "Unknown"
 
     export class DW2FieldType {
         static IsBool(FieldType): boolean
@@ -52,7 +48,10 @@ declare namespace Alteryx {
         static GetDefaultSize(FieldType): number
     }
 
-    declare const Gui : AlteryxGui
+    interface AlteryxGui {
+    }
+
+    export const Gui: AlteryxGui
 
     export class FieldList {
 
@@ -76,6 +75,10 @@ declare namespace AlteryxDataItems {
 
     interface SimpleNumberArgs extends DataItemArgs {
         initialvalue?: number
+    }
+
+    interface MultiStringArgs extends DataItemArgs {
+        delimeter: string
     }
 
     interface SimpleStringArgs extends DataItemArgs {
@@ -175,6 +178,11 @@ declare namespace AlteryxDataItems {
         setValue(newValue: string | null | undefined, updateWidgetUI?: boolean): void
     }
 
+    export class MultiStringSelector extends StringSelector {
+        constructor(args: MultiStringArgs)
+        setValue(newValue: string[] | string | null | undefined, updateWidgetUI?: boolean): void
+    }
+
     export class FileBrowseData extends DataItem {
         constructor(args: FileBrowseArgs)
         setValue(newValue: number | string, updateWidgetUI?: boolean): void
@@ -191,16 +199,4 @@ declare namespace AlteryxDataItems {
         IsForcedField(fieldName: string): boolean
         setValue(newValue: string | null | undefined, updateWidgetUI?: boolean, isAddFieldOption?: boolean): void
     }
-}
-
-
-interface ToolConfiguration {
-    Configuration: any
-}
-
-
-interface AlteryxDataManager {
-    toolId: number
-    toolName: string
-    AddDataItem<Item extends DataItem>(item:Item) => void
 }
