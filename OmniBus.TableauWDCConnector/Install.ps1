@@ -1,5 +1,6 @@
 $ErrorActionPreference = "Stop"
 
 $root = Split-Path -Parent $PSCommandPath
-../Scripts/InstallerHTML.ps1 .
+Push-Location $root
+../Scripts/InstallerHTML.ps1 $root
 Pop-Location

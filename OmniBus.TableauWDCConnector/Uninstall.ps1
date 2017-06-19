@@ -1,5 +1,6 @@
 $ErrorActionPreference = "Stop"
 
 $root = Split-Path -Parent $PSCommandPath
-..\Scripts\UninstallerHTML.ps1 .
-Pop-Location
+Push-Location $root
+..\Scripts\UninstallerHTML.ps1 $root
+Pop-Locationc

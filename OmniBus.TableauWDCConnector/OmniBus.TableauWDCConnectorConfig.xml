@@ -9,7 +9,7 @@
   <!-- A filename of the form file://path/FileName.html will load the specified file from this plugin's directory. -->
   <!-- A filename of the form file://C:/path/FileName.html will load the specified file from an absolute path. -->
   <!-- An HTML filename without a preceding path or protocol indicator will load that HTML file in the Alteryx web help. -->
-  <GuiSettings Html="OmnibusRegEx.html" Icon="OmnibusRegEx.png" SDKVersion="10.1">
+  <GuiSettings Html="OmniBus.TableauWDCConnector.html" Icon="OmniBus.TableauWDCConnector.png" SDKVersion="10.1">
     <InputConnections>
     </InputConnections>
     <OutputConnections>

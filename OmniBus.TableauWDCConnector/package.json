@@ -1,0 +1,10 @@
+{
+  "name": "OmniBus.TableauWDCConnector",
+  "version": "0.6",
+  "description": "TypeScript based connector for Alteryx reading Tableau WDCs",
+  "main": "index.html",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "rc"
+  }
+}
