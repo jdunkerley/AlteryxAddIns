@@ -1,18 +1,14 @@
-// ToDo: fieldinfo.jsx
-// ToDo: manager.jsx
-// ToDo: FieldSelectorMulti
-// ToDo: MultiStringSelector
+// ToDo: Renderer (and associated Manager functions)
 // ToDo: FormulaData
-// ? ToDo: DataItemContainer
-// ? ToDo: GridData
-// ? ToDo: LayoutData
-// ? ToDo: SalesforceGridData
-// ? ToDo: SimpleGraph
-// ? ToDo: SimpleGraphData
-// ? ToDo: SimpleLineGraph 
+// ToDo: DataItemContainer
+// ToDo: LayoutData
+// ToDo: GridData
+// ToDo: SalesforceGridData
+// ToDo: SimpleGraph
+// ToDo: SimpleGraphData
+// ToDo: SimpleLineGraph 
 
 declare namespace Alteryx {
-
     export class FieldInfo {
         constructor (_name: string, _type: FieldType, _size: number, _scale: number, _source: string, _desc: string)
         strName: string
@@ -48,19 +44,95 @@ declare namespace Alteryx {
         static GetDefaultSize(FieldType): number
     }
 
-    interface AlteryxGui {
+    export class FieldList {
+        constructor(eRecordInfo?: any, connectionName?: string)
+        _GetFields(): FieldInfo[]
+        AddField(fi: FieldInfo, isAddFieldOption?: boolean): void
+        CombineFields(fieldList: FieldList): void
+        SelectFieldTypes_All(fi: FieldInfo): boolean
+        SelectFieldTypes_NoBinary(fi: FieldInfo): boolean
+        SelectFieldTypes_NoBlob(fi: FieldInfo): boolean
+        SelectFieldTypes_NoSpatial(fi: FieldInfo): boolean
+        SelectFieldTypes_String(fi: FieldInfo): boolean
+        SelectFieldTypes_Date(fi: FieldInfo): boolean
+        SelectFieldTypes_DateOrTime(fi: FieldInfo): boolean
+        SelectFieldTypes_StringOrDate(fi: FieldInfo): boolean
+        SelectFieldTypes_Numeric(fi: FieldInfo): boolean
+        SelectFieldTypes_SpatialObj(fi: FieldInfo): boolean
+        SelectFieldTypes_Bool(fi: FieldInfo): boolean
+        SelectFieldTypes_Time(fi: FieldInfo): boolean
+        SelectFieldTypes_Blob(fi: FieldInfo): boolean
+        GetFieldList_All(): FieldInfo[]
+        GetFieldList_NoBinary(): FieldInfo[]
+        GetFieldList_NoBlob(): FieldInfo[]
+        GetFieldList_NoSpatial(): FieldInfo[]
+        GetFieldList_String(): FieldInfo[]
+        GetFieldList_Numeric(): FieldInfo[]
+        GetFieldList_SpatialObj(): FieldInfo[]
+        GetField(strName: string, bForce: boolean, bThrowException?: boolean, isAddFieldOption?: boolean): FieldInfo
     }
 
-    export const Gui: AlteryxGui
-
-    export class FieldList {
-
+    export class FieldListArray {
+        constructor(eRecordInfo?: any)
+        Count: number
+        Get(nInput: number, nIndex?: number): FieldList | undefined
+        GetCopy(nInput: number, nIndex?: number): FieldList | undefined
+        GetCountMultiInputs(nInput: number): number
+        GetMultiInputs(nInput: number): FieldList
     }
 
     export class Manager {
+        constructor(incomingMetaInfo: any, renderer: any)
+        GetMetaInfo(input: number[]): FieldListArray | FieldList | undefined
+        GetMetaInfoCopy(input: number[]): FieldListArray | FieldList | undefined
         CreateField(name: string, type: FieldType, size?: number, scale?: number, source?: string, desc?: string): FieldInfoManual
         GetDataItems(): AlteryxDataItems.DataItem[]
+        GetDataItem(id: string): AlteryxDataItems.DataItem
+        GetDataItemByDataName(number: string): AlteryxDataItems.DataItem
+        AddDataItem(item: AlteryxDataItems.DataItem): void
+        RemoveDataItem(item: AlteryxDataItems.DataItem): void
+        RemoveDataItemByDataName(dataName: string): void
+
+        toolId: number
+        toolName: string
+
+        macroMode: boolean
+        isFirstConfig: boolean
     }
+
+    export const AlteryxVersion: string
+    export const SDKVersion: string
+    export const Platform: string
+    export const LibDir: string
+
+    interface recentAndSavedExpressions {
+        recentExpressions: string[]
+        savedExpressions:string[]
+    }
+
+    interface AlteryxGui {
+        manager: Manager
+        renderer: any
+
+        // Not sure any of these need exposing
+        Initialise(config: any): any
+        GetConfiguration(): void
+        SetConfiguration(args: any): any
+        AttachObserver(): void
+
+        // Needs to be set up (see Formula.tsx data type)
+        getRecentAndSavedExpressions: () => void
+        setRecentAndSavedExpressions: (expressions: recentAndSavedExpressions) => void 
+
+        // Plug In Methods
+        Annotation?: (manager: Manager) => string
+        BeforeLoad?: (manager: Manager, dataItems: AlteryxDataItems.DataItem[]) => void
+        AfterLoad?: (manager: Manager, dataItems: AlteryxDataItems.DataItem[]) => void
+    }
+
+    export function JsEvent(jsonObject: string): void
+
+    export const Gui: AlteryxGui
 }
 
 declare namespace AlteryxDataItems {
@@ -99,6 +171,10 @@ declare namespace AlteryxDataItems {
         fieldtype: "All" | "NoBinary" | "NoBlob" | "NoSpatial" | "String" | "Date" | "DateOrTime" | "StringOrDate" | "Numeric" | "SpatialObj" | "Bool" | "Time" | "Blob"
         onChangeHandler: (dataItem: DataItem,isNewField: boolean) => void
         customFields?: string[]
+    }
+
+    interface FieldSelectorMultiArgs extends FieldSelectorArgs {
+        delimeter: string
     }
 
     export class DataItem {
@@ -173,6 +249,7 @@ declare namespace AlteryxDataItems {
 
     export class StringSelector extends DataItem {
         constructor(args: DataItemArgs)
+        StringListChanged: (newStringList: EnumStringValue[]) => void[]
         setStringList(newStringList: EnumStringValue[], updateWidgetUI?: boolean): void
         FieldExists(fieldName: string): boolean
         setValue(newValue: string | null | undefined, updateWidgetUI?: boolean): void
@@ -198,5 +275,15 @@ declare namespace AlteryxDataItems {
         ForceFieldInList(field: Alteryx.FieldInfo): void
         IsForcedField(fieldName: string): boolean
         setValue(newValue: string | null | undefined, updateWidgetUI?: boolean, isAddFieldOption?: boolean): void
+    }
+
+    export class FieldSelectorMulti extends DataItem {
+        constructor(args: FieldSelectorMultiArgs, manager: Alteryx.Manager)
+        GetFieldList(): Alteryx.FieldList
+        GetFieldStatus(fieldName: string): '' | ' (Missing)' | ' (Bad Field Type)'
+        ChangeFieldList(fieldList: Alteryx.FieldList, bRemoveForcedFields?: boolean): void
+        ChangeFieldFilter(fieldFilter: (fi: Alteryx.FieldInfo) => boolean, bRemoveForcedFields?: boolean): void
+        ForceFieldInList(field: Alteryx.FieldInfo): void
+        setValue(newValue: string[] | string | null | undefined, updateWidgetUI?: boolean, isAddFieldOption?: boolean): void
     }
 }
