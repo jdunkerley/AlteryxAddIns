@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Hello From JavaScript</title>
+    <script type="text/javascript">
+        document.write(`<link rel="stylesheet" type="text/css" href="${window.Alteryx.LibDir}1/css/alteryx-config.css">`)
+        document.write(`<link rel="stylesheet" type="text/css" href="${window.Alteryx.LibDir}1/lib/alteryx/gui/plugin-widgets/alteryx-desktop-widgets.css">`)
+        document.write(`<link rel="stylesheet" type="text/css" href="${window.Alteryx.LibDir}1/lib/build/designerDesktop.css">`)
+        document.write(`<script src="${window.Alteryx.LibDir}1/lib/build/designerDesktop.bundle.js">\x3c/script>`)
+    </script>
+    <script src="HelloFromJSGui.js"></script>
+    <style>
+.alteryx-toggle-switch-outer {
+  position: absolute;
+  right: 4px;
+}
+    </style>
+</head>
+<body>
+    <form>
+        <fieldset>
+            <legend class='blueTitle'>New Field</legend>
+
+            <label for="fieldName">Column Name</label>
+            <alteryx-pluginwidget type="TextBox" id="fieldName" dataName="ColumnName"></alteryx-pluginwidget>
+            <label for="fieldName" style="color:red" id="fieldNameValid"></label>
+
+            <label for="fieldValue">Value</label>
+            <alteryx-pluginwidget type="TextBox" id="fieldValue" dataName="Value"></alteryx-pluginwidget>
+        </fieldset>
+    <form>
+</body>
+</html>
