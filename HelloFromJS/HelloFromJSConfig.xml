@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+  <EngineSettings EngineDll="HTML" EngineDllEntryPoint="HelloFromJS.html" SDKVersion="10.1"/>
+  <GuiSettings Html="HelloFromJSGui.html" Icon="HelloFromJS.png" SDKVersion="10.1">
+    <InputConnections>
+      <Connection Name="Input" AllowMultiple="False" Optional="False" Type="Connection" />
+    </InputConnections>
+    <OutputConnections>
+      <Connection Name="Output" AllowMultiple="False" Optional="False" Type="Connection" />
+    </OutputConnections>
+  </GuiSettings>
+   <Properties>
+    <MetaInfo>
+      <Name>Hello from JavaScript</Name>
+      <Description>Java Script example tool.</Description>
+      <CategoryName>Developer</CategoryName>
+      <SearchTags>javascript</SearchTags>
+    </MetaInfo>
+  </Properties>
+</AlteryxJavaScriptPlugin>

@@ -9,8 +9,29 @@
 // ToDo: SimpleLineGraph 
 
 declare namespace Alteryx {
+    export enum FieldType {
+        Blob = "Blob",
+        Bool = "Bool",
+        Byte = "Byte",
+        Int16 = "Int16",
+        Int32 = "Int32",
+        Int64 = "Int64",
+        FixedDecimal = "FixedDecimal",
+        Float = "Float",
+        Double = "Double",
+        String = "String",
+        WString = "WString",
+        V_String = "V_String",
+        V_WString = "V_WString",
+        Date = "Date",
+        Time = "Time",
+        DateTime = "DateTime",
+        SpatialObj = "SpatialObj",
+        Unknown = "Unknown"
+    }
+
     export class FieldInfo {
-        constructor (_name: string, _type: FieldType, _size: number, _scale: number, _source: string, _desc: string)
+        constructor(_name: string, _type: FieldType, _size: number, _scale: number, _source: string, _desc: string)
         strName: string
         strType: FieldType
         nSize: number
@@ -21,14 +42,12 @@ declare namespace Alteryx {
     }
 
     export class FieldInfoUnknown extends FieldInfo {
-        constructor (_name: string)
+        constructor(_name: string)
     }
 
     export class FieldInfoManual extends FieldInfo {
-        constructor (_name: string, _type: FieldType, _size: number, _scale: number, _source: string, _desc: string)
+        constructor(_name: string, _type: FieldType, _size: number, _scale: number, _source: string, _desc: string)
     }
-
-    export type FieldType = "Blob" | "Bool" | "Byte" | "Int16" | "Int32" | "Int64" | "FixedDecimal" | "Float" | "Double" | "String" | "WString" | "V_String" | "V_WString" | "Date" | "Time" | "DateTime" | "SpatialObj" | "Unknown"
 
     export class DW2FieldType {
         static IsBool(FieldType): boolean
@@ -62,6 +81,7 @@ declare namespace Alteryx {
         SelectFieldTypes_Bool(fi: FieldInfo): boolean
         SelectFieldTypes_Time(fi: FieldInfo): boolean
         SelectFieldTypes_Blob(fi: FieldInfo): boolean
+        GetField(strName: string, bForce: boolean, bThrowException?: boolean, isAddFieldOption?: boolean): FieldInfo
         GetFieldList_All(): FieldInfo[]
         GetFieldList_NoBinary(): FieldInfo[]
         GetFieldList_NoBlob(): FieldInfo[]
@@ -69,7 +89,6 @@ declare namespace Alteryx {
         GetFieldList_String(): FieldInfo[]
         GetFieldList_Numeric(): FieldInfo[]
         GetFieldList_SpatialObj(): FieldInfo[]
-        GetField(strName: string, bForce: boolean, bThrowException?: boolean, isAddFieldOption?: boolean): FieldInfo
     }
 
     export class FieldListArray {
@@ -88,7 +107,7 @@ declare namespace Alteryx {
         CreateField(name: string, type: FieldType, size?: number, scale?: number, source?: string, desc?: string): FieldInfoManual
         GetDataItems(): AlteryxDataItems.DataItem[]
         GetDataItem(id: string): AlteryxDataItems.DataItem
-        GetDataItemByDataName(number: string): AlteryxDataItems.DataItem
+        GetDataItemByDataName(name: string): AlteryxDataItems.DataItem
         AddDataItem(item: AlteryxDataItems.DataItem): void
         RemoveDataItem(item: AlteryxDataItems.DataItem): void
         RemoveDataItemByDataName(dataName: string): void
@@ -107,7 +126,7 @@ declare namespace Alteryx {
 
     interface recentAndSavedExpressions {
         recentExpressions: string[]
-        savedExpressions:string[]
+        savedExpressions: string[]
     }
 
     interface AlteryxGui {
@@ -115,19 +134,20 @@ declare namespace Alteryx {
         renderer: any
 
         // Not sure any of these need exposing
-        Initialise(config: any): any
+        Initialize(config: any): any
         GetConfiguration(): void
         SetConfiguration(args: any): any
         AttachObserver(): void
 
         // Needs to be set up (see Formula.tsx data type)
         getRecentAndSavedExpressions: () => void
-        setRecentAndSavedExpressions: (expressions: recentAndSavedExpressions) => void 
+        setRecentAndSavedExpressions: (expressions: recentAndSavedExpressions) => void
 
         // Plug In Methods
-        Annotation?: (manager: Manager) => string
-        BeforeLoad?: (manager: Manager, dataItems: AlteryxDataItems.DataItem[]) => void
+        BeforeLoad?: (manager: Manager, dataItems: AlteryxDataItems.DataItem[], json: any) => void
         AfterLoad?: (manager: Manager, dataItems: AlteryxDataItems.DataItem[]) => void
+        BeforeGetConfiguration?: (json: any) => any
+        Annotation?: (manager: Manager) => string
     }
 
     export function JsEvent(jsonObject: string): void
@@ -169,7 +189,7 @@ declare namespace AlteryxDataItems {
         connectionNumber: number
         includenone: "True" | "False"
         fieldtype: "All" | "NoBinary" | "NoBlob" | "NoSpatial" | "String" | "Date" | "DateOrTime" | "StringOrDate" | "Numeric" | "SpatialObj" | "Bool" | "Time" | "Blob"
-        onChangeHandler: (dataItem: DataItem,isNewField: boolean) => void
+        onChangeHandler: (dataItem: DataItem, isNewField: boolean) => void
         customFields?: string[]
     }
 
@@ -184,11 +204,14 @@ declare namespace AlteryxDataItems {
         id: string
         suppressed: boolean
 
+        getValue(): any
+        setValue(newValue: any, updateWidgetUI?: boolean): void
+
         SetDependency(id: string, dataItem: DataItem): void
         GetDependency(id: string): DataItem
 
-        BindDataChanged(func: (newValue:any) => void): void
-        BindUserDataChanged(func: (newValue:any) => void): void
+        BindDataChanged(func: (newValue: any) => void): void
+        BindUserDataChanged(func: (newValue: any) => void): void
 
         StringToBoolean(input: string): boolean
         BooleanToString(input: boolean): string
@@ -244,7 +267,7 @@ declare namespace AlteryxDataItems {
     interface EnumStringValue {
         dataname: string
         uiobject?: string
-        default?: boolean   
+        default?: boolean
     }
 
     export class StringSelector extends DataItem {

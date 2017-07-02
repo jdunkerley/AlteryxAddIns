@@ -21,6 +21,7 @@ document.addEventListener('keydown', (e) => {
  * @param json Configuration
  */
 Alteryx.Gui.BeforeLoad = function (manager, AlteryxDataItems, json) {
+  console.log('BeforeLoad called')
   plugInHelper = PlugInHelper.Create(Alteryx, manager, AlteryxDataItems, window)
   plugInHelper.createDataItem('showPreview', true, true)
   plugInHelper.createDataItem('RegExExpressionTemp', json.Configuration && json.Configuration.RegExExpression ? json.Configuration.RegExExpression['@value'] : '')
@@ -70,6 +71,7 @@ Alteryx.Gui.BeforeLoad = function (manager, AlteryxDataItems, json) {
  * @param AlteryxDataItems The data items in use on this page.
  */
 Alteryx.Gui.AfterLoad = function (manager, AlteryxDataItems) {
+  console.log('AfterLoad called')
   function reevaluate (fieldName, method, regex, caseInsensitive, replace) {
     let fail = false
     const flags = caseInsensitive ? 'gi' : 'g'
@@ -161,6 +163,7 @@ Alteryx.Gui.AfterLoad = function (manager, AlteryxDataItems) {
  * @returns {string}
  */
 Alteryx.Gui.Annotation = function (manager, AlteryxDataItems) {
+  console.log('Annotation called')
   const methodItem = manager.GetDataItem('Method')
   const methodName = methodItem.StringList.enums.filter(e => e.dataName === methodItem.value)[0].uiObject
 
@@ -173,6 +176,8 @@ Alteryx.Gui.Annotation = function (manager, AlteryxDataItems) {
  * Reformat the JSON to the style we need
  */
 Alteryx.Gui.BeforeGetConfiguration = function (json) {
+  console.log('BeforeGetConfig called')
+  console.log(json)
   json.Configuration.CaseInsensitive = [{
     '@value': json.Configuration.CaseInsensitiveTemp
   }]

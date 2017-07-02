@@ -1,0 +1,11 @@
+{
+  "name": "hello-from-js",
+  "version": "0.6",
+  "description": "\"Demonstration of a TypeScript Custom Tool for Alteryx\"",
+  "main": "HelloFromJS.html",
+  "author": "James Dunkerley",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.4.1"
+  }
+}
