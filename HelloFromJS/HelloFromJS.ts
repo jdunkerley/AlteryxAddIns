@@ -25,7 +25,7 @@ Alteryx.Plugin.PI_Init = (config) => {
 Alteryx.Plugin.II_Init = (metaInfo) => {
   console.log(`II_Init Called: ${metaInfo.Connection}.`)
   globalConfiguration.state = 'Connected'
-  const newField: Alteryx.FieldInfo = { name: globalConfiguration.columnName, type: 'V_WString', size: 64532 }
+  const newField: Alteryx.RecordFieldInfo = { name: globalConfiguration.columnName, type: 'V_WString', size: 64532 }
   Alteryx.Engine.SendMessage.RecordInfo('Output', { Field: [...metaInfo.RecordInfo.Field, newField] })
 }
 

@@ -22,7 +22,7 @@ declare namespace Alteryx {
     Callbacks: () => void[] | undefined
   }
 
-  interface FieldInfo {
+  interface RecordFieldInfo {
     name: string
     type: FieldType
     source?: string
@@ -32,7 +32,7 @@ declare namespace Alteryx {
   }
 
   interface RecordInfo {
-    Field: FieldInfo[]
+    Field: RecordFieldInfo[]
   }
 
   interface MetaInfo {

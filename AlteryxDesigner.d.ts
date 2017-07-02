@@ -109,6 +109,11 @@ declare namespace Alteryx {
     savedExpressions: string[]
   }
 
+  interface beforeGetConfiguration {
+    Annotation?: string
+    Configuration: any 
+  }
+
   interface AlteryxGui {
     manager: Manager
     renderer: any
@@ -124,9 +129,9 @@ declare namespace Alteryx {
     setRecentAndSavedExpressions: (expressions: recentAndSavedExpressions) => void
 
     // Plug In Methods
-    BeforeLoad?: (manager: Manager, dataItems: AlteryxDataItems.DataItem[], json: any) => void
-    AfterLoad?: (manager: Manager, dataItems: AlteryxDataItems.DataItem[]) => void
-    BeforeGetConfiguration?: (json: any) => any
+    BeforeLoad?: (manager: Manager, dataItems: AlteryxDataItems, json: any) => void
+    AfterLoad?: (manager: Manager, dataItems: AlteryxDataItems) => void
+    BeforeGetConfiguration?: (json: beforeGetConfiguration) => any
     Annotation?: (manager: Manager) => string
   }
 
@@ -135,7 +140,7 @@ declare namespace Alteryx {
   export const Gui: AlteryxGui
 }
 
-declare namespace AlteryxDataItems {
+declare module AlteryxDataItems {
   interface DataItemArgs {
     dataname: string
     id: string
@@ -146,7 +151,7 @@ declare namespace AlteryxDataItems {
   }
 
   interface SimpleNumberArgs extends DataItemArgs {
-    initialvalue?: number
+    initialValue?: number
   }
 
   interface MultiStringArgs extends DataItemArgs {
@@ -154,7 +159,7 @@ declare namespace AlteryxDataItems {
   }
 
   interface SimpleStringArgs extends DataItemArgs {
-    initialvalue?: string
+    initialValue?: string
     password?: 'true' | 'false'
     isEncrypted?: boolean
   }

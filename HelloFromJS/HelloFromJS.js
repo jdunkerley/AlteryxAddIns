@@ -29,7 +29,7 @@ Alteryx.Plugin.II_Init = function (metaInfo) {
 Alteryx.Plugin.II_PushRecords = function (data) {
     console.log("II_PushRecords Called: " + data.Connection + ".");
     Alteryx.Engine.SendMessage.PushRecords('Output', data.Records.map(function (r) { return r.concat([globalConfiguration.value]); }));
-    Alteryx.JsEvent(JSON.stringify({ Event: "PushRecords", Connection: "Output", ToolProgress: data.Progress, Records: '[]' }));
+    Alteryx.JsEvent(JSON.stringify({ Event: 'PushRecords', Connection: 'Output', ToolProgress: data.Progress, Records: '[]' }));
 };
 Alteryx.Plugin.II_AllClosed = function () {
     console.log('II_AllClosed Called.');

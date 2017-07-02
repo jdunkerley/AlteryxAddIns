@@ -7,14 +7,13 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <ColumnName>
-          </ColumnName>
-          <Value>
-          </Value>
+          <ColumnName>JavaScriptString</ColumnName>
+          <Value>A sample UI and Engine in JavaScript (well TypeScript!)</Value>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText />
+          <DefaultAnnotationText>JavaScriptString:
+A sample UI and Engine in J...</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -79,7 +78,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_14120_23f9ca2f8afa40e8b6211baa8c6345c4_\Engine_14452_e92c0f98f7bd46399c519976d5d80d0d_.yxdb</TempFile>
+          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_21108_ef7f0d00f9314d10bcc21ecef7e6d8b0_\Engine_14452_016dd4af4a2b4c9794f5c98f3d292136_.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
