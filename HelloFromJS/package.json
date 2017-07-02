@@ -6,6 +6,8 @@
   "author": "James Dunkerley",
   "license": "MIT",
   "devDependencies": {
+    "tslint": "^5.4.3",
+    "tslint-config-standard": "^6.0.1",
     "typescript": "^2.4.1"
   }
 }
