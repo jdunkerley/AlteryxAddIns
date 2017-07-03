@@ -1,4 +1,3 @@
-"use strict";
 /// <reference path="../AlteryxEngine.d.ts" />
 var globalConfiguration = {
     state: '',
@@ -44,4 +43,3 @@ Alteryx.Plugin.PI_Close = function () {
     }
     Alteryx.Engine.SendMessage.PI_Close();
 };
-//# sourceMappingURL=HelloFromJS.js.map

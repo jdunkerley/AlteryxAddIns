@@ -1,4 +1,3 @@
-"use strict";
 /// <reference path="../AlteryxDesigner.d.ts" />
 Alteryx.Gui.BeforeLoad = function (manager, dataItems) {
     if (!manager.GetDataItemByDataName('ColumnName')) {
@@ -29,4 +28,3 @@ Alteryx.Gui.BeforeGetConfiguration = function (json) {
     }
     return json;
 };
-//# sourceMappingURL=HelloFromJSGui.js.map

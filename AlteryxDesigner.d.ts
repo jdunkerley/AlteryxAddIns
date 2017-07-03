@@ -7,8 +7,7 @@
 // ToDo: SimpleGraph
 // ToDo: SimpleGraphData
 // ToDo: SimpleLineGraph 
-
-declare namespace Alteryx {
+declare module Alteryx {
   export type FieldType = "Blob" | "Bool" | "Byte" | "Int16" | "Int32" | "Int64" | "FixedDecimal" | "Float" | "Double" | "String" | "WString" | "V_String" | "V_WString" | "Date" | "Time" | "DateTime" | "SpatialObj" | "Unknown"
   export class FieldInfo {
     constructor(_name: string, _type: FieldType, _size: number, _scale: number, _source: string, _desc: string)

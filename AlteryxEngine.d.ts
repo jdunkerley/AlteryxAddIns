@@ -1,4 +1,4 @@
-declare namespace Alteryx {
+declare module Alteryx {
   export type FieldType = "Blob" | "Bool" | "Byte" | "Int16" | "Int32" | "Int64" | "FixedDecimal" | "Float" | "Double" | "String" | "WString" | "V_String" | "V_WString" | "Date" | "Time" | "DateTime" | "SpatialObj" | "Unknown"
 
   interface SendMessage {
