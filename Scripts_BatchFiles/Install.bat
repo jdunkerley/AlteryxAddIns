@@ -22,28 +22,32 @@ if '%errorlevel%' NEQ '0' (
 :gotAdmin
     pushd %~dp0
 
+    FOR %%A IN (Omnibus\*.* OmniBus.XmlTools\*.* OmniBus.Roslyn\*.* OmnibusRegex\*.*) DO (echo.>%%A:Zone.Identifier)
+
     FOR /F "usebackq tokens=2,* skip=2" %%L IN (
         `reg query "HKLM\SOFTWARE\WOW6432Node\SRC\Alteryx" /v InstallDir64`
     ) DO SET alteryxPath=%%M
 
     IF "%alteryxPath%" NEQ "" (
+      mkdir "%alteryxPath%\..\Settings\AdditionalPlugins"
+
       echo [Settings] > OmniBus.ini
       echo x64Path=%~dp0OmniBus >> OmniBus.ini
       echo x86Path=%~dp0OmniBus >> OmniBus.ini
       echo ToolGroup=Omnibus >> OmniBus.ini
-      move OmniBus.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
+      move /Y OmniBus.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
 
       echo [Settings] > OmniBus.XmlTools.ini
       echo x64Path=%~dp0OmniBus.XmlTools >> OmniBus.XmlTools.ini
       echo x86Path=%~dp0OmniBus.XmlTools >> OmniBus.XmlTools.ini
       echo ToolGroup=Omnibus >> OmniBus.XmlTools.ini
-      move OmniBus.XmlTools.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
+      move /Y OmniBus.XmlTools.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
 
       echo [Settings] > OmniBus.Roslyn.ini
       echo x64Path=%~dp0OmniBus.Roslyn >> OmniBus.Roslyn.ini
       echo x86Path=%~dp0OmniBus.Roslyn >> OmniBus.Roslyn.ini
       echo ToolGroup=Omnibus >> OmniBus.Roslyn.ini
-      move OmniBus.Roslyn.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
+      move /Y OmniBus.Roslyn.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
 
       mklink /J "%alteryxPath%\HtmlPlugins\OmniBusRegEx" OmniBusRegEx
     )
@@ -53,23 +57,25 @@ if '%errorlevel%' NEQ '0' (
     ) DO SET alteryxPath=%%M
 
     IF "%alteryxPath%" NEQ "" (
+      mkdir "%alteryxPath%\..\Settings\AdditionalPlugins"
+
       echo [Settings] > OmniBus.ini
       echo x64Path=%~dp0OmniBus >> OmniBus.ini
       echo x86Path=%~dp0OmniBus >> OmniBus.ini
       echo ToolGroup=Omnibus >> OmniBus.ini
-      move OmniBus.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
+      move /Y OmniBus.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
 
       echo [Settings] > OmniBus.XmlTools.ini
       echo x64Path=%~dp0OmniBus.XmlTools >> OmniBus.XmlTools.ini
       echo x86Path=%~dp0OmniBus.XmlTools >> OmniBus.XmlTools.ini
       echo ToolGroup=Omnibus >> OmniBus.XmlTools.ini
-      move OmniBus.XmlTools.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
+      move /Y OmniBus.XmlTools.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
 
       echo [Settings] > OmniBus.Roslyn.ini
       echo x64Path=%~dp0OmniBus.Roslyn >> OmniBus.Roslyn.ini
       echo x86Path=%~dp0OmniBus.Roslyn >> OmniBus.Roslyn.ini
       echo ToolGroup=Omnibus >> OmniBus.Roslyn.ini
-      move OmniBus.Roslyn.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
+      move /Y OmniBus.Roslyn.ini "%alteryxPath%\..\Settings\AdditionalPlugins"
 
       mklink /J "%alteryxPath%\HtmlPlugins\OmniBusRegEx" OmniBusRegEx
     )
