@@ -128,8 +128,8 @@ declare module Alteryx {
     setRecentAndSavedExpressions: (expressions: recentAndSavedExpressions) => void
 
     // Plug In Methods
-    BeforeLoad?: (manager: Manager, dataItems: AlteryxDataItems, json: any) => void
-    AfterLoad?: (manager: Manager, dataItems: AlteryxDataItems) => void
+    BeforeLoad?: (manager: Manager, dataItems: AlteryxDataItemsModules, json: any) => void
+    AfterLoad?: (manager: Manager, dataItems: AlteryxDataItemsModule) => void
     BeforeGetConfiguration?: (json: beforeGetConfiguration) => any
     Annotation?: (manager: Manager) => string
   }
@@ -137,6 +137,22 @@ declare module Alteryx {
   export function JsEvent(jsonObject: string): void
 
   export const Gui: AlteryxGui
+
+  export class AlteryxDataItemsModule {
+    DataItem: typeof AlteryxDataItems.DataItem
+    SimpleBool: typeof AlteryxDataItems.SimpleBool
+    SimpleString: typeof AlteryxDataItems.SimpleString
+    SimpleInt: typeof AlteryxDataItems.SimpleInt
+    SimpleFloat: typeof AlteryxDataItems.SimpleFloat
+    SimpleDate: typeof AlteryxDataItems.SimpleDate
+    SimpleTime: typeof AlteryxDataItems.SimpleTime
+    SimpleDateTime: typeof AlteryxDataItems.SimpleDateTime
+    StringSelector: typeof AlteryxDataItems.StringSelector
+    MultiStringSelector: typeof AlteryxDataItems.MultiStringSelector
+    FieldSelector: typeof AlteryxDataItems.FieldSelector
+    FieldSelectorMulti: typeof AlteryxDataItems.FieldSelectorMulti
+    FileBrowseData: typeof AlteryxDataItems.FileBrowseData
+  }
 }
 
 declare module AlteryxDataItems {
