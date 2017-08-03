@@ -70,7 +70,7 @@ foreach ($sourceFolder in $folders) {
     Write-Host "Copying $sourceFolder"
     $leaf = Split-Path $sourceFolder -Leaf
     New-Item $leaf -type directory | Out-Null
-    Get-ChildItem $sourceFolder -Exclude '*.ts', '*.map', 'node_modules', '*.bak', 'yarn.lock', 'package.json', 'ts*.json', '*Install.ps1' | Copy-Item -Destination "$temp\$leaf"
+    Get-ChildItem $sourceFolder -Exclude '*.ts', '*.map', 'node_modules', '*.bak', 'yarn.lock', 'package.json', 'ts*.json', '*Install.ps1' | Copy-Item -Destination "$temp\$leaf" -Recurse
 }
 
 Compress-Archive -Path "$temp" -DestinationPath "$temp\$name.zip" -Verbose -Update
