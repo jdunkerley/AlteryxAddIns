@@ -1,4 +1,4 @@
-param($folder, $version, [string[]]$folders)
+param($folder, [string]$version = "1.0.0", [string[]]$folders, [string]$imagePath = "")
 
 $ErrorActionPreference = "Stop"
 
@@ -13,6 +13,10 @@ if (Test-Path $folder) {
 } else {
     $name = $folder
     $parent = Get-Location
+}
+
+if (Test-Path $imagePath) {
+    $imagePath = Resolve-Path $imagePath
 }
 
 Write-Host "Creating $name version $version... ($parent)"
@@ -53,13 +57,19 @@ Add-Content $configFile -Value '        </MetaInfo>'
 Add-Content $configFile -Value '    </Properties>'
 Add-Content $configFile -Value '</AlteryxJavaScriptPlugin>'
 
-if (Test-Path "$folder\$name.png") {
-    Write-Host "Copying $folder\$name.png"
-    Copy-Item -Destination "$temp" -Path "$folder\$name.png"
-} else {
-    if (Test-Path "$folder.png") {
-        Write-Host "Copying $folder.png"
-        Copy-Item -Destination "$temp" -Path "$folder.png"
+if (Test-Path $imagePath) {
+    Write-Host "Copying $imagePath"
+    Copy-Item -Destination "$temp\$name.png" -Path "$imagePath"
+}
+else  {
+    if (Test-Path "$folder\$name.png") {
+        Write-Host "Copying $folder\$name.png"
+        Copy-Item -Destination "$temp" -Path "$folder\$name.png"
+    } else {
+        if (Test-Path "$folder.png") {
+            Write-Host "Copying $folder.png"
+            Copy-Item -Destination "$temp" -Path "$folder.png"
+        }
     }
 }
 
@@ -73,7 +83,7 @@ foreach ($sourceFolder in $folders) {
     Get-ChildItem $sourceFolder -Exclude '*.ts', '*.map', 'node_modules', '*.bak', 'yarn.lock', 'package.json', 'ts*.json', '*Install.ps1' | Copy-Item -Destination "$temp\$leaf" -Recurse
 }
 
-Compress-Archive -Path "$temp" -DestinationPath "$temp\$name.zip" -Verbose -Update
+Compress-Archive -Path "$temp\*" -DestinationPath "$temp\$name.zip" -Verbose -Update
 
 $target = "$parent\${name}_$version.yxi"
 if (Test-Path $target) {
