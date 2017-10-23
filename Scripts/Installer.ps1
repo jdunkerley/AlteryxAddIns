@@ -2,11 +2,11 @@ param($fileName, $toolGroup, $target)
 
 $bins = @()
 $reg = Get-ItemProperty HKLM:\SOFTWARE\WOW6432Node\SRC\Alteryx -ErrorAction SilentlyContinue
-if ($reg -ne $null) {
+if ($reg -ne $null -and $reg.InstallDir64 -ne $null) {
     $bins += $reg.InstallDir64
 }
 $reg = Get-ItemProperty HKCU:\SOFTWARE\SRC\Alteryx -ErrorAction SilentlyContinue
-if ($reg -ne $null) {
+if ($reg -ne $null -and $reg.InstallDir64 -ne $null) {
     $bins += $reg.InstallDir64
 }
 
