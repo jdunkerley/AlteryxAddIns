@@ -2,7 +2,6 @@
 <!-- Except for help, all paths are relative to this config file.  The variables [Engine.EngineDirectory], [Engine.PluginDirectory] and [Engine.JavaScriptPluginDirectory] can also be used. -->
 <AlteryxJavaScriptPlugin>
   <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxRegEx" SDKVersion="10.1" />
-
   <!-- There are five valid settings for the Help attribute of the GuiSettings tag. -->
   <!-- No Help attribute, or empty quotes, will take the user to the Alteryx web help index. This is the default behavior. -->
   <!-- A valid HTTP URL including http:// or https:// protocol will open the default browser to that URL. -->
