@@ -1,4 +1,4 @@
-eparam($folder)
+param($folder)
 $ErrorActionPreference = "Stop"
 
 $folder = Resolve-Path $folder
@@ -18,16 +18,19 @@ if ($reg -ne $null -and $reg.InstallDir64 -ne $null) {
     $bins += $reg.InstallDir64
 }
 
+$cmd = ""
 foreach ($dir in $bins) {
     $bin = Join-Path $dir "HtmlPlugins\$name"
-    $cmd = ""
     if (Test-PAth $bin) {
         Write-Host "Removing Existing Link $bin"
-        $cmd = "rmdir ""$bin"" & "
+        $cmd = "$cmd rmdir ""$bin"" &"
     }
 
     Write-Host "Creating Link $bin"
-    $cmd = "$cmd mklink /J ""$bin"" ""$folder"""
+    $cmd = "$cmd mklink /J ""$bin"" ""$folder"" &"
+}
+
+if ($cmd -ne "") {
     Start-Process cmd -ArgumentList "/c $cmd" -verb RunAs -wait
 }
 
