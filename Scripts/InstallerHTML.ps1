@@ -1,6 +1,7 @@
 param($folder)
 $ErrorActionPreference = "Stop"
 
+$folder = Resolve-Path $folder
 $name = Split-Path $folder -Leaf
 
 Push-Location $folder
