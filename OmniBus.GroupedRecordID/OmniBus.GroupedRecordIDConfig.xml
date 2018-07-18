@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- Except for help, all paths are relative to this config file.  The variables [Engine.EngineDirectory], [Engine.PluginDirectory] and [Engine.JavaScriptPluginDirectory] can also be used. -->
+<AlteryxJavaScriptPlugin>
+  <EngineSettings EngineDll="Python" EngineDllEntryPoint="Omnibus.GroupedRecordID.py" SDKVersion="10.1" />
+  <GuiSettings Html="Omnibus.GroupedRecordID.html" Icon="Omnibus.GroupedRecordID.png" SDKVersion="10.1">
+    <InputConnections>
+      <Connection Name="Input" AllowMultiple="False" Optional="True" Type="Connection" />
+    </InputConnections>
+    <OutputConnections>
+      <Connection Name="Output" AllowMultiple="False" Optional="True" Type="Connection" />
+    </OutputConnections>
+  </GuiSettings>
+   <Properties>
+    <MetaInfo>
+      <Name>Omnibus Grouped Record ID</Name>
+      <Description>Record ID with Grouping</Description>
+      <CategoryName>Preparation</CategoryName>
+      <SearchTags>omnibus, unique, identifier, data, preparation category, category, rank</SearchTags>
+    </MetaInfo>
+  </Properties>
+</AlteryxJavaScriptPlugin>

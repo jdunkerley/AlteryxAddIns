@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>GroupedRecordID</title>
+    <script type="text/javascript">
+        // document.write(`<link rel="import" href="${window.Alteryx.LibDir}1/lib/alteryx/gui/includes.html">`)
+        document.write(`<link rel="import" href="${window.Alteryx.LibDir}2/lib/includes.html">`)
+    </script>
+</head>
+<body>
+    <form>
+        <fieldset>
+            <label for="dataFieldName">Field Name</label>
+            <!-- <alteryx-pluginwidget data-props='{type:"TextBox",id:"dataFieldName",dataName:"FieldName",value:"RecordID"}'></alteryx-pluginwidget> -->
+            <ayx data-ui-props='{type:"TextBox", widgetId:"dataFieldName"}'></ayx>
+
+            <!-- <alteryx-pluginwidget data-props='{type:"CheckBox",id:"dataFieldName",dataName:"LastColumn",text:"Add Field As Last Column",showAsToggle:"true"}'></alteryx-pluginwidget> -->
+            <ayx data-ui-props='{type:"CheckBox", widgetId:"dataLastColumn", label:"Add Field As Last Column"}'></ayx>            
+
+            <label for="dataFieldType">Field Type</label>
+            <ayx data-ui-props='{type:"DropDown", widgetId:"dataFieldType"}'></ayx>
+
+            <label for="dataStringSize">String Size</label>
+            <ayx data-ui-props='{type:"NumericSpinner", widgetId:"dataStringSize"}'></ayx>
+
+            <label for="dataStartingValue">Initial Value</label>
+            <ayx data-ui-props='{type:"NumericSpinner", widgetId:"dataStartingValue"}'></ayx>
+
+            <label for="dataGroupingFields">Grouping Fields</label>
+            <ayx data-ui-props='{type:"ListBox", widgetId:"dataGroupingFields", searchable: false}'></ayx>
+
+            <label for="dataSortingFields">Sorting Fields</label>
+            <ayx data-ui-props='{type:"ListBox", widgetId:"dataSortingFields", searchable: false}'></ayx>
+
+            <label for="dataDescendingFields">Descending Fields</label>
+            <ayx data-ui-props='{type:"ListBox", widgetId:"dataDescendingFields", searchable: false}'></ayx>
+        </fieldset>
+	</form>
+    <script type="text/javascript" src="Omnibus.GroupedRecordIDGUI.js"></script>
+</body>
+</html>
