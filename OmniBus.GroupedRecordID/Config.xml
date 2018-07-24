@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AlteryxJavaScriptPlugin>
+   <Properties>
+      <MetaInfo>
+        <Name>Omnibus Grouped Record ID</Name>
+        <Description>Record ID with Grouping</Description>
+        <CategoryName>Preparation</CategoryName>
+        <ToolVersion>1.0</ToolVersion>
+        <Author>James Dunkerley </Author>
+        <Icon>OmniBus.GroupedRecordID.png</Icon>
+      </MetaInfo>
+   </Properties>
+</AlteryxJavaScriptPlugin>

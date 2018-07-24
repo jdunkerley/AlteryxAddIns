@@ -1,7 +1,6 @@
 import AlteryxPythonSDK as Sdk
 import xml.etree.ElementTree as Et
 
-
 class AyxPlugin:
     """
     Implements the plugin interface methods, to be utilized by the Alteryx engine to communicate with a plugin.
@@ -23,14 +22,22 @@ class AyxPlugin:
 
         # Custom properties
         self.is_initialized = True
+
         self.single_input = None
+        self.grouping_fields = None
+        self.xml_sort_info = None
+
         self.output_anchor = None
         self.output_field = None
-        self.column_name = None
+        self.output_field_name = None
+        self.output_field_type = None
+        self.output_field_size = None
+        self.output_field_last = False
+
         self.starting_value = None
-        self.total_record_count = None
-        self.output_type = None
-        self.record_increment = None
+        self.current_value = None
+        self.current_group = None
+        self.grouping_fields_objects = None
 
     def pi_init(self, str_xml: str):
         """
@@ -40,25 +47,56 @@ class AyxPlugin:
         """
 
         # Getting the dataName data property from the Gui.html
-        self.column_name = Et.fromstring(str_xml).find('FieldName').text if 'FieldName' in str_xml else None
-        self.total_record_count = int(Et.fromstring(str_xml).find('EndValue').text) if 'EndValue' in str_xml else None
-        self.record_increment = int(Et.fromstring(str_xml).find('StepByValue').text) if 'StepByValue' in str_xml else None
-        self.starting_value = int(Et.fromstring(str_xml).find('StartValue').text) - self.record_increment if 'StartValue' in str_xml else None
-        field_type = Et.fromstring(str_xml).find('FieldType').text if 'FieldType' in str_xml else None
+        self.output_field_name = Et.fromstring(str_xml).find('FieldName').text if 'FieldName' in str_xml else None
+        if self.output_field_name is None:
+            self.display_error_msg('Field name cannot be empty. Please enter a field name.')
+        elif len(self.output_field_name) > 255:
+            self.display_error_msg('Field name cannot be greater than 255 characters.')
 
-        # Valid column name checks.
-        if self.column_name is None:
-            self.display_error_msg(self.alteryx_engine.xmsg('Field name cannot be empty. Please enter a field name.'))
-        elif len(self.column_name) > 255:
-            self.display_error_msg(self.alteryx_engine.xmsg('Field name cannot be greater than 255 characters.'))
+        self.output_field_last = Et.fromstring(str_xml).find('LastColumn').text if 'LastColumn' in str_xml else 'False' == 'True'
 
         # Assigning the appropriate Alteryx field type.
-        if field_type == 'Int16':
-            self.output_type = Sdk.FieldType.int16
+        field_type = Et.fromstring(str_xml).find('FieldType').text if 'FieldType' in str_xml else None
+        if field_type == 'Byte':
+            self.output_field_type = Sdk.FieldType.byte
+        elif field_type == 'Int16':
+            self.output_field_type = Sdk.FieldType.int16
         elif field_type == 'Int32':
-            self.output_type = Sdk.FieldType.int32
+            self.output_field_type = Sdk.FieldType.int32
         elif field_type == 'Int64':
-            self.output_type = Sdk.FieldType.int64
+            self.output_field_type = Sdk.FieldType.int64
+        elif field_type == 'String':
+            self.output_field_type = Sdk.FieldType.string
+            self.output_field_size = int(Et.fromstring(str_xml).find('StringSize').text) if 'StringSize' in str_xml else 1
+        elif field_type == 'WString':
+            self.output_field_type = Sdk.FieldType.wstring
+            self.output_field_size = int(Et.fromstring(str_xml).find('StringSize').text) if 'StringSize' in str_xml else 1
+        elif field_type == 'V_String':
+            self.output_field_type = Sdk.FieldType.v_string
+            self.output_field_size = int(Et.fromstring(str_xml).find('StringSize').text) if 'StringSize' in str_xml else 1
+        elif field_type == 'V_WString':
+            self.output_field_type = Sdk.FieldType.v_wstring
+            self.output_field_size = int(Et.fromstring(str_xml).find('StringSize').text) if 'StringSize' in str_xml else 1
+        else:
+            self.display_error_msg('Field type must be selected.')
+
+        # Initial Value For ID
+        self.starting_value = int(Et.fromstring(str_xml).find('StartingValue').text) if 'StartingValue' in str_xml else 1
+        self.current_value = self.starting_value - 1
+
+        # Build Sorting String
+        self.grouping_fields = Et.fromstring(str_xml).find('GroupingFields').text.split(',') if 'GroupingFields' in str_xml else []
+        sorting_fields = Et.fromstring(str_xml).find('SortingFields').text.split(',') if 'SortingFields' in str_xml else []
+        descending_fields = Et.fromstring(str_xml).find('DescendingFields').text.split(',') if 'DescendingFields' in str_xml else []
+        self.xml_sort_info = ''
+        for grouping_field in self.grouping_fields:
+            if grouping_field != '""':
+                self.xml_sort_info += '<Field field=' + grouping_field + ' order="' + ('Desc' if grouping_field in descending_fields else 'Asc') + '" />\n'
+        for grouping_field in sorting_fields:
+            if not grouping_field in self.grouping_fields and grouping_field != '""':
+                self.xml_sort_info += '<Field field=' + grouping_field + ' order="' + ('Desc' if grouping_field in descending_fields else 'Asc') + '" />\n'
+        self.xml_sort_info = ('<SortInfo>\n<GroupByFields>\n' + self.xml_sort_info + '</GroupByFields>\n</SortInfo>\n') if self.xml_sort_info else ''
+        self.alteryx_engine.output_message(self.n_tool_id, Sdk.EngineMessageType.info, self.xml_sort_info)
 
         # Getting the output anchor from Config.xml by the output connection name
         self.output_anchor = self.output_anchor_mgr.get_output_anchor('Output')
@@ -71,7 +109,7 @@ class AyxPlugin:
         :param str_name: The name of the wire, defined by the workflow author.
         :return: The IncomingInterface object(s).
         """
-
+        self.alteryx_engine.pre_sort(str_type, str_name, self.xml_sort_info)
         self.single_input = IncomingInterface(self)
         return self.single_input
 
@@ -81,9 +119,7 @@ class AyxPlugin:
         :param str_name: The name of the output connection anchor, defined in the Config.xml file.
         :return: True signifies that the connection is accepted.
         """
-
         return True
-
 
     def pi_push_all_records(self, n_record_limit: int) -> bool:
         """
@@ -92,50 +128,13 @@ class AyxPlugin:
         :param n_record_limit: Set it to <0 for no limit, 0 for no records, and >0 to specify the number of records.
         :return: False if there's an error with the field name, otherwise True.
         """
-
-        if not self.is_initialized:
-            return False
-
-        # Save a reference to the RecordInfo passed into this function in the global namespace, so we can access it later.
-        record_info_out = Sdk.RecordInfo(self.alteryx_engine)
-
-        # Adds the new field to the record.
-        self.output_field = record_info_out.add_field(self.column_name, self.output_type)
-
-        # Lets the downstream tools know what the outgoing record metadata will look like, based on record_info_out.
-        self.output_anchor.init(record_info_out)
-
-        # Creating a new, empty record creator based on record_info_out's record layout.
-        record_creator = record_info_out.construct_record_creator()
-
-        previous_inc_value = self.starting_value
-
-        # Create new column and increments the value by self.record_increment.
-        for i in range(0, self.total_record_count):
-
-            loop_value = previous_inc_value + self.record_increment
-            # Set the value on our new column in the record_creator helper to be the new record_count.
-            record_info_out[0].set_from_int64(record_creator, loop_value)
-            # Pass the record downstream.
-            out_record = record_creator.finalize_record()
-            # Pushes record to output connection, passing False means completed connections will be automatically closed.
-            self.output_anchor.push_record(out_record, False)
-            # Sets the capacity in bytes for variable-length data in this record to 0 (default).
-            record_creator.reset()
-
-            previous_inc_value = loop_value
-            
-        # Make sure that the output anchor is closed.
-        self.output_anchor.close()
-        return True
+        return False
 
     def pi_close(self, b_has_errors: bool):
         """
         Called after all records have been processed.
         :param b_has_errors: Set to true to not do the final processing.
         """
-
-        # Checks whether connections were properly closed.
         self.output_anchor.assert_close()
 
     def display_error_msg(self, msg_string: str):
@@ -143,9 +142,7 @@ class AyxPlugin:
         A non-interface method, that is responsible for displaying the relevant error message in Designer.
         :param msg_string: The custom error message.
         """
-
         self.is_initialized = False
-        self.alteryx_engine.output_message(self.n_tool_id, Sdk.EngineMessageType.error, msg_string)
 
 class IncomingInterface:
     """
@@ -180,11 +177,10 @@ class IncomingInterface:
 
         # Returns a new, empty RecordCreator object that is identical to record_info_in.
         record_info_out = record_info_in.clone()
-
-        # Adds field to record with specified name and output type.
-        record_info_out.add_field(self.parent.column_name, self.parent.output_type)
-
-        # Lets the downstream tools know what the outgoing record metadata will look like, based on record_info_out.
+        if self.parent.output_field_size:
+            self.parent.output_field = record_info_out.add_field(self.parent.output_field_name, self.parent.output_field_type, self.parent.output_field_size)
+        else:
+            self.parent.output_field = record_info_out.add_field(self.parent.output_field_name, self.parent.output_field_type)
         self.parent.output_anchor.init(record_info_out)
 
         # Creating a new, empty record creator based on record_info_out's record layout.
@@ -192,17 +188,19 @@ class IncomingInterface:
 
         # Instantiate a new instance of the RecordCopier class.
         self.record_copier = Sdk.RecordCopier(record_info_out, record_info_in)
-
-        # Map each column of the input to where we want in the output.
         for index in range(record_info_in.num_fields):
-            # Adding a field index mapping.
             self.record_copier.add(index, index)
-
-        # Let record copier know that all field mappings have been added.
         self.record_copier.done_adding()
 
-        # Grab the index of our new field in the record, so we don't have to do a string lookup on every push_record.
-        self.parent.output_field = record_info_out[record_info_out.get_field_num(self.parent.column_name)]
+        # Construct Group Reader
+        self.parent.grouping_fields_objects = []
+        for grouping_field in self.parent.grouping_fields:
+            if grouping_field != '""':
+                if record_info_in.get_field_by_name(grouping_field.strip('"')):
+                    self.parent.grouping_fields_objects.append(record_info_in.get_field_by_name(grouping_field.strip('"')))
+                else:
+                    self.alteryx_engine.output_message(self.n_tool_id, Sdk.EngineMessageType.info, 'Failed to find ' + grouping_field.strip('"'))
+
         return True
 
     def ii_push_record(self, in_record: object) -> bool:
@@ -216,15 +214,33 @@ class IncomingInterface:
         if not self.parent.is_initialized:
             return False
 
-        # Increment our custom starting_value variable by the selected record increment to show we have a new record.
-        self.parent.starting_value += self.parent.record_increment
-
         # Copy the data from the incoming record into the outgoing record.
         self.record_creator.reset()
         self.record_copier.copy(self.record_creator, in_record)
 
+        # Check Group
+        if len(self.parent.grouping_fields_objects) > 0:
+            new_group = []
+            for grouping_field in self.parent.grouping_fields_objects:
+                if grouping_field.type in [Sdk.FieldType.byte, Sdk.FieldType.int16, Sdk.FieldType.int32, Sdk.FieldType.int64]:
+                    new_group.append(grouping_field.get_as_int64(in_record))
+                elif grouping_field.type in [Sdk.FieldType.float, Sdk.FieldType.double]:
+                    new_group.append(grouping_field.get_as_double(in_record))
+                else:
+                    new_group.append(grouping_field.get_as_string(in_record))
+            if self.parent.current_group and self.parent.current_group == new_group:
+                self.parent.current_value += 1
+            else:
+                self.parent.current_value = self.parent.starting_value
+                self.parent.current_group = new_group
+        else:
+            self.parent.current_value += 1
+
         # Sets the value of this field in the specified record_creator from an int64 value.
-        self.parent.output_field.set_from_int64(self.record_creator, self.parent.starting_value)
+        if self.parent.output_field_type == Sdk.FieldType.string or self.parent.output_field_type == Sdk.FieldType.wstring:
+            self.parent.output_field.set_from_string(self.record_creator, str(self.parent.current_value).zfill(self.parent.output_field_size))
+        else:
+            self.parent.output_field.set_from_int64(self.record_creator, self.parent.current_value)
 
         out_record = self.record_creator.finalize_record()
 
@@ -239,17 +255,11 @@ class IncomingInterface:
         Called by the upstream tool to report what percentage of records have been pushed.
         :param d_percent: Value between 0.0 and 1.0.
         """
-
-        # Inform the Alteryx engine of the tool's progress.
         self.parent.alteryx_engine.output_tool_progress(self.parent.n_tool_id, d_percent)
-
-        # Inform the outgoing connections of the tool's progress.
         self.parent.output_anchor.update_progress(d_percent)
 
     def ii_close(self):
         """
         Called when the incoming connection has finished passing all of its records.
         """
-
-        # Close outgoing connections.
         self.parent.output_anchor.close()

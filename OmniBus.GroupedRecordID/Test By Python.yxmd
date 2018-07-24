@@ -1,0 +1,1231 @@
+<?xml version="1.0"?>
+<AlteryxDocument yxmdVer="2018.2">
+  <Nodes>
+    <Node ToolID="2">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
+        <Position x="54" y="66" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <NumRows value="11" />
+          <Fields>
+            <Field name="Parent" />
+            <Field name="Key" />
+            <Field name="Value" />
+          </Fields>
+          <Data>
+            <r>
+              <c>AB</c>
+              <c>A</c>
+              <c>2</c>
+            </r>
+            <r>
+              <c>AB</c>
+              <c>A</c>
+              <c>1</c>
+            </r>
+            <r>
+              <c>AB</c>
+              <c>B</c>
+              <c>5</c>
+            </r>
+            <r>
+              <c>CD</c>
+              <c>C</c>
+              <c>6</c>
+            </r>
+            <r>
+              <c>CD</c>
+              <c>C</c>
+              <c>4</c>
+            </r>
+            <r>
+              <c>CD</c>
+              <c>C</c>
+              <c>2</c>
+            </r>
+            <r>
+              <c>CD</c>
+              <c>D</c>
+              <c>9</c>
+            </r>
+            <r>
+              <c>CD</c>
+              <c>D</c>
+              <c>7</c>
+            </r>
+            <r>
+              <c>CD</c>
+              <c>D</c>
+              <c>5</c>
+            </r>
+            <r>
+              <c>CD</c>
+              <c>D</c>
+              <c>3</c>
+            </r>
+            <r>
+              <c>CD</c>
+              <c>D</c>
+              <c>1</c>
+            </r>
+          </Data>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
+    </Node>
+    <Node ToolID="34">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="524" y="527" width="295" height="214" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>Grouping - WString(5)</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="10" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="14">
+          <GuiSettings Plugin="OmniBus.GroupedRecordID">
+            <Position x="534" y="640" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FieldName>RowID</FieldName>
+              <LastColumn>False</LastColumn>
+              <FieldType>WString</FieldType>
+              <StringSize>5</StringSize>
+              <StartingValue>1</StartingValue>
+              <GroupingFields>"Parent","Key"</GroupingFields>
+              <SortingFields>""</SortingFields>
+              <DescendingFields>""</DescendingFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Just Grouping (String)</AnnotationText>
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="Python" EngineDllEntryPoint="OmniBus.GroupedRecordID\Omnibus.GroupedRecordID.py" />
+        </Node>
+        <Node ToolID="31">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
+            <Position x="534" y="556" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <NumRows value="11" />
+              <Fields>
+                <Field name="Parent" />
+                <Field name="Key" />
+                <Field name="Value" />
+                <Field name="RowID" />
+              </Fields>
+              <Data>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>2</c>
+                  <c>00001</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>1</c>
+                  <c>00002</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>B</c>
+                  <c>5</c>
+                  <c>00001</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>6</c>
+                  <c>00001</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>4</c>
+                  <c>00002</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>2</c>
+                  <c>00003</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>9</c>
+                  <c>00001</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>7</c>
+                  <c>00002</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>5</c>
+                  <c>00003</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>3</c>
+                  <c>00004</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>1</c>
+                  <c>00005</c>
+                </r>
+              </Data>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
+        </Node>
+        <Node ToolID="32">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="630" y="556" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="RowID" selected="True" type="WString" size="5" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="33">
+          <GuiSettings>
+            <Position x="750" y="628" />
+          </GuiSettings>
+          <Properties>
+            <Configuration />
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings Macro="..\..\AlteryxRecordID\ResultCompare.yxmc" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="39">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="845" y="632" width="301" height="232" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>Grouped and Sorted - V_String(10)</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="25" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="10">
+          <GuiSettings Plugin="OmniBus.GroupedRecordID">
+            <Position x="870" y="748" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FieldName>RowID</FieldName>
+              <LastColumn>False</LastColumn>
+              <FieldType>V_String</FieldType>
+              <StringSize>10</StringSize>
+              <StartingValue>1</StartingValue>
+              <GroupingFields>"Parent"</GroupingFields>
+              <SortingFields>"Key","Value"</SortingFields>
+              <DescendingFields>"Value"</DescendingFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Grouped and Sorted (String)</AnnotationText>
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="Python" EngineDllEntryPoint="OmniBus.GroupedRecordID\Omnibus.GroupedRecordID.py" />
+        </Node>
+        <Node ToolID="36">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
+            <Position x="870" y="676" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <NumRows value="11" />
+              <Fields>
+                <Field name="Parent" />
+                <Field name="Key" />
+                <Field name="Value" />
+                <Field name="RowID" />
+              </Fields>
+              <Data>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>2</c>
+                  <c>1</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>1</c>
+                  <c>2</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>B</c>
+                  <c>5</c>
+                  <c>3</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>6</c>
+                  <c>1</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>4</c>
+                  <c>2</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>2</c>
+                  <c>3</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>9</c>
+                  <c>4</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>7</c>
+                  <c>5</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>5</c>
+                  <c>6</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>3</c>
+                  <c>7</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>1</c>
+                  <c>8</c>
+                </r>
+              </Data>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
+        </Node>
+        <Node ToolID="37">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="966" y="676" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="RowID" selected="True" type="V_String" size="10" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="38">
+          <GuiSettings>
+            <Position x="1062" y="736" />
+          </GuiSettings>
+          <Properties>
+            <Configuration />
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings Macro="..\..\AlteryxRecordID\ResultCompare.yxmc" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="30">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="236" y="407" width="271" height="190" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>No Grouping - String(5)</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="10" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="12">
+          <GuiSettings Plugin="OmniBus.GroupedRecordID">
+            <Position x="246" y="496" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FieldName>RowID</FieldName>
+              <LastColumn>False</LastColumn>
+              <FieldType>String</FieldType>
+              <StringSize>5</StringSize>
+              <StartingValue>1</StartingValue>
+              <GroupingFields>""</GroupingFields>
+              <SortingFields>""</SortingFields>
+              <DescendingFields>""</DescendingFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>No Grouping or Sort (String)</AnnotationText>
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="Python" EngineDllEntryPoint="OmniBus.GroupedRecordID\Omnibus.GroupedRecordID.py" />
+        </Node>
+        <Node ToolID="27">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
+            <Position x="246" y="436" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <NumRows value="11" />
+              <Fields>
+                <Field name="Parent" />
+                <Field name="Key" />
+                <Field name="Value" />
+                <Field name="RowID" />
+              </Fields>
+              <Data>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>2</c>
+                  <c>00001</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>1</c>
+                  <c>00002</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>B</c>
+                  <c>5</c>
+                  <c>00003</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>6</c>
+                  <c>00004</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>4</c>
+                  <c>00005</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>2</c>
+                  <c>00006</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>9</c>
+                  <c>00007</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>7</c>
+                  <c>00008</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>5</c>
+                  <c>00009</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>3</c>
+                  <c>00010</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>1</c>
+                  <c>00011</c>
+                </r>
+              </Data>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
+        </Node>
+        <Node ToolID="28">
+          <GuiSettings>
+            <Position x="438" y="484" />
+          </GuiSettings>
+          <Properties>
+            <Configuration />
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings Macro="..\..\AlteryxRecordID\ResultCompare.yxmc" />
+        </Node>
+        <Node ToolID="29">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="342" y="436" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="26">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="810" y="268" width="271" height="202" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>Grouped and Sorted - Int64</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="10" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="4">
+          <GuiSettings Plugin="OmniBus.GroupedRecordID">
+            <Position x="820" y="369" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FieldName>RowID</FieldName>
+              <LastColumn>False</LastColumn>
+              <FieldType>Int64</FieldType>
+              <StringSize>5</StringSize>
+              <StartingValue>1</StartingValue>
+              <GroupingFields>"Parent"</GroupingFields>
+              <SortingFields>"Key","Value"</SortingFields>
+              <DescendingFields>"Value"</DescendingFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Grouped and Sorted</AnnotationText>
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="Python" EngineDllEntryPoint="OmniBus.GroupedRecordID\Omnibus.GroupedRecordID.py" />
+        </Node>
+        <Node ToolID="23">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
+            <Position x="820" y="297" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <NumRows value="11" />
+              <Fields>
+                <Field name="Parent" />
+                <Field name="Key" />
+                <Field name="Value" />
+                <Field name="RowID" />
+              </Fields>
+              <Data>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>2</c>
+                  <c>1</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>1</c>
+                  <c>2</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>B</c>
+                  <c>5</c>
+                  <c>3</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>6</c>
+                  <c>1</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>4</c>
+                  <c>2</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>2</c>
+                  <c>3</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>9</c>
+                  <c>4</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>7</c>
+                  <c>5</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>5</c>
+                  <c>6</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>3</c>
+                  <c>7</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>1</c>
+                  <c>8</c>
+                </r>
+              </Data>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
+        </Node>
+        <Node ToolID="24">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="916" y="297" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="RowID" selected="True" type="Int64" size="8" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="25">
+          <GuiSettings>
+            <Position x="1012" y="357" />
+          </GuiSettings>
+          <Properties>
+            <Configuration />
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings Macro="..\..\AlteryxRecordID\ResultCompare.yxmc" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="22">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="522" y="148" width="271" height="174" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>Grouping - Byte</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="10" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="8">
+          <GuiSettings Plugin="OmniBus.GroupedRecordID">
+            <Position x="532" y="237" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FieldName>RowID</FieldName>
+              <LastColumn>False</LastColumn>
+              <FieldType>Byte</FieldType>
+              <StringSize>5</StringSize>
+              <StartingValue>1</StartingValue>
+              <GroupingFields>"Parent","Key"</GroupingFields>
+              <SortingFields>""</SortingFields>
+              <DescendingFields>""</DescendingFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Just Grouping</AnnotationText>
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="Python" EngineDllEntryPoint="OmniBus.GroupedRecordID\Omnibus.GroupedRecordID.py" />
+        </Node>
+        <Node ToolID="18">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
+            <Position x="532" y="177" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <NumRows value="11" />
+              <Fields>
+                <Field name="Parent" />
+                <Field name="Key" />
+                <Field name="Value" />
+                <Field name="RowID" />
+              </Fields>
+              <Data>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>2</c>
+                  <c>1</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>1</c>
+                  <c>2</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>B</c>
+                  <c>5</c>
+                  <c>1</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>6</c>
+                  <c>1</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>4</c>
+                  <c>2</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>2</c>
+                  <c>3</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>9</c>
+                  <c>1</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>7</c>
+                  <c>2</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>5</c>
+                  <c>3</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>3</c>
+                  <c>4</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>1</c>
+                  <c>5</c>
+                </r>
+              </Data>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
+        </Node>
+        <Node ToolID="19">
+          <GuiSettings>
+            <Position x="724" y="225" />
+          </GuiSettings>
+          <Properties>
+            <Configuration />
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings Macro="..\..\AlteryxRecordID\ResultCompare.yxmc" />
+        </Node>
+        <Node ToolID="20">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="628" y="177" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="21">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="234" y="54" width="271" height="202" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>No Grouping - Int16</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="10" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="6">
+          <GuiSettings Plugin="OmniBus.GroupedRecordID">
+            <Position x="244" y="155" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FieldName>RowID</FieldName>
+              <LastColumn>False</LastColumn>
+              <FieldType>Int16</FieldType>
+              <StringSize>5</StringSize>
+              <StartingValue>1</StartingValue>
+              <GroupingFields>""</GroupingFields>
+              <SortingFields>""</SortingFields>
+              <DescendingFields>""</DescendingFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>No Grouping or Sort</AnnotationText>
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="Python" EngineDllEntryPoint="OmniBus.GroupedRecordID\Omnibus.GroupedRecordID.py" />
+        </Node>
+        <Node ToolID="15">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
+            <Position x="244" y="83" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <NumRows value="11" />
+              <Fields>
+                <Field name="Parent" />
+                <Field name="Key" />
+                <Field name="Value" />
+                <Field name="RowID" />
+              </Fields>
+              <Data>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>2</c>
+                  <c>1</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>A</c>
+                  <c>1</c>
+                  <c>2</c>
+                </r>
+                <r>
+                  <c>AB</c>
+                  <c>B</c>
+                  <c>5</c>
+                  <c>3</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>6</c>
+                  <c>4</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>4</c>
+                  <c>5</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>C</c>
+                  <c>2</c>
+                  <c>6</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>9</c>
+                  <c>7</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>7</c>
+                  <c>8</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>5</c>
+                  <c>9</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>3</c>
+                  <c>10</c>
+                </r>
+                <r>
+                  <c>CD</c>
+                  <c>D</c>
+                  <c>1</c>
+                  <c>11</c>
+                </r>
+              </Data>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
+        </Node>
+        <Node ToolID="16">
+          <GuiSettings>
+            <Position x="436" y="143" />
+          </GuiSettings>
+          <Properties>
+            <Configuration />
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings Macro="..\..\AlteryxRecordID\ResultCompare.yxmc" />
+        </Node>
+        <Node ToolID="17">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="340" y="83.00002" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="RowID" selected="True" type="Int16" size="2" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+      </ChildNodes>
+    </Node>
+  </Nodes>
+  <Connections>
+    <Connection>
+      <Origin ToolID="2" Connection="Output" />
+      <Destination ToolID="4" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="2" Connection="Output" />
+      <Destination ToolID="6" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="2" Connection="Output" />
+      <Destination ToolID="8" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="2" Connection="Output" />
+      <Destination ToolID="12" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="2" Connection="Output" />
+      <Destination ToolID="14" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="2" Connection="Output" />
+      <Destination ToolID="10" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="14" Connection="Output" />
+      <Destination ToolID="33" Connection="Actual" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="32" Connection="Output" />
+      <Destination ToolID="33" Connection="Expected" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="31" Connection="Output" />
+      <Destination ToolID="32" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="10" Connection="Output" />
+      <Destination ToolID="38" Connection="Actual" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="37" Connection="Output" />
+      <Destination ToolID="38" Connection="Expected" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="36" Connection="Output" />
+      <Destination ToolID="37" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="12" Connection="Output" />
+      <Destination ToolID="28" Connection="Actual" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="29" Connection="Output" />
+      <Destination ToolID="28" Connection="Expected" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="27" Connection="Output" />
+      <Destination ToolID="29" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="4" Connection="Output" />
+      <Destination ToolID="25" Connection="Actual" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="24" Connection="Output" />
+      <Destination ToolID="25" Connection="Expected" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="23" Connection="Output" />
+      <Destination ToolID="24" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="8" Connection="Output" />
+      <Destination ToolID="19" Connection="Actual" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="20" Connection="Output" />
+      <Destination ToolID="19" Connection="Expected" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="18" Connection="Output" />
+      <Destination ToolID="20" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="6" Connection="Output" />
+      <Destination ToolID="16" Connection="Actual" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="17" Connection="Output" />
+      <Destination ToolID="16" Connection="Expected" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="15" Connection="Output" />
+      <Destination ToolID="17" Connection="Input" />
+    </Connection>
+  </Connections>
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="10" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="True" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>Test By Python</Name>
+      <Description />
+      <RootToolName />
+      <ToolVersion />
+      <ToolInDb value="False" />
+      <CategoryName />
+      <SearchTags />
+      <Author />
+      <Company />
+      <Copyright />
+      <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+  </Properties>
+</AlteryxDocument>
