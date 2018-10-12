@@ -15,6 +15,6 @@
     <tags>Alteryx</tags>
   </metadata>
   <files>
-    <file src="NuGetFiles\Install.ps1" target="tools\Install.ps1" />
+    <file src="NuGetFiles\Install.ps1" target="tools\install.ps1" />
   </files>
 </package>
