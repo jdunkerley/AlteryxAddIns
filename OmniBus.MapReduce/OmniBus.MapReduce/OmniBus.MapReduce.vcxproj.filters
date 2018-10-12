@@ -18,7 +18,10 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OmniBusMapReduce.h">
+    <ClInclude Include="OmniBusSequence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OmniBusHyperOutput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -26,7 +29,10 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OmniBusMapReduce.cpp">
+    <ClCompile Include="OmniBusSequence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OmniBusHyperOutput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

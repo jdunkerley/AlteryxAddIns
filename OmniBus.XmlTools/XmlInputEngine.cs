@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Xml;
 
 using AlteryxRecordInfoNet;
@@ -68,11 +66,7 @@ namespace OmniBus.XmlTools
             return true;
         }
 
-        /// <summary>
-        /// Read All The Xml Nodes From A Document
-        /// </summary>
-        /// <returns>List of nodes</returns>
-        public IEnumerable<object[]> ReadNodes()
+        private IEnumerable<XmlUtils.NodeData> ReadNodes()
         {
             if (string.IsNullOrWhiteSpace(this.ConfigObject.FileName))
             {
@@ -104,45 +98,8 @@ namespace OmniBus.XmlTools
                 return null;
             }
 
-            return this.ReadNodes(document.DocumentElement);
+            return XmlUtils.ReadNodes(document.DocumentElement);
         }
-
-        /// <summary>
-        /// Read All The Xml Nodes From A Node
-        /// Recursive scan from input node
-        /// </summary>
-        /// <param name="node">Xml node to scan</param>
-        /// <param name="path">Current path to node</param>
-        /// <returns>List of nodes</returns>
-        public IEnumerable<object[]> ReadNodes(XmlNode node, string path = "")
-        {
-            if (node == null)
-            {
-                return Enumerable.Empty<object[]>();
-            }
-
-            path = path + "/" + (node is XmlAttribute ? "@" : "") + node.Name;
-
-            var nodes = node.ChildNodes.Cast<XmlNode>().ToArray();
-            var txtNodes = nodes.Where(x => x.Name == "#text").ToArray();
-
-            var txt = nodes.Length == 0 ? node.InnerText : null;
-            if (txtNodes.Length == 1)
-            {
-                txt = txtNodes[0].InnerText;
-                nodes = nodes.Where(n => n.Name != "#text").ToArray();
-            }
-
-            IEnumerable<object[]> result = new[] { new object[] { path, txt, node.InnerXml } };
-
-            if (node.Attributes != null)
-            {
-                result = result.Concat(node.Attributes.Cast<XmlNode>().SelectMany(n => this.ReadNodes(n, path)));
-            }
-
-            return result.Concat(nodes.SelectMany(n => this.ReadNodes(n, path)));
-        }
-
 
 #if DEBUG
         /// <summary>Tells Alteryx whether to show debug error messages or not.</summary>

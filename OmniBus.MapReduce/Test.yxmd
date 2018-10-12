@@ -1,59 +1,24 @@
 <?xml version="1.0"?>
-<AlteryxDocument yxmdVer="11.3">
+<AlteryxDocument yxmdVer="11.7">
   <Nodes>
     <Node ToolID="1">
       <GuiSettings>
-        <Position x="54" y="54" />
+        <Position x="438" y="114" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <NumberOfRecords>12345</NumberOfRecords>
-          <FieldType>V_String</FieldType>
-          <FieldName>Index</FieldName>
+          <FileName>C:\Temp\Test.hyper</FileName>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>AlteryxOmniBusMapReduce</DefaultAnnotationText>
+          <DefaultAnnotationText>AlteryxOmniBusHyperOutput</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="OmniBus.MapReduce.dll" EngineDllEntryPoint="AlteryxOmniBusMapReduce" />
-    </Node>
-    <Node ToolID="2">
-      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="150" y="54" />
-      </GuiSettings>
-      <Properties>
-        <Configuration>
-          <TempFile>C:\ProgramData\Alteryx\Engine\Engine_21644_397c4cbd720043ddbe52cd6d1d27493c_\Engine_19876_1d174ab5e81844cfa15e8e8bcfb6de23_.yxdb</TempFile>
-          <TempFileDataProfiling />
-          <Layout>
-            <ViewMode>Single</ViewMode>
-            <ViewSize value="100" />
-            <View1>
-              <DefaultTab>Profile</DefaultTab>
-              <Hints>
-                <Table />
-              </Hints>
-            </View1>
-            <View2 />
-          </Layout>
-        </Configuration>
-        <Annotation DisplayMode="0">
-          <Name />
-          <DefaultAnnotationText />
-          <Left value="False" />
-        </Annotation>
-      </Properties>
-      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+      <EngineSettings EngineDll="OmniBus.MapReduce.dll" EngineDllEntryPoint="AlteryxOmniBusHyperOutput" />
     </Node>
   </Nodes>
-  <Connections>
-    <Connection>
-      <Origin ToolID="1" Connection="Output" />
-      <Destination ToolID="2" Connection="Input" />
-    </Connection>
-  </Connections>
+  <Connections />
   <Properties>
     <Memory default="True" />
     <GlobalRecordLimit value="0" />

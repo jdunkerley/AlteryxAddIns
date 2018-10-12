@@ -11,85 +11,85 @@
 
 #pragma once
 
-#include "D:\SDKs\AlteryxSDK\AlteryxPluginAPI\AlteryxPluginSdk.h"
+#include "AlteryxPluginSdk.h"
 
-namespace SRC {
-	namespace Alteryx {
+using namespace SRC;
+using namespace SRC::Alteryx;
 
-		class OmniBusSequenceInterface
-		{
-		private:
-			// Unique Tool Id (assigned at construction)
-			int const m_nToolId;
+namespace OmniBus {
 
-			// Engine Interface (pointer assigned at construction)
-		    EngineInterface * const m_pEngineInterface;
+	class OmniBusSequenceInterface
+	{
+	private:
+		// Unique Tool Id (assigned at construction)
+		int m_nToolId;
 
-			// Object need for record Info class
-			GenericEngine_Alteryx m_GenericEngine_Alteryx;
+		// Engine Interface (pointer assigned at construction)
+		EngineInterface * m_pEngineInterface;
 
-			// Our list of downstream tools to which we will send our data.
-			PluginOutputConnectionHelper m_outgoingConnections;
+		// Object need for record Info class
+		GenericEngine_Alteryx m_GenericEngine_Alteryx;
 
-			// Our configuration data, as an XML dictionary.  This is provided
-			// by Alteryx from the UI portion of our tool during initialization.
-			String m_strXmlProperties;
+		// Our list of downstream tools to which we will send our data.
+		PluginOutputConnectionHelper m_outgoingConnections;
 
-			// We will use this to hold the outgoing data structure.
-			RecordInfo m_recordInfoOut;
+		// Our configuration data, as an XML dictionary.  This is provided
+		// by Alteryx from the UI portion of our tool during initialization.
+		String m_strXmlProperties;
 
-			// We will use this to hold an outgoing record.
-			SmartPointerRefObj<Record> m_pRecordOut;
+		// We will use this to hold the outgoing data structure.
+		RecordInfo m_recordInfoOut;
 
-			// Configuration Paramaeters
-			__int64 m_maximumRecords;
-			String m_fieldName;
-			E_FieldType m_fieldType;
+		// We will use this to hold an outgoing record.
+		SmartPointerRefObj<Record> m_pRecordOut;
 
-			// It is important that we prevent copying of this object.
-			// We will do this by forcing the copy constructors to be private.
-			OmniBusSequenceInterface(const OmniBusSequenceInterface &);
-			OmniBusSequenceInterface& operator=(const OmniBusSequenceInterface &);
+		// Configuration Paramaeters
+		__int64 m_maximumRecords;
+		String m_fieldName;
+		E_FieldType m_fieldType;
 
-			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// It is important that we prevent copying of this object.
+		// We will do this by forcing the copy constructors to be private.
+		OmniBusSequenceInterface(const OmniBusSequenceInterface &);
+		OmniBusSequenceInterface& operator=(const OmniBusSequenceInterface &);
 
-		public:
-			// Constructor.  We are provided a tool id and an EngineInterface.
-			OmniBusSequenceInterface(int nToolId, EngineInterface *pEngineInterface);
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	public:
+		// Constructor.  We are provided a tool id and an EngineInterface.
+		OmniBusSequenceInterface(int nToolId, EngineInterface *pEngineInterface);
 
-			// All plugins must implement the following five Plugin Interface methods.
-			// These do not have to be C++ member functions, nor do they have to follow
-			// this naming convention.  However, the SDK provides code for greatly
-			// simplifying the tool initialization process which does require following
-			// this naming convention exactly.
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-			// Called when the tool is initialized.  This is when we are presented with
-			// the XML configuration dictionary.
-			void PI_Init(const wchar_t *pXmlProperties);
+		// All plugins must implement the following five Plugin Interface methods.
+		// These do not have to be C++ member functions, nor do they have to follow
+		// this naming convention.  However, the SDK provides code for greatly
+		// simplifying the tool initialization process which does require following
+		// this naming convention exactly.
 
-			// Called just prior to the destruction of a tool object.  This can be
-			// used to clean up, if necessary.
-			void PI_Close(bool bHasErrors);
+		// Called when the tool is initialized.  This is when we are presented with
+		// the XML configuration dictionary.
+		void PI_Init(const wchar_t *pXmlProperties);
 
-			// Called when another tool is attempting to connect to our input.
-			// This gives us the opportunity to reject this connection.
-			long PI_AddIncomingConnection(const wchar_t* /*pIncomingConnectionType*/,
-				const wchar_t* /*pIncomingConnectionName*/,
-				IncomingConnectionInterface* /*r_IncConnInt*/);
+		// Called just prior to the destruction of a tool object.  This can be
+		// used to clean up, if necessary.
+		void PI_Close(bool bHasErrors);
 
-			// Called when another tool is attempting to connect to our output.
-			// This gives us the opportunity to reject this connection.
-			long PI_AddOutgoingConnection(const wchar_t* /*pOutgoingConnectionName*/,
-				IncomingConnectionInterface* /*pIncConnInt*/);
+		// Called when another tool is attempting to connect to our input.
+		// This gives us the opportunity to reject this connection.
+		long PI_AddIncomingConnection(const wchar_t* /*pIncomingConnectionType*/,
+			const wchar_t* /*pIncomingConnectionName*/,
+			IncomingConnectionInterface* /*r_IncConnInt*/);
 
-			// Called when it is time for us to process our file.  This only happens to
-			// tools which have no upstream (input) tools connected to them.  Tools which
-			// process data coming in from other tools never need to handle this method.
-			long PI_PushAllRecords(__int64 nRecordLimit);
-		};
+		// Called when another tool is attempting to connect to our output.
+		// This gives us the opportunity to reject this connection.
+		long PI_AddOutgoingConnection(const wchar_t* /*pOutgoingConnectionName*/,
+			IncomingConnectionInterface* /*pIncConnInt*/);
 
-		// End of SRC and SRC.Alteryx namespaces
-	}    // namespace Alteryx
+		// Called when it is time for us to process our file.  This only happens to
+		// tools which have no upstream (input) tools connected to them.  Tools which
+		// process data coming in from other tools never need to handle this method.
+		long PI_PushAllRecords(__int64 nRecordLimit);
+	};
+
 }
