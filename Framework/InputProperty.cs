@@ -18,21 +18,19 @@ namespace OmniBus.Framework
     {
         private readonly Lazy<IRecordCopier> _lazyCopier;
 
-        private readonly Func<bool> _showDebugMessagesFunc;
+        private readonly IShowDebugMessages _parentDebugMessages;
 
         private readonly ProgressUpdatedEventArgs _progressUpdatedEventArgs;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="InputProperty" /> class.
         /// </summary>
-        /// <param name="copierFactory">Factory for creating <see cref="IRecordCopier" /> objects.</param>
-        /// <param name="showDebugMessagesFunc">Call back function to determine whether to show debug messages.</param>
-        internal InputProperty(IRecordCopierFactory copierFactory = null, Func<bool> showDebugMessagesFunc = null)
+        /// <param name="parentDebugMessages">Parent object controlling debug messages.</param>
+        public InputProperty(IShowDebugMessages parentDebugMessages)
         {
-            this._lazyCopier =
-                new Lazy<IRecordCopier>(() => copierFactory?.CreateCopier(this.RecordInfo, this.RecordInfo));
+            this._lazyCopier = new Lazy<IRecordCopier>(() => new Builders.RecordCopierBuilder(this.RecordInfo, this.RecordInfo).Build());
 
-            this._showDebugMessagesFunc = showDebugMessagesFunc ?? (() => false);
+            this._parentDebugMessages = parentDebugMessages;
 
             this._progressUpdatedEventArgs = new ProgressUpdatedEventArgs(double.NaN);
         }
@@ -135,6 +133,6 @@ namespace OmniBus.Framework
         ///     Called by Alteryx to determine whether or not to display debug level messages.
         /// </summary>
         /// <returns>A value which indicates whether or not to show debug messages.</returns>
-        public bool ShowDebugMessages() => this._showDebugMessagesFunc();
+        public bool ShowDebugMessages() => this._parentDebugMessages?.ShowDebugMessages() ?? false;
     }
 }

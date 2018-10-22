@@ -28,31 +28,16 @@ namespace OmniBus
         ///     Constructor For Alteryx
         /// </summary>
         public CircuitBreakerEngine()
-            : this(new RecordCopierFactory(), new InputPropertyFactory(), new OutputHelperFactory())
-        {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="CircuitBreakerEngine" /> class.
-        ///     Create An Engine for unit testing.
-        /// </summary>
-        /// <param name="recordCopierFactory">Factory to create copiers</param>
-        /// <param name="inputPropertyFactory">Factory to create input properties</param>
-        /// <param name="outputHelperFactory">Factory to create output helpers</param>
-        internal CircuitBreakerEngine(
-            IRecordCopierFactory recordCopierFactory,
-            IInputPropertyFactory inputPropertyFactory,
-            IOutputHelperFactory outputHelperFactory)
-            : base(recordCopierFactory, outputHelperFactory)
+            : base(new OutputHelperFactory())
         {
             // Handle Breaker Connection
-            this.Breaker = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+            this.Breaker = new InputProperty(this);
             this.Breaker.InitCalled += (property, args) => this._failed = false;
             this.Breaker.RecordPushed += this.BreakerOnRecordPushed;
             this.Breaker.Closed += this.BreakerOnClosed;
 
             // Handle Input Connection
-            this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+            this.Input = new InputProperty(this);
             this.Input.InitCalled += this.InputOnInitCalled;
             this.Input.RecordPushed += this.InputOnRecordPushed;
             this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(

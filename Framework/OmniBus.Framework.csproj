@@ -52,6 +52,7 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="BaseEngine.cs" />
+    <Compile Include="Builders\RecordCopierBuilder.cs" />
     <Compile Include="ConfigWithIncomingConnection.cs" />
     <Compile Include="ConnectionState.cs" />
     <Compile Include="EventHandlers\ClosedEventHandler.cs" />
@@ -61,18 +62,15 @@
     <Compile Include="EventHandlers\RecordPushedEventHandler.cs" />
     <Compile Include="EventHandlers\SuccessEventArgs.cs" />
     <Compile Include="EventHandlers\SuccessEventHandler.cs" />
-    <Compile Include="Factories\InputPropertyFactory.cs" />
     <Compile Include="Factories\OutputHelperFactory.cs" />
-    <Compile Include="Factories\RecordCopierFactory.cs" />
     <Compile Include="FieldBaseHelpers.cs" />
     <Compile Include="FieldDescription.cs" />
     <Compile Include="InputProperty.cs" />
     <Compile Include="Interfaces\IBaseEngine.cs" />
     <Compile Include="Interfaces\IInputProperty.cs" />
-    <Compile Include="Interfaces\IInputPropertyFactory.cs" />
     <Compile Include="Interfaces\IOutputHelperFactory.cs" />
     <Compile Include="Interfaces\IRecordCopier.cs" />
-    <Compile Include="Interfaces\IRecordCopierFactory.cs" />
+    <Compile Include="Interfaces\IShowDebugMessages.cs" />
     <Compile Include="OutputHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

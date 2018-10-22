@@ -28,24 +28,9 @@ namespace OmniBus
         ///     Constructor For Alteryx
         /// </summary>
         public DateTimeParserEngine()
-            : this(new RecordCopierFactory(), new InputPropertyFactory(), new OutputHelperFactory())
+            : base(new OutputHelperFactory())
         {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="DateTimeParserEngine" /> class.
-        ///     Create An Engine for unit testing.
-        /// </summary>
-        /// <param name="recordCopierFactory">Factory to create copiers</param>
-        /// <param name="inputPropertyFactory">Factory to create input properties</param>
-        /// <param name="outputHelperFactory">Factory to create output helpers</param>
-        internal DateTimeParserEngine(
-            IRecordCopierFactory recordCopierFactory,
-            IInputPropertyFactory inputPropertyFactory,
-            IOutputHelperFactory outputHelperFactory)
-            : base(recordCopierFactory, outputHelperFactory)
-        {
-            this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+            this.Input = new InputProperty(this);
             this.Input.InitCalled += this.OnInit;
             this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(args.Progress, true);
             this.Input.RecordPushed += this.OnRecordPushed;
@@ -87,10 +72,9 @@ namespace OmniBus
             this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
             // Create the Copier
-            this._copier = this.RecordCopierFactory.CreateCopier(
-                this.Input.RecordInfo,
-                this.Output?.RecordInfo,
-                this.ConfigObject.OutputFieldName);
+            this._copier = new OmniBus.Framework.Builders.RecordCopierBuilder(this.Input.RecordInfo, this.Output?.RecordInfo)
+                .SkipFields(this.ConfigObject.OutputFieldName)
+                .Build();
 
             this._parser = this.CreateParser();
             args.Success = true;

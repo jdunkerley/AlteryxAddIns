@@ -78,7 +78,6 @@
     <Compile Include="NumberParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomNumber.cs" />
-    <Compile Include="SortWithCulture.cs" />
     <Compile Include="StringFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,9 +101,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RandomNumber.png">
       <DependentUpon>RandomNumber.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SortWithCulture.png">
-      <DependentUpon>SortWithCulture.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StringFormatter.png">
       <DependentUpon>StringFormatter.cs</DependentUpon>

@@ -46,9 +46,6 @@
     <Reference Include="MathNet.Numerics, Version=3.13.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.3.13.1\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
-    <Reference Include="OmniBus.Framework, Version=0.5.3.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\OmniBus.Framework.0.5.3\lib\net45\OmniBus.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="OmniBus.Framework.Shared, Version=0.5.3.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\OmniBus.Framework.Shared.0.5.3\lib\net45\OmniBus.Framework.Shared.dll</HintPath>
     </Reference>
@@ -78,8 +75,6 @@
     <Compile Include="RandomNumberConfig.cs" />
     <Compile Include="RandomNumberDistribution.cs" />
     <Compile Include="RandomNumberEngine.cs" />
-    <Compile Include="SortWithCultureConfig.cs" />
-    <Compile Include="SortWithCultureEngine.cs" />
     <Compile Include="StringFormatterConfig.cs" />
     <Compile Include="StringFormatterEngine.cs" />
   </ItemGroup>
@@ -90,6 +85,12 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\OmniBus.Framework.csproj">
+      <Project>{a4be9a96-6d35-4998-9866-3b53b9372a76}</Project>
+      <Name>OmniBus.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

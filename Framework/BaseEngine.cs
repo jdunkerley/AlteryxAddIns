@@ -32,18 +32,16 @@ namespace OmniBus.Framework
         ///     Initializes a new instance of the <see cref="BaseEngine{T}" /> class.
         /// </summary>
         protected BaseEngine()
-            : this(new RecordCopierFactory(), new OutputHelperFactory())
+            : this(new OutputHelperFactory())
         {
         }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="BaseEngine{T}" /> class.
         /// </summary>
-        /// <param name="recordCopierFactory">Factory to create copiers</param>
         /// <param name="outputHelperFactory">Factory to create output helpers</param>
-        protected BaseEngine(IRecordCopierFactory recordCopierFactory, IOutputHelperFactory outputHelperFactory)
+        protected BaseEngine(IOutputHelperFactory outputHelperFactory)
         {
-            this.RecordCopierFactory = recordCopierFactory;
             this._outputHelperFactory = outputHelperFactory;
 
             var type = this.GetType();
@@ -81,11 +79,6 @@ namespace OmniBus.Framework
                 this._configObject = new Lazy<TConfig>(this.CreateConfigObject);
             }
         }
-
-        /// <summary>
-        ///     Gets the factory to create RecordCopiers
-        /// </summary>
-        protected IRecordCopierFactory RecordCopierFactory { get; }
 
         /// <summary>
         ///     Gets the configuration object read from the XML node.

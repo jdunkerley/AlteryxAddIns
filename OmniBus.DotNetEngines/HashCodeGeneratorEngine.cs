@@ -27,24 +27,9 @@ namespace OmniBus
         ///     Constructor For Alteryx
         /// </summary>
         public HashCodeGeneratorEngine()
-            : this(new RecordCopierFactory(), new InputPropertyFactory(), new OutputHelperFactory())
+            : base(new OutputHelperFactory())
         {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="HashCodeGeneratorEngine" /> class.
-        ///     Create An Engine for unit testing.
-        /// </summary>
-        /// <param name="recordCopierFactory">Factory to create copiers</param>
-        /// <param name="inputPropertyFactory">Factory to create input properties</param>
-        /// <param name="outputHelperFactory">Factory to create output helpers</param>
-        internal HashCodeGeneratorEngine(
-            IRecordCopierFactory recordCopierFactory,
-            IInputPropertyFactory inputPropertyFactory,
-            IOutputHelperFactory outputHelperFactory)
-            : base(recordCopierFactory, outputHelperFactory)
-        {
-            this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+            this.Input = new InputProperty(this);
             this.Input.InitCalled += this.OnInit;
             this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
             this.Input.RecordPushed += this.OnRecordPushed;

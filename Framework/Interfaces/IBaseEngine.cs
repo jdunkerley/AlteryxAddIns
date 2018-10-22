@@ -7,7 +7,7 @@ namespace OmniBus.Framework.Interfaces
     /// <summary>
     ///     Interface To Get Engine and Tool Id
     /// </summary>
-    public interface IBaseEngine
+    public interface IBaseEngine : IShowDebugMessages
     {
         /// <summary>
         ///     Gets the Alteryx engine.

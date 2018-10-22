@@ -20,17 +20,7 @@ namespace OmniBus
         ///     Constructor for Alteryx Engine
         /// </summary>
         public DateTimeInputEngine()
-            : this(new OutputHelperFactory())
-        {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="DateTimeInputEngine" /> class.
-        ///     Create An Engine for unit testing.
-        /// </summary>
-        /// <param name="outputHelperFactory">Factory to create output helpers</param>
-        internal DateTimeInputEngine(IOutputHelperFactory outputHelperFactory)
-            : base(null, outputHelperFactory)
+            : base(new OutputHelperFactory())
         {
         }
 
