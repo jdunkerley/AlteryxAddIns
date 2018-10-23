@@ -46,9 +46,6 @@
     <Reference Include="MathNet.Numerics">
       <HintPath>..\packages\MathNet.Numerics.3.13.1\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
-    <Reference Include="OmniBus.Framework, Version=0.5.3.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\OmniBus.Framework.0.5.3\lib\net45\OmniBus.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="OmniBus.Framework.GUI, Version=0.5.3.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\OmniBus.Framework.GUI.0.5.3\lib\net45\OmniBus.Framework.GUI.dll</HintPath>
     </Reference>
@@ -122,6 +119,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Framework\OmniBus.Framework.csproj">
+      <Project>{a4be9a96-6d35-4998-9866-3b53b9372a76}</Project>
+      <Name>OmniBus.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OmniBus.DotNetEngines\OmniBus.DotNetEngines.csproj">
       <Project>{777f5219-7ff2-487d-8cbb-fba75fc9be21}</Project>
       <Name>OmniBus.DotNetEngines</Name>

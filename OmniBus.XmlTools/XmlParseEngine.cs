@@ -6,7 +6,6 @@ using AlteryxRecordInfoNet;
 using OmniBus.Framework;
 using OmniBus.Framework.Attributes;
 using OmniBus.Framework.EventHandlers;
-using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
 
 namespace OmniBus.XmlTools
@@ -35,26 +34,10 @@ namespace OmniBus.XmlTools
         ///     Constructor For Alteryx
         /// </summary>
         public XmlParseEngine()
-            : this(new RecordCopierFactory(), new InputPropertyFactory(), new OutputHelperFactory())
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="XmlParseEngine"/> class.
-        ///     Create An Engine for unit testing.
-        /// </summary>
-        /// <param name="recordCopierFactory">Factory to create copiers</param>
-        /// <param name="inputPropertyFactory">Factory to create input properties</param>
-        /// <param name="outputHelperFactory">Factory to create output helpers</param>
-        internal XmlParseEngine(
-            IRecordCopierFactory recordCopierFactory,
-            IInputPropertyFactory inputPropertyFactory,
-            IOutputHelperFactory outputHelperFactory)
-            : base(recordCopierFactory, outputHelperFactory)
-        {
-            this.Input = inputPropertyFactory.Build(recordCopierFactory, this.ShowDebugMessages);
+            this.Input = new InputProperty(this);
             this.Input.InitCalled += this.OnInit;
-            this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
+            this.Input.ProgressUpdated += (sender, percentage) => this.Output.UpdateProgress(percentage, true);
             this.Input.RecordPushed += this.OnRecordPushed;
             this.Input.Closed += sender => this.Output?.Close(true);
         }
@@ -69,19 +52,25 @@ namespace OmniBus.XmlTools
                 return;
             }
 
-            // Create Output Format            
-            this.Output?.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo,
-                new FieldDescription(nameof(XmlUtils.NodeData.XPath), FieldType.E_FT_V_WString),
-                new FieldDescription(nameof(XmlUtils.NodeData.InnerText), FieldType.E_FT_V_WString),
-                new FieldDescription(nameof(XmlUtils.NodeData.InnerXml), FieldType.E_FT_V_WString)));
+            // Create Output Format
+            var recordInfo = new RecordInfoBuilder()
+                .AddFields(this.Input.RecordInfo)
+                .RemoveFields()
+                .AddFields(
+                    new FieldDescription(nameof(XmlUtils.NodeData.XPath), FieldType.E_FT_V_WString),
+                    new FieldDescription(nameof(XmlUtils.NodeData.InnerText), FieldType.E_FT_V_WString),
+                    new FieldDescription(nameof(XmlUtils.NodeData.InnerXml), FieldType.E_FT_V_WString)
+                ).Build();
+            this.Output?.Init(recordInfo);
 
             // Create the Copier
-            this._copier = this.RecordCopierFactory.CreateCopier(
-                this.Input.RecordInfo,
-                this.Output?.RecordInfo,
-                nameof(XmlUtils.NodeData.XPath),
-                nameof(XmlUtils.NodeData.InnerText),
-                nameof(XmlUtils.NodeData.InnerXml));
+            this._copier = new RecordCopierBuilder(this.Input.RecordInfo, this.Output?.RecordInfo)
+                .SkipFields(
+                    this._inputField.GetFieldName(),
+                    nameof(XmlUtils.NodeData.XPath),
+                    nameof(XmlUtils.NodeData.InnerText),
+                    nameof(XmlUtils.NodeData.InnerXml)
+                ).Build();
 
             this._xpathField = this.Output?[nameof(XmlUtils.NodeData.XPath)];
             this._innerTextField = this.Output?[nameof(XmlUtils.NodeData.InnerText)];

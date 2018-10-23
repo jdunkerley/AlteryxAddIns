@@ -7,7 +7,6 @@ using AlteryxRecordInfoNet;
 
 using OmniBus.Framework;
 using OmniBus.Framework.Attributes;
-using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
 using OmniBus.Framework.Serialisation;
 
@@ -18,24 +17,7 @@ namespace JDunkerley.AlteryxAddIns.Roslyn
         private CompilerResult _result;
 
         private List<FieldDescription> _descriptions;
-
-        /// <summary>
-        /// Constructor for Alteryx Engine
-        /// </summary>
-        public RoslynInputEngine()
-            : this(new OutputHelperFactory())
-        {
-        }
-
-        /// <summary>
-        /// Create An Engine for unit testing.
-        /// </summary>
-        /// <param name="outputHelperFactory">Factory to create output helpers</param>
-        internal RoslynInputEngine(IOutputHelperFactory outputHelperFactory)
-            : base(null, outputHelperFactory)
-        {
-        }
-
+        
         /// <summary>
         /// Gets or sets the output.
         /// </summary>
@@ -89,7 +71,7 @@ namespace Temporary
                 return false;
             }
 
-            var recordInfo = FieldDescription.CreateRecordInfo(this._descriptions.ToArray());
+            var recordInfo = new RecordInfoBuilder().AddFields(this._descriptions.ToArray()).Build();
             this.Output.Init(recordInfo);
 
             if (nRecordLimit == 0)

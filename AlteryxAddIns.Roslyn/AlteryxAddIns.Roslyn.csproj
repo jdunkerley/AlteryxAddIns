@@ -51,9 +51,6 @@
       <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.3.2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OmniBus.Framework, Version=0.5.3.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\OmniBus.Framework.0.5.3\lib\net45\OmniBus.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="OmniBus.Framework.GUI, Version=0.5.3.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\OmniBus.Framework.GUI.0.5.3\lib\net45\OmniBus.Framework.GUI.dll</HintPath>
     </Reference>
@@ -146,6 +143,12 @@
     <EmbeddedResource Include="RoslynInput.png">
       <DependentUpon>RoslynInput.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\OmniBus.Framework.csproj">
+      <Project>{a4be9a96-6d35-4998-9866-3b53b9372a76}</Project>
+      <Name>OmniBus.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -30,10 +30,13 @@ namespace OmniBus.XmlTools
         public override bool PI_PushAllRecords(long nRecordLimit)
         {
             this.DebugMessage($"{nameof(nRecordLimit)} Called with {nameof(nRecordLimit)} = {nRecordLimit}");
-            this.Output.Init(FieldDescription.CreateRecordInfo(
-                new FieldDescription("XPath", FieldType.E_FT_V_WString),
-                new FieldDescription("InnerText", FieldType.E_FT_V_WString),
-                new FieldDescription("InnerXml", FieldType.E_FT_V_WString)));
+            var recordInfo = new RecordInfoBuilder()
+                .AddFields(
+                    new FieldDescription(nameof(XmlUtils.NodeData.XPath), FieldType.E_FT_V_WString),
+                    new FieldDescription(nameof(XmlUtils.NodeData.InnerText), FieldType.E_FT_V_WString),
+                    new FieldDescription(nameof(XmlUtils.NodeData.InnerXml), FieldType.E_FT_V_WString)
+                ).Build();
+            this.Output?.Init(recordInfo);
 
             if (nRecordLimit != 0)
             {
@@ -61,8 +64,8 @@ namespace OmniBus.XmlTools
                 }
             }
 
-            this.Output.PushCountAndSize();
-            this.Output.Close(true);
+            this.Output?.PushCountAndSize();
+            this.Output?.Close(true);
             return true;
         }
 
