@@ -32,7 +32,7 @@ namespace OmniBus.Framework
         public RecordCopierBuilder SkipFields(params string[] fieldsToSkip)
         {
             var newBuilder = new RecordCopierBuilder(this._inputRecordInfo, this._outputRecordInfo);
-            newBuilder._fieldsToSkip = this._fieldsToSkip.Concat(this._fieldsToSkip).ToArray();
+            newBuilder._fieldsToSkip = this._fieldsToSkip.Concat(fieldsToSkip).ToArray();
             return newBuilder;
         }
 

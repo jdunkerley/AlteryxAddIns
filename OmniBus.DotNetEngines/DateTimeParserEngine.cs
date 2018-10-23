@@ -68,7 +68,7 @@ namespace OmniBus
 
             var recordInfo = new RecordInfoBuilder()
                 .AddFields(this.Input.RecordInfo)
-                .AddFields(fieldDescription)
+                .ReplaceFields(fieldDescription)
                 .Build();
 
             this.Output?.Init(recordInfo);

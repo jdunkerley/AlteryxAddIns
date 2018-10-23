@@ -55,7 +55,7 @@ namespace OmniBus.XmlTools
             // Create Output Format
             var recordInfo = new RecordInfoBuilder()
                 .AddFields(this.Input.RecordInfo)
-                .RemoveFields()
+                .RemoveFields(this.ConfigObject.InputFieldName)
                 .AddFields(
                     new FieldDescription(nameof(XmlUtils.NodeData.XPath), FieldType.E_FT_V_WString),
                     new FieldDescription(nameof(XmlUtils.NodeData.InnerText), FieldType.E_FT_V_WString),
@@ -66,7 +66,7 @@ namespace OmniBus.XmlTools
             // Create the Copier
             this._copier = new RecordCopierBuilder(this.Input.RecordInfo, this.Output?.RecordInfo)
                 .SkipFields(
-                    this._inputField.GetFieldName(),
+                    this.ConfigObject.InputFieldName,
                     nameof(XmlUtils.NodeData.XPath),
                     nameof(XmlUtils.NodeData.InnerText),
                     nameof(XmlUtils.NodeData.InnerXml)
