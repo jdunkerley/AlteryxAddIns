@@ -5,7 +5,6 @@ using AlteryxRecordInfoNet;
 using OmniBus.Framework;
 using OmniBus.Framework.Attributes;
 using OmniBus.Framework.EventHandlers;
-using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
 using OmniBus.Framework.Serialisation;
 
@@ -28,7 +27,6 @@ namespace OmniBus
         ///     Constructor For Alteryx
         /// </summary>
         public CircuitBreakerEngine()
-            : base(new OutputHelperFactory())
         {
             // Handle Breaker Connection
             this.Breaker = new InputProperty(this);

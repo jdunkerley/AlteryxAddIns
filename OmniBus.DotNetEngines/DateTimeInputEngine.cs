@@ -4,7 +4,6 @@ using AlteryxRecordInfoNet;
 
 using OmniBus.Framework;
 using OmniBus.Framework.Attributes;
-using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
 using OmniBus.Framework.Serialisation;
 
@@ -15,15 +14,6 @@ namespace OmniBus
     /// </summary>
     public class DateTimeInputEngine : BaseEngine<DateTimeInputConfig>
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="DateTimeInputEngine" /> class.
-        ///     Constructor for Alteryx Engine
-        /// </summary>
-        public DateTimeInputEngine()
-            : base(new OutputHelperFactory())
-        {
-        }
-
         /// <summary>
         ///     Gets or sets the output.
         /// </summary>
@@ -55,7 +45,7 @@ namespace OmniBus
                 19,
                 source: $"DateTImeInput: {this.ConfigObject.DateToReturn}");
 
-            var recordInfo = new OmniBus.Framework.Builders.RecordInfoBuilder().AddFields(field).Build();
+            var recordInfo = new RecordInfoBuilder().AddFields(field).Build();
 
             this.Output.Init(recordInfo);
             if (nRecordLimit == 0)

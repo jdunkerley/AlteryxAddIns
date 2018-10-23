@@ -7,7 +7,6 @@ using MathNet.Numerics.Distributions;
 using OmniBus.Framework;
 using OmniBus.Framework.Attributes;
 using OmniBus.Framework.EventHandlers;
-using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
 using OmniBus.Framework.Serialisation;
 
@@ -32,7 +31,6 @@ namespace OmniBus
         ///     Constructor For Alteryx
         /// </summary>
         public RandomNumberEngine()
-            : base(new OutputHelperFactory())
         {
             this.Input = new InputProperty(this);
             this.Input.InitCalled += this.OnInit;
@@ -68,8 +66,8 @@ namespace OmniBus
                 this.ConfigObject.OutputType,
                 source: $"RandomNumber: {this.ConfigObject.ToString().Replace($"{this.ConfigObject.OutputFieldName}=", string.Empty)}");
 
-            var recordInfo = new OmniBus.Framework.Builders.RecordInfoBuilder()
-                .AddFieldsFromRecordInfo(this.Input.RecordInfo)
+            var recordInfo = new RecordInfoBuilder()
+                .AddFields(this.Input.RecordInfo)
                 .AddFields(fieldDescription)
                 .Build();
 

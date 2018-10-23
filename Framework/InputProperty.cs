@@ -26,8 +26,7 @@ namespace OmniBus.Framework
         /// <param name="parentDebugMessages">Parent object controlling debug messages.</param>
         public InputProperty(IShowDebugMessages parentDebugMessages)
         {
-            this._lazyCopier = new Lazy<IRecordCopier>(() => new Builders.RecordCopierBuilder(this.RecordInfo, this.RecordInfo).Build());
-
+            this._lazyCopier = new Lazy<IRecordCopier>(() => new RecordCopierBuilder(this.RecordInfo, this.RecordInfo).Build());
             this._parentDebugMessages = parentDebugMessages;
         }
 

@@ -5,7 +5,6 @@ using AlteryxRecordInfoNet;
 using OmniBus.Framework;
 using OmniBus.Framework.Attributes;
 using OmniBus.Framework.EventHandlers;
-using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
 using OmniBus.Framework.Serialisation;
 using OmniBus.Framework.TypeConverters;
@@ -28,7 +27,6 @@ namespace OmniBus
         ///     Constructor For Alteryx
         /// </summary>
         public StringFormatterEngine()
-            : base(new OutputHelperFactory())
         {
             this.Input = new InputProperty(this);
             this.Input.InitCalled += this.OnInit;
@@ -70,8 +68,8 @@ namespace OmniBus
                 this.ConfigObject.OutputFieldLength,
                 source: nameof(StringFormatterEngine));
 
-            var recordInfo = new OmniBus.Framework.Builders.RecordInfoBuilder()
-                .AddFieldsFromRecordInfo(this.Input.RecordInfo)
+            var recordInfo = new RecordInfoBuilder()
+                .AddFields(this.Input.RecordInfo)
                 .AddFields(fieldDescription)
                 .Build();
 
@@ -79,7 +77,7 @@ namespace OmniBus
             this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
             // Create the Copier
-            this._copier = new OmniBus.Framework.Builders.RecordCopierBuilder(this.Input.RecordInfo, this.Output?.RecordInfo)
+            this._copier = new RecordCopierBuilder(this.Input.RecordInfo, this.Output?.RecordInfo)
                 .SkipFields(this.ConfigObject.OutputFieldName)
                 .Build();
 

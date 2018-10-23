@@ -7,7 +7,6 @@ using AlteryxRecordInfoNet;
 using OmniBus.Framework;
 using OmniBus.Framework.Attributes;
 using OmniBus.Framework.EventHandlers;
-using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
 using OmniBus.Framework.Serialisation;
 
@@ -27,7 +26,6 @@ namespace OmniBus
         ///     Constructor For Alteryx
         /// </summary>
         public HashCodeGeneratorEngine()
-            : base(new OutputHelperFactory())
         {
             this.Input = new InputProperty(this);
             this.Input.InitCalled += this.OnInit;
@@ -67,8 +65,8 @@ namespace OmniBus
                 256,
                 source: nameof(HashCodeGeneratorEngine));
 
-            var recordInfo = new OmniBus.Framework.Builders.RecordInfoBuilder()
-                .AddFieldsFromRecordInfo(this.Input.RecordInfo)
+            var recordInfo = new RecordInfoBuilder()
+                .AddFields(this.Input.RecordInfo)
                 .AddFields(fieldDescription)
                 .Build();
 

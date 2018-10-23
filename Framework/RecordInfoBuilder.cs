@@ -3,7 +3,7 @@ using System.Linq;
 
 using AlteryxRecordInfoNet;
 
-namespace OmniBus.Framework.Builders
+namespace OmniBus.Framework
 {
     /// <summary>
     /// Builder class for making RecordInfos
@@ -31,7 +31,7 @@ namespace OmniBus.Framework.Builders
         /// <param name="input">RecordInfo to copy</param>
         /// <param name="removeNameMatches">Remove duplicate names</param>
         /// <returns>A new configured field builder</returns>
-        public RecordInfoBuilder AddFieldsFromRecordInfo(RecordInfo input, bool removeNameMatches = false)
+        public RecordInfoBuilder AddFields(RecordInfo input, bool removeNameMatches = false)
         {
             var fields = Enumerable.Range(0, (int)input.NumFields())
                 .Select(i => input[i])
@@ -64,6 +64,35 @@ namespace OmniBus.Framework.Builders
 
             return new RecordInfoBuilder(output.Concat(fields).ToArray());
         }
+
+        /// <summary>
+        /// Removes a set of fields to the builder
+        /// </summary>
+        /// <param name="fields">Field to replace</param>
+        /// <returns>A new configured field builder</returns>
+        public RecordInfoBuilder ReplaceFields(IEnumerable<FieldDescription> fields) => this.ReplaceFields(fields.ToArray());
+
+        /// <summary>
+        /// Replaces a set of fields to the builder (appends to end if not found)
+        /// </summary>
+        /// <param name="fields">Field to replace</param>
+        /// <returns>A new configured field builder</returns>
+        public RecordInfoBuilder ReplaceFields(params FieldDescription[] fields)
+        {
+            var oldFields = this._fieldsDescriptions.ToDictionary(f => f.Name, f => 1);
+            var newFields = fields.ToDictionary(f => f.Name, f => f);
+            var output = this._fieldsDescriptions
+                .Select(f => newFields.TryGetValue(f.Name, out var newFieldDescription) ? newFieldDescription : f)
+                .Concat(fields.Where(f => !oldFields.ContainsKey(f.Name)));
+            return new RecordInfoBuilder(output.ToArray());
+        }
+
+        /// <summary>
+        /// Removes a set of fields to the builder
+        /// </summary>
+        /// <param name="fields">Field to replace</param>
+        /// <returns>A new configured field builder</returns>
+        public RecordInfoBuilder RemoveFields(params string[] fields) => this.RemoveFields((IEnumerable<string>)fields);
 
         /// <summary>
         /// Removes a set of fields to the builder

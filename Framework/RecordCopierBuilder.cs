@@ -2,7 +2,7 @@
 using AlteryxRecordInfoNet;
 using OmniBus.Framework.Interfaces;
 
-namespace OmniBus.Framework.Builders
+namespace OmniBus.Framework
 {
     /// <summary>
     ///     Factory For Creating <see cref="RecordCopier" /> objects, which are wrapped <see cref="IRecordCopier" />.

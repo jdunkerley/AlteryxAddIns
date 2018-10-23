@@ -5,7 +5,6 @@ using System.Xml;
 
 using AlteryxRecordInfoNet;
 
-using OmniBus.Framework.Factories;
 using OmniBus.Framework.Interfaces;
 using OmniBus.Framework.Serialisation;
 
@@ -18,8 +17,6 @@ namespace OmniBus.Framework
     public abstract class BaseEngine<TConfig> : INetPlugin, IBaseEngine
         where TConfig : new()
     {
-        private readonly IOutputHelperFactory _outputHelperFactory;
-
         private readonly Dictionary<string, PropertyInfo> _inputs;
 
         private readonly Dictionary<string, PropertyInfo> _outputs;
@@ -32,28 +29,10 @@ namespace OmniBus.Framework
         ///     Initializes a new instance of the <see cref="BaseEngine{T}" /> class.
         /// </summary>
         protected BaseEngine()
-            : this(new OutputHelperFactory())
         {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="BaseEngine{T}" /> class.
-        /// </summary>
-        /// <param name="outputHelperFactory">Factory to create output helpers</param>
-        protected BaseEngine(IOutputHelperFactory outputHelperFactory)
-        {
-            this._outputHelperFactory = outputHelperFactory;
-
             var type = this.GetType();
             this._inputs = type.GetProperties<IIncomingConnectionInterface>();
             this._outputs = type.GetProperties<IOutputHelper>();
-
-            if (this._outputHelperFactory == null && this._outputs.Count > 0)
-            {
-                throw new ArgumentNullException(
-                    nameof(outputHelperFactory),
-                    "Tool has an output but no factory has been provided.");
-            }
         }
 
         /// <summary>
@@ -101,7 +80,7 @@ namespace OmniBus.Framework
 
             foreach (var kvp in this._outputs)
             {
-                kvp.Value.SetValue(this, this._outputHelperFactory.CreateOutputHelper(this, kvp.Key), null);
+                kvp.Value.SetValue(this, new OutputHelper(this, kvp.Key), null);
             }
 
             this.OnInitCalled();
