@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 using AlteryxRecordInfoNet;
 
@@ -18,19 +17,30 @@ namespace OmniBus.Framework
         /// <param name="size">Size of the field in bytes.</param>
         /// <param name="scale">Scale of the field.</param>
         /// <param name="source">Source of the field.</param>
-        public FieldDescription(string name, FieldType fieldType, int size = 0, int scale = 0, string source = null)
+        /// <param name="description">Description of the field.</param>
+        public FieldDescription(string name, FieldType fieldType, uint size = 0, int scale = 0, string source = null, string description = null)
         {
             this.Name = name;
             this.FieldType = fieldType;
             this.Size = size;
             this.Scale = scale;
             this.Source = (source?.EndsWith("Engine") ?? false) ? source.Substring(0, source.Length - 6) : source;
+            this.Description = description;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FieldDescription"/> class from an <see cref="FieldBase"/>.
+        /// </summary>
+        /// <param name="f">Field base to copy from</param>
+        public FieldDescription(FieldBase f)
+            : this(f.GetFieldName(), f.FieldType, f.Size, f.Scale, f.GetSource(), f.GetDescription())
+        {
         }
 
         /// <summary>
         /// Gets the Maximum String Length
         /// </summary>
-        public static int MaxStringLength { get; } = 1_073_741_824;
+        public static uint MaxStringLength { get; } = 1_073_741_824;
 
         /// <summary>
         ///     Gets the name of the field.
@@ -45,7 +55,7 @@ namespace OmniBus.Framework
         /// <summary>
         ///     Gets the size of the field in bytes.
         /// </summary>
-        public int Size { get; }
+        public uint Size { get; }
 
         /// <summary>
         ///     Gets the scale of the field.
@@ -62,7 +72,10 @@ namespace OmniBus.Framework
         /// </summary>
         public string Description { get; set; }
 
-        private int ParsedSize
+        /// <summary>
+        /// Gets appropriate size for the field
+        /// </summary>
+        internal uint ParsedSize
         {
             get
             {
@@ -106,61 +119,6 @@ namespace OmniBus.Framework
                 case nameof(Single): return FieldType.E_FT_Float;
                 default: return FieldType.E_FT_Unknown;
             }
-        }
-
-        /// <summary>
-        ///     Given a set of <see cref="FieldDescription" />, create a new RecordInfo with specified fields..
-        /// </summary>
-        /// <param name="fields">Set of Field Descriptions.</param>
-        /// <returns>A configured RecordInfo object.</returns>
-        public static RecordInfo CreateRecordInfo(params FieldDescription[] fields)
-        {
-            return CreateRecordInfo(null, fields);
-        }
-
-        /// <summary>
-        ///     Given a set of <see cref="FieldDescription" /> and existing RecordInfo, create a new RecordInfo with specified
-        ///     fields replacing existing ones or being appended.
-        /// </summary>
-        /// <param name="inputRecordInfo">Existing RecordInfo object.</param>
-        /// <param name="fields">Set of Field Descriptions.</param>
-        /// <returns>A configured RecordInfo object.</returns>
-        public static RecordInfo CreateRecordInfo(RecordInfo inputRecordInfo, params FieldDescription[] fields)
-        {
-            var fieldDict = fields.ToDictionary(f => f.Name, f => false);
-            var output = new RecordInfo();
-
-            if (inputRecordInfo != null)
-            {
-                for (var i = 0; i < inputRecordInfo.NumFields(); i++)
-                {
-                    var fieldInfo = inputRecordInfo[i];
-                    var fieldName = fieldInfo.GetFieldName();
-
-                    if (fieldDict.ContainsKey(fieldName))
-                    {
-                        fieldDict[fieldName] = true;
-                        var descr = fields.First(f => f.Name == fieldName);
-                        output.AddField(
-                            descr.Name,
-                            descr.FieldType,
-                            descr.ParsedSize,
-                            descr.Scale,
-                            descr.Source,
-                            descr.Description);
-                        continue;
-                    }
-
-                    output.AddField(fieldInfo);
-                }
-            }
-
-            foreach (var descr in fields.Where(d => !fieldDict[d.Name]))
-            {
-                output.AddField(descr.Name, descr.FieldType, descr.ParsedSize, descr.Scale, descr.Source, descr.Description);
-            }
-
-            return output;
         }
     }
 }

@@ -55,7 +55,7 @@ namespace OmniBus
                 19,
                 source: $"DateTImeInput: {this.ConfigObject.DateToReturn}");
 
-            var recordInfo = FieldDescription.CreateRecordInfo(field);
+            var recordInfo = new OmniBus.Framework.Builders.RecordInfoBuilder().AddFields(field).Build();
 
             this.Output.Init(recordInfo);
             if (nRecordLimit == 0)

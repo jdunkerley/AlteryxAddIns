@@ -1,4 +1,5 @@
-﻿using OmniBus.Framework.EventHandlers;
+﻿using System;
+using OmniBus.Framework.EventHandlers;
 
 namespace OmniBus.Framework.Interfaces
 {
@@ -18,14 +19,14 @@ namespace OmniBus.Framework.Interfaces
         event RecordPushedEventHandler RecordPushed;
 
         /// <summary>
-        ///     Event to update progress
+        ///     Gets or sets a callback action called when progress is updated
         /// </summary>
-        event ProgressUpdatedEventHandler ProgressUpdated;
+        Action<IInputProperty, double> ProgressUpdated { get; set; }
 
         /// <summary>
-        ///     Event when Alteryx closes the connection
+        ///     Gets or sets a callback action called when input is closed
         /// </summary>
-        event ClosedEventHandler Closed;
+        Action<IInputProperty> Closed { get; set; }
 
         /// <summary>
         ///     Gets the current state.

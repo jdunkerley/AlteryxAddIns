@@ -29,7 +29,7 @@ namespace OmniBus
         {
             this.Input = new InputProperty(this);
             this.Input.InitCalled += this.OnInit;
-            this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
+            this.Input.ProgressUpdated += (sender, percentage) => this.Output?.UpdateProgress(percentage, true);
             this.Input.RecordPushed += this.OnRecordPushed;
             this.Input.Closed += sender => this.OnClosed();
         }
@@ -59,17 +59,20 @@ namespace OmniBus
                 return;
             }
 
-            this.Output?.Init(
-                FieldDescription.CreateRecordInfo(
-                    this.Input.RecordInfo,
-                    new FieldDescription(
-                        this.ConfigObject.OutputBinXFieldName,
-                        FieldType.E_FT_Double,
-                        source: "HexBin: X Co-ordinate of Center"),
-                    new FieldDescription(
+            var recordInfo = new OmniBus.Framework.Builders.RecordInfoBuilder()
+                .AddFieldsFromRecordInfo(this.Input.RecordInfo)
+                .AddFields(new FieldDescription(
+                    this.ConfigObject.OutputBinXFieldName,
+                    FieldType.E_FT_Double,
+                    source: "HexBin: X Co-ordinate of Center"))
+                .AddFields(new FieldDescription(
                         this.ConfigObject.OutputBinYFieldName,
                         FieldType.E_FT_Double,
-                        source: "HexBin: Y Co-ordinate of Center")));
+                        source: "HexBin: Y Co-ordinate of Center"))
+                .Build();
+
+            this.Output?.Init(recordInfo);
+
             this._outputBinXFieldBase = this.Output?[this.ConfigObject.OutputBinXFieldName];
             this._outputBinYFieldBase = this.Output?[this.ConfigObject.OutputBinYFieldName];
 

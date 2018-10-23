@@ -41,7 +41,7 @@ namespace OmniBus
             this.Input.InitCalled += this.InputOnInitCalled;
             this.Input.RecordPushed += this.InputOnRecordPushed;
             this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(
-                this._failed ? 1.0 : args.Progress,
+                this._failed ? 1.0 : args,
                 true);
             this.Input.Closed += this.InputOnClosed;
         }

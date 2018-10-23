@@ -31,7 +31,7 @@ namespace OmniBus
         {
             this.Input = new InputProperty(this);
             this.Input.InitCalled += this.OnInit;
-            this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
+            this.Input.ProgressUpdated += (sender, percentage) => this.Output?.UpdateProgress(percentage, true);
             this.Input.RecordPushed += this.OnRecordPushed;
             this.Input.Closed += sender => this.Output?.Close(true);
         }
@@ -61,13 +61,18 @@ namespace OmniBus
                 return;
             }
 
-            var field = new FieldDescription(
+            var fieldDescription = new FieldDescription(
                 this.ConfigObject.OutputFieldName,
                 FieldType.E_FT_V_String,
                 256,
                 source: nameof(HashCodeGeneratorEngine));
 
-            this.Output.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo, field));
+            var recordInfo = new OmniBus.Framework.Builders.RecordInfoBuilder()
+                .AddFieldsFromRecordInfo(this.Input.RecordInfo)
+                .AddFields(fieldDescription)
+                .Build();
+
+            this.Output.Init(recordInfo);
             this._outputFieldBase = this.Output[this.ConfigObject.OutputFieldName];
 
             this._hashAlgorithm = this.GetAlgorithm();

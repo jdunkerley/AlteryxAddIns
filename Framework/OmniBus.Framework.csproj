@@ -53,11 +53,9 @@
     </Compile>
     <Compile Include="BaseEngine.cs" />
     <Compile Include="Builders\RecordCopierBuilder.cs" />
+    <Compile Include="Builders\RecordInfoBuilder.cs" />
     <Compile Include="ConfigWithIncomingConnection.cs" />
     <Compile Include="ConnectionState.cs" />
-    <Compile Include="EventHandlers\ClosedEventHandler.cs" />
-    <Compile Include="EventHandlers\ProgressUpdatedEventArgs.cs" />
-    <Compile Include="EventHandlers\ProgressUpdatedEventHandler.cs" />
     <Compile Include="EventHandlers\RecordPushedEventArgs.cs" />
     <Compile Include="EventHandlers\RecordPushedEventHandler.cs" />
     <Compile Include="EventHandlers\SuccessEventArgs.cs" />

@@ -20,8 +20,6 @@ namespace OmniBus.Framework
 
         private readonly IShowDebugMessages _parentDebugMessages;
 
-        private readonly ProgressUpdatedEventArgs _progressUpdatedEventArgs;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="InputProperty" /> class.
         /// </summary>
@@ -31,8 +29,6 @@ namespace OmniBus.Framework
             this._lazyCopier = new Lazy<IRecordCopier>(() => new Builders.RecordCopierBuilder(this.RecordInfo, this.RecordInfo).Build());
 
             this._parentDebugMessages = parentDebugMessages;
-
-            this._progressUpdatedEventArgs = new ProgressUpdatedEventArgs(double.NaN);
         }
 
         /// <summary>
@@ -46,16 +42,6 @@ namespace OmniBus.Framework
         public event RecordPushedEventHandler RecordPushed;
 
         /// <summary>
-        ///     Event to update progress
-        /// </summary>
-        public event ProgressUpdatedEventHandler ProgressUpdated;
-
-        /// <summary>
-        ///     Event when Alteryx Closes the Input
-        /// </summary>
-        public event ClosedEventHandler Closed;
-
-        /// <summary>
         ///     Gets the current state.
         /// </summary>
         public ConnectionState State { get; private set; }
@@ -64,6 +50,16 @@ namespace OmniBus.Framework
         ///     Gets the record information of incoming stream.
         /// </summary>
         public RecordInfo RecordInfo { get; private set; }
+
+        /// <summary>
+        ///     Gets or sets a callback action called when progress is updated
+        /// </summary>
+        public Action<IInputProperty, double> ProgressUpdated { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a callback action called when input is closed
+        /// </summary>
+        public Action<IInputProperty> Closed { get; set; }
 
         /// <summary>
         ///     Gets the record copier for this property.
@@ -116,8 +112,7 @@ namespace OmniBus.Framework
         /// <param name="dPercent">The new progress percentage.</param>
         public void II_UpdateProgress(double dPercent)
         {
-            this._progressUpdatedEventArgs.Progress = dPercent;
-            this.ProgressUpdated?.Invoke(this, this._progressUpdatedEventArgs);
+            this.ProgressUpdated?.Invoke(this, dPercent);
         }
 
         /// <summary>

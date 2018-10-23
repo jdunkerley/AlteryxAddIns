@@ -32,7 +32,7 @@ namespace OmniBus
         {
             this.Input = new InputProperty(this);
             this.Input.InitCalled += this.OnInit;
-            this.Input.ProgressUpdated += (sender, args) => this.Output.UpdateProgress(args.Progress, true);
+            this.Input.ProgressUpdated += (sender, percentage) => this.Output?.UpdateProgress(percentage, true);
             this.Input.RecordPushed += this.OnRecordPushed;
             this.Input.Closed += sender => this.Output?.Close(true);
         }
@@ -69,7 +69,13 @@ namespace OmniBus
                 FieldType.E_FT_V_WString,
                 this.ConfigObject.OutputFieldLength,
                 source: nameof(StringFormatterEngine));
-            this.Output?.Init(FieldDescription.CreateRecordInfo(this.Input.RecordInfo, fieldDescription));
+
+            var recordInfo = new OmniBus.Framework.Builders.RecordInfoBuilder()
+                .AddFieldsFromRecordInfo(this.Input.RecordInfo)
+                .AddFields(fieldDescription)
+                .Build();
+
+            this.Output?.Init(recordInfo);
             this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
 
             // Create the Copier

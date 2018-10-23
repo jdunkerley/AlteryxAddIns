@@ -24,7 +24,7 @@ namespace OmniBus
         ///     Gets or sets the length of the Output field
         /// </summary>
         [Category("Output")]
-        public int OutputFieldLength { get; set; } = 64;
+        public uint OutputFieldLength { get; set; } = 64;
 
         /// <summary>
         ///     Gets or sets the culture to use for formatting the value
