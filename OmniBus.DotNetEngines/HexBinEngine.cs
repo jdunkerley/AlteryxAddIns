@@ -53,7 +53,7 @@ namespace OmniBus
             this._inputReader = this.InputPointReader(this.Input.RecordInfo);
             if (this._inputReader == null)
             {
-                args.Success = false;
+                args.SetFailed();
                 return;
             }
 
@@ -73,19 +73,15 @@ namespace OmniBus
 
             this._outputBinXFieldBase = this.Output?[this.ConfigObject.OutputBinXFieldName];
             this._outputBinYFieldBase = this.Output?[this.ConfigObject.OutputBinYFieldName];
-
-            args.Success = true;
         }
 
-        private void OnRecordPushed(object sender, RecordPushedEventArgs args)
+        private void OnRecordPushed(object sender, RecordData recordData, SuccessEventArgs args)
         {
-            args.Success = true;
-
             var record = this.Output.Record;
             record.Reset();
 
-            this.Input.Copier.Copy(record, args.RecordData);
-            var point = this._inputReader(args.RecordData);
+            this.Input.Copier.Copy(record, recordData);
+            var point = this._inputReader(recordData);
 
             if (!point.Item1.HasValue || double.IsNaN(point.Item1.Value) || !point.Item2.HasValue
                 || double.IsNaN(point.Item2.Value))

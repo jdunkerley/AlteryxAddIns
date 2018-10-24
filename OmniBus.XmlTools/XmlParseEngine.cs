@@ -48,7 +48,7 @@ namespace OmniBus.XmlTools
             this._inputField = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
             if (this._inputField == null)
             {
-                args.Success = false;
+                args.SetFailed();
                 return;
             }
 
@@ -75,20 +75,18 @@ namespace OmniBus.XmlTools
             this._xpathField = this.Output?[nameof(XmlUtils.NodeData.XPath)];
             this._innerTextField = this.Output?[nameof(XmlUtils.NodeData.InnerText)];
             this._innerXmlField = this.Output?[nameof(XmlUtils.NodeData.InnerXml)];
-
-            args.Success = true;
         }
 
-        private void OnRecordPushed(IInputProperty sender, RecordPushedEventArgs args)
+        private void OnRecordPushed(IInputProperty sender, RecordData recordData, SuccessEventArgs args)
         {
-            var xml = this._inputField.GetAsString(args.RecordData);
+            var xml = this._inputField.GetAsString(recordData);
             var nodes = this.ReadNodes(xml);
             var record = this.Output.Record;
 
             if (nodes == null)
             {
                 record.Reset();
-                this._copier.Copy(record, args.RecordData);
+                this._copier.Copy(record, recordData);
 
                 this._xpathField.SetNull(record);
                 this._innerTextField.SetNull(record);
@@ -105,7 +103,7 @@ namespace OmniBus.XmlTools
                 foreach (var nodeData in nodes)
                 {
                     record.Reset();
-                    this._copier.Copy(record, args.RecordData);
+                    this._copier.Copy(record, recordData);
 
                     if (nodeData?.XPath == null) this._xpathField.SetNull(record); else this._xpathField.SetFromString(record, nodeData.XPath);
                     if (nodeData?.InnerText == null) this._innerTextField.SetNull(record); else this._innerTextField.SetFromString(record, nodeData.InnerText);

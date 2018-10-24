@@ -62,7 +62,7 @@ namespace OmniBus
             this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
             if (this._inputFieldBase == null)
             {
-                args.Success = false;
+                args.SetFailed();
                 return;
             }
 
@@ -80,16 +80,15 @@ namespace OmniBus
                 .Build();
 
             this._parser = this.CreateParser();
-            args.Success = true;
         }
 
-        private void OnRecordPushed(IInputProperty sender, RecordPushedEventArgs args)
+        private void OnRecordPushed(IInputProperty sender, RecordData recordData, SuccessEventArgs args)
         {
             this.Output.Record.Reset();
 
-            this._copier.Copy(this.Output.Record, args.RecordData);
+            this._copier.Copy(this.Output.Record, recordData);
 
-            var input = this._inputFieldBase.GetAsString(args.RecordData);
+            var input = this._inputFieldBase.GetAsString(recordData);
             var result = this._parser(input);
 
             if (result.HasValue)
@@ -101,7 +100,6 @@ namespace OmniBus
             }
 
             this.Output.Push(this.Output.Record, false, 0);
-            args.Success = true;
         }
 
         private Func<string, DateTime?> CreateParser()

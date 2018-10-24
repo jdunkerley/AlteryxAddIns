@@ -38,9 +38,7 @@ namespace OmniBus
             this.Input = new InputProperty(this);
             this.Input.InitCalled += this.InputOnInitCalled;
             this.Input.RecordPushed += this.InputOnRecordPushed;
-            this.Input.ProgressUpdated += (sender, args) => this.Output?.UpdateProgress(
-                this._failed ? 1.0 : args,
-                true);
+            this.Input.ProgressUpdated += (sender, percentage) => this.Output?.UpdateProgress(this._failed ? 1.0 : percentage, true);
             this.Input.Closed += this.InputOnClosed;
         }
 
@@ -68,11 +66,11 @@ namespace OmniBus
         /// <returns><see cref="T:OmniBus.Framework.Serialisation.ISerialiser`1" /> to de-serialise object</returns>
         protected override ISerialiser<CircuitBreakerConfig> Serialiser() => new Serialiser<CircuitBreakerConfig>();
 
-        private void BreakerOnRecordPushed(IInputProperty sender, RecordPushedEventArgs args)
+        private void BreakerOnRecordPushed(IInputProperty sender, RecordData recordData, SuccessEventArgs args)
         {
             if (this._failed)
             {
-                args.Success = false;
+                args.SetFailed();
                 return;
             }
 
@@ -103,16 +101,16 @@ namespace OmniBus
             this.Output?.Init(this.Input.RecordInfo);
         }
 
-        private void InputOnRecordPushed(IInputProperty sender, RecordPushedEventArgs args)
+        private void InputOnRecordPushed(IInputProperty sender, RecordData recordData, SuccessEventArgs args)
         {
             if (this._failed)
             {
-                args.Success = false;
+                args.SetFailed();
                 return;
             }
 
             var record = this.Input.RecordInfo.CreateRecord();
-            this.Input.Copier.Copy(record, args.RecordData);
+            this.Input.Copier.Copy(record, recordData);
 
             if (this.Breaker.State == ConnectionState.Closed)
             {

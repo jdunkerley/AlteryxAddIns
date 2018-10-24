@@ -11,22 +11,22 @@ namespace OmniBus.Framework.Interfaces
         /// <summary>
         ///     Event When Alteryx Calls <see cref="AlteryxRecordInfoNet.IIncomingConnectionInterface.II_Init" />
         /// </summary>
-        event SuccessEventHandler InitCalled;
+        event Action<IInputProperty, SuccessEventArgs> InitCalled;
 
         /// <summary>
         ///     Event When Alteryx Pushes A Record On The Input
         /// </summary>
-        event RecordPushedEventHandler RecordPushed;
+        event Action<IInputProperty, AlteryxRecordInfoNet.RecordData, SuccessEventArgs> RecordPushed;
 
         /// <summary>
-        ///     Gets or sets a callback action called when progress is updated
+        ///     Event when Alteryx updates progress on the input
         /// </summary>
-        Action<IInputProperty, double> ProgressUpdated { get; set; }
+        event Action<IInputProperty, double> ProgressUpdated;
 
         /// <summary>
-        ///     Gets or sets a callback action called when input is closed
+        ///     Event when Alteryx closes the input
         /// </summary>
-        Action<IInputProperty> Closed { get; set; }
+        event Action<IInputProperty> Closed;
 
         /// <summary>
         ///     Gets the current state.

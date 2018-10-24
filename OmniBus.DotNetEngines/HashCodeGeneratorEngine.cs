@@ -55,7 +55,7 @@ namespace OmniBus
             this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
             if (this._inputFieldBase == null)
             {
-                args.Success = false;
+                args.SetFailed();
                 return;
             }
 
@@ -74,18 +74,16 @@ namespace OmniBus
             this._outputFieldBase = this.Output[this.ConfigObject.OutputFieldName];
 
             this._hashAlgorithm = this.GetAlgorithm();
-
-            args.Success = true;
         }
 
-        private void OnRecordPushed(object sender, RecordPushedEventArgs args)
+        private void OnRecordPushed(object sender, RecordData recordData, SuccessEventArgs args)
         {
             var record = this.Output.Record;
             record.Reset();
 
-            this.Input.Copier.Copy(record, args.RecordData);
+            this.Input.Copier.Copy(record, recordData);
 
-            var input = this._inputFieldBase.GetAsString(args.RecordData);
+            var input = this._inputFieldBase.GetAsString(recordData);
             var bytes = this._hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
             var sb = new StringBuilder();
             foreach (var b in bytes)
@@ -96,7 +94,6 @@ namespace OmniBus
             this._outputFieldBase.SetFromString(record, sb.ToString());
 
             this.Output.Push(record);
-            args.Success = true;
         }
 
         private HashAlgorithm GetAlgorithm()

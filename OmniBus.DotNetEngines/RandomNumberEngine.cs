@@ -73,22 +73,19 @@ namespace OmniBus
 
             this.Output?.Init(recordInfo);
             this._outputFieldBase = this.Output?[this.ConfigObject.OutputFieldName];
-
-            args.Success = true;
         }
 
-        private void OnRecordPushed(IInputProperty sender, RecordPushedEventArgs args)
+        private void OnRecordPushed(IInputProperty sender, RecordData recordData, SuccessEventArgs args)
         {
             var record = this.Output.Record;
             record.Reset();
 
-            this.Input.Copier.Copy(record, args.RecordData);
+            this.Input.Copier.Copy(record, recordData);
 
             var val = this._nextValue();
             this._outputFieldBase.SetFromDouble(record, val);
 
             this.Output.Push(record);
-            args.Success = true;
         }
 
         private Func<double> CreateRandomFunc()

@@ -190,7 +190,7 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings Macro="D:\Repos\AlteryxAddIns\Test Workflows\ResultCompare.yxmc" />
+      <EngineSettings Macro=".\ResultCompare.yxmc" />
     </Node>
     <Node ToolID="8">
       <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">

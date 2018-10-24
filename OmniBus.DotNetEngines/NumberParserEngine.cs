@@ -60,7 +60,7 @@ namespace OmniBus
             this._inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
             if (this._inputFieldBase == null)
             {
-                args.Success = false;
+                args.SetFailed();
                 return;
             }
 
@@ -76,18 +76,16 @@ namespace OmniBus
             this._copier = new RecordCopierBuilder(this.Input.RecordInfo, this.Output?.RecordInfo)
                 .SkipFields(this.ConfigObject.OutputFieldName)
                 .Build();
-
-            args.Success = true;
         }
 
-        private void OnRecordPushed(object sender, RecordPushedEventArgs args)
+        private void OnRecordPushed(object sender, RecordData recordData, SuccessEventArgs args)
         {
             var record = this.Output.Record;
             record.Reset();
 
-            this._copier.Copy(record, args.RecordData);
+            this._copier.Copy(record, recordData);
 
-            var input = this._inputFieldBase.GetAsString(args.RecordData);
+            var input = this._inputFieldBase.GetAsString(recordData);
 
             if (double.TryParse(input, NumberStyles.Any, this.ConfigObject.CultureObject.Value, out double value))
             {
@@ -95,7 +93,6 @@ namespace OmniBus
             }
 
             this.Output.Push(record);
-            args.Success = true;
         }
     }
 }

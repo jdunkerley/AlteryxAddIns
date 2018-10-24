@@ -33,12 +33,22 @@ namespace OmniBus.Framework
         /// <summary>
         ///     Event When Alteryx Calls <see cref="IIncomingConnectionInterface.II_Init" />
         /// </summary>
-        public event SuccessEventHandler InitCalled;
+        public event Action<IInputProperty, SuccessEventArgs> InitCalled;
 
         /// <summary>
         ///     Event When A Record Is Pushed
         /// </summary>
-        public event RecordPushedEventHandler RecordPushed;
+        public event Action<IInputProperty, AlteryxRecordInfoNet.RecordData, SuccessEventArgs> RecordPushed;
+
+        /// <summary>
+        ///     Event when Alteryx updates progress on the input
+        /// </summary>
+        public event Action<IInputProperty, double> ProgressUpdated;
+
+        /// <summary>
+        ///     Event when Alteryx closes the input
+        /// </summary>
+        public event Action<IInputProperty> Closed;
 
         /// <summary>
         ///     Gets the current state.
@@ -49,16 +59,6 @@ namespace OmniBus.Framework
         ///     Gets the record information of incoming stream.
         /// </summary>
         public RecordInfo RecordInfo { get; private set; }
-
-        /// <summary>
-        ///     Gets or sets a callback action called when progress is updated
-        /// </summary>
-        public Action<IInputProperty, double> ProgressUpdated { get; set; }
-
-        /// <summary>
-        ///     Gets or sets a callback action called when input is closed
-        /// </summary>
-        public Action<IInputProperty> Closed { get; set; }
 
         /// <summary>
         ///     Gets the record copier for this property.
@@ -100,8 +100,8 @@ namespace OmniBus.Framework
         /// <returns>True if Ok</returns>
         public bool II_PushRecord(RecordData pRecord)
         {
-            var args = new RecordPushedEventArgs(pRecord);
-            this.RecordPushed?.Invoke(this, args);
+            var args = new SuccessEventArgs();
+            this.RecordPushed?.Invoke(this, pRecord, args);
             return args.Success;
         }
 

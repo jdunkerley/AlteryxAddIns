@@ -57,7 +57,7 @@ namespace OmniBus
             var inputFieldBase = this.Input.RecordInfo.GetFieldByName(this.ConfigObject.InputFieldName, false);
             if (inputFieldBase == null)
             {
-                args.Success = false;
+                args.SetFailed();
                 return;
             }
 
@@ -83,18 +83,20 @@ namespace OmniBus
 
             // Create the Formatter function
             this._formatter = this.CreateFormatter(inputFieldBase);
-
-            args.Success = this._formatter != null;
+            if (this._formatter == null)
+            {
+                args.SetFailed();
+            }
         }
 
-        private void OnRecordPushed(IInputProperty sender, RecordPushedEventArgs args)
+        private void OnRecordPushed(IInputProperty sender, RecordData recordData, SuccessEventArgs args)
         {
             var record = this.Output.Record;
             record.Reset();
 
-            this._copier.Copy(record, args.RecordData);
+            this._copier.Copy(record, recordData);
 
-            var result = this._formatter(args.RecordData);
+            var result = this._formatter(recordData);
 
             if (result != null)
             {
