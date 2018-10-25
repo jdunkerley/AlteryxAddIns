@@ -20,6 +20,8 @@ namespace OmniBus.XmlTools
 
             public string FieldName { get; set; } = "Output";
 
+            public int TimeInMS { get; set; } = 1000;
+
             public override string ToString() => this.Command;
         }
 
@@ -96,7 +98,7 @@ namespace OmniBus.XmlTools
                     }
                 };
                 proc.Start();
-                proc.WaitForExit(1000);
+                proc.WaitForExit(this.ConfigObject.TimeInMS);
 
                 this.Output.Record.Reset();
                 this.Input.Copier.Copy(this.Output.Record, data);
