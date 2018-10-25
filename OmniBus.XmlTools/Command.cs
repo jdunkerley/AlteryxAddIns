@@ -20,7 +20,11 @@ namespace OmniBus.XmlTools
 
             public string FieldName { get; set; } = "Output";
 
-            public int TimeInMS { get; set; } = 1000;
+            public string ErrorFieldName { get; set; } = "Error";
+
+            public string ExitCodeFieldName { get; set; } = "ExitCode";
+
+            public int TimeOutMilliSeconds { get; set; } = 1000;
 
             public override string ToString() => this.Command;
         }
@@ -34,6 +38,7 @@ namespace OmniBus.XmlTools
             public IOutputHelper Output { get; set; }
 
             private Func<RecordData, string> _commandFunc;
+            private Action<Record, (string Output, string Error, int ExitCode)> _setResult;
 
             public Engine()
             {
@@ -46,9 +51,12 @@ namespace OmniBus.XmlTools
 
             private void OnInputOnInitCalled(IInputProperty i, SuccessEventArgs s)
             {
-                this.Output?.Init(new RecordInfoBuilder().AddFields(i.RecordInfo)
-                    .ReplaceFields(new FieldDescription(this.ConfigObject.FieldName, FieldType.E_FT_V_WString, FieldDescription.MaxStringLength))
-                    .Build());
+                var recordInfo = new RecordInfoBuilder().AddFields(i.RecordInfo)
+                    .ReplaceFields(new FieldDescription(this.ConfigObject.FieldName, FieldType.E_FT_V_WString))
+                    .ReplaceFields(new FieldDescription(this.ConfigObject.ErrorFieldName, FieldType.E_FT_V_WString))
+                    .ReplaceFields(new FieldDescription(this.ConfigObject.ExitCodeFieldName, FieldType.E_FT_Int32))
+                    .Build();
+                this.Output?.Init(recordInfo);
 
                 var regex = new Regex("{{(.*?)}}");
                 var matches = regex.Matches(this.ConfigObject.Command);
@@ -70,13 +78,24 @@ namespace OmniBus.XmlTools
                 this._commandFunc = d =>
                 {
                     var cmd = this.ConfigObject.Command;
-
                     foreach (var kvp in dict)
                     {
                         cmd = cmd.Replace(kvp.Key, kvp.Value.GetAsString(d));
                     }
 
                     return cmd;
+                };
+
+                var output = recordInfo.GetFieldByName(this.ConfigObject.FieldName, true);
+                var error = recordInfo.GetFieldByName(this.ConfigObject.ErrorFieldName, true);
+                var exitcode = recordInfo.GetFieldByName(this.ConfigObject.ExitCodeFieldName, true);
+                this._setResult = (record, t) =>
+                {
+                    if (t.Output == null) output.SetNull(record);
+                    else output.SetFromString(record, t.Output);
+                    if (t.Error == null) error.SetNull(record);
+                    else error.SetFromString(record, t.Error);
+                    exitcode.SetFromInt32(record, t.ExitCode);
                 };
             }
 
@@ -88,23 +107,57 @@ namespace OmniBus.XmlTools
                 var args = index == -1 ? "" : cmd.Substring(index + 1);
                 cmd = index == -1 ? cmd : cmd.Substring(0, index + 1).Trim();
 
-                var proc = new System.Diagnostics.Process
+                var response = ExecuteProcess(cmd, args, this.ConfigObject.TimeOutMilliSeconds);
+
+                this.Output.Record.Reset();
+                this.Input.Copier.Copy(this.Output.Record, data);
+                this._setResult(this.Output.Record, response);
+                this.Output.Push(this.Output.Record);
+            }
+
+            private static (string Output, string Error, int ExitCode) ExecuteProcess(string cmd, string args, int timeoutMilliSeconds)
+            {
+                var proc = new Process
                 {
                     StartInfo = new ProcessStartInfo(cmd, args)
                     {
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
+                        RedirectStandardError = true,
                         CreateNoWindow = true
                     }
                 };
-                proc.Start();
-                proc.WaitForExit(this.ConfigObject.TimeInMS);
 
-                this.Output.Record.Reset();
-                this.Input.Copier.Copy(this.Output.Record, data);
-                var field = this.Output.RecordInfo.GetFieldByName(this.ConfigObject.FieldName, false);
-                field.SetFromString(this.Output.Record, proc.StandardOutput.ReadToEnd().Trim());
-                this.Output.Push(this.Output.Record);
+                var outputStream = new System.Text.StringBuilder();
+                proc.OutputDataReceived += (s, e) =>
+                {
+                    lock (outputStream)
+                    {
+                        outputStream.AppendLine(e.Data);
+                    }
+                };
+
+                var errorStream = new System.Text.StringBuilder();
+                proc.ErrorDataReceived += (s, e) =>
+                {
+                    lock (errorStream)
+                    {
+                        errorStream.AppendLine(e.Data);
+                    }
+                };
+
+                proc.Start();
+                proc.BeginOutputReadLine();
+                proc.BeginErrorReadLine();
+
+                if (proc.WaitForExit(timeoutMilliSeconds))
+                {
+                    int exit = proc.ExitCode;
+                    proc.Close();
+                    return (Output: outputStream.ToString(), Error: errorStream.ToString(), ExitCode: exit);
+                }
+
+                return (null, null, -1);
             }
         }
     }
