@@ -6,6 +6,10 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns.Roslyn", "AlteryxAddIns.Roslyn\AlteryxAddIns.Roslyn.csproj", "{65B57ECE-465D-41DC-909E-00F4879D21A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxAddIns", "AlteryxAddIns\AlteryxAddIns.csproj", "{9776ADBB-DE47-413F-897B-B6EF1AB368CF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A24AF181-EB58-4FE4-84B9-BF7CD213732E} = {A24AF181-EB58-4FE4-84B9-BF7CD213732E}
+		{65B57ECE-465D-41DC-909E-00F4879D21A2} = {65B57ECE-465D-41DC-909E-00F4879D21A2}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E56FB22E-2BB8-4451-95E2-70CA5FF532AC}"
 	ProjectSection(SolutionItems) = preProject
